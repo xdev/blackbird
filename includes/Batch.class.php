@@ -45,7 +45,7 @@ class Batch
 				if ($_GET['action'] == "active_false" || $_GET['action'] == "active_true" ) $this->processActivate();
 				if ($_GET['action'] == 'delete'){
 					$this->cms->displayDeleteWarning($this->table,$this->id_set);
-					require LIB . 'cms/Preview.class.php';
+					require(INCLUDES.'Preview.class.php');
 					new Preview($this->cms,$this->table,explode(",",$this->id_set) , $this->action, $_SERVER['HTTP_REFERER']);
 				}
 			break;

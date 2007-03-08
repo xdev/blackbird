@@ -453,7 +453,7 @@ Portions of this software rely upon the following software which are covered by 
 	if(file_exists(PLUGINS.'css/custom.css')){
 		print '
 		<!-- Custom CSS -->
-		<link rel="stylesheet" type="text/css" media="screen" href="' . PLUGINS . 'css/custom.css" />' . "\r";
+		<link rel="stylesheet" type="text/css" media="screen" href="' . CMS_ROOT . PLUGINS . 'css/custom.css" />' . "\r";
 	}
 		
 	if($js != ''){
