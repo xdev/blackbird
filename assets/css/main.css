@@ -1,0 +1,211 @@
+/* -------------------------------------------------------
+
+Main Divs
+
+--------------------------------------------------------*/
+
+#page
+{
+	border-right: 2px solid #BBBBBB;
+	border-left: 2px solid #BBBBBB;
+	background-color: #F5F5F5;
+	min-height: 100%;
+	padding: 0;
+	margin: 0 auto;
+	text-align: left;
+	width: 960px;
+}
+
+#main
+{
+	clear: both;
+	padding-top: 1em;
+}
+
+	#main h3 {
+		font-size: 14px;
+		font-weight: normal;
+		padding-bottom: .5em;
+	}
+
+
+#content
+{
+	/*background-color: #CCCCCC;*/
+	clear: both;
+	padding: 0 10px;
+	margin: 0;
+}
+
+
+#related #content
+{
+	margin-top: 60px;
+}
+
+#footer
+{
+	clear: both;
+	padding: 1em 10px;
+	color: #444;
+	font-size: 10px;
+}
+
+#page_label
+{
+	float: left;
+	margin: 0;
+	padding: 10px 10px;
+	color: #333333;
+	font-size: 18px;
+	font-weight: normal;
+}
+
+#login
+{
+	width: 300px;
+	margin-left: auto;
+	margin-right: auto;
+	border: 2px solid #BBBBBB;
+	background: #FFFFFF;
+	padding: 20px;
+}
+
+#login .form_item
+{
+	border: none;
+}
+
+#login .input .text
+{
+	width: 290px;
+}
+
+#login .buttons
+{
+	margin: 0;
+}
+
+
+
+
+/* -------------------------------------------------------
+
+Misc
+
+--------------------------------------------------------*/
+
+#message_content
+{
+	border: 1px solid #05CE0A;
+	background-color: #E9F4E9;
+	line-height: 1.25em;
+	padding: 1em 2ex;
+	margin-bottom: 10px;
+}
+
+.nude
+{
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.error
+{
+	color: #CC3333;
+	font-size: 12px;
+	font-weight: bold;
+	font-style: italic;
+}
+
+	.error:link, .error:visited
+	{
+		color: #CC3333; 
+		font-weight: bold; 
+		text-decoration: none; 
+	}
+	
+	.error:hover 
+	{
+	
+	}
+
+.row_req
+{
+	color: #CC3333;
+	font-size: 10px;
+	font-style: italic;
+}
+
+.hide
+{
+	display: none;
+}
+
+.red
+{
+	color: #FF0000;
+}
+
+.white
+{
+	color: #FFFFFF;
+}
+
+
+/* -------------------------------------------------------
+
+Delete
+
+--------------------------------------------------------*/
+#delete .data_grid td
+{
+	
+}
+
+	#delete .data_grid tr.first_row td
+	{
+		color: #FFFFFF;
+		background-color: #CC0000;
+		border-right: 1px solid #FFFFFF;
+		
+	}
+	
+	#delete .data_grid tr.first_row td.last_col
+	{
+		border-right: none;
+		
+	}
+
+
+.home .column
+{
+	width: 465px;
+	float: left;
+	
+}
+
+.home .column.mr
+{
+	margin-right: 10px;
+}
+
+.home .module
+{
+	margin-bottom: 20px;
+	padding: 10px;
+	background: #EEEEEE;
+	border: 1px solid #999999;
+}
+
+.home .module h3
+{
+	font-size: 14px;
+	margin-bottom: 1em;
+}
+
+.home .rssitem
+{
+	margin-bottom: 10px;
+}
+

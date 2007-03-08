@@ -1,0 +1,60 @@
+@import url("undohtml.css");
+@import url("main.css");
+@import url("header.css");
+@import url("icons.css");
+@import url("actions.css");
+@import url("data.css");
+@import url("edit.css");
+@import url("help.css");
+
+html
+{
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+body 
+{
+	background-color: #CCCCCC;
+	color: #666666; 
+	font-size: 11px;
+	font-family: arial, sans-serif;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+a:link,
+a:visited
+{ 
+	font-family: arial, sans-serif;
+	color: #666666;
+	outline: none;
+	text-decoration: underline;
+}
+
+a:hover 
+{ 
+	font-family: arial, sans-serif;
+	color: #000000;
+}
+
+.clearfix
+{
+	clear: both;
+}
+	
+option,
+select
+{
+	font-family: arial, sans-serif;
+	font-size: 11px;
+}	
+
+input,
+textarea
+{
+	font-family: arial, sans-serif;
+	font-size : 11px;
+}

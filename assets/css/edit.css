@@ -1,0 +1,398 @@
+/* -------------------------------------------------------
+
+Edit
+
+--------------------------------------------------------*/
+
+#ajax
+{
+	z-index: 20;
+	margin-left: auto;
+	margin-right: auto;
+	position: absolute;
+	top: 18px;
+	width: 960px;
+	height: 16px;
+	
+}
+
+#ajax .container
+{
+	/*
+	filter: alpha(opacity:80);
+	KHTMLOpacity:0.80;
+	MozOpacity:0.80;
+	opacity:0.80;
+	*/
+}
+
+#ajax .icon
+{
+	margin-left: 924px;
+	/*margin-left: -4px;
+	margin-top: 10px;
+	*/
+	/*
+	width: 220px;
+	height: 19px;
+	*/
+	width: 16px;
+	height: 16px;
+	background: url('../img/ajax-arrows.gif');
+}
+
+#ajax .message
+{
+	font-size: 14px;
+	font-weight: bold;
+	font-style: italic;
+}
+
+.toggle {
+	clear: both;
+}
+
+.panes
+{
+	background: #FFFFFF;
+	border: 1px solid #999999;
+	float: left;
+}
+
+.pane {
+	padding: 1em 1em;
+	float: left;
+	width: 916px;
+}
+
+.related_label
+{
+	margin-left: 10px;
+	color: #000000;
+	font-weight: bold;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+iframe.related_iframe
+{
+	width: 0px;
+	height: 0px;
+	background-color: #CCCCCC;
+	border: 0px;
+}
+
+body.debug iframe.related_iframe
+{
+	height: 100px;
+	width: 100%;
+}
+
+.edit_info
+{
+	font-size: 14px;
+	font-weight: normal;
+}
+
+.embed
+{
+	width: 390px;
+}
+
+	.embed .row
+	{
+		margin-bottom: 6px;
+		border-top: 1px solid #666666;
+		padding-top: 3px;
+		padding-bottom: 3px;
+		width: 100%;
+	}
+
+
+
+#edit_nav 
+{
+	float: left;
+	font-size: 10px;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+	#edit_nav li
+	{
+		float: left;
+		display: block;
+		line-height: 1em;
+		/*background-color: #EEEEEE;*/
+		margin-right: 2px;
+		background-image: url('../img/tab.gif');
+		background-position: 0 0;
+		background-repeat: no-repeat;
+		padding-left: 1em;
+	}
+
+		#edit_nav li a
+		{
+			background-image: url('../img/tab.gif');
+			background-position: 100% 0;
+			background-repeat: no-repeat;
+			color: #333333;
+			display: block;
+			padding: .75em 1em .75em 0;
+			/*width: 20ex;*/
+		}
+		
+		#edit_nav li.active
+		{
+			/*background-color: #8F8F8F;*/
+			background-position: 0 -100px;
+		}
+		
+		#edit_nav li.active a
+		{
+			background-position: 100% -100px;
+			color: #FFFFFF;
+			text-decoration: none;
+			cursor: default;
+		}
+
+	#edit_nav li.history
+	{
+		float: right;
+		margin-right: 0px;
+		padding-right: none;
+	}
+
+.edit_form .detail
+{
+	padding: 10px;
+	background: #EDFCED;
+	border-bottom: 1px solid #1AE51A;
+	margin: -10px -10px 10px -10px;
+}
+
+#edit_buttons
+{
+	padding-top: 1em;
+}
+
+#edit_buttons input
+{
+	padding: 5px;
+	font-size: 13px;
+	font-weight: bold;
+	color: #333333;
+}
+
+#myform
+{
+	margin-bottom: 20px;
+}
+
+.form_item
+{
+	font-size: 11px;
+	clear: both;
+	margin: 0;
+	padding: .5em 0 0 0;
+	border-top: 1px solid #CCCCCC;
+}
+
+
+	.form_item label
+	{
+		display: block;
+		width: 191px;
+		height: 20px;
+		float: left;
+		color: #000000;
+		font-weight: bold;
+		text-align: left;
+		margin-right: 10px;
+	}
+
+.form_item .input
+{
+	font-size: 11px;
+	float: left;
+	margin-bottom: .5em;
+}
+
+	.form_item .input textarea, .form_item .input .text
+	{
+		background-color: #EEEEEE;
+		width: 629px;
+		padding: .3em;
+		border: 1px solid #C0C0C0;
+		
+	}
+	
+	.form_item select
+	{
+		background-color: #EEEEEE;
+	}
+	
+	.form_item .input .checkbox
+	{
+		margin-bottom: 2px;
+		margin-right: 2px;
+		padding: .3em;
+		border: 1px solid #C0C0C0;
+		background-color: #EEEEEE;
+	}
+
+	.form_item label.must_validate
+	{
+			
+	}
+	
+	.form_item label.must_validate:after
+	{
+		content: '*';
+	}
+	
+	
+
+fieldset
+{
+	clear: both;
+	border: none;
+	border-top: 5px solid #333333;
+	margin-top: 20px;
+	margin-bottom: 10px;
+	background: #F4F4F4;
+}
+	
+
+/* NAME / VALUE PAIRS */
+
+
+ul.pairset
+{
+	float: left;
+}
+	ul.pairset li
+	{
+		background-color: #EEEEEE;
+		background-image: url("../img/reorder.png");
+		background-repeat: no-repeat;
+		background-position: 0 3px;
+		clear: both;
+		cursor: move;
+		float: left;
+		width: 605px;
+		margin: 0 0 1px 0;
+		padding: .25em 0 .25em 25px;
+	}
+	ul.pairset li:hover
+	{
+		background-color: #E6E8ED;
+		background-image: url("../img/reorder_hover.png");
+	}
+	ul.pairset li:active
+	{
+		background-image: url("../img/reorder_active.png");
+	}
+	
+	ul.pairset label
+	{
+		margin-top: .5em;
+	}
+	ul.pairset .input
+	{
+		margin-top: .25em;
+	}
+
+	.form_item .pair:hover .handle:hover,
+	.form_item .pair .handle:focus
+	{
+		background-position: 50% -25px;
+	}
+	.form_item .pair:hover .handle
+	{
+		background-position: 50% 0;
+	}
+	.form_item .pair label
+	{
+		float: left;		
+		width: 25px;
+	}
+	.form_item .pair textarea
+	{
+		width: 240px;
+		/*float: left;*/
+		line-height: 1em;
+		padding: 0;
+	}
+	.form_item .pair.single textarea
+	{
+		width: 500px;
+		/*float: left;*/
+		line-height: 1em;
+		padding: 0;
+	}
+	.form_item .pair .input
+	{
+		width: 240px;
+		padding-right: 10px;
+		float: left;
+	}
+	.form_item .pair.single .input
+	{
+		width: 500px;
+		padding-right: 10px;
+		float: left;
+	}
+	
+	
+	.form_item .pair pre
+	{
+		float: left;
+		margin: 0;
+		padding: .25em 0;
+		cursor: pointer;
+		font-family: arial;
+		white-space: pre-wrap;
+		word-wrap: break-word; /* Internet Explorer 5.5+ */
+		white-space: -moz-pre-wrap; /* Mozilla */
+		width: 100%;
+	}
+	.form_item .pair:hover pre
+	{
+		background-color: #FFFFFF;
+		color: #000;
+	}
+
+
+
+.buttons
+{
+	clear: both;
+	padding-top: 20px;
+	margin-bottom: 20px;	
+}
+
+.buttons input 
+{
+	padding: 5px;
+	font-size: 13px;
+	font-weight: bold;
+	/*
+	color: #555555;
+	border: 1px solid #777777;
+	*/
+}
+
+p.message
+{
+	margin-bottom: 20px;
+	font-size: 13px;
+}
+
+
+ul.multicheck
+{	
+	font-size: 11px;
+}
