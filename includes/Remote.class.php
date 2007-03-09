@@ -7,7 +7,7 @@ class Remote
 	function __construct($cms){
 		
 		$this->cms = $cms;
-		require LIB . 'cms/ProcessRecord.class.php';
+		require INCLUDES . 'ProcessRecord.class.php';
 		
 		$this->name_space = $_POST['name_space'];
 				
