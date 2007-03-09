@@ -1,41 +1,60 @@
 <?php
 
-if(file_exists('config_local.php')) require_once('config_local.php');
-else{
+//create temp array to hold stuff
+$tempObj = Array();
 
-	
-	$GLOBALS['DATABASE'] = array(
-		'host' => 'localhost',
-		'user' => 'webdesigner',
-		'pass' => 'rgbf00',
-		'db'   => 'cms_dev'
-		);
+function setConfig($name,$value)
+{
+	global $tempObj;
+	$tempObj[$name] = $value;
+}
 
-	
-	define("LIB","/Volumes/xdev/WebServer/Documents/cms_dev/cms/_lib/");
-	define("WEB_ROOT","");
-	define("PLUGINS","plugins/");
-	
+function createConstants()
+{
+	global $tempObj;
+	foreach($tempObj as $key=>$value){
+		if(!is_array($value)){
+			define($key,$value);			
+		}
+	}
+	unset($tempObj);
 }
 
 
-define("XML_HEADER",'<?xml version="1.0" encoding="UTF-8"?>');
-define("SERVER","");
+setConfig("XML_HEADER",'<?xml version="1.0" encoding="UTF-8"?>');
+setConfig("SERVER",$_SERVER['SERVER_NAME']);
 
+setConfig("CMS_TRIM","right");
+setConfig("CMS_DEFAULT_HOUR",19);
+setConfig("CMS_DEFAULT_MIN",30);
+setConfig("CMS_MAX_YEAR",2011);
+setConfig("CMS_MIN_YEAR",1990);
+setConfig("CMS_DATA_GRID_SORT_MAX",20);
 
-define("CMS_CLIENT","Development");
-define("CMS_TRIM","right");
-define("CMS_DEFAULT_HOUR",19);
-define("CMS_DEFAULT_MIN",30);
-define("CMS_MAX_YEAR",2011);
-define("CMS_MIN_YEAR",1990);
-define("CMS_DATA_GRID_SORT_MAX",20);
+setConfig("CMS_ROOT",substr($_SERVER['PHP_SELF'],0,-strlen('index.php')));
+setConfig("CMS_VERSION","1.0");
 
-define("CMS_NEWS_FEED",'');
+setConfig("INCLUDES","core/php/");
+setConfig("LIB","bobolink/");
+setConfig("WEB_ROOT","../");
+setConfig("CUSTOM","custom/");
 
-define("CMS_ROOT",substr($_SERVER['PHP_SELF'],0,-strlen('index.php')));
-define("CMS_VERSION","1.0");
-
-
+if(file_exists('custom/config_custom.php')){
+	require_once('custom/config_custom.php');
+	createConstants();
+	
+	if(isset($GLOBALS['DATABASE'])){
+		if(file_exists(CUSTOM.'php/Custom.class.php')){
+			require(INCLUDES.'BlackBird.class.php');
+			require(CUSTOM.'php/Custom.class.php');
+		}else{
+			die('No Custom.class.php...');
+		}
+	}else{
+		die('No database config...');
+	}
+}else{
+	die('No config_custom.php found...');
+}
 
 ?>

@@ -57,7 +57,7 @@ class Ajax
 			$plugin = Utils::setVar("plugin");
 			
 			include_once(INCLUDES . "Plugin.interface.php");					
-			include_once(PLUGINS . "php/$plugin.class.php");
+			include_once(CUSTOM . "php/$plugin.class.php");
 			$module = new $plugin();
 			
 			$module->cms = $this->cms;

@@ -22,13 +22,26 @@ Wiki
 
 Installation
 
+Configuration
+
+$GLOBALS['DATABASE'] = array(
+	'host' => 'localhost',
+	'user' => 'webdesigner',
+	'pass' => 'rgbf00',
+	'db'   => 'cms_dev'
+);
+
+define("CMS_CLIENT","Development");
+define("LIB","/Volumes/xdev/WebServer/Documents/cms_dev/cms/_lib/");
+define("WEB_ROOT","");
+define("CUSTOM","CUSTOM/");
+
+define("CMS_NEWS_FEED",'');
+
 .htaccess
 
 RewriteEngine on
-
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_URI} ^(.*)$
-RewriteRule ^(.*)$ index.php [L,QSA]
-RewriteRule ^/?$ /cms/login
+RewriteRule . index.php [L,QSA]
 

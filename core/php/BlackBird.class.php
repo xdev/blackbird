@@ -450,10 +450,10 @@ Portions of this software rely upon the following software which are covered by 
 	<!--[if IE 7]>
 		<link rel="stylesheet" href="' . CMS_ROOT . 'assets/css/ie7.css" type="text/css" media="screen" charset="utf-8" />
 	<![endif]-->';
-	if(file_exists(PLUGINS.'css/custom.css')){
+	if(file_exists(CUSTOM.'css/custom.css')){
 		print '
 		<!-- Custom CSS -->
-		<link rel="stylesheet" type="text/css" media="screen" href="' . CMS_ROOT . PLUGINS . 'css/custom.css" />' . "\r";
+		<link rel="stylesheet" type="text/css" media="screen" href="' . CMS_ROOT . CUSTOM . 'css/custom.css" />' . "\r";
 	}
 		
 	if($js != ''){

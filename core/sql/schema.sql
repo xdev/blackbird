@@ -318,7 +318,7 @@ CREATE TABLE `cms_headers` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='private';
 
-insert into `cms_headers` values('4','bla','edit','<script language=\"JavaScript\" type=\"text/Javascript\" src=\"/cms/plugins/js/lightbox.js\" ></script>','<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"/cms/plugins/css/lightbox.css\" />');
+insert into `cms_headers` values('4','bla','edit','<script language=\"JavaScript\" type=\"text/Javascript\" src=\"/cms/CUSTOM/js/lightbox.js\" ></script>','<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"/cms/CUSTOM/css/lightbox.css\" />');
 
 CREATE TABLE `cms_history` (
   `id` mediumint(9) NOT NULL auto_increment,

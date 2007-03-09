@@ -224,7 +224,7 @@ class EditPage
 							$config = Utils::parseConfig($relation['config']);
 							$class = $config['module'];
 							include_once(INCLUDES.'Plugin.interface.php');					
-							include_once(PLUGINS."php/" . $class . ".class.php");
+							include_once(CUSTOM."php/" . $class . ".class.php");
 							$module = new $class();
 							$module->cms = $this->cms;
 							$module->table = $relation['table_child'];
