@@ -341,7 +341,8 @@ class DataGrid
 				
 				if(in_array($field,$filterA)){
 					
-					$q_select = Db::query("SELECT DISTINCT $field FROM $table ORDER BY $field");
+					if($q_select = Db::query("SELECT DISTINCT $field FROM $table ORDER BY $field")){
+					
 					$sort_url = $sort_base . $this->getFilters($field) . "&amp;sort_index=";
 
 					print "<select id=\"filter_$field\" onchange=\"CMS.setFilter(this,'$sort_url" . $sort_index . "');\" >";
@@ -370,7 +371,9 @@ class DataGrid
 								if($q_col['filter'] != ''){
 									$tA = Utils::parseConfig($q_col['filter']);
 									if(isset($tA['filter_length'])){
-										$tv = substr(strip_tags($tv),0,$tA['filter_length']) . '...';
+										if(strlen(strip_tags($tv)) > $tA['filter_length']){
+											$tv = substr(strip_tags($tv),0,$tA['filter_length']) . '...';
+										}
 									}
 								}
 							
@@ -381,6 +384,8 @@ class DataGrid
 					}
 					
 					print "</select>";
+					
+					}
 					
 				}
 				

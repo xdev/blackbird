@@ -46,7 +46,12 @@ class Batch
 				if ($_GET['action'] == 'delete'){
 					$this->cms->displayDeleteWarning($this->table,$this->id_set);
 					require(INCLUDES.'Preview.class.php');
-					new Preview($this->cms,$this->table,explode(",",$this->id_set) , $this->action, $_SERVER['HTTP_REFERER']);
+					if(isset($_SERVER['HTTP_REFERER'])){
+						$ref = $_SERVER['HTTP_REFERER'];
+					}else{
+						$ref = '';
+					}
+					new Preview($this->cms,$this->table,explode(",",$this->id_set) , $this->action, $ref);
 				}
 			break;
 			

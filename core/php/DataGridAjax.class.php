@@ -355,8 +355,7 @@ class DataGridAjax
 						$where = '';
 					}
 										
-					$q_select = Db::query("SELECT DISTINCT $field FROM $table $where ORDER BY $field");
-					if($q_select){
+					if($q_select = Db::query("SELECT DISTINCT $field FROM $table $where ORDER BY $field")){
 						$onchange='onchange="' . $controller . '.setFilter(\''. $field . '\',this);"';
 						print "<select id=\"filter_$field\" $onchange>";
 						print '<option value="">All</option>';
@@ -382,11 +381,17 @@ class DataGridAjax
 								}
 								
 								if($q_col){
-									if($q_col['filter_length'] != 0){
-										$tv = substr(strip_tags($tv),0,$q_col['filter_length']) . '...';
+									if($q_col['filter'] != ''){
+										$tA = Utils::parseConfig($q_col['filter']);
+										if(isset($tA['filter_length'])){
+											if(strlen(strip_tags($tv)) > $tA['filter_length']){
+												$tv = substr(strip_tags($tv),0,$tA['filter_length']) . '...';
+											}
+										}
 									}
-								
 								}
+								
+								
 							}
 							
 							print '<option value="'. $row[$field] . '"' . $sel . '>' . $tv . '</option>';
