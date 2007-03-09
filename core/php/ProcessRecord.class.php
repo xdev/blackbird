@@ -95,11 +95,13 @@ class ProcessRecord
 						}
 						
 						$t = $this->cms->pluginColumnProcess($this->_name_space . $col['Field'],$value,$options);
-						
+												
 						if(isset($t['error'])){
 							$this->errorData[] = array('field'=>$col['Field'],'error'=>$t['error']);	
 						}else{
-							$row_data[] = $t;
+							if(is_array($t)){
+								$row_data[] = $t;
+							}
 						}
 						
 						
