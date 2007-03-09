@@ -183,8 +183,7 @@ class EditPage
 							$module->table = $relation['table_child'];
 							$module->table_parent = $this->cms->table;
 							$module->id_parent = $this->cms->id;
-							$module->name_space = $name_space;
-							$module->config = Utils::parseConfig($relation['config']);
+							$module->name_space = $name_space;							
 							$module->build();
 							
 							print '</div>';

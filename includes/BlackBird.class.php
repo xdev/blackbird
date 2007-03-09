@@ -186,7 +186,7 @@ class BlackBird
 	
 	public function injectData($a)
 	{
-	
+		return $a;
 	}
 	
 	public function formatCol($col_name,$col_value,$table)
