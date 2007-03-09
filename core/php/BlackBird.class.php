@@ -429,14 +429,14 @@ Portions of this software rely upon the following software which are covered by 
 	<meta http-equiv="cache-control" content="no-cache" />
 	<title>' . CMS_CLIENT . ' CMS</title>
 	<!-- Main CSS -->
-	<link rel="stylesheet" type="text/css" media="screen" href="' . CMS_ROOT . 'assets/css/style.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="' . CMS_ROOT . ASSETS . 'css/style.css" />
 	<!-- Core Javascript -->
-	<script type="text/Javascript" src="' . CMS_ROOT . 'assets/js/prototype.js" ></script>
-	<script type="text/Javascript" src="' . CMS_ROOT . 'assets/js/scriptaculous/scriptaculous.js" ></script>
-	<script type="text/Javascript" src="' . CMS_ROOT . 'assets/js/functions.js" ></script>
-	<script type="text/Javascript" src="' . CMS_ROOT . 'assets/js/eventbroadcaster.js" ></script>
-	<script type="text/Javascript" src="' . CMS_ROOT . 'assets/js/cms.js" ></script>
-	<script type="text/Javascript" src="' . CMS_ROOT . 'assets/js/validator.js" ></script>
+	<script type="text/Javascript" src="' . CMS_ROOT . ASSETS . 'js/prototype.js" ></script>
+	<script type="text/Javascript" src="' . CMS_ROOT . ASSETS . 'js/scriptaculous/scriptaculous.js" ></script>
+	<script type="text/Javascript" src="' . CMS_ROOT . ASSETS . 'js/functions.js" ></script>
+	<script type="text/Javascript" src="' . CMS_ROOT . ASSETS . 'js/eventbroadcaster.js" ></script>
+	<script type="text/Javascript" src="' . CMS_ROOT . ASSETS . 'js/cms.js" ></script>
+	<script type="text/Javascript" src="' . CMS_ROOT . ASSETS . 'js/validator.js" ></script>
 	<script type="text/Javascript">
 		<!-- <![CDATA[
 		CMS.setProperty("cms_root","' . CMS_ROOT . '");
@@ -444,11 +444,11 @@ Portions of this software rely upon the following software which are covered by 
 	</script>
 	<!-- IE conditionals -->
 	<!--[if lt IE 7]>
-		<script src="' . CMS_ROOT . 'assets/js/ie6.js" type="text/javascript" language="javascript" charset="utf-8"></script>
-		<link rel="stylesheet" href="' . CMS_ROOT . 'assets/css/ie6.css" type="text/css" media="screen" charset="utf-8" />
+		<script src="' . CMS_ROOT . ASSETS . 'js/ie6.js" type="text/javascript" language="javascript" charset="utf-8"></script>
+		<link rel="stylesheet" href="' . CMS_ROOT . ASSETS . 'css/ie6.css" type="text/css" media="screen" charset="utf-8" />
 	<![endif]-->
 	<!--[if IE 7]>
-		<link rel="stylesheet" href="' . CMS_ROOT . 'assets/css/ie7.css" type="text/css" media="screen" charset="utf-8" />
+		<link rel="stylesheet" href="' . CMS_ROOT . ASSETS . 'css/ie7.css" type="text/css" media="screen" charset="utf-8" />
 	<![endif]-->';
 	if(file_exists(CUSTOM.'css/custom.css')){
 		print '

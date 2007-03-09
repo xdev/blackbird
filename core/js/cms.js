@@ -180,6 +180,17 @@ cms.prototype.submitMain = function(name_space)
 }
 
 /**
+*	loadUrl
+*
+*
+*/
+
+cms.prototype.loadUrl = function(url)
+{
+	window.location = url;
+}
+
+/**
 *	validate
 *
 *

@@ -38,6 +38,7 @@ setConfig("INCLUDES","core/php/");
 setConfig("LIB","bobolink/");
 setConfig("WEB_ROOT","../");
 setConfig("CUSTOM","custom/");
+setConfig("ASSETS","core/");
 
 if(file_exists('custom/config_custom.php')){
 	require_once('custom/config_custom.php');

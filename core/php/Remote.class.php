@@ -40,8 +40,6 @@ class Remote
 			$id = Db::getInsertId($table) - 1;
 		}
 		
-		
-		
 		if(isset($GLOBALS['errors'])){
 		
 			print'
@@ -70,8 +68,6 @@ class Remote
 			die();
 		
 		}
-		
-		
 		//are we a submission from the main record
 		//if so loop or send back to datagrid
 		
@@ -97,7 +93,7 @@ class Remote
 			
 			print'
 			<script type="text/javascript">
-				parent.location = \'' . $url . '\';
+				parent.CMS.loadUrl(\'' . $url . '\');
 			</script>';
 			
 			die();

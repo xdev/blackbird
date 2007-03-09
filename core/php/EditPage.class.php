@@ -58,10 +58,10 @@ class EditPage
 		}
 				
 		$js = '
-		<script type="text/Javascript" src="' . CMS_ROOT . 'assets/js/datagrid.js" ></script>
-		<script type="text/Javascript" src="' . CMS_ROOT . 'assets/js/form.js" ></script>
-		<script type="text/Javascript" src="' . CMS_ROOT . 'assets/js/dropdown.js" ></script>
-		<script type="text/Javascript" src="' . CMS_ROOT . 'assets/js/listmanager.js" ></script>';
+		<script type="text/Javascript" src="' . CMS_ROOT . ASSETS . 'js/datagrid.js" ></script>
+		<script type="text/Javascript" src="' . CMS_ROOT . ASSETS . 'js/form.js" ></script>
+		<script type="text/Javascript" src="' . CMS_ROOT . ASSETS . 'js/dropdown.js" ></script>
+		<script type="text/Javascript" src="' . CMS_ROOT . ASSETS . 'js/listmanager.js" ></script>';
 		
 		$css = '';
 		
@@ -151,7 +151,7 @@ class EditPage
 			
 			Forms::closeTag();
 			
-			print '<iframe id="form_target_main" class="related_iframe"></iframe>';
+			print '<iframe id="form_target_main" name="form_target_main" class="related_iframe"></iframe>';
 			
 			print '</div></div>';
 			
