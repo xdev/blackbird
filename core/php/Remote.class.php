@@ -79,10 +79,11 @@ class Remote
 			}
 			if($_POST['loop_back'] == ''){
 				if(isset($_POST['cms_page_state'])){
-					$url = $_POST['cms_page_state'] . '/saved_' . $id;
+					$url = $_POST['cms_page_state'];// . '/saved_' . $id;
+					
 				}else{
 					if(isset($table)){
-						$url = CMS_ROOT . 'browse/' . $table . '/saved_' . $id;
+						$url = CMS_ROOT . 'browse/' . $table;// . '/saved_' . $id;
 					}else{
 						$url = CMS_ROOT . 'home';
 					}
