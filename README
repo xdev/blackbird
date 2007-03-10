@@ -20,18 +20,31 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 Wiki
 
 
-Installation
+INSTALLATION:
 
-Configuration
+You will most likely need to create the following files:
 
-$GLOBALS['DATABASE'] = array(	'host' => 'localhost',	'user' => 'username',	'pass' => 'password',	'db'   => 'databasename');
 
-setConfig("CMS_CLIENT","BlackBird Demo");setConfig("CMS_NEWS_FEED",'http://feeds.xdev.sf.pentagram.com/cms.rss');
+> [install directory]/custom/config_custom.php (Configuration file)
+----------------------------------------------------------------------------------------
+$GLOBALS['DATABASE'] = array(
+	'host' => 'localhost',
+	'user' => 'username',
+	'pass' => 'password',
+	'db'   => 'databasename'
+);
 
-.htaccess
+// The name of the site
+setConfig("CMS_CLIENT","Site Name");
+// (optional) allows the homepage to display "news" items from an RSS feed
+#setConfig("CMS_NEWS_FEED",'http://domain.com/feed.rss');
+----------------------------------------------------------------------------------------
 
+
+> [install directory]/.htaccess
+----------------------------------------------------------------------------------------
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . index.php [L,QSA]
-
+----------------------------------------------------------------------------------------
