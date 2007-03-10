@@ -65,17 +65,15 @@ class SessionManager extends Session
 	
 	private function redirect()
 	{
-				
+		
 		if(isset($_SERVER['REQUEST_URI'])){
-			if(substr($_SERVER['REQUEST_URI'],-strlen('index.php')) != CMS_ROOT){
+			if(substr($_SERVER['REQUEST_URI'],-(strlen('index.php') + 1)) != CMS_ROOT){
 				Utils::metaRefresh(CMS_ROOT . "login/?redirect=$_SERVER[REQUEST_URI]");
 			}
-		}else{
-			Utils::metaRefresh(CMS_ROOT . "login");
 		}
 		
+		Utils::metaRefresh(CMS_ROOT . "login");		
 		die();
-				
 	}
 	
 	/**
