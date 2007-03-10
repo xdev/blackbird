@@ -22,7 +22,7 @@ function createConstants()
 
 
 setConfig("XML_HEADER",'<?xml version="1.0" encoding="UTF-8"?>');
-setConfig("SERVER",$_SERVER['SERVER_NAME']);
+setConfig("SERVER",'http://'.$_SERVER['SERVER_NAME']);
 
 setConfig("CMS_TRIM","right");
 setConfig("CMS_DEFAULT_HOUR",19);
