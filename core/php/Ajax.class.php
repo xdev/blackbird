@@ -80,7 +80,7 @@ class Ajax
 		if($action == "editRecord"){
 		
 			$id = Utils::setVar('id');
-			Forms::init("/cms/process/remote","form_" . $this->name_space,"multipart",'post','target="form_target_' . $this->name_space .'" onsubmit="Element.show(\'ajax\');"');
+			Forms::init(CMS_ROOT . "process/remote","form_" . $this->name_space,"multipart",'post','target="form_target_' . $this->name_space .'" onsubmit="Element.show(\'ajax\');"');
 			
 			Forms::hidden("name_space",$this->name_space);
 			Forms::hidden("table_parent",$_POST['table_parent']);

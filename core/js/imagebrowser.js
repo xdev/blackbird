@@ -83,7 +83,7 @@ ImageBrowser.prototype.deleteImg = function(id)
 		
 		
 		var myAjax = new Ajax.Request(
-			'/cms/ajax', 
+			this.data.cms_root + 'ajax', 
 			{
 				method		: 'post', 
 				parameters	: formatPost(sendVars)
@@ -214,7 +214,7 @@ ImageBrowser.prototype.getNewImage = function(id,mode)
 	}
 	
 	var myAjax = new Ajax.Request(
-		'/cms/ajax', 
+		this.data.cms_root + 'ajax',
 		{
 			method			: 'post', 
 			parameters		: formatPost(sendVars),
@@ -298,7 +298,7 @@ ImageBrowser.prototype.onOrderChange = function()
 
 	
 	var myAjax = new Ajax.Request(
-		'/cms/ajax', 
+		this.data.cms_root + 'ajax',
 		{
 			method		: 'post', 
 			parameters	: formatPost(sendVars)

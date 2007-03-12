@@ -196,7 +196,8 @@ class EditPage
 										table: \'' . $relation['table_child'] . '\',
 										table_parent: \'' . $this->cms->table . '\',
 										id_parent: \'' . $this->cms->id . '\',
-										name_space: \''. $name_space . '\'
+										name_space: \''. $name_space . '\',
+										cms_root: \'' . CMS_ROOT . '\'
 									}
 								);
 								CMS.broadcaster.addListener(data_grid_'.$name_space.'.listener);
@@ -280,7 +281,8 @@ class EditPage
 							table: \'cms_history\',
 							table_parent: \'' . $this->cms->table . '\',
 							id_parent: \'' . $this->cms->id . '\',
-							name_space: \''. $name_space . '\'
+							name_space: \''. $name_space . '\',
+							cms_root: \'' . CMS_ROOT . '\'
 						}
 					);
 					// ]]> -->

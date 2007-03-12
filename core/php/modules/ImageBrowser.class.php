@@ -89,7 +89,7 @@ class ImageBrowser
 		$controller = 'ImageBrowser_' . $this->name_space;
 		
 		print '<script type="text/javascript">
-		var ' . $controller . ' = new ImageBrowser({name_space : \''. $this->name_space .'\',table : \'' . $this->table . '\'});
+		var ' . $controller . ' = new ImageBrowser({name_space : \''. $this->name_space .'\',table : \'' . $this->table . '\',cms_root : \'' . CMS_ROOT . '\'});
 		</script>';
 		
 		$p_id = $this->cms->id;

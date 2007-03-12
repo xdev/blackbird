@@ -158,7 +158,7 @@ dataGrid.prototype.getUpdate = function()
 			
 	var myAjax = new Ajax.Updater(
 		obj,
-		'/cms/ajax', 
+		this.data.cms_root + 'ajax', 
 		{
 			method		: 'post', 
 			parameters	: formatPost(sendVars),
