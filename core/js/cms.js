@@ -25,7 +25,7 @@ function cms(options)
 		},
 		onComplete: function() {
 			if(Ajax.activeRequestCount == 0){
-				$('ajax').show();
+				$('ajax').hide();
 			}
 		}
 	};
@@ -77,9 +77,7 @@ cms.prototype.addCallback = function(name_space,obj,method)
 
 cms.prototype.onRemoteComplete = function(obj)
 {
-	
 	if($('ajax')){
-		
 		$('ajax').hide();
 	}
 	var listener = this.callbacks[obj.name_space].obj;
@@ -125,7 +123,7 @@ cms.prototype.onRemoteErrors = function(obj)
 	
 	if(obj.name_space != 'main'){
 		//show form buttons
-		var tA = document.getElementsByClassName('buttons','pane_' + this.name_space);
+		var tA = document.getElementsByClassName('buttons',$('pane_' + this.name_space));
 		var obj = tA[0];
 		obj.show();
 		//new Effect.Opacity(obj, {duration:0.5, from:0.2, to:1.0});
@@ -159,7 +157,7 @@ cms.prototype.onSubmit = function()
 cms.prototype.submitRelated = function(name_space)
 {
 	if(this.validate(name_space)){
-		var tA = document.getElementsByClassName('buttons','pane_' + this.name_space);
+		var tA = document.getElementsByClassName('buttons',$('pane_' + this.name_space));
 		var obj = tA[0];
 		obj.hide();
 		//new Effect.Opacity(obj, {duration:0.5, from:1.0, to:0.2});
@@ -270,7 +268,7 @@ cms.prototype.deleteRecord = function(table,id,name_space)
 cms.prototype.processDelete = function()
 {
 		
-	var tA = document.getElementsByClassName('edit_form','pane_' + this.data.name_space);
+	var tA = document.getElementsByClassName('edit_form',$('pane_' + this.data.name_space));
 	var obj = tA[0];
 	
 	if (obj.style.display == 'none') {
@@ -310,13 +308,9 @@ cms.prototype.recordHandler = function(table,id,name_space,mode,handler,query_ac
 	this.data.name_space = name_space;
 	
 	var tA = document.getElementsByClassName('detail',$('pane_' + this.data.name_space));
-	for(var i=0;i<tA.length;i++){
-		//alert(tA[i].nodeName);
-	}
-	//alert(tA[0].nodeName);
-	var obj = $(tA[0]);
-	//var obj = '';
 	
+	var obj = $(tA[0]);
+
 	var _scope = this;
 	
 	var myAjax = new Ajax.Updater(
@@ -362,14 +356,14 @@ cms.prototype.processEdit = function()
 
 cms.prototype.openRecord = function(name_space)
 {
-	
-	var tA = document.getElementsByClassName('edit_form','pane_' + name_space);
-	var obj = tA[0];
+	var tA = document.getElementsByClassName('edit_form',$('pane_' + name_space));
+		
+	var obj = $(tA[0]);
 	if (obj.style.display == 'none') {
 		Effect.SlideDown(obj, {duration: .5});
 	}
 	
-	this.broadcaster.broadcastMessage("onOpen");
+	this.broadcaster.broadcastMessage("onOpen");	
 	
 }
 
@@ -382,7 +376,7 @@ cms.prototype.openRecord = function(name_space)
 cms.prototype.closeRecord = function(name_space)
 {
 	
-	var tA = document.getElementsByClassName('edit_form','pane_' + name_space);
+	var tA = document.getElementsByClassName('edit_form',$('pane_' + name_space));
 	var obj = tA[0];
 	Effect.SlideUp(obj, {duration: .5});
 	
@@ -435,7 +429,7 @@ cms.prototype.registerClick = function(obj)
 cms.prototype.checkAll = function(mode)
 {
 	//get elements
-	var itemA = document.getElementsByClassName("data_grid_checkbox");
+	var itemA = document.getElementsByClassName('data_grid_checkbox');
 	for(var i in itemA){
 		var obj = itemA[i];
 		obj.checked = mode;
@@ -471,7 +465,7 @@ cms.prototype.toggleTabs = function()
 
 cms.prototype.showTab = function(tab)
 {
-	var tab_list = document.getElementsByClassName('trigger','edit_nav');
+	var tab_list = document.getElementsByClassName('trigger',$('edit_nav'));
 	for(var i=0;i<tab_list.length; i++){
 		
 		var name_space = tab_list[i].id.replace('tab_','');

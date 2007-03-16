@@ -153,7 +153,7 @@ dataGrid.prototype.getUpdate = function()
 	
 	sendVars.action = 'getDataGrid';
 		
-	var tA = document.getElementsByClassName('data_grid_embed','pane_' + this.data.name_space);
+	var tA = document.getElementsByClassName('data_grid_embed',$('pane_' + this.data.name_space));
 	var obj = tA[0];
 			
 	var myAjax = new Ajax.Updater(
