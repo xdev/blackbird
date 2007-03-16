@@ -16,7 +16,7 @@ function formController(name_space)
 	
 		var obj = tA[i];
 		if(obj.nodeName == "INPUT" || obj.nodeName == "TEXTAREA" || obj.nodeName == "SELECT"){
-			if(Element.hasClassName(obj, 'noparse')){
+			if(obj.hasClassName('noparse')){
 			}else{
 				this.data_alpha.push( [obj.id,obj.value] );
 				var controller = this.name_space;

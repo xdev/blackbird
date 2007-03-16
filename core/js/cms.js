@@ -21,11 +21,11 @@ function cms(options)
 	//this design is weak sauce, get a new loader
 	var myGlobalHandlers = {
 		onCreate: function(){
-			Element.show('ajax');
+			$('ajax').show();
 		},
 		onComplete: function() {
 			if(Ajax.activeRequestCount == 0){
-				Element.hide('ajax');
+				$('ajax').show();
 			}
 		}
 	};
@@ -77,8 +77,10 @@ cms.prototype.addCallback = function(name_space,obj,method)
 
 cms.prototype.onRemoteComplete = function(obj)
 {
+	
 	if($('ajax')){
-		Element.hide('ajax');
+		
+		$('ajax').hide();
 	}
 	var listener = this.callbacks[obj.name_space].obj;
 	var method = this.callbacks[obj.name_space].method;
@@ -99,7 +101,7 @@ cms.prototype.onRemoteComplete = function(obj)
 cms.prototype.onRemoteErrors = function(obj)
 {
 	if($('ajax')){
-		Element.hide('ajax');
+		$('ajax').hide();
 	}
 
 	this.showTab(obj.name_space);
@@ -144,7 +146,7 @@ cms.prototype.onRemoteErrors = function(obj)
 cms.prototype.onSubmit = function()
 {
 	if($('ajax')){
-		Element.show('ajax');
+		$('ajax').show();
 	}
 }
 
@@ -307,8 +309,13 @@ cms.prototype.recordHandler = function(table,id,name_space,mode,handler,query_ac
 	
 	this.data.name_space = name_space;
 	
-	var tA = document.getElementsByClassName('detail','pane_' + this.data.name_space);
-	var obj = tA[0];
+	var tA = document.getElementsByClassName('detail',$('pane_' + this.data.name_space));
+	for(var i=0;i<tA.length;i++){
+		//alert(tA[i].nodeName);
+	}
+	//alert(tA[0].nodeName);
+	var obj = $(tA[0]);
+	//var obj = '';
 	
 	var _scope = this;
 	

@@ -42,7 +42,7 @@ function dataGrid(options)
 dataGrid.prototype.clearHilite = function()
 {
 	if($(this.tr)){
-		Element.removeClassName(this.tr,"active");
+		$(this.tr).removeClassName('active');
 	}
 }
 
@@ -119,14 +119,14 @@ dataGrid.prototype.doSearch = function(obj)
 
 dataGrid.prototype.editRecord = function(id,elem)
 {
-	var p = elem.up();
-	Element.addClassName(p,"active");
+		
+	//var p = elem.parentNode
+	var p = $(elem).up('tr');
+	$(p).addClassName('active');
 	
 	CMS.recordHandler(this.data.table,id,this.data.name_space,'edit',CMS.processEdit,'update');
 	
-	if($(this.tr)){
-		Element.removeClassName(this.tr,"active");
-	}
+	this.clearHilite();
 	
 	this.tr = p;
 	
