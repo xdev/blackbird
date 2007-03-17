@@ -216,6 +216,10 @@ class EditRecord
 						case ($col_type == 'date') :
 							Forms::selectDate($_name_space . $col['Field'],$value, $options );
 						break;
+						
+						case ($col_type == 'time') :
+							Forms::selectTime($_name_space . $col['Field'],$value, $options );
+						break;
 												
 						case (substr($col_type,0,4) == "text") :
 							Forms::textarea($_name_space . $col['Field'],$value, $options );

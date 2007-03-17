@@ -51,6 +51,24 @@ class ProcessRecord
 		$row_data = array();
 				
 		foreach($q_cols as $col){
+			/*
+			$q_c = Db::query("SELECT * FROM cms_cols WHERE column_name = '$col[Field]' AND process_module != ''");
+			if($q_c){				
+				$q_col = Utils::checkArray($q_c,array('table_name'=>$this->table,'process_mode'=>$this->query_action));
+				if(!$q_col){
+					$q_col = Utils::checkArray($q_c,array('table_name'=>$this->table,'process_mode'=>''));
+				}
+				
+				if(!$q_col){
+					$q_col = Utils::checkArray($q_c,array('table_name'=>'*','process_mode'=>$this->query_action));
+					if(!$q_col){
+						$q_col = Utils::checkArray($q_c,array('table_name'=>'*','process_mode'=>''));
+					}
+				}
+			}
+			*/
+			
+			
 			$col_ready = false;
 						
 			$q_col = Db::queryRow("SELECT * FROM cms_cols WHERE column_name = '$col[Field]' AND table_name = '$this->table' AND process_module != '' AND process_mode = '$this->query_action'");
@@ -64,6 +82,7 @@ class ProcessRecord
 			if(!$q_col){
 				$q_col = Db::queryRow("SELECT * FROM cms_cols WHERE column_name = '$col[Field]' AND table_name = '*' AND process_module != '' AND process_mode = ''");
 			}
+			
 			
 			
 			
@@ -136,6 +155,11 @@ class ProcessRecord
 				$row_data[] = array("field"=>$col['Field'],"value"=>Utils::assembleDate($col['Field'],$this->_name_space));
 				$col_ready = true;
 			}
+			
+			if($col_type == "time"){
+				$row_data[] = array("field"=>$col['Field'],"value"=>Utils::assembleTime($col['Field'],$this->_name_space));
+				$col_ready = true;
+			}
 					
 			
 			if(!$col_ready){		
@@ -154,7 +178,9 @@ class ProcessRecord
 		}else{
 				
 			if(count($this->errorData) == 0){
-			
+				
+				//die(print_r($row_data));
+				
 				if($this->query_action == "insert"){
 					$sql = Db::insert($this->table,$row_data);
 					$this->id = mysql_insert_id();
