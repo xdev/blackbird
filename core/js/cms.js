@@ -155,13 +155,22 @@ cms.prototype.onSubmit = function()
 */
 
 cms.prototype.submitRelated = function(name_space)
-{
-	if(this.validate(name_space)){
+{	
+	var tA = this.validate(name_space);
+	if(tA == true){
+		
+		if(CMS.broadcaster != undefined){
+			CMS.broadcaster.broadcastMessage("onSubmit");
+		}
+		
 		var tA = document.getElementsByClassName('buttons',$('pane_' + this.name_space));
 		var obj = tA[0];
 		obj.hide();
-		//new Effect.Opacity(obj, {duration:0.5, from:1.0, to:0.2});
-	}		
+		
+	}
+	if(tA.length > 0){
+		this.handleErrors(tA);
+	}
 }
 
 /**
@@ -172,10 +181,13 @@ cms.prototype.submitRelated = function(name_space)
 
 cms.prototype.submitMain = function(name_space)
 {
-	if(this.validate(name_space)){
+	var tA = this.validate(name_space);
+	if(tA == true){
 		$('edit_buttons').hide();
-	}else{
+	}
+	if(tA.length > 0){
 		this.showTab('main');
+		this.handleErrors(tA);
 	}
 }
 
@@ -189,6 +201,23 @@ cms.prototype.loadUrl = function(url)
 {
 	window.location = url;
 }
+
+/**
+*	handleErrors
+*
+*
+*/
+
+cms.prototype.handleErrors = function(obj)
+{
+	var t = '';
+	for(var i=0;i<obj.length;i++){
+		t += obj[i].message + '\n';
+	}
+	alert(t);
+}
+
+//changeme12345
 
 /**
 *	validate
@@ -597,11 +626,12 @@ cms.prototype.toggleHelp = function()
 cms.prototype.loopBack = function(name_space)
 {
 	$('loop_back').value = 'loop';
-	if(validate($('form_'+name_space),name_space)){
+	var tA = this.validate(name_space);
+	if(tA == true){
 		$('edit_buttons').hide();
-	}else{
-		this.showTab('main');
 	}
-
-	
+	if(tA.length > 0){
+		this.showTab('main');
+		this.handleErrors(tA);
+	}
 }

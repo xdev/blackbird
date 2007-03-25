@@ -1,10 +1,8 @@
 function validate(form,name_space)
 {
 	//get elements by class name
-	
-	
 	var elementList = document.getElementsByClassName('validate', $(form));
-	var error = '';
+	var errorA = new Array();
 	
 	for(var i=0;i<elementList.length;i++){
 		
@@ -35,16 +33,15 @@ function validate(form,name_space)
 				  emsg = "The email address contains illegal characters.\n";
 			   }
 			}
-			//return emsg;
-			error += emsg;
+			errorA.push({field: elem,message: emsg});
 		}
 		
 		if(elem.hasClassName('numeric')){
 			
 			if (isNaN(parseInt(elem.value))) {
-				error += 'Please enter a number for ' + elem_name + '\n';
+				var emsg = 'Please enter a number for ' + elem_name + '\n';
+				errorA.push({field: elem,message: emsg});
 			}else{
-				//return true;
 			}
 		}
 				
@@ -52,7 +49,8 @@ function validate(form,name_space)
 		if(elem.hasClassName('default')){
 			
 			if(elem.value == ''){
-				error += 'Please enter a value for ' + elem_name + '\n';
+				var emsg = 'Please enter a value for ' + elem_name + '\n';
+				errorA.push({field: elem,message: emsg});
 			}
 		
 		}
@@ -60,16 +58,12 @@ function validate(form,name_space)
 		
 	}
 	
-	if(error == ''){
-		if(CMS.broadcaster != undefined){
-			CMS.broadcaster.broadcastMessage("onSubmit");
-		}
+	
+	if(errorA.length > 0){
+		return errorA;
+	}else{
 		$(form).submit();
 		return true;
-		
-	}else{
-		alert(error);
-		return false;
 	}
 	
 }
