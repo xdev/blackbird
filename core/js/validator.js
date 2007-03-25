@@ -19,27 +19,29 @@ function validate(form,name_space)
 			var strng = elem.value;
 			var emsg="";
 			if (strng == "") {
-			   emsg = "You didn't enter an email address.\n";
+			   emsg = "You didn't enter an email address.";
 			}
 		
 			var emailFilter=/^.+@.+\..{2,3}$/;
 			if (!(emailFilter.test(strng))) { 
-			   emsg = "Please enter a valid email address.\n";
+			   emsg = "Please enter a valid email address.";
 			}
 			else {
 			//test email for illegal characters
 			   var illegalChars= /[\(\)\<\>\,\;\:\\\"\[\]]/
 				 if (strng.match(illegalChars)) {
-				  emsg = "The email address contains illegal characters.\n";
+				  emsg = "The email address contains illegal characters.";
 			   }
 			}
-			errorA.push({field: elem,message: emsg});
+			if(emsg != ''){
+				errorA.push({field: elem,message: emsg});
+			}
 		}
 		
 		if(elem.hasClassName('numeric')){
 			
 			if (isNaN(parseInt(elem.value))) {
-				var emsg = 'Please enter a number for ' + elem_name + '\n';
+				var emsg = 'Please enter a number for ' + elem_name;
 				errorA.push({field: elem,message: emsg});
 			}else{
 			}
@@ -49,7 +51,7 @@ function validate(form,name_space)
 		if(elem.hasClassName('default')){
 			
 			if(elem.value == ''){
-				var emsg = 'Please enter a value for ' + elem_name + '\n';
+				var emsg = 'Please enter a value for ' + elem_name;
 				errorA.push({field: elem,message: emsg});
 			}
 		
