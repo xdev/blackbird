@@ -5,11 +5,12 @@ class ImageBrowser
 		
 	private $_data;	
 	
-	public function __construct()
+	public function __construct($cms)
 	{
 		if(!isset($this->config['col_order'])){
 			$this->config['col_order'] = 'position';
 		}
+		$this->db = $cms->db;
 	}
 	
 	public function __set($name,$value)
@@ -32,7 +33,7 @@ class ImageBrowser
 		$idSet = explode(",",$_POST['id_set']);
 		
 		for($i=0;$i<count($idSet);$i++){
-			Db::update($this->table,array(array('field'=>$this->config['col_order'],'value'=>($i+1)) ),"id",$idSet[$i]);
+			$this->db->update($this->table,array(array('field'=>$this->config['col_order'],'value'=>($i+1)) ),"id",$idSet[$i]);
 		}
 		
 		print 'order updated';
@@ -47,7 +48,7 @@ class ImageBrowser
 	function getImgDetail($id)
 	{	
 		$controller = 'ImageBrowser_' . $this->name_space;
-		$img = Db::queryRow("SELECT * FROM `" . $this->table . "` WHERE id = '$id'");		
+		$img = $this->db->queryRow("SELECT * FROM `" . $this->table . "` WHERE id = '$id'");		
 		($img['active'] == 0) ? $class = ' inactive' : $class = '';
 		print '
 		<li class="img_module'.$class.'" id="' . $this->name_space . '_img_' . $img['id'] . '" >
@@ -93,7 +94,7 @@ class ImageBrowser
 		</script>';
 		
 		$p_id = $this->cms->id;
-		$q = Db::query("SELECT * FROM " . $this->table . " WHERE parent_id = '$p_id' ORDER BY position");
+		$q = $this->db->query("SELECT * FROM " . $this->table . " WHERE parent_id = '$p_id' ORDER BY position");
 		if($q){
 			$rT = count($q);
 		}else{

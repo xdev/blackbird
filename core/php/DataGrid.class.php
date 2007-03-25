@@ -11,6 +11,7 @@ class DataGrid
 	function __construct($_parent)
 	{
 		$this->cms = $_parent;
+		$this->db = $_parent->db;
 		$this->buildPage();
 	}	
 	
@@ -49,10 +50,10 @@ class DataGrid
 		if (isset($_REQUEST['sort_max'])) $this->cms->session->setVar('sort_max',$_REQUEST['sort_max']);
 				
 		//Get the default cols for display
-		$q_display = Db::queryRow("SELECT * FROM `cms_tables` WHERE table_name = '$table' AND display_mode = 'data_grid'");
+		$q_display = $this->db->queryRow("SELECT * FROM `cms_tables` WHERE table_name = '$table' AND display_mode = 'data_grid'");
 		
 		if(!$q_display){
-			$q_display = Db::queryRow("SELECT * FROM `cms_tables` WHERE table_name = '$table' AND display_mode = ''");
+			$q_display = $this->db->queryRow("SELECT * FROM `cms_tables` WHERE table_name = '$table' AND display_mode = ''");
 		}
 		
 		if($this->cms->session->super_user === true && $q_display['cols_default'] == ""){
@@ -67,7 +68,7 @@ class DataGrid
 			$fields = explode(",",$select_cols);
 			
 			if($select_cols == "*"){
-				$q = Db::query("SHOW COLUMNS FROM `$table`");
+				$q = $this->db->query("SHOW COLUMNS FROM `$table`");
 				$fields = array();
 				for($i=0;$i<count($q);$i++){
 					$row = $q[$i];
@@ -86,7 +87,7 @@ class DataGrid
 		
 		if($search != ""){
 						
-			$q = Db::query("SHOW COLUMNS FROM $table");
+			$q = $this->db->query("SHOW COLUMNS FROM $table");
 			$search_fields = array();
 			for($i=0;$i<count($q);$i++){
 				$row = $q[$i];
@@ -95,7 +96,7 @@ class DataGrid
 			
 			//Generate search
 			$mySearch = "'%" . mysql_real_escape_string(stripslashes(trim($search))) . "%'";
-			$rSearch = Db::generateSearch($search_fields,$mySearch);
+			$rSearch = $this->db->generateSearch($search_fields,$mySearch);
 		}
 		
 				
@@ -104,9 +105,9 @@ class DataGrid
 		$whereA = array();
 		$where = 'WHERE ';
 		
-		$q_total = Db::query("SELECT id FROM $table");
+		$q_total = $this->db->query("SELECT id FROM $table");
 		
-		$q_filters = Db::query("SELECT column_name FROM cms_cols WHERE (table_name = '*' OR table_name = '$table') AND filter != ''");
+		$q_filters = $this->db->query("SELECT column_name FROM cms_cols WHERE (table_name = '*' OR table_name = '$table') AND filter != ''");
 		if($q_filters){
 			//loop through and find intersections
 			foreach($q_filters as $filter){
@@ -128,9 +129,9 @@ class DataGrid
 		}
 						
 		if($search == ""){
-			$query_data = Db::query("SELECT $select_cols FROM $table $where ORDER BY $sort_col $sort_dir LIMIT $sort_index, $sort_max");
+			$query_data = $this->db->query("SELECT $select_cols FROM $table $where ORDER BY $sort_col $sort_dir LIMIT $sort_index, $sort_max");
 			$rT = count($query_data);
-			$q2 = Db::query("SELECT id FROM $table $where");
+			$q2 = $this->db->query("SELECT id FROM $table $where");
 		}else{
 			
 			if($where == ''){
@@ -142,9 +143,9 @@ class DataGrid
 				$rSearch = $rSearch . ')';
 			}
 						
-			$query_data = Db::query("SELECT $select_cols FROM $table $where $rSearch ORDER BY $sort_col LIMIT $sort_index, $sort_max");
+			$query_data = $this->db->query("SELECT $select_cols FROM $table $where $rSearch ORDER BY $sort_col LIMIT $sort_index, $sort_max");
 			$rT = count($query_data);
-			$q2 = Db::query("SELECT id FROM $table $where $rSearch");
+			$q2 = $this->db->query("SELECT id FROM $table $where $rSearch");
 						
 		}
 		
@@ -158,14 +159,14 @@ class DataGrid
 		$css = '';
 		$js = '';
 				
-		$q_headers = Db::queryRow("SELECT * FROM cms_headers WHERE table_name = '*' AND mode = 'data_grid'");
+		$q_headers = $this->db->queryRow("SELECT * FROM cms_headers WHERE table_name = '*' AND mode = 'data_grid'");
 		if($q_headers['javascript'] != ''){
 			$js .= $q_headers['javascript'];
 		}
 		if($q_headers['css'] != ''){
 			$css .= $q_headers['css'];
 		}
-		$q_headers = Db::queryRow("SELECT * FROM cms_headers WHERE table_name = '$table' AND mode = 'data_grid'");
+		$q_headers = $this->db->queryRow("SELECT * FROM cms_headers WHERE table_name = '$table' AND mode = 'data_grid'");
 		if($q_headers['javascript'] != ''){
 			$js .= $q_headers['javascript'];
 		}
@@ -173,7 +174,7 @@ class DataGrid
 			$css .= $q_headers['css'];
 		}
 		
-		//$q_help = Db::queryRow("SELECT help FROM cms_tables WHERE table_name = '$table'");
+		//$q_help = $this->db->queryRow("SELECT help FROM cms_tables WHERE table_name = '$table'");
 		//$q_help['help']		
 		$this->cms->buildHeader($js,$css,' class="data_grid"');
 		
@@ -341,7 +342,7 @@ class DataGrid
 				
 				if(in_array($field,$filterA)){
 					
-					if($q_select = Db::query("SELECT DISTINCT $field FROM $table ORDER BY $field")){
+					if($q_select = $this->db->query("SELECT DISTINCT $field FROM $table ORDER BY $field")){
 					
 					$sort_url = $sort_base . $this->getFilters($field) . "&amp;sort_index=";
 
@@ -359,7 +360,7 @@ class DataGrid
 						}
 						
 						$tv = $this->cms->formatCol($field,$row[$field],$table);
-						$q_c = Db::query("SELECT * FROM cms_cols WHERE column_name = '$field'");
+						$q_c = $this->db->query("SELECT * FROM cms_cols WHERE column_name = '$field'");
 						
 						if($q_c){				
 							$q_col = Utils::checkArray($q_c,array('table_name'=>$table));
@@ -412,7 +413,7 @@ class DataGrid
 						
 				$field = $col['col'];
 				$col_label = $field;
-				$q_label = Db::queryRow("SELECT data_grid_name FROM cms_cols WHERE (table_name = '*' OR table_name = '$table') AND column_name = '$field'");
+				$q_label = $this->db->queryRow("SELECT data_grid_name FROM cms_cols WHERE (table_name = '*' OR table_name = '$table') AND column_name = '$field'");
 				if($q_label['data_grid_name'] != ''){
 					$col_label = $q_label['data_grid_name'];
 				}

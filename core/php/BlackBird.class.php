@@ -13,16 +13,26 @@ class BlackBird
 	{
 		
 		//load core classes
-		require_once(LIB.'database/Db.class.php');
+		require_once(LIB.'database/Db.interface.php');
 		require_once(LIB.'forms/Forms.class.php');
 		require_once(LIB.'utils/Utils.class.php');
 		require_once(LIB.'session/Session.class.php');
 		require_once(LIB.'_version.php');	
 		
 		require_once(INCLUDES.'SessionManager.class.php');
-					
-		$this->db = new Db;
-		$this->session = new SessionManager;
+		
+		if(!isset($DB['adaptor'])){
+			$DB['adaptor'] = 'Mysql';
+		}
+		
+		$class = 'Adaptor' . $DB['adaptor'];
+		require LIB . 'database/' . $class .  '.class.php';
+		$this->db = new $class();
+		
+		Forms::setDb($this->db);
+		
+		//$this->db = new Db;
+		$this->session = new SessionManager($this);
 				
 	}
 	
@@ -155,7 +165,7 @@ class BlackBird
 			default:
 				
 				foreach($id_set as $id){
-					Db::sql("DELETE FROM `$table` WHERE id = $id");
+					$this->db->sql("DELETE FROM `$table` WHERE id = $id");
 							
 					$row_data = array();
 					$row_data[] = array('field'=>'table_name','value'=>$table);
@@ -163,7 +173,7 @@ class BlackBird
 					$row_data[] = array('field'=>'action','value'=>'delete');
 					$row_data[] = array('field'=>'user_id','value'=>$this->session->u_id);
 					$row_data[] = array('field'=>'session_id','value'=>session_id());
-					Db::insert('cms_history',$row_data);
+					$this->db->insert('cms_history',$row_data);
 				}				
 								
 			break;
@@ -205,7 +215,7 @@ class BlackBird
 			$tA = explode(',',$col_value);
 			$r = array();
 			foreach($tA as $item){
-				$q = Db::queryRow("SELECT name FROM cms_groups WHERE id = '$item'");
+				$q = $this->db->queryRow("SELECT name FROM cms_groups WHERE id = '$item'");
 				$r[] = $q['name'];
 			}
 			
@@ -216,7 +226,7 @@ class BlackBird
 		
 		if($col_name == 'user_id' && $table == 'cms_history'){
 		
-			$q = Db::queryRow("SELECT email FROM cms_users WHERE id = '$col_value'");
+			$q = $this->db->queryRow("SELECT email FROM cms_users WHERE id = '$col_value'");
 			return $q['email'];
 		
 		}
@@ -240,13 +250,13 @@ class BlackBird
 		}
 		
 		if($options['col_name'] == 'user_id' && $options['table'] == 'cms_history'){
-			$q = Db::queryRow("SELECT email FROM cms_users WHERE id = '$value'");
+			$q = $this->db->queryRow("SELECT email FROM cms_users WHERE id = '$value'");
 			Forms::readonly($name,$q['email'],$options);		
 		}
 		
 		if($options['col_name'] == 'groups' && $options['table'] == 'cms_users'){
 			
-			$q = Db::query("SELECT id,name FROM cms_groups ORDER BY name");
+			$q = $this->db->query("SELECT id,name FROM cms_groups ORDER BY name");
 			$r = '<ul>';
 			$tA = explode(',',$value);
 			
@@ -264,7 +274,7 @@ class BlackBird
 		
 		if($options['col_name'] == 'tables' && $options['table'] == 'cms_groups'){
 			
-			$q = Db::query("SHOW TABLE STATUS");
+			$q = $this->db->query("SHOW TABLE STATUS");
 			$tA = explode(',',$value);
 			$privA = array('browse','insert','update','delete');
 			
@@ -331,7 +341,7 @@ class BlackBird
 	
 		if($options['col_name'] == 'tables' && $options['table'] == 'cms_groups'){
 			
-			$q = Db::query("SHOW TABLE STATUS");
+			$q = $this->db->query("SHOW TABLE STATUS");
 			$r = '<data>';
 			
 			$privA = array('browse','insert','update','delete');
@@ -364,7 +374,7 @@ class BlackBird
 		
 		if($options['col_name'] == 'groups' && $options['table'] == 'cms_users'){
 			
-			$q = Db::query("SELECT * FROM cms_groups");
+			$q = $this->db->query("SELECT * FROM cms_groups");
 			foreach($q as $group){
 				if(isset($_REQUEST['group_' . $group['id']])){
 					if($_REQUEST['group_' . $group['id']] == 'Y'){
@@ -491,7 +501,7 @@ Portions of this software rely upon the following software which are covered by 
 			
 			foreach($tables as $key => $row){
 				
-				$q_label = Db::queryRow("SELECT display_name FROM cms_tables WHERE table_name = '$key'");
+				$q_label = $this->db->queryRow("SELECT display_name FROM cms_tables WHERE table_name = '$key'");
 				if($q_label['display_name'] == ''){
 					$label = Utils::formatHumanReadable($key);
 				}else{

@@ -8,6 +8,7 @@ class Home
 	function __construct($cms)
 	{
 		$this->cms = $cms;
+		$this->db = $cms->db;
 		$this->buildPage();
 	}
 	
@@ -35,12 +36,12 @@ class Home
 			
 			print "<td $click>" . $key . '</td>';
 			
-			$q_m = Db::query("SELECT id FROM $key");
+			$q_m = $this->db->query("SELECT id FROM $key");
 			
 			print "<td $click>" . count($q_m) . '</td>';
 			
-			$q_last = Db::queryRow("SELECT * FROM cms_history WHERE table_name = '$key' ORDER BY modtime LIMIT 1");
-			$deets = Db::queryRow("SELECT firstname,lastname,email FROM cms_users WHERE id = '$q_last[user_id]'");
+			$q_last = $this->db->queryRow("SELECT * FROM cms_history WHERE table_name = '$key' ORDER BY modtime LIMIT 1");
+			$deets = $this->db->queryRow("SELECT firstname,lastname,email FROM cms_users WHERE id = '$q_last[user_id]'");
 									
 			print "<td $click>". $deets['lastname'] . ', ' . $deets['firstname'] . ' ' . $q_last['modtime'] . '</td>';
 			print '</tr>';
@@ -71,14 +72,14 @@ class Home
 			</thead>
 			<tbody class="records">';
 		
-		$q = Db::query("SELECT * FROM cms_sessions ORDER BY start_time DESC LIMIT 5");
+		$q = $this->db->query("SELECT * FROM cms_sessions ORDER BY start_time DESC LIMIT 5");
 		$rc = 0;
 		
 		foreach($q as $row){
 			$classA = Array();
 			($rc%2==0) ? '' : $classA[] = 'odd';
 			$click = 'onclick="window.location = \'' . CMS_ROOT . 'browse/cms_history/?sort_col=id%20DESC&amp;sort_max=10000&amp;filter_session_id=' . $row['session_id'] . '\';"';
-			if($q_edits = Db::query("SELECT * FROM cms_history WHERE session_id = '$row[session_id]'")){
+			if($q_edits = $this->db->query("SELECT * FROM cms_history WHERE session_id = '$row[session_id]'")){
 				$e = count($q_edits);
 			}else{
 				$e = '';
@@ -93,7 +94,7 @@ class Home
 			
 			
 			
-			$deets = Db::queryRow("SELECT firstname,lastname,email FROM cms_users WHERE id = '$row[user_id]'");
+			$deets = $this->db->queryRow("SELECT firstname,lastname,email FROM cms_users WHERE id = '$row[user_id]'");
 			print "<td $click>" . $deets['lastname'] . ', ' . $deets['firstname'] . '</td>';
 			print "<td $click>" . $row['start_time'] . '</td>';
 			
@@ -140,12 +141,12 @@ class Home
 				</thead>
 				<tbody class="records">';
 				
-		$q = Db::query("SELECT * FROM cms_history ORDER BY modtime DESC LIMIT 5");
+		$q = $this->db->query("SELECT * FROM cms_history ORDER BY modtime DESC LIMIT 5");
 		$rc = 0;
 		foreach($q as $row){
 			($rc%2==0) ? $class='' : $class='class="odd"';
 			$click = 'onclick="window.location = \'' . CMS_ROOT . 'edit/cms_history/' . $row['id'] . '\';"';
-			$deets = Db::queryRow("SELECT firstname,lastname,email FROM cms_users WHERE id = '$row[user_id]'");
+			$deets = $this->db->queryRow("SELECT firstname,lastname,email FROM cms_users WHERE id = '$row[user_id]'");
 			print "<tr $class>";
 			print "<td $click>" . $row['table_name'] . '</td>';
 			print "<td $click>" . $row['record_id'] . '</td>';

@@ -7,6 +7,7 @@ class Login
 	
 	function __construct($cms){
 		$this->cms = $cms;
+		$this->db = $cms->db;
 								
 		if($this->cms->pathA[1] == "reset"){
 			//do the password reset bit
@@ -20,11 +21,11 @@ class Login
 			$pass = substr($string,rand(0,$h_s),16);
 			
 			//check if you exists and update DB
-			$q = Db::queryRow("SELECT id,email FROM cms_users WHERE email = '$_POST[email]'");
+			$q = $this->db->queryRow("SELECT id,email FROM cms_users WHERE email = '$_POST[email]'");
 			if($q['email'] == $_POST['email']){
 				$row_data = array(array('field'=>'password', 'value'=>sha1($pass) ));
 				
-				Db::update("cms_users",$row_data,"id",$q['id']);
+				$this->db->update("cms_users",$row_data,"id",$q['id']);
 				
 				//email the new password back to the user
 				//print $pass;
@@ -77,7 +78,7 @@ class Login
 			$pass = sha1($_POST['password']);
 			$email = $_POST['email'];
 			
-			$q = Db::queryRow("SELECT id FROM `cms_users` WHERE email = '$email' AND password = '$pass'");
+			$q = $this->db->queryRow("SELECT id FROM `cms_users` WHERE email = '$email' AND password = '$pass'");
 			
 			if(isset($q['id'])){
 				$this->cms->session->login($q['id'],$pass,$email);
@@ -86,7 +87,7 @@ class Login
 				$row_data[] = array('field'=>'user_id','value'=>$q['id']);
 				$row_data[] = array('field'=>'start_time','value'=>Utils::now());
 				$row_data[] = array('field'=>'session_id','value'=>session_id());
-				Db::insert('cms_sessions',$row_data);
+				$this->db->insert('cms_sessions',$row_data);
 				
 				if(isset($_REQUEST['redirect'])){
 					Utils::metaRefresh($_REQUEST['redirect']);
@@ -114,7 +115,7 @@ class Login
 		$body_id = "login";
 				
 		$this->cms->buildHeader();
-		
+				
 		print '<style type="text/css">
 				
 				#page

@@ -14,8 +14,10 @@ class EditPage
 	
 	function __construct($cms){
 		$this->cms = $cms;
+		$this->db = $cms->db;
 		$this->table = $this->cms->table;
 		$this->id = $this->cms->id;
+		
 		if($this->cms->id){
 			$this->mode = "edit";
 			$this->pagetitle = $this->cms->label . " - Edit";
@@ -65,14 +67,14 @@ class EditPage
 		
 		$css = '';
 		
-		$q_headers = Db::queryRow("SELECT * FROM cms_headers WHERE table_name = '*' AND mode = 'edit'");
+		$q_headers = $this->db->queryRow("SELECT * FROM cms_headers WHERE table_name = '*' AND mode = 'edit'");
 		if($q_headers['javascript'] != ''){
 			$js .= $q_headers['javascript'];
 		}
 		if($q_headers['css'] != ''){
 			$css .= $q_headers['css'];
 		}
-		$q_headers = Db::queryRow("SELECT * FROM cms_headers WHERE table_name = '$this->table' AND mode = 'edit'");
+		$q_headers = $this->db->queryRow("SELECT * FROM cms_headers WHERE table_name = '$this->table' AND mode = 'edit'");
 		if($q_headers['javascript'] != ''){
 			$js .= $q_headers['javascript'];
 		}
@@ -80,7 +82,7 @@ class EditPage
 			$css .= $q_headers['css'];
 		}
 		
-		$q_help = Db::queryRow("SELECT help FROM cms_tables WHERE table_name = '$this->table'");
+		$q_help = $this->db->queryRow("SELECT help FROM cms_tables WHERE table_name = '$this->table'");
 				
 		$this->cms->buildHeader($js,$css,' class="edit"',$q_help['help']);
 		
@@ -94,12 +96,12 @@ class EditPage
 		}
 		
 		if($this->mode == "edit"){
-			$row_data = Db::queryRow("SELECT * FROM $this->table WHERE id = '$this->id'");
+			$row_data = $this->db->queryRow("SELECT * FROM $this->table WHERE id = '$this->id'");
 		}else{
 			$row_data = null;
 		}
 		
-		$q_related = Db::query("SELECT * FROM cms_relations WHERE table_parent = '$this->table' ORDER BY position");
+		$q_related = $this->db->query("SELECT * FROM cms_relations WHERE table_parent = '$this->table' ORDER BY position");
 				
 		//do the tab navigation
 		print '
@@ -123,7 +125,7 @@ class EditPage
 		
 		
 		if($this->mode == 'edit' && $this->table != 'cms_history'){
-			$q_history = Db::query("SELECT * FROM cms_history WHERE table_name = '$this->table' AND record_id = '$this->id'");
+			$q_history = $this->db->query("SELECT * FROM cms_history WHERE table_name = '$this->table' AND record_id = '$this->id'");
 			if($q_history && count($q_history) > 0){
 				print '<li id="tab_history" class="trigger history" ><a href="#" onclick="CMS.showTab(\'history\'); return false;">History</a></li>';
 				$history = true;
@@ -178,7 +180,7 @@ class EditPage
 							print '<div class="data_grid_embed">';
 							
 							include_once(INCLUDES.'DataGridAjax.class.php');					
-							$module = new DataGridAjax();
+							$module = new DataGridAjax($this->cms);
 							$module->cms = $this->cms;
 							$module->table = $relation['table_child'];
 							$module->table_parent = $this->cms->table;
@@ -213,7 +215,7 @@ class EditPage
 							$class = $config['module'];
 							
 							include_once(INCLUDES.'modules/' . $class . '.class.php');
-							$module = new $class();
+							$module = new $class($this->cms);
 							$module->cms = $this->cms;
 							$module->table = $relation['table_child'];
 							$module->name_space = $name_space;
@@ -261,7 +263,7 @@ class EditPage
 				print '<div class="data_grid_embed">';
 						
 				include_once(INCLUDES.'DataGridAjax.class.php');					
-				$module = new DataGridAjax();
+				$module = new DataGridAjax($this->cms);
 				$module->cms = $this->cms;
 				$module->table = 'cms_history';
 				$module->name_space = $name_space;

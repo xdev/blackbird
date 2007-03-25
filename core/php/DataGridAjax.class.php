@@ -6,7 +6,12 @@ class DataGridAjax
 	private $recordSet;
 	private $headerData;
 	private	$filtersA;
+	private $db;
 	
+	public function __construct($cms)
+	{
+		$this->db = $cms->db;
+	}
 	
 	public function __set($name,$value)
 	{
@@ -74,10 +79,10 @@ class DataGridAjax
 		
 		$search = Utils::setVar("search");
 		
-		$q_display = Db::queryRow("SELECT * FROM `cms_tables` WHERE table_name = '$table' AND display_mode = 'related'");
+		$q_display = $this->db->queryRow("SELECT * FROM `cms_tables` WHERE table_name = '$table' AND display_mode = 'related'");
 		
 		if(!$q_display){
-			$q_display = Db::queryRow("SELECT * FROM `cms_tables` WHERE table_name = '$table' AND display_mode = ''");
+			$q_display = $this->db->queryRow("SELECT * FROM `cms_tables` WHERE table_name = '$table' AND display_mode = ''");
 		}
 		
 		$controller = 'data_grid_' . $name_space;
@@ -91,7 +96,7 @@ class DataGridAjax
 			$fields = explode(",",$select_cols);
 			
 			if($select_cols == "*"){
-				$q = Db::query("SHOW COLUMNS FROM $table");
+				$q = $this->db->query("SHOW COLUMNS FROM $table");
 				$fields = array();
 				for($i=0;$i<count($q);$i++){
 					$row = $q[$i];
@@ -116,8 +121,8 @@ class DataGridAjax
 			$filterWhere = $this->sql;
 			$label = 'CMS History';
 		}else if($table_parent != ''){
-			$relation = Db::queryRow("SELECT * FROM cms_relations WHERE table_parent = '$table_parent' AND table_child = '$table'");
-			$q_parent = Db::queryRow("SELECT * FROM $table_parent WHERE id = $id_parent");
+			$relation = $this->db->queryRow("SELECT * FROM cms_relations WHERE table_parent = '$table_parent' AND table_child = '$table'");
+			$q_parent = $this->db->queryRow("SELECT * FROM $table_parent WHERE id = $id_parent");
 			$sql_val = $q_parent[$relation['column_parent']];
 			$whereA[] = "$relation[column_child] = '$sql_val'";
 			$filterWhere = "$relation[column_child] = '$sql_val'";
@@ -129,7 +134,7 @@ class DataGridAjax
 		
 		if($search != ""){
 						
-			$q = Db::query("SHOW COLUMNS FROM $table");
+			$q = $this->db->query("SHOW COLUMNS FROM $table");
 			$search_fields = array();
 			for($i=0;$i<count($q);$i++){
 				$row = $q[$i];
@@ -139,11 +144,11 @@ class DataGridAjax
 			
 			//Generate search
 			$mySearch = "'%" . mysql_real_escape_string(stripslashes(trim($search))) . "%'";
-			$rSearch = Db::generateSearch($search_fields,$mySearch);
+			$rSearch = $this->db->generateSearch($search_fields,$mySearch);
 		}
 		
 		
-		$q_filters = Db::query("SELECT column_name FROM cms_cols WHERE (table_name = '*' OR table_name = '$table') AND filter = 1");
+		$q_filters = $this->db->query("SELECT column_name FROM cms_cols WHERE (table_name = '*' OR table_name = '$table') AND filter = 1");
 		if($q_filters){
 			//loop through and find intersections
 			foreach($q_filters as $filter){
@@ -173,13 +178,13 @@ class DataGridAjax
 		
 		if($search == ''){
 		
-			$query_data = Db::query("SELECT $select_cols FROM $table $where ORDER BY $sort_col $sort_dir LIMIT $sort_index, $sort_max");
+			$query_data = $this->db->query("SELECT $select_cols FROM $table $where ORDER BY $sort_col $sort_dir LIMIT $sort_index, $sort_max");
 			if($query_data){
 				$rT = count($query_data);
 			}else{
 				$rT = 0;
 			}
-			$q2 = Db::query("SELECT * FROM $table $where");
+			$q2 = $this->db->query("SELECT * FROM $table $where");
 			if($q2){
 				$rows_total = count($q2);
 			}else{
@@ -197,9 +202,9 @@ class DataGridAjax
 				$rSearch = $rSearch . ')';
 			}
 						
-			$query_data = Db::query("SELECT $select_cols FROM $table $where $rSearch ORDER BY $sort_col LIMIT $sort_index, $sort_max");
+			$query_data = $this->db->query("SELECT $select_cols FROM $table $where $rSearch ORDER BY $sort_col LIMIT $sort_index, $sort_max");
 			$rT = count($query_data);
-			$q2 = Db::query("SELECT * FROM $table $where $rSearch");
+			$q2 = $this->db->query("SELECT * FROM $table $where $rSearch");
 			if($q2){
 				$rows_total = count($q2);
 			}else{
@@ -355,7 +360,7 @@ class DataGridAjax
 						$where = '';
 					}
 										
-					if($q_select = Db::query("SELECT DISTINCT $field FROM $table $where ORDER BY $field")){
+					if($q_select = $this->db->query("SELECT DISTINCT $field FROM $table $where ORDER BY $field")){
 						$onchange='onchange="' . $controller . '.setFilter(\''. $field . '\',this);"';
 						print "<select id=\"filter_$field\" $onchange>";
 						print '<option value="">All</option>';
@@ -372,7 +377,7 @@ class DataGridAjax
 							}
 							
 							$tv = $this->cms->formatCol($field,$row[$field],$table);
-							$q_c = Db::query("SELECT * FROM cms_cols WHERE column_name = '$field'");
+							$q_c = $this->db->query("SELECT * FROM cms_cols WHERE column_name = '$field'");
 							
 							if($q_c){				
 								$q_col = Utils::checkArray($q_c,array('table_name'=>$table));

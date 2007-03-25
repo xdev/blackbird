@@ -14,6 +14,7 @@ class EditRecord
 	function __construct($cms,$table,$id,$name_space="",$channel){
 		
 		$this->cms = $cms;
+		$this->db = $this->cms->db;
 		$this->table = $table;
 		$this->id = $id;
 		$this->name_space = $name_space;
@@ -37,12 +38,12 @@ class EditRecord
 							
 	
 		if($this->mode == "edit"){
-			$row_data = Db::queryRow("SELECT * FROM $this->table WHERE id = '$this->id'");
+			$row_data = $this->db->queryRow("SELECT * FROM $this->table WHERE id = '$this->id'");
 		}else{
 			$row_data = false;
 		}
 		
-		$q_related = Db::query("SELECT * FROM cms_relations WHERE table_parent = '$this->table'");
+		$q_related = $this->db->query("SELECT * FROM cms_relations WHERE table_parent = '$this->table'");
 				
 		
 		
@@ -53,13 +54,13 @@ class EditRecord
 				$_name_space = $this->name_space . "_";
 			}
 							
-			$q_cols = Db::query("SHOW COLUMNS FROM `$this->table`");
+			$q_cols = $this->db->query("SHOW COLUMNS FROM `$this->table`");
 			
 			if($this->channel == "related"){
 				
 				
 				
-				if($q_relation = Db::queryRow("SELECT * FROM cms_relations WHERE table_parent = '" . $_REQUEST['table_parent'] . "' AND table_child = '$this->table'")){
+				if($q_relation = $this->db->queryRow("SELECT * FROM cms_relations WHERE table_parent = '" . $_REQUEST['table_parent'] . "' AND table_child = '$this->table'")){
 					
 					
 					for($i=0;$i<count($q_cols);$i++){
@@ -71,7 +72,7 @@ class EditRecord
 						}
 					}
 					
-					$q_parent = Db::queryRow("SELECT * FROM " . $_REQUEST['table_parent'] . " WHERE id = " . $_REQUEST['id_parent']);					
+					$q_parent = $this->db->queryRow("SELECT * FROM " . $_REQUEST['table_parent'] . " WHERE id = " . $_REQUEST['id_parent']);					
 					Forms::hidden($_name_space . $q_relation['column_child'],$q_parent[$q_relation['column_parent']]);
 					Forms::hidden('id_parent',$q_parent[$q_relation['column_parent']],array('omit_id'=>true));
 				}
@@ -101,7 +102,7 @@ class EditRecord
 				
 				if(!$col_ready){
 				
-					$q_c = Db::query("SELECT * FROM cms_cols WHERE column_name = '$col[Field]' ORDER BY table_name,edit_mode,edit_channel");
+					$q_c = $this->db->query("SELECT * FROM cms_cols WHERE column_name = '$col[Field]' ORDER BY table_name,edit_mode,edit_channel");
 					if($q_c){				
 						$q_col = Utils::checkArray($q_c,array('table_name'=>$this->table,'edit_mode'=>$this->mode,'edit_channel'=>$this->channel));
 						if(!$q_col){

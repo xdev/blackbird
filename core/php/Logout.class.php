@@ -8,15 +8,16 @@ class Logout
 	function __construct($cms)
 	{
 		$this->cms = $cms;
+		$this->db = $cms->db;
 		
 		session_name("s_id");
 		session_start();
 		
-		//$q = Db::queryRow("SELECT * FROM cms_sessions WHERE session_id = '$_COOKIE[s_id]'");
+		//$q = $this->db->queryRow("SELECT * FROM cms_sessions WHERE session_id = '$_COOKIE[s_id]'");
 		$row_data = Array();
 		$row_data[] = array('field'=>'end_time','value'=>Utils::now());
-		Db::update('cms_sessions',$row_data,'session_id',session_id());
-		//Db::insert('cms_sessions',$row_data);
+		$this->db->update('cms_sessions',$row_data,'session_id',session_id());
+		//$this->db->insert('cms_sessions',$row_data);
 		
 		
 		$_SESSION = array();

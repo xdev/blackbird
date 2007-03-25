@@ -10,6 +10,7 @@ class Batch
 	function __construct($cms)
 	{
 		$this->cms = $cms;
+		$this->db = $cms->db;
 		$this->action = Utils::setVar("action");
 		$this->id_set = Utils::setVar("id_set");
 		$this->table = $this->cms->table;
@@ -85,7 +86,7 @@ class Batch
 		}else{
 			$a = 0;
 		}			
-		Db::sql("UPDATE $this->table SET active = $a WHERE id IN ($this->id_set)");
+		$this->db->sql("UPDATE $this->table SET active = $a WHERE id IN ($this->id_set)");
 		Utils::metaRefresh(CMS_ROOT . 'browse/' . $this->table);	
 	}
 	

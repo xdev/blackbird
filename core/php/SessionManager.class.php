@@ -3,6 +3,11 @@
 class SessionManager extends Session
 {
 
+	public function __construct($cms)
+	{
+		$this->db = $cms->db;
+	}
+
 	public function login($id,$pass,$email,$time = 1200)
 	{
 		session_name("s_id");
@@ -35,7 +40,7 @@ class SessionManager extends Session
 				$tid = $_SESSION['u_id'];
 				$pass = $_SESSION['u_token'];
 				
-				$q = Db::queryRow("SELECT id,firstname,lastname,super_user FROM `cms_users` WHERE id = '$tid' AND password = '$pass'");
+				$q = $this->db->queryRow("SELECT id,firstname,lastname,super_user FROM `cms_users` WHERE id = '$tid' AND password = '$pass'");
 				
 				if(isset($q['id'])){
 					$this->u_id = $q['id'];
@@ -90,13 +95,13 @@ class SessionManager extends Session
 				
 		//search through all the tables of all the groups this user belongs to.
 		$t_id = $this->u_id;
-		$q = Db::queryRow("SELECT groups,super_user FROM cms_users WHERE id = '$t_id'");
+		$q = $this->db->queryRow("SELECT groups,super_user FROM cms_users WHERE id = '$t_id'");
 		
 		$tables = array();
 		
 		if($q['super_user'] == 1){
 		
-			$q = Db::query("SHOW TABLES");
+			$q = $this->db->query("SHOW TABLES");
 			
 			foreach($q as $table){
 				$tables[] = array('name'=>$table[0],'value'=>'browse,insert,update,delete');
@@ -109,7 +114,7 @@ class SessionManager extends Session
 			
 			foreach($groups as $group){
 			
-				$qGroup = Db::queryRow("SELECT `tables` FROM cms_groups WHERE id = '$group'");
+				$qGroup = $this->db->queryRow("SELECT `tables` FROM cms_groups WHERE id = '$group'");
 				$xml = simplexml_load_string($qGroup['tables']);
 							
 				foreach($xml->table as $mytable){
@@ -117,7 +122,7 @@ class SessionManager extends Session
 									
 					if($mode == 'navigation'){
 					
-						$qT = Db::queryRow("SELECT * FROM cms_tables WHERE table_name = '$t'");
+						$qT = $this->db->queryRow("SELECT * FROM cms_tables WHERE table_name = '$t'");
 						if($qT['in_nav'] == 1){
 							$tables[] = array('name'=>$t,'value'=>sprintf($mytable));
 						}

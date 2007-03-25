@@ -11,6 +11,7 @@ class Ajax
 	function __construct($cms)
 	{
 		$this->cms = $cms;
+		$this->db = $cms->db;
 		$this->name_space = Utils::setVar("name_space");
 		
 		$action = Utils::setVar("action");
@@ -39,7 +40,7 @@ class Ajax
 			
 			
 			if($this->table_parent != ''){
-				$q_relation = Db::queryRow("SELECT * FROM cms_relations WHERE table_parent = '$this->table_parent' AND table_child = '$this->table'");	
+				$q_relation = $this->db->queryRow("SELECT * FROM cms_relations WHERE table_parent = '$this->table_parent' AND table_child = '$this->table'");	
 				$module->config = Utils::parseConfig($q_relation['config']);
 			}
 			
@@ -58,14 +59,14 @@ class Ajax
 			
 			include_once(INCLUDES . "Plugin.interface.php");					
 			include_once(CUSTOM . "php/$plugin.class.php");
-			$module = new $plugin();
+			$module = new $plugin($this->cms);
 			
 			$module->cms = $this->cms;
 			$module->name_space = $this->name_space;
 			$module->table = $this->table;
 			
 			if($this->table_parent != ''){
-				$q_relation = Db::queryRow("SELECT * FROM cms_relations WHERE table_parent = '$this->table_parent' AND table_child = '$this->table'");
+				$q_relation = $this->db->queryRow("SELECT * FROM cms_relations WHERE table_parent = '$this->table_parent' AND table_child = '$this->table'");
 				$module->config = Utils::parseConfig($q_relation['config']);
 			}
 			
@@ -127,10 +128,10 @@ class Ajax
 	function getDataGrid()
 	{
 				
-		$relation = Db::queryRow("SELECT * FROM cms_relations WHERE table_parent = '$_POST[table_parent]' AND table_child = '$this->table'");
+		$relation = $this->db->queryRow("SELECT * FROM cms_relations WHERE table_parent = '$_POST[table_parent]' AND table_child = '$this->table'");
 		
 		include_once(INCLUDES . "DataGridAjax.class.php");					
-		$module = new DataGridAjax();
+		$module = new DataGridAjax($this->cms);
 		$module->cms = $this->cms;
 		$module->table = $relation['table_child'];
 		$module->name_space = $this->name_space;

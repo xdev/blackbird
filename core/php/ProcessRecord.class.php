@@ -11,6 +11,7 @@ class ProcessRecord
 	function __construct($cms,$name_space=""){
 				
 		$this->cms = $cms;
+		$this->db = $cms->db;
 		$this->name_space = $name_space;
 		$this->errorData = Array();
 		
@@ -47,12 +48,12 @@ class ProcessRecord
 	
 	function process()
 	{
-		$q_cols = Db::query("SHOW COLUMNS FROM $this->table");
+		$q_cols = $this->db->query("SHOW COLUMNS FROM $this->table");
 		$row_data = array();
 				
 		foreach($q_cols as $col){
 			/*
-			$q_c = Db::query("SELECT * FROM cms_cols WHERE column_name = '$col[Field]' AND process_module != ''");
+			$q_c = $this->db->query("SELECT * FROM cms_cols WHERE column_name = '$col[Field]' AND process_module != ''");
 			if($q_c){				
 				$q_col = Utils::checkArray($q_c,array('table_name'=>$this->table,'process_mode'=>$this->query_action));
 				if(!$q_col){
@@ -71,16 +72,16 @@ class ProcessRecord
 			
 			$col_ready = false;
 						
-			$q_col = Db::queryRow("SELECT * FROM cms_cols WHERE column_name = '$col[Field]' AND table_name = '$this->table' AND process_module != '' AND process_mode = '$this->query_action'");
+			$q_col = $this->db->queryRow("SELECT * FROM cms_cols WHERE column_name = '$col[Field]' AND table_name = '$this->table' AND process_module != '' AND process_mode = '$this->query_action'");
 				
 			if(!$q_col){
-				$q_col = Db::queryRow("SELECT * FROM cms_cols WHERE column_name = '$col[Field]' AND table_name = '$this->table' AND process_module != '' AND process_mode = ''");
+				$q_col = $this->db->queryRow("SELECT * FROM cms_cols WHERE column_name = '$col[Field]' AND table_name = '$this->table' AND process_module != '' AND process_mode = ''");
 			}
 			if(!$q_col){
-				$q_col = Db::queryRow("SELECT * FROM cms_cols WHERE column_name = '$col[Field]' AND table_name = '*' AND process_module != '' AND process_mode = '$this->query_action'");
+				$q_col = $this->db->queryRow("SELECT * FROM cms_cols WHERE column_name = '$col[Field]' AND table_name = '*' AND process_module != '' AND process_mode = '$this->query_action'");
 			}
 			if(!$q_col){
-				$q_col = Db::queryRow("SELECT * FROM cms_cols WHERE column_name = '$col[Field]' AND table_name = '*' AND process_module != '' AND process_mode = ''");
+				$q_col = $this->db->queryRow("SELECT * FROM cms_cols WHERE column_name = '$col[Field]' AND table_name = '*' AND process_module != '' AND process_mode = ''");
 			}
 			
 			
@@ -102,7 +103,7 @@ class ProcessRecord
 							$options['id'] = $this->id;
 						}
 						if($this->query_action == "insert"){
-							$options['id'] = Db::getInsertId($this->table);
+							$options['id'] = $this->db->getInsertId($this->table);
 						}
 						$options['col_name'] = $col['Field'];
 						$options['table'] = $this->table;
@@ -135,7 +136,7 @@ class ProcessRecord
 							//sort_position($table,"SELECT id FROM `$table` ORDER BY $col[Field]",$id,$_REQUEST[$col['Field']]);
 						}
 						if($this->query_action == "insert"){
-							$q_pos = Db::queryRow("SELECT max($col[Field]) FROM `$this->table`");
+							$q_pos = $this->db->queryRow("SELECT max($col[Field]) FROM `$this->table`");
 							$row_data[] = array("field"=>$col['Field'],"value"=>($q_pos[0] + 1));
 						}
 						$col_ready = true;
@@ -171,7 +172,7 @@ class ProcessRecord
 				
 		}
 		
-		$q_table = Db::queryRow("SELECT * FROM cms_tables WHERE table_name = '$this->table'");
+		$q_table = $this->db->queryRow("SELECT * FROM cms_tables WHERE table_name = '$this->table'");
 		
 		if(strlen($q_table['process_module']) > 3){
 			$this->cms->pluginTableProcess($this->table,$this->id,$this->query_action);
@@ -182,12 +183,12 @@ class ProcessRecord
 				//die(print_r($row_data));
 				
 				if($this->query_action == "insert"){
-					$sql = Db::insert($this->table,$row_data);
+					$sql = $this->db->insert($this->table,$row_data);
 					$this->id = mysql_insert_id();
 				}
 				
 				if($this->query_action == "update"){
-					$sql = Db::update($this->table,$row_data,"id",$this->id);
+					$sql = $this->db->update($this->table,$row_data,"id",$this->id);
 				}
 						
 				$row_data = array();
@@ -198,7 +199,7 @@ class ProcessRecord
 				$row_data[] = array('field'=>'sql','value'=>$sql);
 				$row_data[] = array('field'=>'session_id','value'=>session_id());
 				
-				Db::insert('cms_history',$row_data);
+				$this->db->insert('cms_history',$row_data);
 				
 			}else{
 				

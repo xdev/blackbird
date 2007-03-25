@@ -7,6 +7,8 @@ class Remote
 	function __construct($cms){
 		
 		$this->cms = $cms;
+		$this->db = $cms->db;
+		
 		require INCLUDES . 'ProcessRecord.class.php';
 		
 		$this->name_space = $_POST['name_space'];
@@ -37,7 +39,7 @@ class Remote
 			$id = Utils::setVar('id');
 		}
 		if($this->mode == "insert"){
-			$id = Db::getInsertId($table) - 1;
+			$id = $this->db->getInsertId($table) - 1;
 		}
 		
 		if(isset($GLOBALS['errors'])){

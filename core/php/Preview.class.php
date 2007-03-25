@@ -8,6 +8,7 @@ class Preview
 	function __construct($cms,$table,$id_set,$action,$cms_page_state)
 	{
 		$this->cms = $cms;
+		$this->db = $cms->db;
 		$this->table = $table;
 		$this->id_set = $id_set;
 		$this->action = $action;
@@ -20,7 +21,7 @@ class Preview
 	
 				
 		$select_cols = "*";
-		$q = Db::query("SHOW COLUMNS FROM $this->table");
+		$q = $this->db->query("SHOW COLUMNS FROM $this->table");
 		
 		$fields = array();
 		
@@ -31,9 +32,9 @@ class Preview
 		
 		if(is_array($this->id_set)){
 			$id_A = implode(',',$this->id_set);
-			$query_data = Db::query("SELECT * FROM $this->table WHERE id IN ($id_A)");
+			$query_data = $this->db->query("SELECT * FROM $this->table WHERE id IN ($id_A)");
 		}else{
-			$query_data = Db::queryRow("SELECT * FROM $this->table WHERE id = '$id'");
+			$query_data = $this->db->queryRow("SELECT * FROM $this->table WHERE id = '$id'");
 		}
 		
 		print'<table class="data_grid">
