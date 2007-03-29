@@ -156,8 +156,8 @@ cms.prototype.onSubmit = function()
 
 cms.prototype.submitRelated = function(name_space)
 {	
-	var tA = this.validate(name_space);
-	if(tA == true){
+	var errorsA = this.validate(name_space);
+	if(errorsA == true){
 		
 		if(CMS.broadcaster != undefined){
 			CMS.broadcaster.broadcastMessage("onSubmit");
@@ -168,8 +168,8 @@ cms.prototype.submitRelated = function(name_space)
 		obj.hide();
 		
 	}
-	if(tA.length > 0){
-		this.handleErrors(tA);
+	if(errorsA.length > 0){
+		this.handleErrors(errorsA);
 	}
 }
 
