@@ -32,9 +32,7 @@ class Remote
 		
 		$this->mode = Utils::setVar('query_action');
 		$table = Utils::setVar('table');
-		
-		print $this->mode;
-				
+						
 		if($this->mode == "update"){
 			$id = Utils::setVar('id');
 		}
@@ -91,9 +89,7 @@ class Remote
 					}
 				}
 			}
-			
-			print $url;
-			
+						
 			print'
 			<script type="text/javascript">
 				parent.CMS.loadUrl(\'' . $url . '\');

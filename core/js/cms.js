@@ -181,6 +181,7 @@ cms.prototype.submitRelated = function(name_space)
 
 cms.prototype.submitMain = function(name_space)
 {
+	this.showTab('main');
 	var tA = this.validate(name_space);
 	if(tA == true){
 		$('edit_buttons').hide();

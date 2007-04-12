@@ -107,6 +107,14 @@ listManager.prototype.addItem = function()
 		html += '<div class="input" onclick="' + this.controller + '.editItem(this);"><pre>(none)</pre></div>';
 	}
 	
+	if(this.data.mode == 'images'){
+		var html = '<li id="' + this.data.name + '_' + index + '" class="pair images"><div class="handle"></div>';
+		html += '<label>' + this.data.label_name + '</label>';
+		html += '<div class="input" onclick="' + this.controller + '.editItem(this);"><pre>(none)</pre></div>';
+		html += '<label>Image</label>';
+		html += '<input class="img" id="' + this.data.name + '_' + index + '_img" name="' + this.data.name + '_' + index + '_img" type="file" />';
+	}
+	
 	if(this.data.mode == 'single'){
 		var html = '<li id="' + this.data.name + '_' + index + '" class="pair single"><div class="handle"></div>';
 		html += '<label>' + this.data.label_name + '</label>';

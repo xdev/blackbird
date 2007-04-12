@@ -346,6 +346,13 @@ ul.pairset
 		float: left;
 	}
 	
+	.form_item .pair.images .img
+	{
+		width: 240px;
+		padding-right: 0px;
+		float: left;
+	}
+	
 	
 	.form_item .pair pre
 	{
