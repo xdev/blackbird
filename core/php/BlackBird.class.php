@@ -12,28 +12,42 @@ class BlackBird
 	function __construct()
 	{
 		
-		//load core classes
-		require_once(LIB.'database/Db.interface.php');
-		require_once(LIB.'forms/Forms.class.php');
-		require_once(LIB.'utils/Utils.class.php');
-		require_once(LIB.'session/Session.class.php');
-		require_once(LIB.'_version.php');	
-		
-		require_once(INCLUDES.'SessionManager.class.php');
-		
-		if(!isset($DB['adaptor'])){
-			$DB['adaptor'] = 'Mysql';
+		// make sure '.htaccess' file is present - if not, try to create it from 'htaccess' file
+		if (!file_exists($_SERVER['DOCUMENT_ROOT'].CMS_ROOT.'.htaccess')) {
+			if (!file_exists($_SERVER['DOCUMENT_ROOT'].CMS_ROOT.'htaccess')) {
+				die('.htaccess file not found');
+			}
+			if (!copy($_SERVER['DOCUMENT_ROOT'].CMS_ROOT.'htaccess',$_SERVER['DOCUMENT_ROOT'].CMS_ROOT.'.htaccess')) {
+				die('.htaccess file could not be created');
+			}
 		}
 		
-		$class = 'Adaptor' . $DB['adaptor'];
-		require LIB . 'database/' . $class .  '.class.php';
-		$this->db = new $class();
+		//load core classes
+		if (file_exists(LIB)) {
+			require_once(LIB.'database/Db.interface.php');
+			require_once(LIB.'forms/Forms.class.php');
+			require_once(LIB.'utils/Utils.class.php');
+			require_once(LIB.'session/Session.class.php');
+			require_once(LIB.'_version.php');	
 		
-		Forms::setDb($this->db);
+			require_once(INCLUDES.'SessionManager.class.php');
 		
-		//$this->db = new Db;
-		$this->session = new SessionManager($this);
-				
+			if(!isset($DB['adaptor'])){
+				$DB['adaptor'] = 'Mysql';
+			}
+		
+			$class = 'Adaptor' . $DB['adaptor'];
+			require LIB . 'database/' . $class .  '.class.php';
+			$this->db = new $class();
+		
+			Forms::setDb($this->db);
+		
+			//$this->db = new Db;
+			$this->session = new SessionManager($this);
+		} else {
+			die('Bobolink PHP library is not properly installed');
+		}
+		
 	}
 	
 	public function __set($name,$value)
