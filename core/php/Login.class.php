@@ -6,6 +6,14 @@ class Login
 	private $cms;
 	
 	function __construct($cms){
+		// Make sure DB settings are set
+		if (!(
+			$GLOBALS['DATABASE']['host'] &&
+			$GLOBALS['DATABASE']['user'] &&
+			$GLOBALS['DATABASE']['pass'] &&
+			$GLOBALS['DATABASE']['db']
+		)) die('Database settings not properly configured in custom_config.php file');
+		
 		$this->cms = $cms;
 		$this->db = $cms->db;
 								

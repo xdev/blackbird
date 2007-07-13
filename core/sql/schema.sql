@@ -1,52 +1,45 @@
-SET NAMES latin1;
+SET NAMES utf8;
 SET FOREIGN_KEY_CHECKS = 0;
 
 CREATE TABLE `cms_cols` (
   `id` mediumint(9) NOT NULL auto_increment,
   `table_name` varchar(40) NOT NULL default '',
   `column_name` varchar(40) NOT NULL default '',
+  `data_grid_name` varchar(255) NOT NULL default '',
   `display_name` varchar(40) NOT NULL default '',
-  `data_grid_name` varchar(40) NOT NULL default '',
   `default_value` text NOT NULL,
-  `edit_channel` varchar(40) NOT NULL default '',
-  `edit_module` varchar(40) NOT NULL default '',
-  `edit_mode` varchar(40) NOT NULL default '',
+  `edit_channel` enum('','main','related') NOT NULL default '',
+  `edit_module` enum('','plugin','boolean','hidden','readonly','checkbox','fileField','selectDefault','selectFiles','selectStatic','selectDate','selectDateTime','selectState','selectCountry','text','textarea','listManager') NOT NULL default '',
+  `edit_mode` enum('','edit','insert') NOT NULL default '',
   `edit_config` text NOT NULL,
-  `process_channel` varchar(40) NOT NULL default '',
+  `process_channel` enum('','main','related') NOT NULL default '',
   `process_module` varchar(20) NOT NULL default '',
-  `process_mode` varchar(40) NOT NULL default '',
+  `process_mode` enum('','update','insert') NOT NULL default '',
   `process_config` text NOT NULL,
   `validate` text NOT NULL,
   `filter` text NOT NULL,
   `help` text NOT NULL,
   PRIMARY KEY  (`id`),
-  KEY `column_name` (`column_name`),
   KEY `table_name` (`table_name`),
+  KEY `column_name` (`column_name`),
   KEY `edit` (`table_name`,`column_name`,`edit_mode`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='private';
 
-insert into `cms_cols` values
- ('','*','active','','','','','boolean','','','','','','','','<config>\n	<option name=\"filter\">1</option>\n</config>',''),
- ('','*','state','','','','','selectState','','','','','','','','',''),
- ('','*','country','','','','','selectCountry','','','','','','','','',''),
- ('','cms_users','password','Password Reset','','','','plugin','edit','','','plugin','update','','','',''),
- ('','cms_users','password','','','','','plugin','insert','','','plugin','insert','','','',''),
- ('','cms_users','groups','','','','','plugin','','','','plugin','','','','',''),
- ('','cms_users','super_user','','','','','hidden','','','','','','','','',''),
- ('','cms_users','email','','','','','','','','','','','','<config>\n	<option name=\"validate\">email</option>\n</config>','',''),
- ('','cms_users','lastname','','','','','','','','','','','','<config>\n	<option name=\"validate\">default</option>\n</config>','',''),
- ('','cms_history','table_name','','','','','','','','','','','','','<config>\n	<option name=\"filter\">1</option>\n</config>',''),
- ('','cms_history','action','','','','','','','','','','','','','<config>\n	<option name=\"filter\">1</option>\n</config>',''),
- ('','cms_history','user_id','','','','','','','','','','','','','<config>\n	<option name=\"filter\">1</option>\n</config>',''),
- ('','cms_history','session_id','','','','','','','','','','','','','<config>\n	<option name=\"filter\">1</option>\n</config>',''),
- ('','cms_cols','edit_module','','','','','selectDefault','','<config>\r\n	<option name=\"select_sql\">SELECT id,name FROM cms_config WHERE category = \'edit_module\' ORDER BY name</option>\r\n	<option name=\"col_value\">name</option>\r\n	<option name=\"col_display\">name</option>\r\n</config>','','','','','','',''),
- ('','cms_cols','edit_channel','','','','','selectDefault','','<config>\r\n	<option name=\"select_sql\">SELECT id,name FROM cms_config WHERE category = \'edit_channel\' ORDER BY name</option>\r\n	<option name=\"col_value\">name</option>\r\n	<option name=\"col_display\">name</option>\r\n</config>','','','','','','',''),
- ('','cms_cols','edit_mode','','','','','selectDefault','','<config>\r\n	<option name=\"select_sql\">SELECT id,name FROM cms_config WHERE category = \'edit_mode\' ORDER BY name</option>\r\n	<option name=\"col_value\">name</option>\r\n	<option name=\"col_display\">name</option>\r\n</config>','','','','','','',''),
- ('','cms_cols','process_channel','','','','','selectDefault','','<config>\r\n	<option name=\"select_sql\">SELECT id,name FROM cms_config WHERE category = \'process_channel\' ORDER BY name</option>\r\n	<option name=\"col_value\">name</option>\r\n	<option name=\"col_display\">name</option>\r\n</config>','','','','','','',''),
- ('','cms_cols','process_module','','','','','selectDefault','','<config>\r\n	<option name=\"select_sql\">SELECT id,name FROM cms_config WHERE category = \'process_module\' ORDER BY name</option>\r\n	<option name=\"col_value\">name</option>\r\n	<option name=\"col_display\">name</option>\r\n</config>','','','','','','',''),
- ('','cms_cols','process_mode','','','','','selectDefault','','<config>\r\n	<option name=\"select_sql\">SELECT id,name FROM cms_config WHERE category = \'process_mode\' ORDER BY name</option>\r\n	<option name=\"col_value\">name</option>\r\n	<option name=\"col_display\">name</option>\r\n</config>','','','','','','',''),
- ('','cms_groups','tables','','','','','plugin','','','','plugin','','','','',''),
- ('','cms_groups','admin','','','','','boolean','','','','','','','','','');
+insert into `cms_cols` values('1','*','active','','','','','boolean','','','','','','','','<config>\n	<option name=\"filter\">1</option>\n</config>',''),
+ ('3','*','date','','','','','selectDate','','','','','','','','',''),
+ ('4','*','id','','','','','readonly','edit','','','','','','','',''),
+ ('6','*','time_modified','','Mod Time','','','readonly','edit','','','','','','','',''),
+ ('5','*','state','','','','','selectState','','','','','','','','',''),
+ ('2','*','country','','','','','selectCountry','','','','','','','','',''),
+ ('7','cms_groups','admin','','','','','boolean','','','','','','','','<config>\n	<option name=\"filter\">1</option>\n</config>',''),
+ ('13','cms_users','password','','Password Reset','','','plugin','edit','','','plugin','update','','','',''),
+ ('14','cms_users','password','','','','','plugin','insert','','','plugin','insert','','','',''),
+ ('8','cms_groups','tables','','','','','plugin','','','','plugin','','','','',''),
+ ('12','cms_users','groups','','','','','plugin','','','','plugin','','','','',''),
+ ('15','cms_users','super_user','','','','','hidden','','','','','','','','',''),
+ ('10','cms_history','table_name','','','','','','','','','','','','','<config>\n	<option name=\"filter\">1</option>\n</config>',''),
+ ('9','cms_history','action','','','','','','','','','','','','','<config>\n	<option name=\"filter\">1</option>\n</config>',''),
+ ('11','cms_history','user_id','','','','','','','','','','','','','<config>\n	<option name=\"filter\">1</option>\n</config>','');
 
 CREATE TABLE `cms_countries` (
   `id` mediumint(9) NOT NULL default '0',
@@ -55,7 +48,7 @@ CREATE TABLE `cms_countries` (
   `displayname` varchar(40) NOT NULL default '',
   `active` tinyint(4) NOT NULL default '1',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='private';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 insert into `cms_countries` values('1','AF','Afghanistan','','1'),
  ('2','AX','Aland Islands','','1'),
@@ -305,20 +298,20 @@ CREATE TABLE `cms_groups` (
   `tables` text NOT NULL,
   `admin` tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-insert into `cms_groups` values('1','1','Admins','<data><table name=\"cms_cols\">browse,insert,update,delete</table><table name=\"cms_groups\">browse,insert,update,delete</table><table name=\"cms_history\">browse,insert,update,delete</table><table name=\"cms_menus\">browse,insert,update,delete</table><table name=\"cms_relations\">browse,insert,update,delete</table><table name=\"cms_sessions\">browse,insert,update,delete</table><table name=\"cms_tables\">browse,insert,update,delete</table><table name=\"cms_users\">browse,insert,update,delete</table><table name=\"people\">browse,insert,update,delete</table><table name=\"product_categories\">browse,insert,update,delete</table><table name=\"product_images\">browse,insert,update,delete</table><table name=\"products\">browse,insert,update,delete</table><table name=\"test\">browse,insert,update,delete</table></data>','1');
+insert into `cms_groups` values('1','1','Administrator','<data><table name=\"cms_groups\">browse,insert,update,delete</table><table name=\"cms_history\">browse</table><table name=\"cms_sessions\">browse</table><table name=\"cms_users\">browse,insert,update,delete</table></data>','1');
 
 CREATE TABLE `cms_headers` (
   `id` mediumint(9) NOT NULL auto_increment,
   `table_name` varchar(255) NOT NULL default '',
-  `mode` varchar(255) NOT NULL default '',
+  `mode` enum('','data_grid','edit') NOT NULL default '',
   `javascript` text NOT NULL,
   `css` text NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='private';
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-insert into `cms_headers` values('4','bla','edit','<script language=\"JavaScript\" type=\"text/Javascript\" src=\"/cms/CUSTOM/js/lightbox.js\" ></script>','<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"/cms/CUSTOM/css/lightbox.css\" />');
+insert into `cms_headers` values('1','*','edit','<script type=\"text/javascript\" src=\"/cms/custom/js/custom.js\"></script>','');
 
 CREATE TABLE `cms_history` (
   `id` mediumint(9) NOT NULL auto_increment,
@@ -333,14 +326,6 @@ CREATE TABLE `cms_history` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `cms_menus` (
-  `id` mediumint(9) NOT NULL auto_increment,
-  `active` tinyint(4) NOT NULL default '0',
-  `name` varchar(255) NOT NULL default '',
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-
 CREATE TABLE `cms_relations` (
   `id` mediumint(9) NOT NULL auto_increment,
   `label` varchar(255) NOT NULL default '',
@@ -349,10 +334,10 @@ CREATE TABLE `cms_relations` (
   `column_parent` varchar(255) NOT NULL default '',
   `table_child` varchar(255) NOT NULL default '',
   `column_child` varchar(255) NOT NULL default '',
-  `display` varchar(255) NOT NULL default '',
+  `display` enum('data_grid','module','plugin') NOT NULL default 'data_grid',
   `config` text NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='private';
 
 
 CREATE TABLE `cms_sessions` (
@@ -365,7 +350,6 @@ CREATE TABLE `cms_sessions` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
-
 CREATE TABLE `cms_states` (
   `id` mediumint(9) NOT NULL auto_increment,
   `country_id` mediumint(9) NOT NULL default '0',
@@ -373,7 +357,7 @@ CREATE TABLE `cms_states` (
   `abbreviation` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`),
   KEY `country_id` (`country_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='private';
+) ENGINE=MyISAM AUTO_INCREMENT=98 DEFAULT CHARSET=utf8;
 
 insert into `cms_states` values('1','227','Alabama','AL'),
  ('2','227','Alaska','AK'),
@@ -444,7 +428,7 @@ insert into `cms_states` values('1','227','Alabama','AL'),
  ('67','139','Baja California Sur',''),
  ('68','139','Campeche',''),
  ('69','139','Chiapas',''),
- ('70','139','Gutiérrez',''),
+ ('70','139','GutiÃ©rrez',''),
  ('71','139','Chihuahua',''),
  ('72','139','Coahuila',''),
  ('73','139','Colima',''),
@@ -453,23 +437,23 @@ insert into `cms_states` values('1','227','Alabama','AL'),
  ('76','139','Guerrero',''),
  ('77','139','Hidalgo',''),
  ('78','139','Jalisco',''),
- ('79','139','México',''),
- ('80','139','Michoacán',''),
+ ('79','139','MÃ©xico',''),
+ ('80','139','MichoacÃ¡n',''),
  ('81','139','Morelos',''),
  ('82','139','Nayarit',''),
- ('83','139','Nuevo León',''),
+ ('83','139','Nuevo LeÃ³n',''),
  ('84','139','Oaxaca',''),
  ('85','139','Puebla',''),
- ('86','139','Querétaro',''),
+ ('86','139','QuerÃ©taro',''),
  ('87','139','Quintana Roo',''),
- ('88','139','San Luis Potosí',''),
+ ('88','139','San Luis PotosÃ­',''),
  ('89','139','Sinaloa',''),
  ('90','139','Sonora',''),
  ('91','139','Tabasco',''),
  ('92','139','Tamaulipas',''),
  ('93','139','Tlaxcala',''),
  ('94','139','Veracruz',''),
- ('95','139','Yucatán',''),
+ ('95','139','YucatÃ¡n',''),
  ('96','139','Zacatecas',''),
  ('97','139','Federal District','');
 
@@ -479,23 +463,19 @@ CREATE TABLE `cms_tables` (
   `display_name` varchar(255) NOT NULL default '',
   `cols_default` varchar(255) NOT NULL default '',
   `sort_default` varchar(255) NOT NULL default '',
-  `display_mode` varchar(255) NOT NULL default ''',
+  `display_mode` enum('','data_grid','related') NOT NULL default '',
   `edit_module` varchar(40) NOT NULL default '',
   `process_module` varchar(40) NOT NULL default '',
   `process_mode` varchar(40) NOT NULL default '',
-  `in_nav` varchar(255) NOT NULL default '0',
+  `in_nav` tinyint(4) NOT NULL default '0',
   `help` text NOT NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `table_name` (`table_name`,`display_mode`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='private';
 
-insert into `cms_tables` values
- ('','cms_users','','id,firstname,lastname,email,groups','','','','','','1',''),
- ('','cms_groups','','id,active,name,admin','','','','','','1',''),
- ('','cms_history','','*','','','','','','1',''),
- ('','cms_tables','','id,table_name','','','','','','1',''),
- ('','cms_cols','','id,table_name,column_name','','','','','','1',''),
- ('','cms_relations','','*','','','','','','1','');
+insert into `cms_tables` values('3','cms_users','','id,firstname,lastname,email,groups','','','','','','1',''),
+ ('1','cms_groups','','id,active,name,admin','','','','','','1',''),
+ ('2','cms_history','','*','','','','','','1','');
 
 CREATE TABLE `cms_users` (
   `id` tinyint(4) NOT NULL auto_increment,
@@ -506,9 +486,8 @@ CREATE TABLE `cms_users` (
   `groups` varchar(255) NOT NULL default '0',
   `super_user` tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-insert into `cms_users` values('1','Admin','Admin','fa9beb99e4029ad5a6615399e7bbae21356086b3','admin@admin.com','1','1');
-
+insert into `cms_users` values('1','Blackbird','Admin','fa9beb99e4029ad5a6615399e7bbae21356086b3','xdev@underdeconstruction.com','1','0');
 
 SET FOREIGN_KEY_CHECKS = 1;

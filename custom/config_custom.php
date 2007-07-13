@@ -2,10 +2,10 @@
 
 // Set database values
 $GLOBALS['DATABASE'] = array(
-	'host' => '',
-	'user' => '',
-	'pass' => '',
-	'db'   => ''
+	'host' => 'localhost',
+	'user' => 'root',
+	'pass' => 'root',
+	'db'   => 'blackbird'
 );
 
 // Set Site/Client name

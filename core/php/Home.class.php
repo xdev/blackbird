@@ -72,49 +72,50 @@ class Home
 			</thead>
 			<tbody class="records">';
 		
-		$q = $this->db->query("SELECT * FROM cms_sessions ORDER BY start_time DESC LIMIT 5");
-		$rc = 0;
+		if ($q = $this->db->query("SELECT * FROM cms_sessions ORDER BY start_time DESC LIMIT 5")) {
+			$rc = 0;
 		
-		foreach($q as $row){
-			$classA = Array();
-			($rc%2==0) ? '' : $classA[] = 'odd';
-			$click = 'onclick="window.location = \'' . CMS_ROOT . 'browse/cms_history/?sort_col=id%20DESC&amp;sort_max=10000&amp;filter_session_id=' . $row['session_id'] . '\';"';
-			if($q_edits = $this->db->query("SELECT * FROM cms_history WHERE session_id = '$row[session_id]'")){
-				$e = count($q_edits);
-			}else{
-				$e = '';
-				$click = '';
-				$classA[] = 'locked';
+			foreach($q as $row){
+				$classA = Array();
+				($rc%2==0) ? '' : $classA[] = 'odd';
+				$click = 'onclick="window.location = \'' . CMS_ROOT . 'browse/cms_history/?sort_col=id%20DESC&amp;sort_max=10000&amp;filter_session_id=' . $row['session_id'] . '\';"';
+				if($q_edits = $this->db->query("SELECT * FROM cms_history WHERE session_id = '$row[session_id]'")){
+					$e = count($q_edits);
+				}else{
+					$e = '';
+					$click = '';
+					$classA[] = 'locked';
 				
-			}
+				}
 			
-			$class = 'class="' . join(" ",$classA) . '"';
+				$class = 'class="' . join(" ",$classA) . '"';
 			
-			print "<tr $class>";
-			
-			
-			
-			$deets = $this->db->queryRow("SELECT firstname,lastname,email FROM cms_users WHERE id = '$row[user_id]'");
-			print "<td $click>" . $deets['lastname'] . ', ' . $deets['firstname'] . '</td>';
-			print "<td $click>" . $row['start_time'] . '</td>';
-			
-			if($row['end_time'] == '0000-00-00 00:00:00'){
-				$et = '~';
-				$diff = Utils::getTimeDifference($row['start_time'],Utils::now());
-			}else{
-				$et = $row['end_time'];
-				$diff = Utils::getTimeDifference($row['start_time'],$row['end_time']);
-			}
-			
-			print "<td $click>" . $et . '</td>';
-			print "<td $click>" . $diff['hours'] . ':' . $diff['minutes'] . '</td>';
+				print "<tr $class>";
 			
 			
 			
-			print "<td $click>" . $e . '</td>';			
-			print '</tr>';
-			$rc++;
+				$deets = $this->db->queryRow("SELECT firstname,lastname,email FROM cms_users WHERE id = '$row[user_id]'");
+				print "<td $click>" . $deets['lastname'] . ', ' . $deets['firstname'] . '</td>';
+				print "<td $click>" . $row['start_time'] . '</td>';
+			
+				if($row['end_time'] == '0000-00-00 00:00:00'){
+					$et = '~';
+					$diff = Utils::getTimeDifference($row['start_time'],Utils::now());
+				}else{
+					$et = $row['end_time'];
+					$diff = Utils::getTimeDifference($row['start_time'],$row['end_time']);
+				}
+			
+				print "<td $click>" . $et . '</td>';
+				print "<td $click>" . $diff['hours'] . ':' . $diff['minutes'] . '</td>';
+			
+			
+			
+				print "<td $click>" . $e . '</td>';			
+				print '</tr>';
+				$rc++;
 		
+			}
 		}
 				
 		
@@ -141,21 +142,22 @@ class Home
 				</thead>
 				<tbody class="records">';
 				
-		$q = $this->db->query("SELECT * FROM cms_history ORDER BY modtime DESC LIMIT 5");
-		$rc = 0;
-		foreach($q as $row){
-			($rc%2==0) ? $class='' : $class='class="odd"';
-			$click = 'onclick="window.location = \'' . CMS_ROOT . 'edit/cms_history/' . $row['id'] . '\';"';
-			$deets = $this->db->queryRow("SELECT firstname,lastname,email FROM cms_users WHERE id = '$row[user_id]'");
-			print "<tr $class>";
-			print "<td $click>" . $row['table_name'] . '</td>';
-			print "<td $click>" . $row['record_id'] . '</td>';
-			print "<td $click>" . $row['action'] . '</td>';
-			print "<td $click>" . $deets['lastname'] . ', ' . $deets['firstname'] . '</td>';
-			print "<td $click>" . $row['modtime'] . '</td>';			
-			print '</tr>';
+		if ($q = $this->db->query("SELECT * FROM cms_history ORDER BY modtime DESC LIMIT 5")) {
+			$rc = 0;
+			foreach($q as $row){
+				($rc%2==0) ? $class='' : $class='class="odd"';
+				$click = 'onclick="window.location = \'' . CMS_ROOT . 'edit/cms_history/' . $row['id'] . '\';"';
+				$deets = $this->db->queryRow("SELECT firstname,lastname,email FROM cms_users WHERE id = '$row[user_id]'");
+				print "<tr $class>";
+				print "<td $click>" . $row['table_name'] . '</td>';
+				print "<td $click>" . $row['record_id'] . '</td>';
+				print "<td $click>" . $row['action'] . '</td>';
+				print "<td $click>" . $deets['lastname'] . ', ' . $deets['firstname'] . '</td>';
+				print "<td $click>" . $row['modtime'] . '</td>';			
+				print '</tr>';
 			
-			$rc++;
+				$rc++;
+			}
 		}
 		
 		print '</tbody>
