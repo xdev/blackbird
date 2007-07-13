@@ -48,7 +48,7 @@ class BlackBird
 			die('Bobolink PHP library is not properly installed');
 		}
 		
-		// If CMS database tables do not exist, create them using the schema.sql file
+		// If CMS database tables do not exist, create them using the sql/schema.sql file
 		if (!$this->db->query("SHOW TABLES LIKE 'cms_%'")) {
 			if ($schema = file_get_contents($_SERVER['DOCUMENT_ROOT'].CMS_ROOT.'/core/sql/schema.sql')) {
 				$schema = explode(';',$schema);
