@@ -6,6 +6,14 @@ class SessionManager extends Session
 	public function __construct($cms)
 	{
 		$this->db = $cms->db;
+		// Write sessions to a 'tmp' directory in the CMS ROOT
+		if (!file_exists($_SERVER['DOCUMENT_ROOT'].CMS_ROOT.'tmp')) {
+			mkdir($_SERVER['DOCUMENT_ROOT'].CMS_ROOT.'tmp',0700);
+			if (!file_exists($_SERVER['DOCUMENT_ROOT'].CMS_ROOT.'tmp/.htaccess')) {
+				if (!file_put_contents($_SERVER['DOCUMENT_ROOT'].CMS_ROOT.'tmp/.htaccess','deny from all')) die('nofile');
+			}
+		}
+		session_save_path($_SERVER['DOCUMENT_ROOT'].CMS_ROOT.'tmp');
 	}
 
 	public function login($id,$pass,$email,$time = 1200)
@@ -28,7 +36,6 @@ class SessionManager extends Session
 	
 	public function check()
 	{
-					
 		session_name("s_id");
 		session_start();
 		
