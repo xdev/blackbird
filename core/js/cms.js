@@ -1,7 +1,9 @@
-/**
-*	CMS
-*
-*
+/*
+
+Class: cms
+
+Main javascript class for use with blackbird.
+
 */
 
 function cms(options)
@@ -36,10 +38,17 @@ function cms(options)
 var CMS = new cms();
 
 
-/**
-*	setProperty
-*
-*
+/*
+
+Method: setProperty
+
+Getter/Setter into internal object
+
+Parameters:
+
+	prop - property name
+	value - value
+
 */
 
 cms.prototype.setProperty = function(prop,value)
@@ -47,10 +56,20 @@ cms.prototype.setProperty = function(prop,value)
 	this.data[prop] = value;
 }
 
-/**
-*	getProperty
-*
-*
+/*
+
+Method: getProperty
+
+Getter/Setter from internal object
+
+Parameters:
+
+	prop - property name
+	
+Returns:
+
+	value
+
 */
 
 cms.prototype.getProperty = function(prop)
@@ -58,10 +77,18 @@ cms.prototype.getProperty = function(prop)
 	return this.data[prop];
 }
 
-/**
-*	addCallback
-*
-*
+/*
+
+Method: addCallback
+
+Adds a callback obj to a namespace to handle AJAX events
+
+Parameters:
+
+	name_space - name space
+	obj - object reference
+	method - method name
+
 */
 
 cms.prototype.addCallback = function(name_space,obj,method)
@@ -69,10 +96,16 @@ cms.prototype.addCallback = function(name_space,obj,method)
 	this.callbacks[name_space] = { obj: obj, method: method }
 }
 
-/**
-*	onRemoteComplete
-*
-*
+/*
+
+Method: onRemoteComplete
+
+Fires when remote operations are complete and closes record container
+
+Parameters:
+
+	obj - object reference
+
 */
 
 cms.prototype.onRemoteComplete = function(obj)
@@ -90,10 +123,16 @@ cms.prototype.onRemoteComplete = function(obj)
 	}
 }
 
-/**
-*	onRemoteErrors
-*
-*
+/*
+
+Method:	onRemoteErrors
+
+Handles errors from remote script operations
+
+Parameters:
+
+	obj - object reference
+
 */
 
 cms.prototype.onRemoteErrors = function(obj)

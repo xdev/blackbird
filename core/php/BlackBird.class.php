@@ -13,11 +13,11 @@ class BlackBird
 	{
 		
 		// make sure '.htaccess' file is present - if not, try to create it from 'htaccess' file
-		if (!file_exists($_SERVER['DOCUMENT_ROOT'].CMS_ROOT.'.htaccess')) {
-			if (!file_exists($_SERVER['DOCUMENT_ROOT'].CMS_ROOT.'htaccess')) {
+		if (!file_exists(CMS_FILESYSTEM.'.htaccess')) {
+			if (!file_exists(CMS_FILESYSTEM.'htaccess')) {
 				die('.htaccess file not found');
 			}
-			if (!copy($_SERVER['DOCUMENT_ROOT'].CMS_ROOT.'htaccess',$_SERVER['DOCUMENT_ROOT'].CMS_ROOT.'.htaccess')) {
+			if (!copy(CMS_FILESYSTEM.'htaccess',CMS_FILESYSTEM.'.htaccess')) {
 				die('.htaccess file could not be created');
 			}
 		}
@@ -50,7 +50,7 @@ class BlackBird
 		
 		// If CMS database tables do not exist, create them using the schema.sql file
 		if (!$this->db->query("SHOW TABLES LIKE 'cms_%'")) {
-			if ($schema = file_get_contents($_SERVER['DOCUMENT_ROOT'].CMS_ROOT.'/core/sql/schema.sql')) {
+			if ($schema = file_get_contents(CMS_FILESYSTEM.'core/sql/schema.sql')) {
 				$schema = explode(';',$schema);
 				array_pop($schema);
 				foreach ($schema as $row) {
@@ -162,6 +162,12 @@ class BlackBird
 				$this->session->check();
 				require_once(INCLUDES.'Home.class.php');
 				new Home($this);				
+			break;
+			
+			case "user":
+				$this->session->check();
+				require_once(INCLUDES.'User.class.php');
+				new User($this);				
 			break;
 			
 			case "logout":
@@ -517,7 +523,7 @@ Portions of this software rely upon the following software which are covered by 
 		print '
 		</div>
 		<div id="navigation">
-		<p id="logged_info">Welcome, ' . $this->session->displayname . ' - <a href="' . CMS_ROOT . 'logout">Logout</a></p>';		
+		<p id="logged_info"><a href="' . CMS_ROOT . 'user">' . $this->session->displayname . '</a> - <a href="' . CMS_ROOT . 'logout">Logout</a></p>';		
 				
 		$tables = $this->session->getTables('navigation');				
 				

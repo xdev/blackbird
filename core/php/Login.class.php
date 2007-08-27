@@ -8,11 +8,11 @@ class Login
 	function __construct($cms){
 		// Make sure DB settings are set
 		if (!(
-			$GLOBALS['DATABASE']['host'] &&
-			$GLOBALS['DATABASE']['user'] &&
-			$GLOBALS['DATABASE']['pass'] &&
-			$GLOBALS['DATABASE']['db']
-		)) die('Database settings not properly configured in custom_config.php file');
+			isset($GLOBALS['DATABASE']['host']) &&
+			isset($GLOBALS['DATABASE']['user']) &&
+			isset($GLOBALS['DATABASE']['pass']) &&
+			isset($GLOBALS['DATABASE']['db'])
+		)) die('Database settings not properly configured in config_custom.php file');
 		
 		$this->cms = $cms;
 		$this->db = $cms->db;

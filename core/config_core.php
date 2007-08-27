@@ -31,6 +31,7 @@ setConfig("CMS_MAX_YEAR",2011);
 setConfig("CMS_MIN_YEAR",1990);
 setConfig("CMS_DATA_GRID_SORT_MAX",20);
 
+setConfig("CMS_FILESYSTEM",substr($_SERVER['SCRIPT_FILENAME'],0,-strlen('index.php')));
 setConfig("CMS_ROOT",substr($_SERVER['PHP_SELF'],0,-strlen('index.php')));
 setConfig("CMS_VERSION","1.0");
 
@@ -43,7 +44,6 @@ setConfig("ASSETS","core/");
 if(file_exists('custom/config_custom.php')){
 	require_once('custom/config_custom.php');
 	createConstants();
-	
 	if(isset($GLOBALS['DATABASE'])){
 		if(file_exists(CUSTOM.'php/Custom.class.php')){
 			require(INCLUDES.'BlackBird.class.php');

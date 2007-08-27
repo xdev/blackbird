@@ -10,7 +10,7 @@ class Logout
 		$this->cms = $cms;
 		$this->db = $cms->db;
 		
-		session_save_path($_SERVER['DOCUMENT_ROOT'].CMS_ROOT.'tmp');
+		session_save_path(CMS_FILESYSTEM.'tmp');
 		session_name("s_id");
 		session_start();
 		

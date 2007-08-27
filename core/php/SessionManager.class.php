@@ -7,13 +7,13 @@ class SessionManager extends Session
 	{
 		$this->db = $cms->db;
 		// Write sessions to a 'tmp' directory in the CMS ROOT
-		if (!file_exists($_SERVER['DOCUMENT_ROOT'].CMS_ROOT.'tmp')) {
-			mkdir($_SERVER['DOCUMENT_ROOT'].CMS_ROOT.'tmp',0700);
-			if (!file_exists($_SERVER['DOCUMENT_ROOT'].CMS_ROOT.'tmp/.htaccess')) {
-				if (!file_put_contents($_SERVER['DOCUMENT_ROOT'].CMS_ROOT.'tmp/.htaccess','deny from all')) die('nofile');
+		if (!file_exists(CMS_FILESYSTEM.'tmp')) {
+			mkdir(CMS_FILESYSTEM.'tmp',0700);
+			if (!file_exists(CMS_FILESYSTEM.'tmp/.htaccess')) {
+				if (!file_put_contents(CMS_FILESYSTEM.'tmp/.htaccess','deny from all')) die('nofile');
 			}
 		}
-		session_save_path($_SERVER['DOCUMENT_ROOT'].CMS_ROOT.'tmp');
+		session_save_path(CMS_FILESYSTEM.'tmp');
 	}
 
 	public function login($id,$pass,$email,$time = 1200)
