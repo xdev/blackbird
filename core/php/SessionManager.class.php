@@ -16,13 +16,30 @@ class SessionManager extends Session
 		session_save_path(CMS_FILESYSTEM.'tmp');
 	}
 
-	public function login($id,$pass,$email,$time = 1200)
+	public function login($pass,$email,$time = 1200)
 	{
-		session_name("s_id");
-		session_start();
+		
+		
+		
+		if($q = $this->db->queryRow("SELECT id FROM `cms_users` WHERE email = '$email' AND password = '$pass'")){
 			
-		$_SESSION['u_id'] = $id;
-		$_SESSION['u_token'] = $pass;
+			$row_data = array();
+			$row_data[] = array('field'=>'user_id','value'=>$q['id']);
+			$row_data[] = array('field'=>'start_time','value'=>Utils::now());
+			$row_data[] = array('field'=>'session_id','value'=>session_id());
+			$this->db->insert('cms_sessions',$row_data);
+		
+			session_name("BlackbirdCMS_sid");
+			session_start();
+			
+			$_SESSION['u_id'] = $q['id'];
+			$_SESSION['u_token'] = $pass;
+			
+			return true;
+			
+		}else{
+			return false;
+		}
 		
 	}
 	
@@ -36,27 +53,28 @@ class SessionManager extends Session
 	
 	public function check()
 	{
-		session_name("s_id");
+		session_name("BlackbirdCMS_sid");
 		session_start();
 		
 		$this->logged = false;
 		
-		if(isset($_COOKIE['s_id'])){
+		if(isset($_COOKIE['BlackbirdCMS_sid'])){
 			
 			if(isset($_SESSION['u_id']) && isset($_SESSION['u_token'])){
 				$tid = $_SESSION['u_id'];
 				$pass = $_SESSION['u_token'];
 				
-				$q = $this->db->queryRow("SELECT id,firstname,lastname,super_user FROM `cms_users` WHERE id = '$tid' AND password = '$pass'");
-				
-				if(isset($q['id'])){
+				if($q = $this->db->queryRow("SELECT * FROM `cms_users` WHERE id = '$tid' AND password = '$pass'")){
 					$this->u_id = $q['id'];
+					$this->u_row = $q;
 					$this->logged = true;
 					$this->displayname = $q['firstname'] . " " . $q['lastname'];
 															
 					if($q['super_user'] == 1){
 						$this->super_user = true;
 					}
+					
+					$this->getTables();					
 					
 				}else{
 					
@@ -85,7 +103,6 @@ class SessionManager extends Session
 		}
 		
 		Utils::metaRefresh(CMS_ROOT . "login");		
-		die();
 	}
 	
 	/**
@@ -97,9 +114,8 @@ class SessionManager extends Session
 	* @return  boolean  authentication
 	*/
 	
-	public function getTables($mode='')
+	private function getTables()
 	{
-				
 		//search through all the tables of all the groups this user belongs to.
 		$t_id = $this->u_id;
 		$q = $this->db->queryRow("SELECT groups,super_user FROM cms_users WHERE id = '$t_id'");
@@ -111,13 +127,12 @@ class SessionManager extends Session
 			$q = $this->db->query("SHOW TABLES");
 			
 			foreach($q as $table){
-				$tables[] = array('name'=>$table[0],'value'=>'browse,insert,update,delete');
+				$this->tables[] = array('name'=>$table[0],'value'=>'browse,insert,update,delete');
 			}
 		
 		}else{
 			
 			$groups = explode(',',$q['groups']);
-			
 			
 			foreach($groups as $group){
 			
@@ -127,72 +142,84 @@ class SessionManager extends Session
 				foreach($xml->table as $mytable){
 					$t = sprintf($mytable['name']);
 									
-					if($mode == 'navigation'){
-					
-						$qT = $this->db->queryRow("SELECT * FROM cms_tables WHERE table_name = '$t'");
-						if($qT['in_nav'] == 1){
-							$tables[] = array('name'=>$t,'value'=>sprintf($mytable));
-						}
-					
+					$qT = $this->db->queryRow("SELECT * FROM cms_tables WHERE table_name = '$t'");
+					if($qT['menu_id'] != '' && $qT['menu_id'] != 0){
+						$menu = $qT['menu_id'];
 					}else{
-						$tables[] = array('name'=>$t,'value'=>sprintf($mytable));
+						$menu = 'cms_admin';
 					}
 					
 					
+					$tt = array('name'=>$t,'value'=>sprintf($mytable),'menu'=>$menu,'in_nav'=>$qT['in_nav']);
+					$tables[] = $tt;	
 				}
 				
 			}
 		
 		}
 		
-		$tables = Utils::arraySort($tables,'name');
+		$this->tables = $tables;
+	
+	
+	}
+	
+	public function getNavigation()
+	{
+		$tables = $this->prepTables();
 		
+		$navA = array();
+		
+		foreach($tables as $key=>$value){
+			if(!isset($navA[$value['menu']])){
+				if($value['menu'] != '' && $value['menu'] != 0){
+					$q_name = $this->db->queryRow("SELECT * FROM cms_menus WHERE id = '$value[menu]'");
+					$name = $q_name['name'];
+				}else{
+					$name = 'Admin';
+				}
+				$navA[$value['menu']] = array('id'=>$value['menu'],'name'=>$name,'tables'=>array($key));
+			}else{
+				$navA[$value['menu']]['tables'][] = $key;
+			}			
+		}
+		
+		asort($navA);
+		
+		return $navA;	
+	}
+	
+	public function prepTables()
+	{
+		//find total sum of privileges
+		$tables = $this->tables;
+		
+		Utils::arraySort($tables,'name');		
 		$new = array();
 		
 		foreach($tables as $table){
 			if(!isset($new[$table['name']])){
-				$new[$table['name']] = $table['value'];				
+				$new[$table['name']] = array('privs'=>$table['value'],'menu'=>$table['menu']);
 			}else{
-				$new[$table['name']] .= ',' . $table['value'];
+				$new[$table['name']]['privs'] .= ',' . $table['value'];
 			}
 		}
 				
 		foreach($new as $key=>$value){
-			$tA = explode(',',$value);
-			$privs = array_unique($tA);
-			$new[$key] = $privs;		
+			$privs = array_unique(split(',',$value['privs']));
+			$new[$key] = array('privs'=>$privs,'menu'=>$value['menu']);	
 		}
 		
-		$tables = $new;	
+		$tables = $new;
 		return $tables;
-	
-	
 	}
 	
-	
-	
-	public function tablePrivs($table)
-	{
-	
-		$tables = $this->getTables();
-				
-		foreach($tables as $key=>$value){
-			if(isset($tables[$table])){
-				return true;
-			}
-		}
-		
-		return false;
-		
-	}
-	
-	
-	public function privs($priv,$table)
+	public function privs($priv,$table_name)
 	{
 		
-		$tables = $this->getTables();
-		if(isset($tables[$table])){
-			if(in_array($priv,$tables[$table])){
+		$tables = $this->prepTables();
+	
+		if(isset($tables[$table_name])){
+			if(in_array($priv,$tables[$table_name]['privs'])){
 				return true;
 			}else{
 				return false;

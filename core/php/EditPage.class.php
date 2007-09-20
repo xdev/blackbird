@@ -91,7 +91,7 @@ class EditPage
 		
 		if(isset($this->cms->pathA[3])){
 			if ($this->cms->pathA[3] == 'looped'){
-				print '<div id="message_content">Record ' . $this->cms->id . ' was saved successfully. <a href="#" onclick="CMS.closeMessage();">Close</a></div>';
+				print '<div class="message ok">Record ' . $this->cms->id . ' was saved successfully. <a href="#" onclick="this.up().remove();">Close</a></div>';
 			}
 		}
 		
@@ -213,10 +213,9 @@ class EditPage
 							
 							$config = Utils::parseConfig($relation['config']);
 							$class = $config['module'];
-							
 							include_once(INCLUDES.'modules/' . $class . '.class.php');
 							$module = new $class($this->cms);
-							$module->cms = $this->cms;
+							//$module->cms = $this->cms;
 							$module->table = $relation['table_child'];
 							$module->name_space = $name_space;
 							$module->config = $config;
@@ -238,7 +237,7 @@ class EditPage
 					
 					}
 					if($this->mode == "insert"){
-						print '<p class="message">To add related content, first save the main record.</p>';
+						print '<div class="message error">To add related content, first save the main record.</div>';
 					}
 					
 					

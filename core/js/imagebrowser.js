@@ -294,8 +294,9 @@ ImageBrowser.prototype.onOrderChange = function()
 	sendVars.module = 'ImageBrowser';
 	sendVars.name_space = this.data.name_space;
 	sendVars.id_set = order.join(',');
+	sendVars.table_parent = CMS.data.table_parent;
 	sendVars.remote_method = 'sort_order';
-
+	
 	
 	var myAjax = new Ajax.Request(
 		this.data.cms_root + 'ajax',

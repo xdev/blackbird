@@ -11,20 +11,17 @@ class Logout
 		$this->db = $cms->db;
 		
 		session_save_path(CMS_FILESYSTEM.'tmp');
-		session_name("s_id");
+		session_name("BlackbirdCMS_sid");
 		session_start();
 		
-		//$q = $this->db->queryRow("SELECT * FROM cms_sessions WHERE session_id = '$_COOKIE[s_id]'");
 		$row_data = Array();
 		$row_data[] = array('field'=>'end_time','value'=>Utils::now());
 		$this->db->update('cms_sessions',$row_data,'session_id',session_id());
-		//$this->db->insert('cms_sessions',$row_data);
-		
 		
 		$_SESSION = array();
 				
-		if (isset($_COOKIE["s_id"])) {
-			setcookie("s_id", '', time()-42000, '/');
+		if (isset($_COOKIE["BlackbirdCMS_sid"])) {
+			setcookie("BlackbirdCMS_sid", '', time()-42000, '/');
 		}
 		
 		session_destroy();

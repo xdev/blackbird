@@ -3,14 +3,16 @@
 class ImageBrowser
 {
 		
-	private $_data;	
+	private $_data;
 	
 	public function __construct($cms)
 	{
-		if(!isset($this->config['col_order'])){
-			$this->config['col_order'] = 'position';
-		}
+		//if(!isset($this->config['col_order'])){
+		//	$this->config['col_order'] = 'position';
+		//}
 		$this->db = $cms->db;
+		$this->cms = $cms;
+		//$this->db = $cms->db;
 	}
 	
 	public function __set($name,$value)
@@ -35,8 +37,7 @@ class ImageBrowser
 		for($i=0;$i<count($idSet);$i++){
 			$this->db->update($this->table,array(array('field'=>$this->config['col_order'],'value'=>($i+1)) ),"id",$idSet[$i]);
 		}
-		
-		print 'order updated';
+				
 	}
 	
 	function _getImgDetail()
@@ -53,7 +54,7 @@ class ImageBrowser
 		print '
 		<li class="img_module'.$class.'" id="' . $this->name_space . '_img_' . $img['id'] . '" >
 			<div class="img">
-			<img src="'. SERVER . $this->config['folder'] . $this->config['file_prefix'] . $img['id'] .'.jpg?nc=' . rand(1000) . '" class="handle" alt="img" />
+			<img src="'. SERVER . $this->config['folder'] . $this->config['file_prefix'] . $img['id'] .'.jpg?nc=' . rand(0,1000) . '" class="handle" alt="img" />
 			</div>';
 			
 			if(isset($this->config['col_label'])){
@@ -81,7 +82,6 @@ class ImageBrowser
 
 	function build()
 	{	
-	
 		print '
 		<div class="edit_form" style="display:none;">
 			<div class="detail"></div>
@@ -94,7 +94,7 @@ class ImageBrowser
 		</script>';
 		
 		$p_id = $this->cms->id;
-		$q = $this->db->query("SELECT * FROM " . $this->table . " WHERE parent_id = '$p_id' ORDER BY position");
+		$q = $this->db->query("SELECT * FROM " . $this->table . " WHERE " . $this->config['col_parent'] . " = '$p_id' ORDER BY position");
 		if($q){
 			$rT = count($q);
 		}else{

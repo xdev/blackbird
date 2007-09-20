@@ -29,8 +29,12 @@ class BlackBird
 			require_once(LIB.'utils/Utils.class.php');
 			require_once(LIB.'session/Session.class.php');
 			require_once(LIB.'_version.php');	
-		
-			require_once(INCLUDES.'SessionManager.class.php');
+			
+			if(defined('CMS_SESSION_MANAGER')){
+				require_once(CMS_SESSION_MANAGER);
+			}else{
+				require_once(INCLUDES.'SessionManager.class.php');
+			}
 		
 			if(!isset($DB['adaptor'])){
 				$DB['adaptor'] = 'Mysql';
@@ -61,6 +65,24 @@ class BlackBird
 			}
 		}
 		
+		
+		
+		$this->pathA = explode("/",$_SERVER["REQUEST_URI"]);
+		$tA = explode("/",substr($_SERVER['PHP_SELF'],1,-(strlen('index.php') + 1)));
+		array_splice($this->pathA,0,count($tA)+1);
+		$this->path = $this->pathA;
+		
+		if(isset($this->pathA[0])){
+			if($this->pathA[0] != 'login' && $this->pathA[0] != 'logout'){
+				$this->session->check();
+			}			
+		}
+						
+		if(!isset($this->pathA[0])){
+			Utils::metaRefresh(CMS_ROOT . "home");
+		}
+		
+		
 	}
 	
 	public function __set($name,$value)
@@ -79,64 +101,44 @@ class BlackBird
 	
 	
 	public function buildPage(){
-			
-		$this->pathA = explode("/",$_SERVER["REQUEST_URI"]);
-		$tA = explode("/",substr($_SERVER['PHP_SELF'],1,-(strlen('index.php') + 1)));
-		array_splice($this->pathA,0,count($tA)+1);
-		$this->path = $this->pathA;
-				
+		
 		if(isset($this->pathA[1])){
 			$this->table = $this->pathA[1];
-		}else{
-			$this->pathA[1] = '';
-			$this->table = '';
-		}
-		
-		if($this->table != ""){
-		
 			$q_label = $this->db->queryRow("SELECT display_name FROM cms_tables WHERE table_name = '$this->table'");
 			if($q_label['display_name'] == ''){
 				$this->label = Utils::formatHumanReadable($this->table);
 			}else{
 				$this->label = $q_label['display_name'];
 			}
-		
-		}
-		
-		if(!isset($this->pathA[0])){
-			Utils::metaRefresh(CMS_ROOT . "home");
-			die();
+		}else{
+			$this->pathA[1] = '';
+			$this->table = '';
 		}
 		
 		switch($this->pathA[0]){
 		
 			case "ajax":
-				$this->session->check();
 				require_once(INCLUDES.'Ajax.class.php');
 				new Ajax($this);			
 			break;
 			
 			case "edit":
-				$this->session->check();
 				$this->id = $this->pathA[2];
 				require_once(INCLUDES.'EditPage.class.php');
 				new EditPage($this);
 			break;
 			
 			case "add":
-				$this->session->check();
 				require_once(INCLUDES.'EditPage.class.php');
 				new EditPage($this);
 			break;
 			
 			case "browse":
-				$this->session->check();
 				require_once(INCLUDES.'DataGrid.class.php');
 				new DataGrid($this);			
 			break;
 			
 			case "process":
-				$this->session->check();
 				switch(true){
 				
 					case($this->pathA[1] == "batch"):
@@ -159,13 +161,11 @@ class BlackBird
 			break;			
 			
 			case "home":
-				$this->session->check();
 				require_once(INCLUDES.'Home.class.php');
 				new Home($this);				
 			break;
 			
 			case "user":
-				$this->session->check();
 				require_once(INCLUDES.'User.class.php');
 				new User($this);				
 			break;
@@ -183,7 +183,6 @@ class BlackBird
 			default:
 				//this catches exceptions when using httpd.conf alias
 				//not used when using .htaccess
-				$this->session->check();
 				Utils::metaRefresh(CMS_ROOT . "home");
 			break;
 		}
@@ -442,15 +441,6 @@ class BlackBird
 	public function buildHeader($js="",$css="",$body_class="",$help="")
 	{
 
-/*
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">   
-    
-*/
-
 print '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -458,7 +448,7 @@ print '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 Copyright 2004-2007 
 Authors Charles Mastin & Joshua Rudd
 c @ charlesmastin.com
-email @ joshuarudd.com
+contact @ joshuarudd.com
 
 
 Portions of this software rely upon the following software which are covered by their respective license agreements
@@ -525,58 +515,36 @@ Portions of this software rely upon the following software which are covered by 
 		<div id="navigation">
 		<p id="logged_info"><a href="' . CMS_ROOT . 'user">' . $this->session->displayname . '</a> - <a href="' . CMS_ROOT . 'logout">Logout</a></p>';		
 				
-		$tables = $this->session->getTables('navigation');				
-				
-		if($tables){
+	
+		if($tables = $this->session->getNavigation()){
+			print '<ul id="nav">';
 			
-			$siteA = array();
-			$adminA = array();
+			foreach($tables as $row){
 			
-			foreach($tables as $key => $row){
-				
-				$q_label = $this->db->queryRow("SELECT display_name FROM cms_tables WHERE table_name = '$key'");
-				if($q_label['display_name'] == ''){
-					$label = Utils::formatHumanReadable($key);
-				}else{
-					$label = $q_label['display_name'];
-				}
-				
-				if(substr($key,0,4) == 'cms_'){
-					$adminA[] = array('href'=>CMS_ROOT . 'browse/' . $key,'label'=>$label);
-				}else{
-					$siteA[] = array('href'=>CMS_ROOT . 'browse/' . $key,'label'=>$label);
-				}
-				
-			}
-			
-			
-			print '<ul id="nav"><li>
-				<a href="#">Site Content</a>
+				print '
+				<li>
+				<a href="#">' . $row['name'] . '</a>
 				<ul>';
 				
-				foreach($siteA as $item){
-					print '<li><a href="' . $item['href'] . '">' . $item['label'] . '</a></li>'; 
+				foreach($row['tables'] as $item){
+					
+					$q_label = $this->db->queryRow("SELECT display_name,menu_id FROM cms_tables WHERE table_name = '$item'");
+					if($q_label['display_name'] == ''){
+						$label = Utils::formatHumanReadable($item);
+					}else{
+						$label = $q_label['display_name'];
+					}
+					
+					print '<li><a href="' . CMS_ROOT . 'browse/' . $item . '">' . $label . '</a></li>'; 
 				}
 			
 			
 			print '</ul>
 			</li>';
 			
-			if(count($adminA) > 0){
-			
-				print '<li><a href="#">Admin</a><ul>';
-				
-				foreach($adminA as $item){
-					print '<li><a href="' . $item['href'] . '">' . $item['label'] . '</a></li>'; 
-				}
-				
-				print '</ul></li>';
-			
 			}
 			
-			
-			print '			
-		</ul>';
+			print '</ul>';
 		
 		}
 		
@@ -604,6 +572,53 @@ Portions of this software rely upon the following software which are covered by 
 		
 	
 		
+	}
+	
+	public function sendEmail($message)
+	{
+		
+		// Need to add ability to send / resend welcome message
+		
+		require_once(LIB . 'email/class.phpmailer.php');
+		$mail = new PHPMailer();
+		
+		$emailMax = 1;
+		$row = $message;
+		
+		if(isset($message[0])){
+			if(is_array($message[0])){
+				$emailMax = count($message);
+			}
+		}
+		
+		for($i=0;$i<$emailMax;$i++){
+			if($emailMax>1){
+				$row = $message[$i];
+			}
+			//switch this up based upon config variables, array variables (overrides) or use defaults	
+			$mail->IsMail();
+			$mail->Host     = "localhost";
+			$mail->From     = "cms_daemon@localhost";
+		
+			//this is always based upon the $message array value
+			$mail->AddAddress($row['to_address']);
+			$mail->IsHTML(true);
+			$mail->Subject  = $row['subject'];
+			$mail->Body     = $row['body'];
+			$mail->AltBody  = strip_tags($row['body']);
+		
+			if(!$mail->Send())
+			{
+			   print "Message could not be sent. <p>";
+			   print "Mailer Error: " . $mail->ErrorInfo;
+			   exit;
+			}else{
+				print '';
+			}
+			$mail->ClearAddresses();
+		
+		}
+				
 	}
 	
 
@@ -644,11 +659,6 @@ Portions of this software rely upon the following software which are covered by 
 	
 
 	
-}
-
-
-function __autoload($class){
-	require_once(INCLUDES.''. $class.".class.php");
 }
 
 ?>

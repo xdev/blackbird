@@ -20,12 +20,25 @@ class User
 	function processPage()
 	{
 		$this->cms->buildHeader();
-		$this->cms->buildFooter();
+		
 		
 		$row_data = array();
 		$row_data[] = array('field'=>'firstname','value'=>$_REQUEST['main_firstname']);
 		$row_data[] = array('field'=>'lastname','value'=>$_REQUEST['main_lastname']);
-		$row_data[] = array('field'=>'email','value'=>$_REQUEST['main_email']);
+		
+		//check to see if email is available
+				
+		if($this->cms->session->u_row['email'] != $_REQUEST['main_email']){
+			
+			if($q = $this->db->query("SELECT * FROM cms_users WHERE email = '$_REQUEST[main_email]'")){
+				if(count($q) > 0){
+					Utils::metaRefresh(CMS_ROOT . 'user/invalidemail');
+				}
+			}
+			
+		}else{
+			$row_data[] = array('field'=>'email','value'=>$_REQUEST['main_email']);
+		}
 		
 		if(!empty($_REQUEST['main_password'])){
 			$row_data[] = array('field'=>'password','value'=>sha1($_REQUEST['main_password']));
@@ -34,6 +47,8 @@ class User
 		$this->db->update('cms_users',$row_data,'id',$this->cms->session->u_id);
 		
 		Utils::metaRefresh(CMS_ROOT . 'user/looped');
+		
+		$this->cms->buildFooter();
 	}
 	
 	
@@ -47,7 +62,7 @@ class User
 				
 		if(isset($this->cms->pathA[1])){
 			if ($this->cms->pathA[1] == 'looped'){
-				print '<div id="message_content">Your personal information was successfully updated! <a href="#" onclick="CMS.closeMessage();">Close</a></div>';
+				print '<div class="message ok">Your personal information was successfully updated! <a href="#" onclick="this.up().remove();">Close</a></div>';
 			}
 		}
 		

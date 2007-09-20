@@ -325,6 +325,13 @@ CREATE TABLE `cms_history` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+CREATE TABLE `cms_menus` (
+  `id` mediumint(9) NOT NULL auto_increment,
+  `active` tinyint(4) NOT NULL default '0',
+  `name` varchar(255) NOT NULL default '',
+  `position` tinyint(4) NOT NULL default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `cms_relations` (
   `id` mediumint(9) NOT NULL auto_increment,
@@ -469,6 +476,7 @@ CREATE TABLE `cms_tables` (
   `process_mode` varchar(40) NOT NULL default '',
   `in_nav` tinyint(4) NOT NULL default '0',
   `help` text NOT NULL,
+  `menu_id` tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `table_name` (`table_name`,`display_mode`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='private';
@@ -478,7 +486,7 @@ insert into `cms_tables` values('3','cms_users','','id,firstname,lastname,email,
  ('2','cms_history','','*','','','','','','1','');
 
 CREATE TABLE `cms_users` (
-  `id` tinyint(4) NOT NULL auto_increment,
+  `id` mediumint(9) NOT NULL auto_increment,
   `firstname` varchar(255) NOT NULL default '',
   `lastname` varchar(255) NOT NULL default '',
   `password` varchar(255) NOT NULL default '',

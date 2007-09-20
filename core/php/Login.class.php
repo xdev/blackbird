@@ -35,39 +35,18 @@ class Login
 				
 				$this->db->update("cms_users",$row_data,"id",$q['id']);
 				
-				//email the new password back to the user
-				//print $pass;
-				
-				require(LIB . 'email/class.phpmailer.php');
-
-
 				$html_template =  "Your password has been reset!";
 				$html_template .= "<p>$pass</p>";
 				$html_template .= "<p>To log in <a href=\"http://$_SERVER[HTTP_HOST]" . CMS_ROOT . "login\">Click Here</a></p>";
 				
+				$message = array();
+				$message['to_address'] = $_POST['email'];
+				$message['subject'] = 'CMS Password Reset';
+				$message['body'] = $html_template;
+
+				$this->cms->sendEmail($message);
 				 
-				$text_template = strip_tags($html_template);
-				
-				$mail = new PHPMailer();
-					
-				$mail->IsSMTP();
-				$mail->Host     = "localhost";
-				
-				$mail->From     = "cms_daemon@localhost";
-				$mail->AddAddress($_POST['email']);
-				
-				$mail->IsHTML(true);
-				$mail->Subject  = "CMS Password Reset";
-				$mail->Body    = $html_template;
-				$mail->AltBody = $text_template;
-				
-				if(!$mail->Send())
-				{
-				   print "Message could not be sent. <p>";
-				   print "Mailer Error: " . $mail->ErrorInfo;
-				   exit;
-				}
-				$mail->ClearAddresses();
+	
 				
 				
 				Utils::metaRefresh(CMS_ROOT . 'login/confirm/' . $_POST['email']);
@@ -85,21 +64,11 @@ class Login
 	
 			$pass = sha1($_POST['password']);
 			$email = $_POST['email'];
-			
-			$q = $this->db->queryRow("SELECT id FROM `cms_users` WHERE email = '$email' AND password = '$pass'");
-			
-			if(isset($q['id'])){
-				$this->cms->session->login($q['id'],$pass,$email);
-				
-				$row_data = array();
-				$row_data[] = array('field'=>'user_id','value'=>$q['id']);
-				$row_data[] = array('field'=>'start_time','value'=>Utils::now());
-				$row_data[] = array('field'=>'session_id','value'=>session_id());
-				$this->db->insert('cms_sessions',$row_data);
-				
+						
+			if($this->cms->session->login($pass,$email)){
+								
 				if(isset($_REQUEST['redirect'])){
 					Utils::metaRefresh($_REQUEST['redirect']);
-				
 				}else{
 					Utils::metaRefresh(CMS_ROOT . "home");
 				}
@@ -122,30 +91,7 @@ class Login
 		$this->cms->label = "";
 		$body_id = "login";
 				
-		$this->cms->buildHeader();
-				
-		print '<style type="text/css">
-				
-				#page
-				{
-					background: none;
-					border: none;
-				}
-				#masthead
-				{
-					visibility: hidden;
-				}
-				#footer
-				{
-					width: 300px;
-					margin-left: auto;
-					margin-right: auto;
-				}
-				.buttons
-				{
-					padding-bottom: 30px;
-				}
-				</style>';
+		$this->cms->buildHeader('','',' class="login"');
 		
 		print "<form name=\"user_form\" id=\"user_form\" action=\"" . CMS_ROOT . "login/\" method=\"post\">
 		<div id=\"content\">";
@@ -154,41 +100,56 @@ class Login
 				
 		switch($e){
 		
-			case "1": print "<div class=\"error\">Invalid email or password, please try again.<br /><a class=\"error\" href=\"" . CMS_ROOT . "login/reset\">Reset Password</a></div>"; break;
-			case "2": print '<div class="error">No user with this email exists! Please try again or have an admin create an account for you.</div>'; break;
-			case "3": print "<div class=\"error\">Break in</div>"; break;
+			case "1": print "<div class=\"message error\">Invalid email or password, please try again or <a href=\"" . CMS_ROOT . "login/reset\">Reset Password</a>.</div>"; break;
+			case "2": print '<div class="message error">No user with this email exists! Please try again or have an admin create an account for you.</div>'; break;
+			case "3": print "<div class=\"message error\">Break in</div>"; break;
 		
+		}
+		
+		if($this->cms->pathA[1] == "reset"){
+		
+			print '<div class="message ok"><p>Enter your email and a new password will be created and sent to you. After logging back in, you can change your password by editing your profile page.</p></div>';
+			
+		}
+		
+		if($this->cms->pathA[1] == "confirm"){
+			$email = $this->cms->pathA[2];
+			print '<div class="message ok"><p>A new password has been generated and sent to ' . $email . '</p></div>';
+			
 		}
 				
 		print '<div id="login">';
 		
-		print '<div style="font-size: 16px; margin-bottom:10px;">' . CMS_CLIENT . ' CMS</div>';
+		print '<h1>' . CMS_CLIENT . ' CMS</h1>';
 		
 		Forms::text("email",'',array('label'=>'Email'));
 		
+		print '<div style="clear:both;"</div>';
+		
 		if($this->cms->pathA[1] == "reset"){
 			Forms::hidden("reset_password","yes");
-			print '<div class="buttons">';
-			print '<a class="button reset_password" href="#" onclick="validate(\'user_form\');" >Reset</a>';
-			//Forms::button("submit","Reset");
-			print '</div>';
+			print '
+			<div class="buttons">
+			<a class="button reset_password" href="#" onclick="validate(\'user_form\');" >Reset</a>
+			<a class="button cancel" href="#" onclick="window.location = CMS.getProperty(\'cms_root\') + \'login\'" >Cancel</a>
+			</div>';
 			
 		}else{
 			if(isset($_REQUEST['redirect'])){
 				Forms::hidden("redirect",$_REQUEST['redirect']);
 			}
 			Forms::text("password","",array('type'=>'password','label'=>'Password'));
-			print '<div class="buttons">';
-			print '<a class="button login" href="#" onclick="validate(\'user_form\');" >Login</a>';
-			//Forms::button("submit","Login");
-			print '</div>';
+			print '
+			<div class="buttons">
+			<a class="button login" href="#" onclick="validate(\'user_form\');" >Login</a>
+			</div>';
 			
 		}
-		
-		
+		print '<div style="clear:both;"></div>';
+		print "</form>";
 		print '</div>';
 		
-		print "</div></form>";
+		
 		
 		
 		$this->cms->buildFooter();

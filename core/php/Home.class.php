@@ -14,7 +14,7 @@ class Home
 	
 	function modTables()
 	{
-		$tables = $this->cms->session->getTables('navigation');
+		$tables = $this->cms->session->prepTables();
 		print '
 		<div class="module">
 			<h3>Database Tables</h3>
