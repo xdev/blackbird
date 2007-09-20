@@ -33,7 +33,7 @@ setConfig("CMS_DATA_GRID_SORT_MAX",20);
 
 setConfig("CMS_FILESYSTEM",substr($_SERVER['SCRIPT_FILENAME'],0,-strlen('index.php')));
 setConfig("CMS_ROOT",substr($_SERVER['PHP_SELF'],0,-strlen('index.php')));
-setConfig("CMS_VERSION","1.0");
+setConfig("CMS_VERSION","1.0.9");
 
 setConfig("INCLUDES","core/php/");
 setConfig("LIB","bobolink/");
