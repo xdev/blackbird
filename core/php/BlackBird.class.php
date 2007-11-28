@@ -43,10 +43,7 @@ class BlackBird
 			$class = 'Adaptor' . $DB['adaptor'];
 			require LIB . 'database/' . $class .  '.class.php';
 			$this->db = new $class();
-		
-			Forms::setDb($this->db);
-		
-			//$this->db = new Db;
+				
 			$this->session = new SessionManager($this);
 		} else {
 			die('Bobolink PHP library is not properly installed');
@@ -65,11 +62,14 @@ class BlackBird
 			}
 		}
 		
-		
-		
-		$this->pathA = explode("/",$_SERVER["REQUEST_URI"]);
+		$this->pathA = explode("/",substr($_SERVER["REQUEST_URI"],1));
 		$tA = explode("/",substr($_SERVER['PHP_SELF'],1,-(strlen('index.php') + 1)));
-		array_splice($this->pathA,0,count($tA)+1);
+		
+		//if we are running from a folder, or series of folders splice away the unused bits		
+		if($tA[0] != ''){
+			array_splice($this->pathA,0,count($tA));
+		}		
+		
 		$this->path = $this->pathA;
 		
 		if(isset($this->pathA[0])){
@@ -81,7 +81,6 @@ class BlackBird
 		if(!isset($this->pathA[0])){
 			Utils::metaRefresh(CMS_ROOT . "home");
 		}
-		
 		
 	}
 	
@@ -99,9 +98,8 @@ class BlackBird
 		}
 	}
 	
-	
-	public function buildPage(){
-		
+	public function setTable()
+	{
 		if(isset($this->pathA[1])){
 			$this->table = $this->pathA[1];
 			$q_label = $this->db->queryRow("SELECT display_name FROM cms_tables WHERE table_name = '$this->table'");
@@ -114,6 +112,11 @@ class BlackBird
 			$this->pathA[1] = '';
 			$this->table = '';
 		}
+	}
+	
+	public function buildPage(){
+		
+		
 		
 		switch($this->pathA[0]){
 		
@@ -123,22 +126,26 @@ class BlackBird
 			break;
 			
 			case "edit":
+				$this->setTable();
 				$this->id = $this->pathA[2];
 				require_once(INCLUDES.'EditPage.class.php');
 				new EditPage($this);
 			break;
 			
 			case "add":
+				$this->setTable();
 				require_once(INCLUDES.'EditPage.class.php');
 				new EditPage($this);
 			break;
 			
 			case "browse":
+				$this->setTable();
 				require_once(INCLUDES.'DataGrid.class.php');
 				new DataGrid($this);			
 			break;
 			
 			case "process":
+				$this->setTable();
 				switch(true){
 				
 					case($this->pathA[1] == "batch"):
@@ -226,7 +233,7 @@ class BlackBird
 	
 	}
 	
-	public function injectData($a)
+	public function injectData($a,$table)
 	{
 		return $a;
 	}
@@ -258,7 +265,7 @@ class BlackBird
 		
 		if($col_name == 'user_id' && $table == 'cms_history'){
 		
-			$q = $this->db->queryRow("SELECT email FROM cms_users WHERE id = '$col_value'");
+			$q = $this->db->queryRow("SELECT email FROM " . CMS_USERS_TABLE . " WHERE id = '$col_value'");
 			return $q['email'];
 		
 		}
@@ -276,17 +283,17 @@ class BlackBird
 	public function pluginColumnEdit($name,$value,$options)
 	{
 		
-		if($options['col_name'] == 'password' && $options['table'] == 'cms_users'){
+		if($options['col_name'] == 'password' && $options['table'] == CMS_USERS_TABLE){
 			$options['type'] = 'password';
 			Forms::text($name,'',$options);		
 		}
 		
 		if($options['col_name'] == 'user_id' && $options['table'] == 'cms_history'){
-			$q = $this->db->queryRow("SELECT email FROM cms_users WHERE id = '$value'");
+			$q = $this->db->queryRow("SELECT email FROM " . CMS_USERS_TABLE . " WHERE id = '$value'");
 			Forms::readonly($name,$q['email'],$options);		
 		}
 		
-		if($options['col_name'] == 'groups' && $options['table'] == 'cms_users'){
+		if($options['col_name'] == 'groups' && $options['table'] == CMS_USERS_TABLE){
 			
 			$q = $this->db->query("SELECT id,name FROM cms_groups ORDER BY name");
 			$r = '<ul>';
@@ -404,7 +411,7 @@ class BlackBird
 		
 		}
 		
-		if($options['col_name'] == 'groups' && $options['table'] == 'cms_users'){
+		if($options['col_name'] == 'groups' && $options['table'] == CMS_USERS_TABLE){
 			
 			$q = $this->db->query("SELECT * FROM cms_groups");
 			foreach($q as $group){
@@ -422,7 +429,7 @@ class BlackBird
 		
 		}
 		
-		if($options['col_name'] == 'password' && $options['table'] == 'cms_users'){
+		if($options['col_name'] == 'password' && $options['table'] == CMS_USERS_TABLE){
 			
 			if(strlen($value) > 1){
 				return array('field'=>'password','value'=>sha1($value));			
@@ -464,13 +471,13 @@ Portions of this software rely upon the following software which are covered by 
 	<!-- Main CSS -->
 	<link rel="stylesheet" type="text/css" media="screen" href="' . CMS_ROOT . ASSETS . 'css/style.css" />
 	<!-- Core Javascript -->
-	<script type="text/Javascript" src="' . CMS_ROOT . ASSETS . 'js/prototype.js" ></script>
-	<script type="text/Javascript" src="' . CMS_ROOT . ASSETS . 'js/scriptaculous/scriptaculous.js" ></script>
-	<script type="text/Javascript" src="' . CMS_ROOT . ASSETS . 'js/functions.js" ></script>
-	<script type="text/Javascript" src="' . CMS_ROOT . ASSETS . 'js/eventbroadcaster.js" ></script>
-	<script type="text/Javascript" src="' . CMS_ROOT . ASSETS . 'js/cms.js" ></script>
-	<script type="text/Javascript" src="' . CMS_ROOT . ASSETS . 'js/validator.js" ></script>
-	<script type="text/Javascript">
+	<script type="text/javascript" src="' . CMS_ROOT . ASSETS . 'js/prototype.js" ></script>
+	<script type="text/javascript" src="' . CMS_ROOT . ASSETS . 'js/scriptaculous/scriptaculous.js?load=effects,dragdrop" ></script>
+	<script type="text/javascript" src="' . CMS_ROOT . ASSETS . 'js/functions.js" ></script>
+	<script type="text/javascript" src="' . CMS_ROOT . ASSETS . 'js/eventbroadcaster.js" ></script>
+	<script type="text/javascript" src="' . CMS_ROOT . ASSETS . 'js/cms.js" ></script>
+	<script type="text/javascript" src="' . CMS_ROOT . ASSETS . 'js/validator.js" ></script>
+	<script type="text/javascript">
 		<!-- <![CDATA[
 		CMS.setProperty("cms_root","' . CMS_ROOT . '");
 		// ]]> -->
@@ -621,30 +628,41 @@ Portions of this software rely upon the following software which are covered by 
 				
 	}
 	
-
-	function buildHome($home)
-	{
+	/*
+	* sort_position
+	*
+	* @param   string   table name
+	* @param   string   sql record set query
+	* @param   string   record id
+	* @param   string   new position
+	*
+	* @return  null     
+	*
+	*/
+	
+	public function sortPosition($table,$sql,$id,$pos){
 		
-		print '
-		<div id="content" class="home">
-		<div class="column mr">';
+		$q = $this->db->query($sql);
+		
+		$tA = array();
+		for($i=0;$i<count($q);$i++){
+			if($id != $q[$i]['id']){
+				$tA[] = $q[$i]['id'];
+			}
+		
+		}
 			
-		$home->modTables();
-		$home->modSessions();
-		$home->modEdits();
-			
-		print '
-		</div>
-		<div class="column">';
+		array_splice($tA,($pos-1),0,$id);
 		
-		$home->modRss();
-		$home->modDocs();
-		
-		print '
-		</div>		
-		<div style="clear:both;"></div>';
+		for($i=0;$i<count($tA);$i++){
+			$sqlA = array();
+			$sqlA[] = array('field'=>'position','value'=>($i+1));
+			$this->db->update($table,$sqlA,'id',$tA[$i]);
+		}
 	
 	}
+
+	
 	
 	public function buildFooter()
 	{

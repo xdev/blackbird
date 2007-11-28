@@ -91,6 +91,7 @@ class EditRecord
 
 				$options['label'] = $display_name;				
 				$options['name_space'] = $_name_space;
+				$options['db'] = $this->db;
 				
 				if($col['Field'] == 'id'){
 					if($this->query_action == "update"){
@@ -176,7 +177,7 @@ class EditRecord
 							case "plugin":
 								$options['table'] = $this->table;
 								$options['mode'] = $this->mode;
-								
+								$options['row_data'] = $row_data;
 								$options['id'] = $this->id;
 								$options['col_name'] = $col['Field'];
 								

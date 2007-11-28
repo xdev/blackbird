@@ -481,9 +481,9 @@ CREATE TABLE `cms_tables` (
   UNIQUE KEY `table_name` (`table_name`,`display_mode`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='private';
 
-insert into `cms_tables` values('3','cms_users','','id,firstname,lastname,email,groups','','','','','','1',''),
- ('1','cms_groups','','id,active,name,admin','','','','','','1',''),
- ('2','cms_history','','*','','','','','','1','');
+insert into `cms_tables` values('3','cms_users','','id,firstname,lastname,email,groups','','','','','','1','',''),
+ ('1','cms_groups','','id,active,name,admin','','','','','','1','',''),
+ ('2','cms_history','','*','','','','','','1','','');
 
 CREATE TABLE `cms_users` (
   `id` mediumint(9) NOT NULL auto_increment,

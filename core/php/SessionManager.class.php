@@ -55,7 +55,7 @@ class SessionManager extends Session
 	{
 		session_name("BlackbirdCMS_sid");
 		session_start();
-		
+				
 		$this->logged = false;
 		
 		if(isset($_COOKIE['BlackbirdCMS_sid'])){
@@ -170,16 +170,19 @@ class SessionManager extends Session
 		$navA = array();
 		
 		foreach($tables as $key=>$value){
-			if(!isset($navA[$value['menu']])){
-				if($value['menu'] != '' && $value['menu'] != 0){
-					$q_name = $this->db->queryRow("SELECT * FROM cms_menus WHERE id = '$value[menu]'");
-					$name = $q_name['name'];
+			if($value['in_nav'] == 1){
+			
+				if(!isset($navA[$value['menu']])){
+					if($value['menu'] != '' && $value['menu'] != 0){
+						$q_name = $this->db->queryRow("SELECT * FROM cms_menus WHERE id = '$value[menu]'");
+						$name = $q_name['name'];
+					}else{
+						$name = 'Admin';
+					}
+					$navA[$value['menu']] = array('id'=>$value['menu'],'name'=>$name,'tables'=>array($key));
 				}else{
-					$name = 'Admin';
+					$navA[$value['menu']]['tables'][] = $key;
 				}
-				$navA[$value['menu']] = array('id'=>$value['menu'],'name'=>$name,'tables'=>array($key));
-			}else{
-				$navA[$value['menu']]['tables'][] = $key;
 			}			
 		}
 		
@@ -198,7 +201,7 @@ class SessionManager extends Session
 		
 		foreach($tables as $table){
 			if(!isset($new[$table['name']])){
-				$new[$table['name']] = array('privs'=>$table['value'],'menu'=>$table['menu']);
+				$new[$table['name']] = array('privs'=>$table['value'],'menu'=>$table['menu'],'in_nav'=>$table['in_nav']);
 			}else{
 				$new[$table['name']]['privs'] .= ',' . $table['value'];
 			}
@@ -206,7 +209,7 @@ class SessionManager extends Session
 				
 		foreach($new as $key=>$value){
 			$privs = array_unique(split(',',$value['privs']));
-			$new[$key] = array('privs'=>$privs,'menu'=>$value['menu']);	
+			$new[$key] = array('privs'=>$privs,'menu'=>$value['menu'],'in_nav'=>$value['in_nav']);	
 		}
 		
 		$tables = $new;

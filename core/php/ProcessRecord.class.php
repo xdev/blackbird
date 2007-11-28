@@ -213,39 +213,7 @@ class ProcessRecord
 		
 	}
 	
-	/*
-	* sort_position
-	*
-	* @param   string   table name
-	* @param   string   sql record set query
-	* @param   string   record id
-	* @param   string   new position
-	*
-	* @return  null     
-	*
-	*/
 	
-	function sortPosition($table,$sql,$id,$pos){
-		
-		$q = db_query($sql);
-		
-		$tA = array();
-		for($i=0;$i<count($q);$i++){
-			if($id != $q[$i]['id']){
-				$tA[] = $q[$i]['id'];
-			}
-		
-		}
-			
-		array_splice($tA,($pos-1),0,$id);
-		
-		for($i=0;$i<count($tA);$i++){
-			$r_id = $tA[$i];
-			$tpos = $i+1;
-			db_query_simple("UPDATE `$table` SET position = $tpos WHERE id = '$r_id'");
-		}
-	
-	}
 	
 	
 }

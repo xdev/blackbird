@@ -96,7 +96,7 @@ class EditPage
 		}
 		
 		if($this->mode == "edit"){
-			$row_data = $this->db->queryRow("SELECT * FROM $this->table WHERE id = '$this->id'");
+			$row_data = $this->db->queryRow("SELECT * FROM `$this->table` WHERE id = '$this->id'");
 		}else{
 			$row_data = null;
 		}
@@ -314,14 +314,14 @@ class EditPage
 					Event.observe("toggle_help", "click", function(){CMS.toggleHelp(); return false; }, true);
 				}';				
 				
-				/*
+				
 				if($this->mode == "edit"){
 					print "Event.observe(window, 'load', function(){
 						formController_main = new formController('main');					
 					}, true);";
 					
 				}
-				*/
+				
 				
 			print "// ]]> -->
 			</script>";

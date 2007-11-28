@@ -13,7 +13,7 @@ class Logout
 		session_save_path(CMS_FILESYSTEM.'tmp');
 		session_name("BlackbirdCMS_sid");
 		session_start();
-		
+				
 		$row_data = Array();
 		$row_data[] = array('field'=>'end_time','value'=>Utils::now());
 		$this->db->update('cms_sessions',$row_data,'session_id',session_id());
@@ -24,13 +24,11 @@ class Logout
 			setcookie("BlackbirdCMS_sid", '', time()-42000, '/');
 		}
 		
-		session_destroy();
-		
+		session_destroy();		
 		$this->cms->session->logged = false;
+		//Utils::metaRefresh(CMS_ROOT . "login");
 		
-		Utils::metaRefresh(CMS_ROOT . "login");
-		
-		//$this->buildPage();
+		$this->buildPage();
 	}
 	
 	function buildPage()

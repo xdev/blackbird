@@ -131,6 +131,23 @@ formController.prototype.reset = function()
 }
 
 /**
+*	getLength
+*
+*
+*/
+
+formController.prototype.getLength = function()
+{
+	if(this.data_delta != undefined){
+		if(this.data_delta.length > 0){
+			return this.data_delta.length;
+		}		
+	}
+	
+	return 0;
+}
+
+/**
 *	addChangeHandler
 *
 *

@@ -30,7 +30,7 @@ class User
 				
 		if($this->cms->session->u_row['email'] != $_REQUEST['main_email']){
 			
-			if($q = $this->db->query("SELECT * FROM cms_users WHERE email = '$_REQUEST[main_email]'")){
+			if($q = $this->db->query("SELECT * FROM " . CMS_USERS_TABLE . " WHERE email = '$_REQUEST[main_email]'")){
 				if(count($q) > 0){
 					Utils::metaRefresh(CMS_ROOT . 'user/invalidemail');
 				}
@@ -44,7 +44,7 @@ class User
 			$row_data[] = array('field'=>'password','value'=>sha1($_REQUEST['main_password']));
 		}
 		
-		$this->db->update('cms_users',$row_data,'id',$this->cms->session->u_id);
+		$this->db->update(CMS_USERS_TABLE,$row_data,'id',$this->cms->session->u_id);
 		
 		Utils::metaRefresh(CMS_ROOT . 'user/looped');
 		
@@ -84,7 +84,7 @@ class User
 		
 		$u_id = $this->cms->session->u_id;
 		
-		$q = $this->db->queryRow("SELECT * FROM cms_users WHERE id = '$u_id'");
+		$q = $this->db->queryRow("SELECT * FROM " . CMS_USERS_TABLE . " WHERE id = '$u_id'");
 		
 		print '<form name="form_main" id="form_main" action="' . CMS_ROOT . 'user/" method="post">';
 		

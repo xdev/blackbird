@@ -19,6 +19,7 @@ function cms(options)
 	
 	this.clickA = new Array();
 	this.fadeInterval = undefined;
+	this.lastSection = 'main';
 	
 	//this design is weak sauce, get a new loader
 	var myGlobalHandlers = {
@@ -483,7 +484,7 @@ cms.prototype.registerClick = function(obj)
 		}
 	}
 	if(this.clickA.length > 0){
-		$('selection_set').innerHTML = 'With Seletected ' + this.clickA.length;
+		$('selection_set').innerHTML = 'With Selected ' + this.clickA.length;
 	}else{
 		$('selection_set').innerHTML = 'With Selected';
 	}
@@ -542,39 +543,32 @@ cms.prototype.showTab = function(tab)
 
 		if(item){
 			if(tab == name_space){
-				$('tab_' + name_space).className += ' active';
-				//clearInterval(this.fadeInterval);
+				$('tab_' + name_space).addClassName('active');
 				this.tab = item;
-				//this.fadeInterval = setInterval(this.fadeIn.bind(this),1);
 				this.tab.show();
 			}else{
-				//turn me off
 				item.hide();
-				//Effect.BlindUp(item, {duration: .25});
-				//Effect.Fade($('footer'), {duration: .25});
-				//Effect.Fade($('edit_buttons'), {duration: .25});
-				$('tab_' + name_space).className = $('tab_' + name_space).className.replace(' active','');
+				$('tab_' + name_space).removeClassName('active');
 			}
 			
 		}
 	}
+	
+	/*
+	if(tab != this.lastSection){
+		//check for old formController
+		var cont = eval('formController_' + tab);
+		if(cont != undefined){
+			if(cont.getLength() > 0){
+				alert('there are unsaved changes');
+			}	
+		}
+	}
+	*/
+	
+	this.lastSection = tab;
 }
 
-/**
-*	fadeIn
-*
-*
-*/
-
-cms.prototype.fadeIn = function()
-{
-	
-	//clearInterval(this.fadeInterval);
-	
-	//Effect.BlindDown(this.tab, {duration: .25});
-	//Effect.Appear($('footer'), {duration: .25});
-	//Effect.Appear($('edit_buttons'), {duration: .25});
-}
 
 /**
 *	searchDataGrid
@@ -635,6 +629,27 @@ cms.prototype.batchProcess = function(table)
 		alert('Select some rows first');
 	}
 	
+}
+
+/**
+*	toggleSection
+*
+*
+*/
+
+cms.prototype.toggleSection = function(elem)
+{
+	//var obj = $(elem);
+	
+	var obj = $(elem).next();		
+	if(obj.hasClassName('open')){
+		Effect.BlindDown(obj,{duration:0.2});
+		obj.removeClassName('open');
+		
+	}else{
+		obj.addClassName('open');
+		Effect.BlindUp(obj,{duration:0.2});
+	}
 }
 
 /**

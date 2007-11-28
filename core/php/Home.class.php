@@ -17,7 +17,8 @@ class Home
 		$tables = $this->cms->session->prepTables();
 		print '
 		<div class="module">
-			<h3>Database Tables</h3>
+			<h3 onclick="CMS.toggleSection(this);">Database Tables</h3>
+			<div class="content">
 			<table class="data_grid">
 				<thead>
 					<tr>
@@ -41,7 +42,7 @@ class Home
 			print "<td $click>" . count($q_m) . '</td>';
 			
 			$q_last = $this->db->queryRow("SELECT * FROM cms_history WHERE table_name = '$key' ORDER BY modtime LIMIT 1");
-			$deets = $this->db->queryRow("SELECT firstname,lastname,email FROM cms_users WHERE id = '$q_last[user_id]'");
+			$deets = $this->db->queryRow("SELECT firstname,lastname,email FROM " . CMS_USERS_TABLE . " WHERE id = '$q_last[user_id]'");
 									
 			print "<td $click>". $deets['lastname'] . ', ' . $deets['firstname'] . ' ' . $q_last['modtime'] . '</td>';
 			print '</tr>';
@@ -52,6 +53,7 @@ class Home
 		
 		print '</tbody>
 		</table>
+		</div>
 		</div>';
 	
 	}
@@ -59,7 +61,8 @@ class Home
 	function modSessions()
 	{
 		print '<div class="module">
-		<h3>Recent Sessions</h3>
+		<h3 onclick="CMS.toggleSection(this);">Recent Sessions</h3>
+		<div class="content">
 		<table class="data_grid">
 			<thead>
 				<tr>
@@ -94,7 +97,7 @@ class Home
 			
 			
 			
-				$deets = $this->db->queryRow("SELECT firstname,lastname,email FROM cms_users WHERE id = '$row[user_id]'");
+				$deets = $this->db->queryRow("SELECT firstname,lastname,email FROM " . CMS_USERS_TABLE . " WHERE id = '$row[user_id]'");
 				print "<td $click>" . $deets['lastname'] . ', ' . $deets['firstname'] . '</td>';
 				print "<td $click>" . $row['start_time'] . '</td>';
 			
@@ -122,6 +125,7 @@ class Home
 		print '
 			</tbody>
 		</table>
+		</div>
 		</div>';
 	}
 	
@@ -129,7 +133,8 @@ class Home
 	{
 		print '
 		<div class="module">
-			<h3>Recent Content Edits</h3>
+			<h3 onclick="CMS.toggleSection(this);">Recent Content Edits</h3>
+			<div class="content">
 			<table class="data_grid">
 				<thead>
 					<tr>
@@ -147,7 +152,7 @@ class Home
 			foreach($q as $row){
 				($rc%2==0) ? $class='' : $class='class="odd"';
 				$click = 'onclick="window.location = \'' . CMS_ROOT . 'edit/cms_history/' . $row['id'] . '\';"';
-				$deets = $this->db->queryRow("SELECT firstname,lastname,email FROM cms_users WHERE id = '$row[user_id]'");
+				$deets = $this->db->queryRow("SELECT firstname,lastname,email FROM " . CMS_USERS_TABLE . " WHERE id = '$row[user_id]'");
 				print "<tr $class>";
 				print "<td $click>" . $row['table_name'] . '</td>';
 				print "<td $click>" . $row['record_id'] . '</td>';
@@ -162,6 +167,7 @@ class Home
 		
 		print '</tbody>
 		</table>
+		</div>
 		</div>';
 	
 	}
@@ -203,8 +209,10 @@ class Home
 	
 		print '		
 		<div class="module">
-			<h3>Documentation</h3>
+			<h3 onclick="CMS.toggleSection(this);">Documentation</h3>
+			<div class="content">
 			<p>This is a section that has quick links to view embedded CMS documentation. Good for training new members.</p>
+			</div>
 		</div>';
 	
 	}
@@ -214,13 +222,29 @@ class Home
 		
 		$this->cms->label = "Home";
 		$this->cms->buildHeader();
-		$this->cms->buildHome($this);
+		
+		print '
+		<div id="content" class="home">
+		<div class="column mr">';
+		
+		$this->modEdits();
+		$this->modSessions();
+		$this->modTables();	
+
+		print '
+		</div>
+		<div class="column">';
+
+		$this->modRss();
+		$this->modDocs();
+
+		print '
+		</div>		
+		<div style="clear:both;"></div>';
+		
 		$this->cms->buildFooter();
 	
 	}
-
-
-
 
 }
 

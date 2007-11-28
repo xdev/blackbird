@@ -2,9 +2,7 @@
 
 class Login
 {
-	
-	private $cms;
-	
+		
 	function __construct($cms){
 		// Make sure DB settings are set
 		if (!(
@@ -15,7 +13,7 @@ class Login
 		)) die('Database settings not properly configured in config_custom.php file');
 		
 		$this->cms = $cms;
-		$this->db = $cms->db;
+		$this->db = $this->cms->db;
 								
 		if($this->cms->pathA[1] == "reset"){
 			//do the password reset bit
@@ -29,11 +27,11 @@ class Login
 			$pass = substr($string,rand(0,$h_s),16);
 			
 			//check if you exists and update DB
-			$q = $this->db->queryRow("SELECT id,email FROM cms_users WHERE email = '$_POST[email]'");
+			$q = $this->db->queryRow("SELECT id,email FROM " . CMS_USERS_TABLE . " WHERE email = '$_POST[email]'");
 			if($q['email'] == $_POST['email']){
 				$row_data = array(array('field'=>'password', 'value'=>sha1($pass) ));
 				
-				$this->db->update("cms_users",$row_data,"id",$q['id']);
+				$this->db->update(CMS_USERS_TABLE,$row_data,"id",$q['id']);
 				
 				$html_template =  "Your password has been reset!";
 				$html_template .= "<p>$pass</p>";
@@ -150,7 +148,13 @@ class Login
 		print '</div>';
 		
 		
-		
+		print '<script type="text/javascript">
+			Event.observe("password","keypress",function(event){
+				if(event.keyCode == Event.KEY_RETURN){
+					$("user_form").submit();
+				}
+			});
+		</script>';
 		
 		$this->cms->buildFooter();
 	

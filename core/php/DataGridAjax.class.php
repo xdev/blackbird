@@ -72,8 +72,8 @@ class DataGridAjax
 		
 		$has_privs = true;
 		
-		$sort_col = Utils::setVar("sort_col","id DESC");
-		$sort_dir = Utils::setVar("sort_dir");
+		$sort_col = Utils::setVar("sort_col","id");
+		$sort_dir = Utils::setVar("sort_dir","DESC");
 		$sort_index = Utils::setVar("sort_index","0");
 		$sort_max = Utils::setVar("sort_max","10");
 		
@@ -148,7 +148,7 @@ class DataGridAjax
 		}
 		
 		
-		$q_filters = $this->db->query("SELECT column_name FROM cms_cols WHERE (table_name = '*' OR table_name = '$table') AND filter = 1");
+		$q_filters = $this->db->query("SELECT column_name FROM cms_cols WHERE (table_name = '*' OR table_name = '$table') AND filter != ''");
 		if($q_filters){
 			//loop through and find intersections
 			foreach($q_filters as $filter){
@@ -178,7 +178,7 @@ class DataGridAjax
 		
 		if($search == ''){
 		
-			$query_data = $this->db->query("SELECT $select_cols FROM $table $where ORDER BY $sort_col $sort_dir LIMIT $sort_index, $sort_max");
+			$query_data = $this->db->query("SELECT $select_cols FROM `$table` $where ORDER BY `$sort_col` $sort_dir LIMIT $sort_index, $sort_max");
 			if($query_data){
 				$rT = count($query_data);
 			}else{
@@ -202,9 +202,9 @@ class DataGridAjax
 				$rSearch = $rSearch . ')';
 			}
 						
-			$query_data = $this->db->query("SELECT $select_cols FROM $table $where $rSearch ORDER BY $sort_col LIMIT $sort_index, $sort_max");
+			$query_data = $this->db->query("SELECT $select_cols FROM `$table` $where $rSearch ORDER BY `$sort_col` LIMIT $sort_index, $sort_max");
 			$rT = count($query_data);
-			$q2 = $this->db->query("SELECT * FROM $table $where $rSearch");
+			$q2 = $this->db->query("SELECT * FROM `$table` $where $rSearch");
 			if($q2){
 				$rows_total = count($q2);
 			}else{
@@ -360,7 +360,7 @@ class DataGridAjax
 						$where = '';
 					}
 										
-					if($q_select = $this->db->query("SELECT DISTINCT $field FROM $table $where ORDER BY $field")){
+					if($q_select = $this->db->query("SELECT DISTINCT `$field` FROM `$table` $where ORDER BY `$field`")){
 						$onchange='onchange="' . $controller . '.setFilter(\''. $field . '\',this);"';
 						print "<select id=\"filter_$field\" $onchange>";
 						print '<option value="">All</option>';

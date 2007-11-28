@@ -100,9 +100,15 @@ class Ajax
 			print '<iframe id="form_target_' . $this->name_space .'" name="form_target_' . $this->name_space .'" class="related_iframe"></iframe>';
 			print '<div class="clearfix"></div>';
 			
+			/*
 			if($mode == 'update'){
-				//create formController Object
-			}		
+				print '
+				<script type="text/javascript">
+					formController_' . $this->name_space . ' = new formController(\'' . $this->name_space . '\');	
+				</script>';
+			}
+			*/
+					
 		}
 		
 		if($action == "getDataGrid"){

@@ -20,8 +20,8 @@ class DataGrid
 				
 		//init variables for page view
 		$table = $this->cms->table;
-		$sort_col = Utils::setVar("sort_col","id DESC");
-		$sort_dir = Utils::setVar("sort_dir");
+		$sort_col = Utils::setVar("sort_col","id");
+		$sort_dir = Utils::setVar("sort_dir","DESC");
 		$sort_index = Utils::setVar("sort_index","0");
 		$search = Utils::setVar("search");
 			
@@ -129,9 +129,9 @@ class DataGrid
 		}
 						
 		if($search == ""){
-			$query_data = $this->db->query("SELECT $select_cols FROM $table $where ORDER BY $sort_col $sort_dir LIMIT $sort_index, $sort_max");
+			$query_data = $this->db->query("SELECT $select_cols FROM `$table` $where ORDER BY `$sort_col` $sort_dir LIMIT $sort_index, $sort_max");
 			$rT = count($query_data);
-			$q2 = $this->db->query("SELECT id FROM $table $where");
+			$q2 = $this->db->query("SELECT id FROM `$table` $where");
 		}else{
 			
 			if($where == ''){
@@ -143,7 +143,7 @@ class DataGrid
 				$rSearch = $rSearch . ')';
 			}
 						
-			$query_data = $this->db->query("SELECT $select_cols FROM $table $where $rSearch ORDER BY $sort_col LIMIT $sort_index, $sort_max");
+			$query_data = $this->db->query("SELECT $select_cols FROM `$table` $where $rSearch ORDER BY `$sort_col` LIMIT $sort_index, $sort_max");
 			$rT = count($query_data);
 			$q2 = $this->db->query("SELECT id FROM $table $where $rSearch");
 						
@@ -194,7 +194,7 @@ class DataGrid
 			$tA = explode('_',$this->cms->pathA[2]);
 			if($tA[0] == 'saved'){
 				print '<div id="message_content" class="nude" >Record ' . $tA[1] . ' was saved successfully. <a href="#" onclick="CMS.closeMessage();">Close</a></div>';
-			}
+			} 
 		}
 		
 		
@@ -342,7 +342,7 @@ class DataGrid
 				
 				if(in_array($field,$filterA)){
 					
-					if($q_select = $this->db->query("SELECT DISTINCT $field FROM $table ORDER BY $field")){
+					if($q_select = $this->db->query("SELECT DISTINCT $field FROM $table ORDER BY `$field`")){
 					
 					$sort_url = $sort_base . $this->getFilters($field) . "&amp;sort_index=";
 
