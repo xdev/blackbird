@@ -1,5 +1,7 @@
 <?php
 
+/* $Id$ */
+
 // Set database values
 $GLOBALS['DATABASE'] = array(
 	'host' => '',

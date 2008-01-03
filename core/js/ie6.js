@@ -1,4 +1,4 @@
-
+/* $Id$ */
 
 /* Let's help IE/Win learn how to use hover states */
 startList = function() {

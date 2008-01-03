@@ -1,3 +1,5 @@
+/* $Id$ */
+
 startList = function() {
 	if (document.all && document.getElementById) {
 		var navRoot = document.getElementById("nav");

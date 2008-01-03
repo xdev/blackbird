@@ -1,5 +1,7 @@
 <?php
 
+/* $Id$ */
+
 class Custom extends BlackBird
 {
 	

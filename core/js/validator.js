@@ -1,3 +1,5 @@
+/* $Id$ */
+
 function validate(form,name_space)
 {
 	//get elements by class name

@@ -1,3 +1,5 @@
+/* $Id$ */
+
 // Clear text field default value
 // Original script: http://www.scriptygoddess.com/archives/2005/11/15/clear-default-text-onclick-restore-if-nothing-entered/
 function clickclear(thisfield, defaulttext) {
