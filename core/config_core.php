@@ -16,13 +16,12 @@ function createConstants()
 {
 	global $tempObj;
 	foreach($tempObj as $key=>$value){
-		if(!is_array($value)){
-			define($key,$value);			
+		if(!is_array($value) && !defined($key)){
+			define($key,$value);
 		}
 	}
 	unset($tempObj);
 }
-
 
 setConfig("XML_HEADER",'<?xml version="1.0" encoding="UTF-8"?>');
 setConfig("SERVER",'http://'.$_SERVER['SERVER_NAME']);
@@ -42,24 +41,33 @@ setConfig("CMS_VERSION","1.0.10 rev ".substr('$Revision$',11,-2));
 setConfig("INCLUDES","core/php/");
 setConfig("LIB","bobolink/");
 setConfig("WEB_ROOT","../");
-setConfig("CUSTOM","custom/");
 setConfig("ASSETS","core/");
 
-if(file_exists('custom/config_custom.php')){
-	require_once('custom/config_custom.php');
-	createConstants();
-	if(isset($GLOBALS['DATABASE'])){
-		if(file_exists(CUSTOM.'php/Custom.class.php')){
-			require(INCLUDES.'BlackBird.class.php');
-			require(CUSTOM.'php/Custom.class.php');
-		}else{
-			die('No Custom.class.php...');
-		}
-	}else{
-		die('No database config...');
-	}
-}else{
-	die('No config_custom.php found...');
+createConstants();
+
+// Determine where the CUSTOM CONFIG files are and set the CUSTOM constant
+if (file_exists(substr(CMS_FILESYSTEM,0,-1).'_config/config_custom.php')) {
+	// Use new location - after revision 58
+	setConfig("CUSTOM","../".substr(CMS_ROOT,1,-1)."_config/");
+} elseif (file_exists('custom/config_custom.php')) {
+	// Use old location - before revision 58
+	setConfig("CUSTOM","custom/");
+} else {
+	// Otherwise DIE!!!
+	die('No config_custom.php found. You need to copy the "example_config" directory to the same level as BlackBird\'s root directory and rename it to "[BlackBird directory name]_config".');
 }
 
-?>
+createConstants();
+
+require_once(CUSTOM.'config_custom.php');
+createConstants();
+if(isset($GLOBALS['DATABASE'])){
+	if(file_exists(CUSTOM.'php/Custom.class.php')){
+		require(INCLUDES.'BlackBird.class.php');
+		require(CUSTOM.'php/Custom.class.php');
+	}else{
+		die('No Custom.class.php...');
+	}
+}else{
+	die('No database config...');
+}
