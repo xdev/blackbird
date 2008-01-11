@@ -36,28 +36,26 @@ setConfig('CMS_USERS_TABLE','cms_users');
 
 setConfig("CMS_FILESYSTEM",substr($_SERVER['SCRIPT_FILENAME'],0,-strlen('index.php')));
 setConfig("CMS_ROOT",substr($_SERVER['PHP_SELF'],0,-strlen('index.php')));
-setConfig("CMS_VERSION","1.0.10 rev ".substr('$Revision$',11,-2));
+setConfig("CMS_VERSION","1.0.11 (".substr('$Revision$',11,-2).")");
 
 setConfig("INCLUDES","core/php/");
 setConfig("LIB","bobolink/");
 setConfig("WEB_ROOT","../");
 setConfig("ASSETS","core/");
-
-createConstants();
+setConfig("UPLOAD_ROOT","../files/");
+setConfig("UPLOAD_PATH","/files");
 
 // Determine where the CUSTOM CONFIG files are and set the CUSTOM constant
-if (file_exists(substr(CMS_FILESYSTEM,0,-1).'_config/config_custom.php')) {
+if (file_exists(substr(substr($_SERVER['SCRIPT_FILENAME'],0,-strlen('index.php')),0,-1).'_config/config_custom.php')) {
 	// Use new location - after revision 58
-	setConfig("CUSTOM","../".substr(CMS_ROOT,1,-1)."_config/");
+	define("CUSTOM","../".substr(substr($_SERVER['PHP_SELF'],0,-strlen('index.php')),1,-1)."_config/");
 } elseif (file_exists('custom/config_custom.php')) {
 	// Use old location - before revision 58
-	setConfig("CUSTOM","custom/");
+	define("CUSTOM","custom/");
 } else {
 	// Otherwise DIE!!!
 	die('No config_custom.php found. You need to copy the "example_config" directory to the same level as BlackBird\'s root directory and rename it to "[BlackBird directory name]_config".');
 }
-
-createConstants();
 
 require_once(CUSTOM.'config_custom.php');
 createConstants();

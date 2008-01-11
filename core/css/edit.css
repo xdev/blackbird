@@ -214,6 +214,16 @@ body.debug iframe.related_iframe
 		text-align: left;
 		margin-right: 10px;
 	}
+		.form_item .input label
+		{
+			color: #333333;
+			display: inline;
+			height: auto;
+			width: auto;
+			float: none;
+			font-weight: normal;
+			margin: 0;
+		}
 
 .form_item .input
 {
