@@ -36,7 +36,7 @@ setConfig('CMS_USERS_TABLE','cms_users');
 
 setConfig("CMS_FILESYSTEM",substr($_SERVER['SCRIPT_FILENAME'],0,-strlen('index.php')));
 setConfig("CMS_ROOT",substr($_SERVER['PHP_SELF'],0,-strlen('index.php')));
-setConfig("CMS_VERSION","1.0.11 (".substr('$Revision$',11,-2).")");
+require_once('_version.php');	
 
 setConfig("INCLUDES","core/php/");
 setConfig("LIB","bobolink/");

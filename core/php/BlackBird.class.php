@@ -670,7 +670,7 @@ Portions of this software rely upon the following software which are covered by 
 	{
 		print'
 		</div>
-		<div id="footer">BlackBird &copy; 2004-' . date('Y') . ' CM &amp; JR - Version ' . CMS_VERSION . '</div>
+		<div id="footer">BlackBird &copy; 2004-' . date('Y') . ' ' . BLACKBIRD_VERSION . ' (<a href="http://svn.underdeconstruction.com/listing.php?repname=blackbird&rev=' . BLACKBIRD_REVISION . '">' . BLACKBIRD_REVISION . ')</a></div>
 		</div>
 		</body>
 		</html>';
