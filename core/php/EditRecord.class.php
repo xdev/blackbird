@@ -194,6 +194,9 @@ class EditRecord
 							
 							
 							default :
+								$options['table'] = $this->table;
+								$options['col_name'] = $col['Field'];
+								$options['id'] = $this->id;
 								$options['name_space'] = $_name_space;
 								$options['label'] = $display_name;
 								Forms::$module($_name_space . $col['Field'],$value, $options);
