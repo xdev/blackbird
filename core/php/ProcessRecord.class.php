@@ -112,9 +112,14 @@ class ProcessRecord
 						$options['table'] = $this->table;
 						
 						if(isset($_REQUEST[$this->_name_space . $col['Field']])){
-							$value = $_REQUEST[$this->_name_space . $col['Field']];							
+							$value = $_REQUEST[$this->_name_space . $col['Field']];
 						}else{
 							$value = '';
+						}
+						
+						if(strlen($q_col['process_config']) > 1){
+							$config = Utils::parseConfig($q_col['process_config']);
+							$options = array_merge($options,$config);
 						}
 						
 						$t = $this->cms->pluginColumnProcess($this->_name_space . $col['Field'],$value,$options);
