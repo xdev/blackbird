@@ -313,7 +313,7 @@ CREATE TABLE `cms_headers` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-insert into `cms_headers` values('1','*','edit','<script type=\"text/javascript\" src=\"/cms/custom/js/custom.js\"></script>','');
+insert into `cms_headers` values('1','*','edit','<script type=\"text/javascript\" src=\"/cms_config/js/custom.js\"></script>','');
 
 CREATE TABLE `cms_history` (
   `id` mediumint(9) NOT NULL auto_increment,
