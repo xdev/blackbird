@@ -96,8 +96,13 @@ class ImageBrowser
 		</script>';
 		
 		$p_id = $this->cms->id;
-		$q = $this->db->query("SELECT * FROM " . $this->table . " WHERE " . $this->config['col_parent'] . " = '$p_id' ORDER BY position");
-		if($q){
+		$sql = "SELECT * FROM " . $this->table . " WHERE " . $this->config['col_parent'] . " = '$p_id'";		
+		if(isset($this->config['sql_where'])){
+			$sql .= $this->config['sql_where'];
+		}
+		$sql .= " ORDER BY position";
+		
+		if($q = $this->db->query($sql)){
 			$rT = count($q);
 		}else{
 			$rT = 0;

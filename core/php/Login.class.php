@@ -16,10 +16,13 @@ class Login
 		
 		$this->cms = $cms;
 		$this->db = $this->cms->db;
-								
-		if($this->cms->pathA[1] == "reset"){
-			//do the password reset bit
+										
+		if(isset($this->cms->pathA[1])){
+			$this->action = $this->cms->pathA[1];
+		}else{
+			$this->action = '';
 		}
+		
 		
 		if(!empty($_POST['email']) && isset($_POST['reset_password'])){
 			
@@ -106,13 +109,13 @@ class Login
 		
 		}
 		
-		if($this->cms->pathA[1] == "reset"){
+		if($this->action == "reset"){
 		
 			print '<div class="message ok"><p>Enter your email and a new password will be created and sent to you. After logging back in, you can change your password by editing your profile page.</p></div>';
 			
 		}
 		
-		if($this->cms->pathA[1] == "confirm"){
+		if($this->action == "confirm"){
 			$email = $this->cms->pathA[2];
 			print '<div class="message ok"><p>A new password has been generated and sent to ' . $email . '</p></div>';
 			
@@ -126,7 +129,7 @@ class Login
 		
 		print '<div style="clear:both;"</div>';
 		
-		if($this->cms->pathA[1] == "reset"){
+		if($this->action == "reset"){
 			Forms::hidden("reset_password","yes");
 			print '
 			<div class="buttons">

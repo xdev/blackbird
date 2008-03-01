@@ -129,9 +129,9 @@ class SessionManager extends Session
 			$q = $this->db->query("SHOW TABLES");
 			
 			foreach($q as $table){
-				$this->tables[] = array('name'=>$table[0],'value'=>'browse,insert,update,delete');
+				$tables[] = array('name'=>$table[0],'value'=>'browse,insert,update,delete','menu'=>0,'in_nav'=>1);
 			}
-		
+					
 		}else{
 			
 			$groups = explode(',',$q['groups']);
@@ -168,7 +168,6 @@ class SessionManager extends Session
 	public function getNavigation()
 	{
 		$tables = $this->prepTables();
-		
 		$navA = array();
 		
 		foreach($tables as $key=>$value){
@@ -185,12 +184,30 @@ class SessionManager extends Session
 				}else{
 					$navA[$value['menu']]['tables'][] = $key;
 				}
-			}			
+			}
 		}
 		
-		asort($navA);
+		//order all the menu sets by their position-- needs improvement		
+		$tempA = array();
+		foreach($navA as $key=>$value)
+		{
+			if($key != 'cms_admin'){
+				if($q = $this->db->queryRow("SELECT * FROM cms_menus WHERE id = '$key'")){
+					$tempA[] = array('position'=>$q['position'],'value'=>$value,'key'=>$key);
+				}
+			}else{
+				//adds to the end, could push to sorted array later
+				$tempA[] = array('position'=>10000,'value'=>$value,'key'=>$key);
+			}
+		}
+		$tempA = Utils::arraySort($tempA,'position');
+		$navA = array();
+		foreach($tempA as $item)
+		{
+			$navA[] = $tempA[$item['key']] = $item['value'];
+		}
 		
-		return $navA;	
+		return $navA;
 	}
 	
 	public function prepTables()

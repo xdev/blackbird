@@ -45,7 +45,8 @@ class Logout
 		<div id="content">
 		<p>You have been successfully logged out.</p>
 		<p><a href="' . CMS_ROOT . 'login">Login</a></p>
-		</div>';
+		';
+		
 
 		$this->cms->buildFooter();
 	}
