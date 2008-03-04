@@ -1,7 +1,11 @@
 /* $Id$ */
 
-function validate(form,name_space)
+function validate(form,name_space,sub)
 {
+	var submit = true;
+	if(sub != undefined){
+		submit = sub;
+	}
 	//get elements by class name
 	var elementList = document.getElementsByClassName('validate', $(form));
 	var errorA = new Array();
@@ -66,7 +70,9 @@ function validate(form,name_space)
 	if(errorA.length > 0){
 		return errorA;
 	}else{
-		$(form).submit();
+		if(submit){
+			$(form).submit();
+		}
 		return true;
 	}
 	
