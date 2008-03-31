@@ -65,7 +65,7 @@ listManager.prototype.update = function()
 	if($(this.ul).hasChildNodes()){
 		var m = $(this.ul).childNodes.length;
 		for(var i=0;i<m;i++){
-			var itemA = document.getElementsByClassName("input",$(this.ul).childNodes[i]);
+			var itemA = $(this.ul).childNodes[i].select(".input");
 			if(this.data.mode == 'pair'){
 				rA.push(itemA[0].down().innerHTML + "*_*" + itemA[1].down().innerHTML);
 			}

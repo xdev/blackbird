@@ -165,7 +165,7 @@ cms.prototype.onRemoteErrors = function(obj)
 	
 	if(obj.name_space != 'main'){
 		//show form buttons
-		var tA = document.getElementsByClassName('buttons',$('pane_' + this.name_space));
+		var tA = $('pane_' + this.name_space).select('.buttons');
 		var obj = tA[0];
 		obj.show();
 		//new Effect.Opacity(obj, {duration:0.5, from:0.2, to:1.0});
@@ -205,7 +205,7 @@ cms.prototype.submitRelated = function(name_space)
 			CMS.broadcaster.broadcastMessage("onSubmit");
 		}
 		
-		var tA = document.getElementsByClassName('buttons',$('pane_' + this.name_space));
+		var tA = $('pane_' + this.name_space).select('.buttons');
 		var obj = tA[0];
 		obj.hide();
 		
@@ -340,7 +340,7 @@ cms.prototype.deleteRecord = function(table,id,name_space)
 cms.prototype.processDelete = function()
 {
 		
-	var tA = document.getElementsByClassName('edit_form',$('pane_' + this.data.name_space));
+	var tA = $('pane_' + this.data.name_space).select('.edit_form');
 	var obj = tA[0];
 	
 	if (obj.style.display == 'none') {
@@ -379,7 +379,7 @@ cms.prototype.recordHandler = function(table,id,name_space,mode,handler,query_ac
 	
 	this.data.name_space = name_space;
 	
-	var tA = document.getElementsByClassName('detail',$('pane_' + this.data.name_space));
+	var tA = $('pane_' + this.data.name_space).select('.detail');
 	
 	var obj = $(tA[0]);
 
@@ -428,7 +428,7 @@ cms.prototype.processEdit = function()
 
 cms.prototype.openRecord = function(name_space)
 {
-	var tA = document.getElementsByClassName('edit_form',$('pane_' + name_space));
+	var tA = $('pane_' + name_space).select('.edit_form');
 		
 	var obj = $(tA[0]);
 	if (obj.style.display == 'none') {
@@ -448,7 +448,7 @@ cms.prototype.openRecord = function(name_space)
 cms.prototype.closeRecord = function(name_space)
 {
 	
-	var tA = document.getElementsByClassName('edit_form',$('pane_' + name_space));
+	var tA = $('pane_' + name_space).select('.edit_form');
 	var obj = tA[0];
 	Effect.SlideUp(obj, {duration: .5});
 	
@@ -501,7 +501,7 @@ cms.prototype.registerClick = function(obj)
 cms.prototype.checkAll = function(mode)
 {
 	//get elements
-	var itemA = document.getElementsByClassName('data_grid_checkbox');
+	var itemA = $('main').select('.data_grid_checkbox');
 	for(var i in itemA){
 		var obj = itemA[i];
 		obj.checked = mode;
@@ -520,7 +520,7 @@ cms.prototype.checkAll = function(mode)
 
 cms.prototype.toggleTabs = function()
 {
-	var triggers = document.getElementsByClassName('trigger');
+	var triggers = $('edit_nav').select('.trigger');
 	for (i=0;i<triggers.length;i++) {
 		//alert(triggers[i].id);
 		toggle = triggers[i].id.replace('tab_','');
@@ -537,7 +537,7 @@ cms.prototype.toggleTabs = function()
 
 cms.prototype.showTab = function(tab)
 {
-	var tab_list = document.getElementsByClassName('trigger',$('edit_nav'));
+	var tab_list = $('edit_nav').select('.trigger');
 	for(var i=0;i<tab_list.length; i++){
 		
 		var name_space = tab_list[i].id.replace('tab_','');

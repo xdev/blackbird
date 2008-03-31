@@ -124,7 +124,7 @@ ImageBrowser.prototype.updateLabel = function()
 	var someNodeList = $(this.data.name_space + '_image_set').getElementsByTagName('li');
 	var nodes = $A(someNodeList);
 	
-	var tA = document.getElementsByClassName('right','pane_' + this.data.name_space);
+	var tA = $('pane_' + this.data.name_space).select('.right');
 	var obj = tA[0];
 	
 	obj.innerHTML = nodes.length + ' Images(s)';

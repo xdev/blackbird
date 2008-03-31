@@ -20,8 +20,8 @@ startList = function() {
 	}
 	
 	// Data Grid Record highlighter
-	if (document.getElementsByClassName('records')) {
-		var datagrid = document.getElementsByClassName('records');
+	if ($$('.records')) {
+		var datagrid = $$('.records');
 		for (i=0;i<datagrid.length;i++) {
 			navRoot = datagrid[i];
 			for (ii=0; ii<navRoot.childNodes.length; ii++) {

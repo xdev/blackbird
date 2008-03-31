@@ -7,7 +7,7 @@ function validate(form,name_space,sub)
 		submit = sub;
 	}
 	//get elements by class name
-	var elementList = document.getElementsByClassName('validate', $(form));
+	var elementList = $(form).select('.validate');
 	var errorA = new Array();
 	
 	for(var i=0;i<elementList.length;i++){
