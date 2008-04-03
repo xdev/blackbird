@@ -95,12 +95,15 @@ class EditRecord
 				$options['name_space'] = $_name_space;
 				$options['db'] = $this->db;
 				
-				if($col['Field'] == 'id'){
+				if (
+					$col['Field'] == 'id' ||
+					$col['Field'] == 'created' ||
+					$col['Field'] == 'modified'
+				) {
 					if($this->query_action == "update"){
-						Forms::readonly($_name_space . 'id',$value,$options);
+						Forms::readonly($_name_space . $col['Field'],$value,$options);
 					}
 					$col_ready = true;
-					
 				}
 				
 				if(!$col_ready){
