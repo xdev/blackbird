@@ -45,7 +45,9 @@ class BlackBird
 			$class = 'Adaptor' . $DB['adaptor'];
 			require LIB . 'database/' . $class .  '.class.php';
 			$this->db = new $class();
-				
+			
+			$this->db->sql('SET NAMES utf8');
+			
 			$this->session = new SessionManager($this);
 		} else {
 			die('Bobolink PHP library is not properly installed');
