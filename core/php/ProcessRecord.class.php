@@ -72,7 +72,7 @@ class ProcessRecord
 			}
 			*/
 			
-			
+			$col_type = strtolower($col['Type']);
 			$col_ready = false;
 						
 			$q_col = $this->db->queryRow("SELECT * FROM cms_cols WHERE column_name = '$col[Field]' AND table_name = '$this->table' AND process_module != '' AND process_mode = '$this->query_action'");
@@ -123,7 +123,7 @@ class ProcessRecord
 						}
 						
 						$t = $this->cms->pluginColumnProcess($this->_name_space . $col['Field'],$value,$options);
-												
+						
 						if(isset($t['error'])){
 							$this->errorData[] = array('field'=>$col['Field'],'error'=>$t['error']);	
 						}else{
@@ -135,7 +135,7 @@ class ProcessRecord
 						
 						$col_ready = true;
 					break;
-										
+					
 					case $module == 'position':
 					
 						//die('this module is broken');
@@ -149,29 +149,37 @@ class ProcessRecord
 						}
 						$col_ready = true;
 					break;
+					
+					case $module == 'timestamp':
+						$row_data[] = array("field"=>$col['Field'],"value"=>(($col['Field'] == 'created' && $_REQUEST[$this->_name_space . $col['Field']]) ? $_REQUEST[$this->_name_space . $col['Field']] : Utils::now()));
+						$col_ready = true;
+					break;
+					
 				}
 				
-			}		
-					
-			//if we are a timestamp
-			$col_type = strtolower($col['Type']);
-			if($col_type == "datetime"){
-				$row_data[] = array("field"=>$col['Field'],"value"=>Utils::assembleDateTime($col['Field'],$this->_name_space));
-				$col_ready = true;
 			}
 			
-			if($col_type == "date"){
-				$row_data[] = array("field"=>$col['Field'],"value"=>Utils::assembleDate($col['Field'],$this->_name_space));
-				$col_ready = true;
+			
+			if(!$col_ready){
+				//if we are a timestamp
+				if($col_type == "datetime"){
+					$row_data[] = array("field"=>$col['Field'],"value"=>Utils::assembleDateTime($col['Field'],$this->_name_space));
+					$col_ready = true;
+				}
+			
+				if($col_type == "date"){
+					$row_data[] = array("field"=>$col['Field'],"value"=>Utils::assembleDate($col['Field'],$this->_name_space));
+					$col_ready = true;
+				}
+			
+				if($col_type == "time"){
+					$row_data[] = array("field"=>$col['Field'],"value"=>Utils::assembleTime($col['Field'],$this->_name_space));
+					$col_ready = true;
+				}
 			}
 			
-			if($col_type == "time"){
-				$row_data[] = array("field"=>$col['Field'],"value"=>Utils::assembleTime($col['Field'],$this->_name_space));
-				$col_ready = true;
-			}
-					
 			
-			if(!$col_ready){		
+			if(!$col_ready){
 				//if we are a generic column
 				if(isset($_REQUEST[$this->_name_space . $col['Field']])){
 					$row_data[] = array("field"=>$col['Field'],"value"=>$_REQUEST[$this->_name_space . $col['Field']]);
