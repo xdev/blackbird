@@ -126,8 +126,21 @@ class DataGridAjax
 			$relation = $this->db->queryRow("SELECT * FROM cms_relations WHERE table_parent = '$table_parent' AND table_child = '$table'");
 			$q_parent = $this->db->queryRow("SELECT * FROM $table_parent WHERE id = $id_parent");
 			$sql_val = $q_parent[$relation['column_parent']];
-			$whereA[] = "$relation[column_child] = '$sql_val'";
+			$whereA[] = "$relation[column_child] = '$sql_val'";			
 			$filterWhere = "$relation[column_child] = '$sql_val'";
+			
+			//from build in a page
+			if(isset($this->config['sql_where'])){				
+				$whereA[] = $this->config['sql_where'];
+				$filterWhere .= ' AND ' . $this->config['sql_where'];
+			}
+			
+			//from build in remote
+			if(isset($_REQUEST['sql_where'])){				
+				$whereA[] = stripslashes($_REQUEST['sql_where']);
+				$filterWhere .= ' AND ' . stripslashes($_REQUEST['sql_where']);
+			}
+			
 			$label = $relation['label'];
 		
 		}else{
@@ -177,9 +190,8 @@ class DataGridAjax
 				$where = '';
 			}
 		}
-		
+				
 		if($search == ''){
-		
 			$query_data = $this->db->query("SELECT $select_cols FROM `$table` $where ORDER BY `$sort_col` $sort_dir LIMIT $sort_index, $sort_max");
 			if($query_data){
 				$rT = count($query_data);

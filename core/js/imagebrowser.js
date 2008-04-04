@@ -16,6 +16,8 @@ function ImageBrowser(options){
 	this.removeInterval = null;
 	this.replaceId = null;
 	
+	this.createSortable();
+	
 	this.listener = new Object();
 	this.listener._scope = this;
 
@@ -25,7 +27,7 @@ function ImageBrowser(options){
 	}
 	
 	CMS.broadcaster.addListener(this.listener);
-	
+		
 }
 
 /**
@@ -36,17 +38,42 @@ function ImageBrowser(options){
 
 ImageBrowser.prototype.onRemoteComplete = function(obj)
 {
+	switch(obj.mode)
+	{
+		
+		case 'insert':
+			this.getNewImage(obj.id,"insert");
+		break;
+		
+		case 'update':
+			this.getNewImage(obj.id,"update");
+		break;
+		
+		case 'delete':
+		
+		break;
+		
+	}
 
-	if(obj.mode == "insert"){
-		this.getNewImage(obj.id,"insert");
-	}
-	if(obj.mode == "update"){
-		this.getNewImage(obj.id,"update");
-	}
-	if(obj.mode == "delete"){
-	
-	}
+}
 
+/**
+*	createSortable
+*
+*
+*/
+
+ImageBrowser.prototype.createSortable = function()
+{
+	Sortable.create(
+		$(this.data.name_space + "_image_set"),
+		{
+			overlap		: "horizontal",
+			constraint	: false,
+			handle		: "handle",
+     		onUpdate	: this.onOrderChange.bind(this)
+        }
+	);
 }
 
 /**
@@ -162,25 +189,11 @@ ImageBrowser.prototype.handleNew = function(bits)
 
 ImageBrowser.prototype.handleUpdate = function(bits)
 {
-	var element = this.data.name_space + "_image_set";	
+		
 	var obj = this.data.name_space + '_img_' + this.last_id;
 	Element.replace(obj,bits.responseText);
 	
-	var handler = this.onOrderChange;
-	
-	Sortable.create(
-		element,
-		{
-			overlap		: "horizontal",
-			constraint	: false,
-			handle		: "handle",
-     		onUpdate	: function()
-     		{
-				handler.bind(this);
-			}
-			
-        }
-	);
+	this.createSortable();
 	
 }
 
@@ -240,24 +253,12 @@ ImageBrowser.prototype.insertImage = function(bits)
 	var tA = $(element).descendants();	
 	var elem = tA[tA.length - 1];
 	Effect.Appear(elem, {duration: .5});
-	
-	var handler = this.onOrderChange;
-	
-	Sortable.create(
-		element,
-		{
-			overlap		: "horizontal",
-			constraint	: false,
-			handle		: "handle",
-     		onUpdate	: function()
-     		{
-				handler.bind(this);
-			}
-			
-        }
-	);
-	
+		
 	this.updateLabel();
+	this.createSortable();
+	this.onOrderChange();
+	
+	
 }
 
 /**
@@ -279,7 +280,7 @@ ImageBrowser.prototype.replaceImg = function(bits)
 */
 
 ImageBrowser.prototype.onOrderChange = function()
-{
+{	
 	var someNodeList = $(this.data.name_space  + '_image_set').getElementsByTagName('li');
 	var nodes = $A(someNodeList);
 	var order = new Array();
@@ -288,7 +289,7 @@ ImageBrowser.prototype.onOrderChange = function()
 		var tA = node.id.split("_");
 		order.push(tA[tA.length-1]);		
 	});
-		
+				
 	var sendVars = new Object();
 	
 	sendVars.action = 'loadModule';

@@ -55,8 +55,8 @@ class ImageBrowser
 		($img['active'] == 0) ? $class = ' inactive' : $class = '';
 		print '
 		<li class="img_module'.$class.'" id="' . $this->name_space . '_img_' . $img['id'] . '" >
-			<div class="img">
-			<img src="'. SERVER . $this->config['folder'] . $this->config['file_prefix'] . $img['id'] .'.jpg?nc=' . rand(0,1000) . '" class="handle" alt="img" />
+			<div class="handle">
+			<img src="'. SERVER . $this->config['folder'] . $this->config['file_prefix'] . $img['id'] .'.jpg?nc=' . rand(0,1000) . '" alt="img" />
 			</div>';
 			
 			if(isset($this->config['col_label'])){
@@ -89,11 +89,7 @@ class ImageBrowser
 			<div class="detail"></div>
 		</div>';
 		
-		$controller = 'ImageBrowser_' . $this->name_space;
 		
-		print '<script type="text/javascript">
-		var ' . $controller . ' = new ImageBrowser({name_space : \''. $this->name_space .'\',table : \'' . $this->table . '\',cms_root : \'' . CMS_ROOT . '\'});
-		</script>';
 		
 		$p_id = $this->cms->id;
 		$sql = "SELECT * FROM " . $this->table . " WHERE " . $this->config['col_parent'] . " = '$p_id'";		
@@ -131,27 +127,13 @@ class ImageBrowser
 		print '</ul><div style="clear:both"></div>';
 		
 		
-		
 		//add onUpdate to process the new order of items
-		
+		$controller = 'ImageBrowser_' . $this->name_space;
 		print '
-		<script type="text/javascript">
-			Sortable.create(
-				"' . $this->name_space . '_image_set",
-				{
-					overlap:"horizontal",
-					constraint:false,
-					handle:"handle",
-				
-					onUpdate:function(){
-						' . $controller . '.onOrderChange();
-					}
-					
-				}
-			);			
+		<script type="text/javascript">	
+			var ' . $controller . ' = new ImageBrowser({name_space : \''. $this->name_space .'\',table : \'' . $this->table . '\',cms_root : \'' . CMS_ROOT . '\'});
 			CMS.addCallback(\'' . $this->name_space . '\','. $controller . ',"onRemoteComplete");
-		</script>';
-	
+		</script>';	
 	
 	}
 	

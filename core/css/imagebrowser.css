@@ -16,14 +16,15 @@ ul.image_browser
 	width: 140px;
 }
 
-.img_module img:hover
-{
-	cursor: move;
-}
-
-.img_module .img
+.img_module .handle
 {
 	height: 140px;
+	background: #CCCCCC;
+}
+
+.img_module .handle:hover
+{
+	cursor: move;
 }
 
 .img_module.inactive img
@@ -55,6 +56,7 @@ ul.image_browser
 .img_module span
 {
 	font-size: 10px;
+	width: 80px;
 	float: left;
 }
 

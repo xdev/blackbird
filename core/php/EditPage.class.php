@@ -168,6 +168,8 @@ class EditPage
 				foreach($q_related as $relation){
 					
 					$name_space = 'related' . $i;
+					$config = Utils::parseConfig($relation['config']);
+					
 					print '<div class="toggle related_' . $relation['table_child'] . '" id="pane_' . $name_space .'" style="display:none;"><div class="pane">';
 					
 					if($this->mode == "edit"){
@@ -187,7 +189,8 @@ class EditPage
 							$module->table = $relation['table_child'];
 							$module->table_parent = $this->cms->table;
 							$module->id_parent = $this->cms->id;
-							$module->name_space = $name_space;							
+							$module->name_space = $name_space;
+							$module->config = $config;						
 							$module->build();
 							
 							print '</div>';
@@ -201,7 +204,8 @@ class EditPage
 										table_parent: \'' . $this->cms->table . '\',
 										id_parent: \'' . $this->cms->id . '\',
 										name_space: \''. $name_space . '\',
-										cms_root: \'' . CMS_ROOT . '\'
+										cms_root: \'' . CMS_ROOT . '\',
+										sql_where: "' . $config['sql_where'] . '"
 									}
 								);
 								CMS.broadcaster.addListener(data_grid_'.$name_space.'.listener);
@@ -212,8 +216,6 @@ class EditPage
 						
 						
 						if($relation['display'] == 'module'){
-							
-							$config = Utils::parseConfig($relation['config']);
 							$class = $config['module'];
 							include_once(INCLUDES.'modules/' . $class . '.class.php');
 							$module = new $class($this->cms);
@@ -225,7 +227,6 @@ class EditPage
 						}
 						
 						if($relation['display'] == 'plugin'){
-							$config = Utils::parseConfig($relation['config']);
 							$class = $config['module'];
 							include_once(INCLUDES.'Plugin.interface.php');					
 							include_once(CUSTOM."php/" . $class . ".class.php");

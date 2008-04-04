@@ -205,9 +205,7 @@ cms.prototype.submitRelated = function(name_space)
 			CMS.broadcaster.broadcastMessage("onSubmit");
 		}
 		
-		var tA = $('pane_' + this.name_space).select('.buttons');
-		var obj = tA[0];
-		obj.hide();
+		$('pane_' + name_space).select('.buttons')[0].hide();
 		
 	}
 	if(errorsA.length > 0){

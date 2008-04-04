@@ -146,6 +146,7 @@ class Ajax
 			$module->table = 'cms_history';
 			$module->mode = 'readonly';
 			$module->sql = "table_name = '$_POST[table_parent]' AND record_id = '$tid'";
+			$module->sql_where = $_POST['sql_where'];
 		}
 		$module->build();		
 			
