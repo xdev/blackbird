@@ -204,8 +204,11 @@ class EditPage
 										table_parent: \'' . $this->cms->table . '\',
 										id_parent: \'' . $this->cms->id . '\',
 										name_space: \''. $name_space . '\',
-										cms_root: \'' . CMS_ROOT . '\',
-										sql_where: "' . $config['sql_where'] . '"
+										cms_root: \'' . CMS_ROOT . '\',';
+										if(isset($config['sql_where'])){
+											print 'sql_where: "' . $config['sql_where'] . '"';
+										}
+										print '
 									}
 								);
 								CMS.broadcaster.addListener(data_grid_'.$name_space.'.listener);
