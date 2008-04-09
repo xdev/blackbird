@@ -45,18 +45,11 @@ class EditPage
 		}
 						
 		if(isset($_SERVER['HTTP_REFERER'])){
-			$tA = explode("/",$_SERVER['HTTP_REFERER']);
-			array_shift($tA);
-			array_shift($tA);
-			array_shift($tA);
-			
-			if($tA[1] == 'browse'){
-				$this->cms_page_state = $_SERVER['HTTP_REFERER'];
+			if($this->cms->refA[0] == 'browse'){
+				$this->cms_page_state = preg_replace('[&]','&amp;',$_SERVER['HTTP_REFERER']);
 			}else{
 				$this->cms_page_state = CMS_ROOT . 'browse/' . $this->table;
-				
 			}
-			
 		}else{
 			$this->cms_page_state = CMS_ROOT . 'browse/' . $this->table;
 		}
