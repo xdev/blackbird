@@ -68,16 +68,20 @@ class BlackBird
 		}
 	
 		$this->pathA = explode("/",substr($_SERVER["REQUEST_URI"],1));
-		$this->refA = explode("/",$_SERVER["HTTP_REFERER"]);
 		$tA = explode("/",substr($_SERVER['PHP_SELF'],1,-(strlen('index.php') + 1)));
 		
-		$t = array_search($_SERVER['SERVER_NAME'],$this->refA);
-		$this->refA = array_slice($this->refA, ($t+1));
+		if(isset($_SERVER["HTTP_REFERER"])){
+			$this->refA = explode("/",$_SERVER["HTTP_REFERER"]);
+			$t = array_search($_SERVER['SERVER_NAME'],$this->refA);
+			$this->refA = array_slice($this->refA, ($t+1));
+		}
 		
 		//if we are running from a folder, or series of folders splice away the unused bits		
 		if($tA[0] != ''){
 			array_splice($this->pathA,0,count($tA));
-			$this->refA = array_slice($this->refA,count($tA)); 
+			if(isset($this->refA)){
+				$this->refA = array_slice($this->refA,count($tA)); 
+			}
 		}		
 		$this->path = $this->pathA;
 		

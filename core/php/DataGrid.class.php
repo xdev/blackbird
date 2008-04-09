@@ -347,9 +347,8 @@ class DataGrid
 					if($q_select = $this->db->query("SELECT DISTINCT $field FROM $table ORDER BY `$field`")){
 					
 					$sort_url = $sort_base . $this->getFilters($field) . "&amp;sort_index=";
-
-					print "<select id=\"filter_$field\" onchange=\"CMS.setFilter(this,'$sort_url" . $sort_index . "');\" >";
-					print '<option value="">All</option>';
+					print '<select id="filter_'.$field.'" onchange="CMS.setFilter(this,\''.$sort_url.$sort_index.'\');" >';
+					print '<option value="" >All</option>';
 										
 					foreach($q_select AS $row){
 						

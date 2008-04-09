@@ -310,11 +310,12 @@ ul.pairset
 	
 	ul.pairset label
 	{
-		margin-top: .5em;
+		margin-top: .5em;	
 	}
 	ul.pairset .input
 	{
 		margin-top: .25em;
+		margin-left: 1em;
 	}
 
 	.form_item .pair:hover .handle:hover,
@@ -328,7 +329,10 @@ ul.pairset
 	}
 	.form_item .pair label
 	{
-		float: left;		
+		float: left;
+		font-weight: bold;
+		margin-top: .5em;	
+		color: #000000;	
 		width: 25px;
 	}
 	.form_item .pair textarea
