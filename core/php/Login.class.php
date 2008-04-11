@@ -96,38 +96,31 @@ class Login
 				
 		$this->cms->buildHeader('','',' class="login"');
 		
-		print "<form name=\"user_form\" id=\"user_form\" action=\"" . CMS_ROOT . "login/\" method=\"post\">
-		<div id=\"content\">";
+		print '<div id="content">';
 		
 		$e = Utils::setVar("e");
 				
 		switch($e){
-		
 			case "1": print "<div class=\"message error\">Invalid email or password, please try again or <a href=\"" . CMS_ROOT . "login/reset\">Reset Password</a>.</div>"; break;
 			case "2": print '<div class="message error">No user with this email exists! Please try again or have an admin create an account for you.</div>'; break;
 			case "3": print "<div class=\"message error\">Break in</div>"; break;
-		
 		}
 		
 		if($this->action == "reset"){
-		
 			print '<div class="message ok"><p>Enter your email and a new password will be created and sent to you. After logging back in, you can change your password by editing your profile page.</p></div>';
-			
 		}
 		
 		if($this->action == "confirm"){
 			$email = $this->cms->pathA[2];
 			print '<div class="message ok"><p>A new password has been generated and sent to ' . $email . '</p></div>';
-			
 		}
 				
 		print '<div id="login">';
-		
 		print '<h1>' . CMS_CLIENT . ' CMS</h1>';
-		
+		print '<form name="user_form" id="user_form" action="'.CMS_ROOT.'login" method="post">';
 		Forms::text("email",'',array('label'=>'Email'));
 		
-		print '<div style="clear:both;"</div>';
+		print '<div style="clear:both;"></div>';
 		
 		if($this->action == "reset"){
 			Forms::hidden("reset_password","yes");
