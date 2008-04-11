@@ -148,9 +148,8 @@ class ProcessRecord
 						
 						if($this->query_action == "update"){
 							
-							
 							//check for constraints from config
-							if(isset($config)){
+							if(isset($config['col_constraint'])){
 								//try to find in row_data
 								$foundrow = false;
 								foreach($row_data as $temprow){
