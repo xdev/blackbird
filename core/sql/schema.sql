@@ -11,7 +11,7 @@ CREATE TABLE `cms_cols` (
   `display_name` varchar(40) NOT NULL default '',
   `default_value` text NOT NULL,
   `edit_channel` enum('','main','related') NOT NULL default '',
-  `edit_module` enum('','plugin','boolean','hidden','readonly','checkbox','fileField','selectDefault','selectParent','selectFiles','selectStatic','selectDate','selectDateTime','selectState','selectCountry','text','textarea','listManager') NOT NULL default '',
+  `edit_module` enum('','plugin','boolean','hidden','readonly','checkbox','fileField','selectDefault','selectParent','selectFiles','selectStatic','selectDate','selectDateTime','selectState','selectCountry','text','textarea','listManager','position') NOT NULL default '',
   `edit_mode` enum('','edit','insert') NOT NULL default '',
   `edit_config` text NOT NULL,
   `process_channel` enum('','main','related') NOT NULL default '',

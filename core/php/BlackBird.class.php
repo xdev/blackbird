@@ -642,7 +642,7 @@ Portions of this software rely upon the following software which are covered by 
 	}
 	
 	/*
-	* sort_position
+	* sortPosition
 	*
 	* @param   string   table name
 	* @param   string   sql record set query

@@ -190,6 +190,31 @@ class EditRecord
 								$col_ready = true;
 							break;
 							
+							case "position":
+								
+								//build a selectDefault but with special options ehh
+								$options['col_display'] = $col['Field'];
+								$options['col_value'] = $col['Field'];
+								
+								//factor in the contraint if set
+								if(isset($config['col_constraint'])){
+									$options['select_sql'] = "SELECT * FROM `$this->table` WHERE $config[col_constraint] = '".$row_data[$config['col_constraint']]."' ORDER BY $col[Field]";
+								}else{
+									$options['select_sql'] = "SELECT * FROM `$this->table` ORDER BY $col[Field]";
+								}
+								
+								$options['table'] = $this->table;
+								$options['col_name'] = $col['Field'];
+								$options['id'] = $this->id;
+								$options['name_space'] = $_name_space;
+								$options['label'] = $display_name;
+								
+								$options['allow_null'] = false;
+								
+								Forms::selectDefault($_name_space . $col['Field'],$value, $options);
+								$col_ready = true;
+							break;
+							
 							
 							case "disabled":
 								$col_ready = true;

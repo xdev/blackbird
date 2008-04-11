@@ -137,14 +137,43 @@ class ProcessRecord
 					break;
 					
 					case $module == 'position':
-					
-						//die('this module is broken');
 						//if we are a position column
+						$where = '';
+						
+						if(strlen($q_col['process_config']) > 1){
+							$config = Utils::parseConfig($q_col['process_config']);
+						}
+						
+						$value = $_REQUEST[$this->_name_space . $col['Field']];
+						
 						if($this->query_action == "update"){
-							//sort_position($table,"SELECT id FROM `$table` ORDER BY $col[Field]",$id,$_REQUEST[$col['Field']]);
+							
+							
+							//check for constraints from config
+							if(isset($config)){
+								//try to find in row_data
+								$foundrow = false;
+								foreach($row_data as $temprow){
+									if($temprow['field'] == $config['col_constraint']){
+										$foundrow = true;
+										$where = "WHERE `".$config['col_constraint']."` = '".$temprow['value']."' ";
+									}
+								}
+								if(!$foundrow){
+									//check for the $_REQUEST
+									$where = "WHERE `".$config['col_constraint']."` = '".$_REQUEST[$this->_name_space . $config['col_constraint']]."' ";
+								}
+							}
+							
+							$this->cms->sortPosition($this->table,"SELECT id FROM `$this->table` $where ORDER BY $col[Field]",$this->id,$value);
 						}
 						if($this->query_action == "insert"){
-							$q_pos = $this->db->queryRow("SELECT max($col[Field]) FROM `$this->table`");
+							//check for constraints from config
+							if(isset($config)){
+								$where = "WHERE `".$config['col_constraint']."` = '".$_REQUEST[$this->_name_space . $config['col_constraint']]."' ";
+							}
+							
+							$q_pos = $this->db->queryRow("SELECT max($col[Field]) FROM `$this->table` $where");
 							$row_data[] = array("field"=>$col['Field'],"value"=>($q_pos[0] + 1));
 						}
 						$col_ready = true;
