@@ -63,8 +63,8 @@ listManager.prototype.update = function()
 	var rA = new Array();
 	
 	if($(this.ul).hasChildNodes()){
-		var m = $(this.ul).childNodes.length;
-		for(var i=0;i<m;i++){
+		var iMax = $(this.ul).childNodes.length;
+		for(var i=0;i<iMax;i++){
 			var itemA = $(this.ul).childNodes[i].select(".input");
 			if(this.data.mode == 'pair'){
 				rA.push(itemA[0].down().innerHTML + "*_*" + itemA[1].down().innerHTML);

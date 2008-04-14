@@ -3,7 +3,8 @@
 startList = function() {
 	if (document.all && document.getElementById) {
 		var navRoot = document.getElementById("nav");
-		for (i=0; i<navRoot.childNodes.length; i++) {
+		var iMax = navRoot.childNodes.length;
+		for (i=0; i<iMax; i++) {
 			var node = navRoot.childNodes[i];
 			if (node.nodeName=="LI") {
 				node.onmouseover=function() {

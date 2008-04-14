@@ -33,8 +33,8 @@ function selectElement(elem,status)
 function emptyForm(f){
 
 	var tA = Form.getElements(f);
-	
-	for(i=0;i<tA.length;i++){
+	var iMax = tA.length;
+	for(i=0;i<iMax;i++){
 		var obj = tA[i];
 		if(obj.type == "text" || obj.nodeName == "TEXTAREA" || obj.nodeName == "SELECT" || obj.type == "file"){
 			obj.value = '';	

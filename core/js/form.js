@@ -13,8 +13,8 @@ function formController(name_space)
 	this.data_alpha = [];
 	
 	var tA = Form.getElements('form_' + name_space);
-		
-	for(i=0;i<tA.length;i++){
+	var iMax = tA.length;
+	for(i=0;i<iMax;i++){
 	
 		var obj = tA[i];
 		if(obj.nodeName == "INPUT" || obj.nodeName == "TEXTAREA" || obj.nodeName == "SELECT"){

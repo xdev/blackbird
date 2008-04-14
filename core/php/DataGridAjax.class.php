@@ -76,8 +76,8 @@ class DataGridAjax
 		
 		$sort_col = Utils::setVar("sort_col","id");
 		$sort_dir = Utils::setVar("sort_dir","DESC");
-		$sort_index = Utils::setVar("sort_index","0");
-		$sort_max = Utils::setVar("sort_max","10");
+		$offset = Utils::setVar("offset","0");
+		$limit = Utils::setVar("limit","10");
 		
 		$search = Utils::setVar("search");
 		
@@ -192,7 +192,7 @@ class DataGridAjax
 		}
 				
 		if($search == ''){
-			$query_data = $this->db->query("SELECT $select_cols FROM `$table` $where ORDER BY `$sort_col` $sort_dir LIMIT $sort_index, $sort_max");
+			$query_data = $this->db->query("SELECT $select_cols FROM `$table` $where ORDER BY `$sort_col` $sort_dir LIMIT $limit OFFSET $offset");
 			if($query_data){
 				$rT = count($query_data);
 			}else{
@@ -216,7 +216,7 @@ class DataGridAjax
 				$rSearch = $rSearch . ')';
 			}
 						
-			$query_data = $this->db->query("SELECT $select_cols FROM `$table` $where $rSearch ORDER BY `$sort_col` LIMIT $sort_index, $sort_max");
+			$query_data = $this->db->query("SELECT $select_cols FROM `$table` $where $rSearch ORDER BY `$sort_col` LIMIT $limit OFFSET $offset");
 			$rT = count($query_data);
 			$q2 = $this->db->query("SELECT * FROM `$table` $where $rSearch");
 			if($q2){
@@ -272,7 +272,7 @@ class DataGridAjax
 		
 		$class = '';
 		
-		$click_base = $controller . ".setProperty('sort_index','";
+		$click_base = $controller . ".setProperty('offset','";
 		
 		print '
 		<div class="actions">';
@@ -306,29 +306,29 @@ class DataGridAjax
 			//print '<div class="clearfix"></div>';
 			print '</p>';
 		//Pagination
-		if($rows_total > $sort_max){
+		if($rows_total > $limit){
 			
 			
-			$rem = ceil($rows_total / $sort_max);
-			$lastp = floor($rows_total / $sort_max);
-			$sort_t = ($sort_index / $rows_total);
+			$rem = ceil($rows_total / $limit);
+			$lastp = floor($rows_total / $limit);
+			$sort_t = ($offset / $rows_total);
 			
 			$p = floor($rem * $sort_t);
 										
 			print '<p class="pagination">';										
 			
 			printf('<a class="icon first" %s title="First page">First</a>', ($p != 0) ? 'href="#" onclick="' . $click_base . 0 . '\');"' : '');
-			printf('<a class="icon previous" %s title="Previous page">Previous</a>', ($p != 0) ? 'href="#" onclick="' . $click_base . (($p - 1) * $sort_max).'\');"' : '' );
+			printf('<a class="icon previous" %s title="Previous page">Previous</a>', ($p != 0) ? 'href="#" onclick="' . $click_base . (($p - 1) * $limit).'\');"' : '' );
 										
 			//Record display info
-			$t = $sort_index + $sort_max;
+			$t = $offset + $limit;
 			if($t > $rows_total){
 				$t = $rows_total;
 			}
 			
-			printf('<span class="values">%s</span>',"($sort_index-$t) of $rows_total Records");
-			printf('<a class="icon next" %s title="Next page">Next</a>', ($p < $rem - 1) ? 'href="#" onclick="'. $click_base . (($p + 1) * $sort_max).'\');"' : '');
-			printf('<a class="icon last" %s title="Last page">Last</a>', ($p < $rem - 1) ? 'href="#" onclick="'. $click_base . ($lastp * $sort_max) . '\');"' : '');
+			printf('<span class="values">%s</span>',"($offset-$t) of $rows_total Records");
+			printf('<a class="icon next" %s title="Next page">Next</a>', ($p < $rem - 1) ? 'href="#" onclick="'. $click_base . (($p + 1) * $limit).'\');"' : '');
+			printf('<a class="icon last" %s title="Last page">Last</a>', ($p < $rem - 1) ? 'href="#" onclick="'. $click_base . ($lastp * $limit) . '\');"' : '');
 			
 			print '</p>';
 								

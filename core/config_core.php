@@ -31,7 +31,7 @@ setConfig("CMS_DEFAULT_HOUR",19);
 setConfig("CMS_DEFAULT_MIN",30);
 setConfig("CMS_MAX_YEAR",(date('Y')+6));
 setConfig("CMS_MIN_YEAR",1990);
-setConfig("CMS_DATA_GRID_SORT_MAX",20);
+setConfig("CMS_DATA_GRID_LIMIT",20);
 setConfig('CMS_USERS_TABLE','cms_users');
 
 setConfig("CMS_FILESYSTEM",substr($_SERVER['SCRIPT_FILENAME'],0,-strlen('index.php')));

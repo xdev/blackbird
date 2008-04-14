@@ -9,8 +9,9 @@ function validate(form,name_space,sub)
 	//get elements by class name
 	var elementList = $(form).select('.validate');
 	var errorA = new Array();
+	var iMax = elementList.length;
 	
-	for(var i=0;i<elementList.length;i++){
+	for(var i=0;i<iMax;i++){
 		
 		var elem = elementList[i];
 		

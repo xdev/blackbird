@@ -57,8 +57,8 @@ EventBroadcaster.prototype.removeListener = function(obj)
 EventBroadcaster.prototype.broadcastMessage = function(method)
 {
 	var args = [];	
-	
-	for(var i=0;i<arguments.length;i++){
+	var iMax = arguments.length;
+	for(var i=0;i<iMax;i++){
 		args.push(arguments[i]);
 	}
 	args.shift();

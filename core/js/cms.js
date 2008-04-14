@@ -252,7 +252,8 @@ cms.prototype.loadUrl = function(url)
 cms.prototype.handleErrors = function(obj)
 {
 	var t = '';
-	for(var i=0;i<obj.length;i++){
+	var iMax = obj.length;
+	for(var i=0;i<iMax;i++){
 		t += obj[i].message + '\n';
 	}
 	alert(t);
@@ -469,7 +470,8 @@ cms.prototype.registerClick = function(obj)
 {
 	
 	var inset = false;
-	for(var i=0;i<this.clickA.length;i++){
+	var iMax = this.clickA.length;
+	for(var i=0;i<iMax;i++){
 		if(this.clickA[i] == obj.id){
 			if(obj.checked == false){
 				this.clickA.splice(i,1);
@@ -518,12 +520,13 @@ cms.prototype.checkAll = function(mode)
 
 cms.prototype.toggleTabs = function()
 {
-	var triggers = $('edit_nav').select('.trigger');
-	for (i=0;i<triggers.length;i++) {
+	var tA = $('edit_nav').select('.trigger');
+	var iMax = tA.length;
+	for (i=0;i<iMax;i++) {
 		//alert(triggers[i].id);
-		toggle = triggers[i].id.replace('tab_','');
+		toggle = tA[i].id.replace('tab_','');
 		//alert(toggle);
-		Event.observe(triggers[i], 'click', function(){alert(toggle)});
+		Event.observe(tA[i], 'click', function(){alert(toggle)});
 	}
 }
 
@@ -535,10 +538,11 @@ cms.prototype.toggleTabs = function()
 
 cms.prototype.showTab = function(tab)
 {
-	var tab_list = $('edit_nav').select('.trigger');
-	for(var i=0;i<tab_list.length; i++){
+	var tA = $('edit_nav').select('.trigger');
+	var iMax = tA.length;
+	for(var i=0;i<iMax; i++){
 		
-		var name_space = tab_list[i].id.replace('tab_','');
+		var name_space = tA[i].id.replace('tab_','');
 		var item = $('pane_' + name_space);
 
 		if(item){
@@ -590,7 +594,7 @@ cms.prototype.searchDataGrid = function(){
 
 cms.prototype.viewRows = function(obj,url){
 	
-	window.location = url + '&sort_max=' + obj.value;
+	window.location = url + '&limit=' + obj.value;
 	
 }
 
@@ -619,7 +623,8 @@ cms.prototype.batchProcess = function(table)
 	if(this.clickA.length > 0){
 		if($('batchProcess').value != ''){
 			var idA = new Array();
-			for(var i=0;i<this.clickA.length;i++){
+			var iMax = this.clickA.length;
+			for(var i=0;i<iMax;i++){
 				idA.push(this.clickA[i].split("_")[1]);
 			}
 			window.location = this.data.cms_root + 'process/batch/' + table + '/?action='+ $('batchProcess').value + '&id_set=' + idA.join();

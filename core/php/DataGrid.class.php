@@ -24,7 +24,7 @@ class DataGrid
 		$table = $this->cms->table;
 		$sort_col = Utils::setVar("sort_col","id");
 		$sort_dir = Utils::setVar("sort_dir","DESC");
-		$sort_index = Utils::setVar("sort_index","0");
+		$offset = Utils::setVar("offset","0");
 		$search = Utils::setVar("search");
 			
 		$privs_browse = $this->cms->session->privs("browse",$table);
@@ -43,13 +43,13 @@ class DataGrid
 		}
 		
 		//handle the viewing preferences (into the Session)
-		if($this->cms->session->getVar('sort_max') != CMS_DATA_GRID_SORT_MAX){
-			$t = CMS_DATA_GRID_SORT_MAX;
+		if($this->cms->session->getVar('limit') != CMS_DATA_GRID_LIMIT){
+			$t = CMS_DATA_GRID_LIMIT;
 		}else{
-			$t = $this->cms->session->getVar('sort_max');
+			$t = $this->cms->session->getVar('limit');
 		}
-		$sort_max = Utils::setVar("sort_max",$t);
-		if (isset($_REQUEST['sort_max'])) $this->cms->session->setVar('sort_max',$_REQUEST['sort_max']);
+		$limit = Utils::setVar("limit",$t);
+		if (isset($_REQUEST['limit'])) $this->cms->session->setVar('limit',$_REQUEST['limit']);
 				
 		//Get the default cols for display
 		$q_display = $this->db->queryRow("SELECT * FROM `cms_tables` WHERE table_name = '$table' AND display_mode = 'data_grid'");
@@ -131,7 +131,7 @@ class DataGrid
 		}
 						
 		if($search == ""){
-			$query_data = $this->db->query("SELECT $select_cols FROM `$table` $where ORDER BY `$sort_col` $sort_dir LIMIT $sort_index, $sort_max");
+			$query_data = $this->db->query("SELECT $select_cols FROM `$table` $where ORDER BY `$sort_col` $sort_dir LIMIT $limit OFFSET $offset");
 			$rT = count($query_data);
 			$q2 = $this->db->query("SELECT id FROM `$table` $where");
 		}else{
@@ -145,7 +145,7 @@ class DataGrid
 				$rSearch = $rSearch . ')';
 			}
 						
-			$query_data = $this->db->query("SELECT $select_cols FROM `$table` $where $rSearch ORDER BY `$sort_col` LIMIT $sort_index, $sort_max");
+			$query_data = $this->db->query("SELECT $select_cols FROM `$table` $where $rSearch ORDER BY `$sort_col` LIMIT $limit OFFSET $offset");
 			$rT = count($query_data);
 			$q2 = $this->db->query("SELECT id FROM $table $where $rSearch");
 						
@@ -239,15 +239,15 @@ class DataGrid
 				
 		print '</form>';
 		
-		$sort_base = CMS_ROOT . "browse/$table/?sort_col=$sort_col&amp;sort_dir=$sort_dir&amp;sort_max=$sort_max&amp;search=$search";
-		$sort_url = $sort_base . $this->getFilters() . "&amp;sort_index=";
+		$sort_base = CMS_ROOT . "browse/$table/?sort_col=$sort_col&amp;sort_dir=$sort_dir&amp;limit=$limit&amp;search=$search";
+		$sort_url = $sort_base . $this->getFilters() . "&amp;offset=";
 		
 		//Pagination
-		if($rows_total > $sort_max){
+		if($rows_total > $limit){
 			
-			$rem = ceil($rows_total / $sort_max);
-			$lastp = floor($rows_total / $sort_max);
-			$sort_t = ($sort_index / $rows_total);
+			$rem = ceil($rows_total / $limit);
+			$lastp = floor($rows_total / $limit);
+			$sort_t = ($offset / $rows_total);
 			
 			$p = floor($rem * $sort_t);
 			
@@ -255,17 +255,17 @@ class DataGrid
 			print '<p class="pagination">';										
 			
 			printf('<a class="icon first" %s title="First page">First</a>', ($p != 0) ? 'href="'. $sort_url . '0"' : '');
-			printf('<a class="icon previous" %s title="Previous page">Previous</a>', ($p != 0) ? 'href="' . $sort_url . (($p - 1) * $sort_max).'"' : '' );
+			printf('<a class="icon previous" %s title="Previous page">Previous</a>', ($p != 0) ? 'href="' . $sort_url . (($p - 1) * $limit).'"' : '' );
 										
 			//Record display info
-			$t = $sort_index + $sort_max;
+			$t = $offset + $limit;
 			if($t > $rows_total){
 				$t = $rows_total;
 			}
 			
-			printf('<span class="values">%s</span>',"($sort_index-$t) of $rows_total Records");
-			printf('<a class="icon next" %s title="Next page">Next</a>', ($p < $rem - 1) ? 'href="'. $sort_url . (($p + 1) * $sort_max).'"' : '');
-			printf('<a class="icon last" %s title="Last page">Last</a>', ($p < $rem - 1) ? 'href="'. $sort_url . ($lastp * $sort_max) . '"' : '');
+			printf('<span class="values">%s</span>',"($offset-$t) of $rows_total Records");
+			printf('<a class="icon next" %s title="Next page">Next</a>', ($p < $rem - 1) ? 'href="'. $sort_url . (($p + 1) * $limit).'"' : '');
+			printf('<a class="icon last" %s title="Last page">Last</a>', ($p < $rem - 1) ? 'href="'. $sort_url . ($lastp * $limit) . '"' : '');
 			
 			print '</p>';
 				
@@ -346,8 +346,8 @@ class DataGrid
 					
 					if($q_select = $this->db->query("SELECT DISTINCT $field FROM $table ORDER BY `$field`")){
 					
-					$sort_url = $sort_base . $this->getFilters($field) . "&amp;sort_index=";
-					print '<select id="filter_'.$field.'" onchange="CMS.setFilter(this,\''.$sort_url.$sort_index.'\');" >';
+					$sort_url = $sort_base . $this->getFilters($field) . "&amp;offset=";
+					print '<select id="filter_'.$field.'" onchange="CMS.setFilter(this,\''.$sort_url.$offset.'\');" >';
 					print '<option value="" >All</option>';
 										
 					foreach($q_select AS $row){
@@ -431,13 +431,13 @@ class DataGrid
 						$dir = "ascending";
 					}
 									
-					print "<th class=\"active $dir\" ><a href=\"" . CMS_ROOT . "browse/$table/?sort_col=$field&amp;sort_dir=$tDir&amp;sort_max=$sort_max&amp;search=$search" . $this->getFilters() . "\">$col_label</a></th>";
+					print "<th class=\"active $dir\" ><a href=\"" . CMS_ROOT . "browse/$table/?sort_col=$field&amp;sort_dir=$tDir&amp;limit=$limit&amp;search=$search" . $this->getFilters() . "\">$col_label</a></th>";
 				}else{
 					
 					if(isset($col['injected'])){
 						print "<th>$field</th>";
 					}else{
-						print "<th><a href=\"" . CMS_ROOT . "browse/$table/?sort_col=$field&amp;sort_dir=ASC&amp;sort_max=$sort_max&amp;search=$search" . $this->getFilters() . "\">$col_label</a></th>";
+						print "<th><a href=\"" . CMS_ROOT . "browse/$table/?sort_col=$field&amp;sort_dir=ASC&amp;limit=$limit&amp;search=$search" . $this->getFilters() . "\">$col_label</a></th>";
 					}
 				}
 			}
@@ -552,11 +552,11 @@ class DataGrid
 		</div>
 		<div class="right">';
 		
-		print 'Records <select name="sort_max" onchange="CMS.viewRows(this,\'' . CMS_ROOT . "browse/$table/?sort_col=$sort_col&amp;search=$search&amp;sort_index=$sort_index" . $this->getFilters() . '\');" >';
+		print 'Records <select name="limit" onchange="CMS.viewRows(this,\'' . CMS_ROOT . "browse/$table/?sort_col=$sort_col&amp;search=$search&amp;offset=$offset" . $this->getFilters() . '\');" >';
 		
-		$sort_maxList = array(10,20,50,100,250,500,10000);
-		foreach($sort_maxList as $sort_row){
-			if($sort_row == $sort_max){
+		$limitList = array(10,20,50,100,250,500,10000);
+		foreach($limitList as $sort_row){
+			if($sort_row == $limit){
 				$selected = "selected=\"selected\"";
 			}else{
 				$selected = "";

@@ -83,7 +83,7 @@ class Home
 			foreach($q as $row){
 				$classA = Array();
 				($rc%2==0) ? '' : $classA[] = 'odd';
-				$click = 'onclick="window.location = \'' . CMS_ROOT . 'browse/cms_history/?sort_col=id%20DESC&amp;sort_max=10000&amp;filter_session_id=' . $row['session_id'] . '\';"';
+				$click = 'onclick="window.location = \'' . CMS_ROOT . 'browse/cms_history/?sort_col=id%20DESC&amp;limit=10000&amp;filter_session_id=' . $row['session_id'] . '\';"';
 				if($q_edits = $this->db->query("SELECT * FROM cms_history WHERE session_id = '$row[session_id]'")){
 					$e = count($q_edits);
 				}else{
