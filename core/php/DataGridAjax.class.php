@@ -81,10 +81,27 @@ class DataGridAjax
 		
 		$search = Utils::setVar("search");
 		
+		/*
 		$q_display = $this->db->queryRow("SELECT * FROM `cms_tables` WHERE table_name = '$table' AND display_mode = 'related'");
 		
 		if(!$q_display){
 			$q_display = $this->db->queryRow("SELECT * FROM `cms_tables` WHERE table_name = '$table' AND display_mode = ''");
+		}
+		*/
+		$tA = Utils::checkArray($this->cms->config['cms_tables'],array('table_name'=>$table,'display_mode'=>'related'));
+		if(is_array($tA)){
+			$q_display = $tA;
+		}else{
+			$q_display = $this->db->queryRow("SELECT * FROM `cms_tables` WHERE table_name = '$table' AND display_mode = 'related'");
+		}		
+		
+		if(!$q_display){
+			$tA = Utils::checkArray($this->cms->config['cms_tables'],array('table_name'=>$table,'display_mode'=>''));
+			if(is_array($tA)){
+				$q_display = $tA;
+			}else{
+				$q_display = $this->db->queryRow("SELECT * FROM `cms_tables` WHERE table_name = '$table' AND display_mode = ''");
+			}
 		}
 		
 		$controller = 'data_grid_' . $name_space;
@@ -329,10 +346,7 @@ class DataGridAjax
 			printf('<span class="values">%s</span>',"($offset-$t) of $rows_total Records");
 			printf('<a class="icon next" %s title="Next page">Next</a>', ($p < $rem - 1) ? 'href="#" onclick="'. $click_base . (($p + 1) * $limit).'\');"' : '');
 			printf('<a class="icon last" %s title="Last page">Last</a>', ($p < $rem - 1) ? 'href="#" onclick="'. $click_base . ($lastp * $limit) . '\');"' : '');
-			
 			print '</p>';
-								
-							
 							
 							
 			}else{
@@ -401,7 +415,7 @@ class DataGridAjax
 								
 								if($q_col){
 									if($q_col['filter'] != ''){
-										$tA = Utils::parseConfig($q_col['filter']);
+										$tA = $this->cms->parseConfig($q_col['filter']);
 										if(isset($tA['filter_length'])){
 											if(strlen(strip_tags($tv)) > $tA['filter_length']){
 												$tv = substr(strip_tags($tv),0,$tA['filter_length']) . '...';

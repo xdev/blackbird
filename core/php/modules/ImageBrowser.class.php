@@ -55,9 +55,15 @@ class ImageBrowser
 		($img['active'] == 0) ? $class = ' inactive' : $class = '';
 		print '
 		<li class="img_module'.$class.'" id="' . $this->name_space . '_img_' . $img['id'] . '" >
-			<div class="handle">
-			<img src="'. SERVER . $this->config['folder'] . $this->config['file_prefix'] . $img['id'] .'.jpg?nc=' . rand(0,1000) . '" alt="img" />
-			</div>';
+			<div class="handle">';
+			
+			if(isset($this->config['col_file'])){
+				print '<img src="'. SERVER . $this->config['folder'] . $img[$this->config['col_file']] . '?nc='.rand(0,1000).'" alt="img" />';
+			}else{
+				print '<img src="'. SERVER . $this->config['folder'] . $this->config['file_prefix'] . $img['id'] .'.jpg?nc=' . rand(0,1000) . '" alt="img" />';
+			}
+			
+			print '</div>';
 			
 			if(isset($this->config['col_label'])){
 				if(isset($img[$this->config['col_label']])){

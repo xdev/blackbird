@@ -8,6 +8,7 @@ class SessionManager extends Session
 	public function __construct($cms)
 	{
 		$this->db = $cms->db;
+		$this->cms = $cms;
 		// Write sessions to a 'tmp' directory in the CMS ROOT
 		if (!file_exists(CMS_FILESYSTEM.'tmp')) {
 			mkdir(CMS_FILESYSTEM.'tmp',0700);
@@ -143,8 +144,12 @@ class SessionManager extends Session
 							
 				foreach($xml->table as $mytable){
 					$t = sprintf($mytable['name']);
-									
-					$qT = $this->db->queryRow("SELECT * FROM cms_tables WHERE table_name = '$t'");
+					$tA = Utils::checkArray($this->cms->config['cms_tables'],array('table_name'=>$t));
+					if(is_array($tA)){
+						$qT = $tA;
+					}else{				
+						$qT = $this->db->queryRow("SELECT * FROM cms_tables WHERE table_name = '$t'");
+					}
 					if($qT['menu_id'] != '' && $qT['menu_id'] != 0){
 						$menu = $qT['menu_id'];
 					}else{

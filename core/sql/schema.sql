@@ -10,13 +10,13 @@ CREATE TABLE `cms_cols` (
   `data_grid_name` varchar(255) NOT NULL default '',
   `display_name` varchar(40) NOT NULL default '',
   `default_value` text NOT NULL,
-  `edit_channel` enum('','main','related') NOT NULL default '',
-  `edit_module` enum('','plugin','boolean','hidden','readonly','checkbox','fileField','selectDefault','selectParent','selectFiles','selectStatic','selectDate','selectDateTime','selectState','selectCountry','text','textarea','listManager','position') NOT NULL default '',
-  `edit_mode` enum('','edit','insert') NOT NULL default '',
+  `edit_channel` varchar(20) NOT NULL default '',
+  `edit_module` varchar(20) NOT NULL default '',
+  `edit_mode` varchar(20) NOT NULL default '',
   `edit_config` text NOT NULL,
-  `process_channel` enum('','main','related') NOT NULL default '',
+  `process_channel` varchar(20) NOT NULL default '',
   `process_module` varchar(20) NOT NULL default '',
-  `process_mode` enum('','update','insert') NOT NULL default '',
+  `process_mode` varchar(20) NOT NULL default '',
   `process_config` text NOT NULL,
   `validate` text NOT NULL,
   `filter` text NOT NULL,
@@ -25,23 +25,7 @@ CREATE TABLE `cms_cols` (
   KEY `table_name` (`table_name`),
   KEY `column_name` (`column_name`),
   KEY `edit` (`table_name`,`column_name`,`edit_mode`)
-) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='private';
-
-insert into `cms_cols` values('1','*','active','','','','','boolean','','','','','','','','<config>\n	<option name=\"filter\">1</option>\n</config>',''),
- ('3','*','date','','','','','selectDate','','','','','','','','',''),
- ('4','*','id','','','','','readonly','edit','','','','','','','',''),
- ('6','*','time_modified','','Mod Time','','','readonly','edit','','','','','','','',''),
- ('5','*','state','','','','','selectState','','','','','','','','',''),
- ('2','*','country','','','','','selectCountry','','','','','','','','',''),
- ('7','cms_groups','admin','','','','','boolean','','','','','','','','<config>\n	<option name=\"filter\">1</option>\n</config>',''),
- ('13','cms_users','password','','Password Reset','','','plugin','edit','','','plugin','update','','','',''),
- ('14','cms_users','password','','','','','plugin','insert','','','plugin','insert','','','',''),
- ('8','cms_groups','tables','','','','','plugin','','','','plugin','','','','',''),
- ('12','cms_users','groups','','','','','plugin','','','','plugin','','','','',''),
- ('15','cms_users','super_user','','','','','hidden','','','','','','','','',''),
- ('10','cms_history','table_name','','','','','','','','','','','','','<config>\n	<option name=\"filter\">1</option>\n</config>',''),
- ('9','cms_history','action','','','','','','','','','','','','','<config>\n	<option name=\"filter\">1</option>\n</config>',''),
- ('11','cms_history','user_id','','','','','','','','','','','','','<config>\n	<option name=\"filter\">1</option>\n</config>','');
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='private';
 
 CREATE TABLE `cms_countries` (
   `id` mediumint(9) NOT NULL default '0',
@@ -307,7 +291,7 @@ insert into `cms_groups` values('1','1','Administrator','<data><table name=\"cms
 CREATE TABLE `cms_headers` (
   `id` mediumint(9) NOT NULL auto_increment,
   `table_name` varchar(255) NOT NULL default '',
-  `mode` enum('','data_grid','edit') NOT NULL default '',
+  `mode` varchar(40) NOT NULL default '',
   `javascript` text NOT NULL,
   `css` text NOT NULL,
   PRIMARY KEY  (`id`)
@@ -327,6 +311,14 @@ CREATE TABLE `cms_history` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+CREATE TABLE `cms_info` (
+  `name` varchar(40) NOT NULL default '',
+  `value` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+insert into `cms_info` values('schema_version','1.0.14');
+
 CREATE TABLE `cms_menus` (
   `id` mediumint(9) NOT NULL auto_increment,
   `active` tinyint(4) NOT NULL default '0',
@@ -343,7 +335,7 @@ CREATE TABLE `cms_relations` (
   `column_parent` varchar(255) NOT NULL default '',
   `table_child` varchar(255) NOT NULL default '',
   `column_child` varchar(255) NOT NULL default '',
-  `display` enum('data_grid','module','plugin') NOT NULL default 'data_grid',
+  `display` varchar(40) NOT NULL default '',
   `config` text NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='private';
@@ -472,7 +464,7 @@ CREATE TABLE `cms_tables` (
   `display_name` varchar(255) NOT NULL default '',
   `cols_default` varchar(255) NOT NULL default '',
   `sort_default` varchar(255) NOT NULL default '',
-  `display_mode` enum('','data_grid','related') NOT NULL default '',
+  `display_mode` varchar(40) NOT NULL default '',
   `edit_module` varchar(40) NOT NULL default '',
   `process_module` varchar(40) NOT NULL default '',
   `process_mode` varchar(40) NOT NULL default '',
@@ -482,10 +474,6 @@ CREATE TABLE `cms_tables` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `table_name` (`table_name`,`display_mode`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='private';
-
-insert into `cms_tables` values('3','cms_users','','id,firstname,lastname,email,groups','','','','','','1','',''),
- ('1','cms_groups','','id,active,name,admin','','','','','','1','',''),
- ('2','cms_history','','*','','','','','','1','','');
 
 CREATE TABLE `cms_users` (
   `id` mediumint(9) NOT NULL auto_increment,

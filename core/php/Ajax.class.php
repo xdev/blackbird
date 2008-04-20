@@ -40,7 +40,7 @@ class Ajax
 						
 			if($this->table_parent != ''){
 				$q_relation = $this->db->queryRow("SELECT * FROM cms_relations WHERE table_parent = '$this->table_parent' AND table_child = '$this->table'");	
-				$module->config = Utils::parseConfig($q_relation['config']);
+				$module->config = $this->cms->parseConfig($q_relation['config']);
 			}			
 			
 			if(isset($_POST['remote_method'])){
@@ -65,7 +65,7 @@ class Ajax
 			
 			if($this->table_parent != ''){
 				$q_relation = $this->db->queryRow("SELECT * FROM cms_relations WHERE table_parent = '$this->table_parent' AND table_child = '$this->table'");
-				$module->config = Utils::parseConfig($q_relation['config']);
+				$module->config = $this->cms->parseConfig($q_relation['config']);
 			}
 			
 			if(isset($_POST['remote_method'])){

@@ -55,49 +55,42 @@ class ProcessRecord
 		$row_data = array();
 				
 		foreach($q_cols as $col){
-			/*
-			$q_c = $this->db->query("SELECT * FROM cms_cols WHERE column_name = '$col[Field]' AND process_module != ''");
-			if($q_c){				
-				$q_col = Utils::checkArray($q_c,array('table_name'=>$this->table,'process_mode'=>$this->query_action));
-				if(!$q_col){
-					$q_col = Utils::checkArray($q_c,array('table_name'=>$this->table,'process_mode'=>''));
-				}
-				
-				if(!$q_col){
-					$q_col = Utils::checkArray($q_c,array('table_name'=>'*','process_mode'=>$this->query_action));
-					if(!$q_col){
-						$q_col = Utils::checkArray($q_c,array('table_name'=>'*','process_mode'=>''));
-					}
-				}
-			}
-			*/
+			
 			
 			$col_type = strtolower($col['Type']);
 			$col_ready = false;
+			
+			$q_c = array();
+			//get all the base config
+			$tA = Utils::checkArray($this->cms->config['cms_cols'],array('column_name'=>$col['Field']),true);
+			if(is_array($tA)){
+				$q_c = $tA;
+			}
+			
+			//get anything from the cms_cols
+			if($q_sql = $this->db->query("SELECT * FROM cms_cols WHERE column_name = '$col[Field]' AND process_module != '' ORDER BY table_name,process_mode")){
+				$q_c = array_merge($q_c,$q_sql);
+			}					
 						
-			$q_col = $this->db->queryRow("SELECT * FROM cms_cols WHERE column_name = '$col[Field]' AND table_name = '$this->table' AND process_module != '' AND process_mode = '$this->query_action'");
-				
+			$q_col = Utils::checkArray($q_c,array('table_name'=>$this->table,'process_mode'=>$this->query_action));
 			if(!$q_col){
-				$q_col = $this->db->queryRow("SELECT * FROM cms_cols WHERE column_name = '$col[Field]' AND table_name = '$this->table' AND process_module != '' AND process_mode = ''");
-			}
-			if(!$q_col){
-				$q_col = $this->db->queryRow("SELECT * FROM cms_cols WHERE column_name = '$col[Field]' AND table_name = '*' AND process_module != '' AND process_mode = '$this->query_action'");
-			}
-			if(!$q_col){
-				$q_col = $this->db->queryRow("SELECT * FROM cms_cols WHERE column_name = '$col[Field]' AND table_name = '*' AND process_module != '' AND process_mode = ''");
+				$q_col = Utils::checkArray($q_c,array('table_name'=>$this->table,'process_mode'=>''));
 			}
 			
-			
-			
-			
+			if(!$q_col){
+				$q_col = Utils::checkArray($q_c,array('table_name'=>'*','process_mode'=>$this->query_action));
+				if(!$q_col){
+					$q_col = Utils::checkArray($q_c,array('table_name'=>'*','process_mode'=>''));
+				}
+			}
+						
 			if($q_col){
 			
 				$module = $q_col['process_module'];
 								
 				switch(true){
 			
-					case $module == 'plugin':
-						//if we have a plugin function
+					case $module == 'plugin' || $module == 'file':
 						$options = array();
 						$options['mode'] = $this->query_action;
 						$options['name_space'] = $this->_name_space;
@@ -118,30 +111,80 @@ class ProcessRecord
 						}
 						
 						if(strlen($q_col['process_config']) > 1){
-							$config = Utils::parseConfig($q_col['process_config']);
+							$config = $this->cms->parseConfig($q_col['process_config']);
+							
 							$options = array_merge($options,$config);
 						}
-						
-						$t = $this->cms->pluginColumnProcess($this->_name_space . $col['Field'],$value,$options);
-						
-						if(isset($t['error'])){
-							$this->errorData[] = array('field'=>$col['Field'],'error'=>$t['error']);	
-						}else{
-							if(is_array($t)){
-								$row_data[] = $t;
+												
+						if($module == 'plugin'){
+							$t = $this->cms->pluginColumnProcess($this->_name_space . $col['Field'],$value,$options);
+
+							if(isset($t['error'])){
+								$this->errorData[] = array('field'=>$col['Field'],'error'=>$t['error']);	
+							}else{
+								if(is_array($t)){
+									$row_data[] = $t;
+								}
 							}
 						}
 						
+						if($module == 'file'){
+							$options['db'] = $this->db;
+							$name = $this->_name_space . $col['Field'];
+							$upload = true;
+							
+							if(isset($options['file_validator']) && is_uploaded_file($_FILES[$name]['tmp_name'])){
+								$t = Utils::validateFile($_FILES[$name],$options['file_validator']);
+								if($t === true){
+
+								}else if(is_array($t)){
+									$r = '<ul>';
+									foreach($t as $row){
+										$r .= '<li>'.$row.'</li>';
+									}
+									$r .= '</ul>';
+									$this->errorData[] = array('field'=>$col['Field'],'error'=>$r);
+									$upload = false;
+								}
+
+							}
+
+							//if so.. do upload
+							if($upload === true){
+								if($value = Utils::uploadFile($name,$value,$options)) {
+									
+									$row_data[] = array(
+										'field'=>$options['col_name'],
+										'value'=>$value
+									);
+									
+									if(isset($options['thumbnails'])){
+										foreach($options['thumbnails'] as $thumb){
+											$src = WEB_ROOT . 'files/'.$options['table'].'/'.$options['col_name'].'/'.$value;
+											$targ = WEB_ROOT . 'files/'.$options['table'].'/'.$thumb['output_directory'].'/image_'.$options['id'].'.jpg';
+											Utils::createThumb($src,$targ,$thumb['height'],$thumb['width'],array('quality'=>$thumb['quality'],'mode'=>$thumb['mode']));
+										}
+									}
+
+								}elseif (isset($_POST[$name.'_delete']) && $_POST[$name.'_delete']) {
+									$row_data[] = array(
+										'field'=>$options['col_name'],
+										'value'=>''
+									);
+								}
+							}
+						}
 						
 						$col_ready = true;
 					break;
 					
+				
 					case $module == 'position':
 						//if we are a position column
 						$where = '';
 						
 						if(strlen($q_col['process_config']) > 1){
-							$config = Utils::parseConfig($q_col['process_config']);
+							$config = $this->cms->parseConfig($q_col['process_config']);
 						}
 						
 						$value = $_REQUEST[$this->_name_space . $col['Field']];
@@ -224,8 +267,6 @@ class ProcessRecord
 				
 			if(count($this->errorData) == 0){
 				
-				//die(print_r($row_data));
-				
 				if($this->query_action == "insert"){
 					$sql = $this->db->insert($this->table,$row_data);
 					$this->id = mysql_insert_id();
@@ -252,13 +293,8 @@ class ProcessRecord
 			}
 		
 		}
-		
-		
-		
+
 	}
-	
-	
-	
 	
 }
 ?>

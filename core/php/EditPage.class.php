@@ -161,7 +161,9 @@ class EditPage
 				foreach($q_related as $relation){
 					
 					$name_space = 'related' . $i;
-					$config = Utils::parseConfig($relation['config']);
+					if(strlen($relation['config']) > 1){
+						$config = $this->cms->parseConfig($relation['config']);
+					}
 					
 					print '<div class="toggle related_' . $relation['table_child'] . '" id="pane_' . $name_space .'" style="display:none;"><div class="pane">';
 					
@@ -259,7 +261,7 @@ class EditPage
 				
 				
 				print '<div class="data_grid_embed">';
-						
+				
 				include_once(INCLUDES.'DataGridAjax.class.php');					
 				$module = new DataGridAjax($this->cms);
 				$module->cms = $this->cms;

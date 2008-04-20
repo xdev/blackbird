@@ -107,36 +107,46 @@ class EditRecord
 				}
 				
 				if(!$col_ready){
-				
-					$q_c = $this->db->query("SELECT * FROM cms_cols WHERE column_name = '$col[Field]' ORDER BY table_name,edit_mode,edit_channel");
-					if($q_c){				
-						$q_col = Utils::checkArray($q_c,array('table_name'=>$this->table,'edit_mode'=>$this->mode,'edit_channel'=>$this->channel));
-						if(!$q_col){
-							$q_col = Utils::checkArray($q_c,array('table_name'=>$this->table,'edit_mode'=>$this->mode,'edit_channel'=>''));
-						}
-						
-						if(!$q_col){
-							$q_col = Utils::checkArray($q_c,array('table_name'=>$this->table,'edit_mode'=>'','edit_channel'=>$this->channel));
-							if(!$q_col){
-								$q_col = Utils::checkArray($q_c,array('table_name'=>$this->table,'edit_mode'=>'','edit_channel'=>''));
-							}
-						}
-						
-						if(!$q_col){
-							$q_col = Utils::checkArray($q_c,array('table_name'=>'*','edit_mode'=>$this->mode,'edit_channel'=>$this->channel));
-							if(!$q_col){
-								$q_col = Utils::checkArray($q_c,array('table_name'=>'*','edit_mode'=>$this->mode,'edit_channel'=>''));
-							}
-						}
-						
-						if(!$q_col){
-							$q_col = Utils::checkArray($q_c,array('table_name'=>'*','edit_mode'=>'','edit_channel'=>$this->channel));
-							if(!$q_col){
-								$q_col = Utils::checkArray($q_c,array('table_name'=>'*','edit_mode'=>'','edit_channel'=>''));
-							}
-						}
 					
+					$q_c = array();
+					//get all the base config
+					$tA = Utils::checkArray($this->cms->config['cms_cols'],array('column_name'=>$col['Field']),true);
+					if(is_array($tA)){
+						$q_c = $tA;
 					}
+					
+					//get anything from the cms_cols
+					if($q_sql = $this->db->query("SELECT * FROM cms_cols WHERE column_name = '$col[Field]' ORDER BY table_name,edit_mode,edit_channel")){
+						$q_c = array_merge($q_c,$q_sql);
+					}					
+								
+					$q_col = Utils::checkArray($q_c,array('table_name'=>$this->table,'edit_mode'=>$this->mode,'edit_channel'=>$this->channel));
+					if(!$q_col){
+						$q_col = Utils::checkArray($q_c,array('table_name'=>$this->table,'edit_mode'=>$this->mode,'edit_channel'=>''));
+					}
+					
+					if(!$q_col){
+						$q_col = Utils::checkArray($q_c,array('table_name'=>$this->table,'edit_mode'=>'','edit_channel'=>$this->channel));
+						if(!$q_col){
+							$q_col = Utils::checkArray($q_c,array('table_name'=>$this->table,'edit_mode'=>'','edit_channel'=>''));
+						}
+					}
+					
+					if(!$q_col){
+						$q_col = Utils::checkArray($q_c,array('table_name'=>'*','edit_mode'=>$this->mode,'edit_channel'=>$this->channel));
+						if(!$q_col){
+							$q_col = Utils::checkArray($q_c,array('table_name'=>'*','edit_mode'=>$this->mode,'edit_channel'=>''));
+						}
+					}
+					
+					if(!$q_col){
+						$q_col = Utils::checkArray($q_c,array('table_name'=>'*','edit_mode'=>'','edit_channel'=>$this->channel));
+						if(!$q_col){
+							$q_col = Utils::checkArray($q_c,array('table_name'=>'*','edit_mode'=>'','edit_channel'=>''));
+						}
+					}
+					
+					
 				
 				}
 				
@@ -157,17 +167,16 @@ class EditRecord
 					}
 					
 					$options['label'] = $display_name;
-					
 												
 					$module = $q_col['edit_module'];
 					
 					if(strlen($q_col['edit_config']) > 1){
-						$config = Utils::parseConfig($q_col['edit_config']);
+						$config = $this->cms->parseConfig($q_col['edit_config']);
 						$options = array_merge($options,$config);
 					}
 					
 					if($q_col['validate'] != ''){
-						$options = array_merge($options,Utils::parseConfig($q_col['validate']));
+						$options = array_merge($options,$this->cms->parseConfig($q_col['validate']));
 					}
 										
 					if($module != ""){

@@ -165,7 +165,7 @@ cms.prototype.onRemoteErrors = function(obj)
 	
 	if(obj.name_space != 'main'){
 		//show form buttons
-		var tA = $('pane_' + this.name_space).select('.buttons');
+		var tA = $('pane_' + obj.name_space).select('.buttons');
 		var obj = tA[0];
 		obj.show();
 		//new Effect.Opacity(obj, {duration:0.5, from:0.2, to:1.0});
