@@ -703,11 +703,10 @@ Portions of this software rely upon the following software which are covered by 
 	{
 		print'
 		</div>
-		<div id="footer">BlackBird &copy; 2004-' . date('Y') . ' ' . BLACKBIRD_VERSION . ' (<a href="http://svn.underdeconstruction.com/listing.php?repname=blackbird&amp;rev=' . BLACKBIRD_REVISION . '">' . BLACKBIRD_REVISION . ')</a></div>
+		<div id="footer">BlackBird &copy; 2004-' . date('Y') . ' ' . BLACKBIRD_VERSION . '</div>
 		</div>
 		</body>
 		</html>';
-
 	}
 	
 	private function setConfig()
