@@ -225,24 +225,27 @@ class BlackBird
 	
 	public function processDelete($table,$id_set)
 	{	
+		if($this->session->privs('delete',$table)){
+			
+			switch($table){
 	
-		switch($table){
-	
-			default:
+				default:
 				
-				foreach($id_set as $id){
-					$this->db->sql("DELETE FROM `$table` WHERE id = $id");
+					foreach($id_set as $id){
+						$this->db->sql("DELETE FROM `$table` WHERE id = $id");
 							
-					$row_data = array();
-					$row_data[] = array('field'=>'table_name','value'=>$table);
-					$row_data[] = array('field'=>'record_id','value'=>$id);
-					$row_data[] = array('field'=>'action','value'=>'delete');
-					$row_data[] = array('field'=>'user_id','value'=>$this->session->u_id);
-					$row_data[] = array('field'=>'session_id','value'=>session_id());
-					$this->db->insert('cms_history',$row_data);
-				}				
+						$row_data = array();
+						$row_data[] = array('field'=>'table_name','value'=>$table);
+						$row_data[] = array('field'=>'record_id','value'=>$id);
+						$row_data[] = array('field'=>'action','value'=>'delete');
+						$row_data[] = array('field'=>'user_id','value'=>$this->session->u_id);
+						$row_data[] = array('field'=>'session_id','value'=>session_id());
+						$this->db->insert('cms_history',$row_data);
+					}				
 								
-			break;
+				break;
+		
+			}
 		
 		}
 	
