@@ -111,9 +111,7 @@ class ProcessRecord
 						}
 						
 						if(strlen($q_col['process_config']) > 1){
-							$config = $this->cms->parseConfig($q_col['process_config']);
-							
-							$options = array_merge($options,$config);
+							$options = array_merge($options,$this->cms->parseConfig($q_col['process_config']));
 						}
 												
 						if($module == 'plugin'){
@@ -185,6 +183,8 @@ class ProcessRecord
 						
 						if(strlen($q_col['process_config']) > 1){
 							$config = $this->cms->parseConfig($q_col['process_config']);
+						}else if(isset($config)){
+							unset($config);
 						}
 						
 						$value = $_REQUEST[$this->_name_space . $col['Field']];
