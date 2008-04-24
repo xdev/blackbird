@@ -49,25 +49,15 @@ class BlackBird
 			$this->db = new $class();
 			
 			$this->db->sql('SET NAMES utf8');
+			
+			self::checkDB();
+			
 			self::setConfig();
 			$this->session = new SessionManager($this);
 		} else {
 			die('Bobolink PHP library is not properly installed');
 		}
 		
-		// If CMS database tables do not exist, create them using the schema.sql file
-		if (!$this->db->query("SHOW TABLES LIKE 'cms_%'")) {
-			if ($schema = file_get_contents(CMS_FILESYSTEM.'core/sql/schema.sql')) {
-				$schema = explode(';',$schema);
-				array_pop($schema);
-				foreach ($schema as $row) {
-					$this->db->sql($row);
-				}
-			} else {
-				die('Could not load SQL schema and data');
-			}
-		}
-				
 		// Check to see if we have a sufficient schema installed
 		if($this->db->query("SHOW TABLES LIKE 'cms_info'")){
 			if($q = $this->db->queryRow("SELECT * FROM cms_info WHERE name = 'schema_version'")){
@@ -710,6 +700,22 @@ Portions of this software rely upon the following software which are covered by 
 		</div>
 		</body>
 		</html>';
+	}
+	
+	private function checkDB()
+	{
+		// If CMS database tables do not exist, create them using the schema.sql file
+		if (!$this->db->query("SHOW TABLES LIKE 'cms_%'")) {
+			if ($schema = file_get_contents(CMS_FILESYSTEM.'core/sql/schema.sql')) {
+				$schema = explode(';',$schema);
+				array_pop($schema);
+				foreach ($schema as $row) {
+					$this->db->sql($row);
+				}
+			} else {
+				die('Could not load SQL schema and data');
+			}
+		}
 	}
 	
 	private function setConfig()
