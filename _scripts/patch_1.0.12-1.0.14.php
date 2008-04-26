@@ -23,14 +23,13 @@ $tA = array_slice($tA,1,-3);
 $base = '/'.join('/',$tA).'/';
 
 require $base.'cms_config/config_custom.php';
-
+/*
 $myA = array();
 
 //
 $i=0;
 foreach ( $argv as $key => $value ) {
 	
-	print $key . '='.$value . "\r\n";
 	if($i>0){
 		//explode right on =
 		$v = explode('=',$value);
@@ -41,12 +40,23 @@ foreach ( $argv as $key => $value ) {
 	
 	$i++;
 }
-
+*/
 define('LIB',$base.'cms/bobolink/');
 require LIB.'database/Db.interface.php';
 require LIB.'database/AdaptorMysql.class.php';
 require LIB.'utils/Utils.class.php';
+require $base.'cms/_version.php';
 $db = new AdaptorMysql();
+
+
+// Check to see if we have a sufficient schema installed
+if($db->query("SHOW TABLES LIKE 'cms_info'")){
+	if($q = $db->queryRow("SELECT * FROM cms_info WHERE name = 'schema_version'")){
+		if($q['value'] >= REQUIRED_SCHEMA_VERSION){
+			die('You have an up to date schema');
+		}
+	}			
+}
 
 //run schema patch
 $sql = "alter table `cms_cols` change column `edit_channel` `edit_channel` varchar(20) not null default '' after `default_value`;
@@ -134,5 +144,3 @@ $q = $db->query("
 	ORDER BY id");
 	
 processTable($q,'cms_relations');
-
-?>
