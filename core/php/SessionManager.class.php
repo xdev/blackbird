@@ -130,7 +130,8 @@ class SessionManager extends Session
 			$q = $this->db->query("SHOW TABLES");
 			
 			foreach($q as $table){
-				$tables[] = array('name'=>$table[0],'value'=>'browse,insert,update,delete','menu'=>0,'in_nav'=>1);
+				$qMenuId = $this->db->queryRow("SELECT menu_id FROM cms_tables WHERE `table_name` = '$table[0]'");
+				$tables[] = array('name'=>$table[0],'value'=>'browse,insert,update,delete','menu'=>$qMenuId['menu_id'],'in_nav'=>1);
 			}
 					
 		}else{
