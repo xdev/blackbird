@@ -163,6 +163,8 @@ class EditPage
 					$name_space = 'related' . $i;
 					if(strlen($relation['config']) > 1){
 						$config = $this->cms->parseConfig($relation['config']);
+					} else {
+						$config = '';
 					}
 					
 					print '<div class="toggle related_' . $relation['table_child'] . '" id="pane_' . $name_space .'" style="display:none;"><div class="pane">';
