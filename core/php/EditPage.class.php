@@ -201,9 +201,9 @@ class EditPage
 										table_parent: \'' . $this->cms->table . '\',
 										id_parent: \'' . $this->cms->id . '\',
 										name_space: \''. $name_space . '\',
-										cms_root: \'' . CMS_ROOT . '\',';
+										cms_root: \'' . CMS_ROOT . '\'';
 										if(isset($config['sql_where'])){
-											print 'sql_where: "' . $config['sql_where'] . '"';
+											print ',sql_where: "' . $config['sql_where'] . '"';
 										}
 										print '
 									}
