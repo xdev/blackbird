@@ -696,7 +696,7 @@ Portions of this software rely upon the following software which are covered by 
 	{
 		print'
 		</div>
-		<div id="footer">BlackBird &copy; 2004-' . date('Y') . ' ' . BLACKBIRD_VERSION . '</div>
+		<div id="footer"><a href="http://blackbirdui.googlecode.com">Blackbird &copy; 2004-' . date('Y') . ' ' . BLACKBIRD_VERSION . '</a></div>
 		</div>
 		</body>
 		</html>';
