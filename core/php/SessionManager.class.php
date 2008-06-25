@@ -58,7 +58,7 @@ class SessionManager extends Session
 	{
 		session_name("BlackbirdCMS_sid");
 		session_start();
-				
+		
 		$this->logged = false;
 		
 		if(isset($_COOKIE['BlackbirdCMS_sid'])){
@@ -68,32 +68,34 @@ class SessionManager extends Session
 				$pass = $_SESSION['u_token'];
 				
 				if($q = $this->db->queryRow("SELECT * FROM `cms_users` WHERE id = '$tid' AND password = '$pass'")){
+					
 					$this->u_id = $q['id'];
 					$this->u_row = $q;
 					$this->logged = true;
 					$this->displayname = $q['firstname'] . " " . $q['lastname'];
-															
+					
 					if($q['super_user'] == 1){
 						$this->super_user = true;
 					}
 					
-					$this->getTables();					
+					if (isset($q['active']) && !$q['active']) {
+						$this->redirect();
+					}
+					
+					$this->getTables();
 					
 				}else{
-					
 					$this->redirect();
 				}
+				
 			}else{
-			
 				$this->redirect();
 			}
-								
-		}else{
 			
+		}else{
 			$this->redirect();
 		}
-
-	
+		
 	}
 	
 	private function redirect()

@@ -477,6 +477,7 @@ CREATE TABLE `cms_tables` (
 
 CREATE TABLE `cms_users` (
   `id` mediumint(9) NOT NULL auto_increment,
+  `active` tinyint(4) NOT NULL default '1',
   `firstname` varchar(255) NOT NULL default '',
   `lastname` varchar(255) NOT NULL default '',
   `password` varchar(255) NOT NULL default '',

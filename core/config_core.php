@@ -54,7 +54,7 @@ if (file_exists(substr(substr($_SERVER['SCRIPT_FILENAME'],0,-strlen('index.php')
 	define("CUSTOM","custom/");
 } else {
 	// Otherwise DIE!!!
-	die('No config_custom.php found. You need to copy the "example_config" directory to the same level as BlackBird\'s root directory and rename it to "[BlackBird directory name]_config".');
+	die('No config_custom.php found. You need to copy the "example_config" directory to the same level as Blackbird\'s root directory and rename it to "[Blackbird directory name]_config".');
 }
 
 require_once(CUSTOM.'config_custom.php');
