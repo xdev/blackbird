@@ -224,6 +224,20 @@ class EditRecord
 								$col_ready = true;
 							break;
 							
+							case "slug":
+								
+								$source = isset($config['col_source']) ? $_name_space . $config['col_source'] : null;
+								
+								Forms::text($_name_space . $col['Field'],$value,$options);
+								print '
+									<script type="text/javascript">
+										Event.observe(window,\'load\', function(){CMS.createSlug(\''.$_name_space . $col['Field'].'\',\''.$source.'\')}, true);
+									</script>
+								';
+								$col_ready = true;
+								
+							break;
+							
 							
 							case "disabled":
 								$col_ready = true;

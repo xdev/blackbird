@@ -57,7 +57,7 @@ Parameters:
 cms.prototype.setProperty = function(prop,value)
 {
 	this.data[prop] = value;
-}
+};
 
 /*
 
@@ -78,7 +78,7 @@ Returns:
 cms.prototype.getProperty = function(prop)
 {
 	return this.data[prop];
-}
+};
 
 /*
 
@@ -96,8 +96,8 @@ Parameters:
 
 cms.prototype.addCallback = function(name_space,obj,method)
 {
-	this.callbacks[name_space] = { obj: obj, method: method }
-}
+	this.callbacks[name_space] = { obj: obj, method: method };
+};
 
 /*
 
@@ -124,7 +124,7 @@ cms.prototype.onRemoteComplete = function(obj)
 	if(listener[method]){
 		listener[method].apply(listener,[obj]);
 	}
-}
+};
 
 /*
 
@@ -174,7 +174,7 @@ cms.prototype.onRemoteErrors = function(obj)
 		$('edit_buttons').show();	
 	}
 	
-}
+};
 
 
 /**
@@ -188,7 +188,7 @@ cms.prototype.onSubmit = function()
 	if($('ajax')){
 		$('ajax').show();
 	}
-}
+};
 
 /**
 *	submitRelated
@@ -211,7 +211,7 @@ cms.prototype.submitRelated = function(name_space)
 	if(errorsA.length > 0){
 		this.handleErrors(errorsA);
 	}
-}
+};
 
 /**
 *	submitMain
@@ -230,7 +230,7 @@ cms.prototype.submitMain = function(name_space)
 		this.showTab('main');
 		this.handleErrors(tA);
 	}
-}
+};
 
 /**
 *	loadUrl
@@ -241,7 +241,7 @@ cms.prototype.submitMain = function(name_space)
 cms.prototype.loadUrl = function(url)
 {
 	window.location = url;
-}
+};
 
 /**
 *	handleErrors
@@ -257,7 +257,7 @@ cms.prototype.handleErrors = function(obj)
 		t += obj[i].message + '\n';
 	}
 	alert(t);
-}
+};
 
 //changeme12345
 
@@ -270,7 +270,7 @@ cms.prototype.handleErrors = function(obj)
 cms.prototype.validate = function(name_space)
 {
 	return validate($('form_' + name_space),name_space);
-}
+};
 
 /**
 *	addNewRecord
@@ -284,7 +284,7 @@ cms.prototype.addNewRecord = function(table,name_space)
 	this.recordHandler(table,'',name_space,'add',this.processAdd,'insert');
 	this.broadcaster.broadcastMessage("onAddNew");
 	
-}
+};
 
 /**
 *	editRecord
@@ -295,7 +295,7 @@ cms.prototype.addNewRecord = function(table,name_space)
 cms.prototype.editRecord = function(table,id,name_space,elem)
 {
 	this.recordHandler(table,id,name_space,'edit',this.processEdit,'update');
-}
+};
 
 /**
 *	deleteRecord
@@ -306,7 +306,7 @@ cms.prototype.editRecord = function(table,id,name_space,elem)
 cms.prototype.deleteRecord = function(table,id,name_space)
 {
 
-	var answer = confirm ("Really Delete?")
+	var answer = confirm ("Really Delete?");
 	if (answer) {
 		
 		this.data.name_space = name_space;
@@ -328,7 +328,7 @@ cms.prototype.deleteRecord = function(table,id,name_space)
 	
 	}
 		
-}
+};
 
 /**
 *	processDelete
@@ -353,7 +353,7 @@ cms.prototype.processDelete = function()
 	//
 	//cmsBroadcaster.broadcastMessage("onDelete");
 	eval("data_grid_" + this.data.name_space + ".getUpdate();");
-}
+};
 
 /**
 *	recordHandler
@@ -395,7 +395,7 @@ cms.prototype.recordHandler = function(table,id,name_space,mode,handler,query_ac
 		}
 	);
 		
-}
+};
 
 /**
 *	processAdd
@@ -406,7 +406,7 @@ cms.prototype.recordHandler = function(table,id,name_space,mode,handler,query_ac
 cms.prototype.processAdd = function()
 {
 	this.openRecord(this.data.name_space);
-}
+};
 
 /**
 *	processEdit
@@ -417,7 +417,7 @@ cms.prototype.processAdd = function()
 cms.prototype.processEdit = function()
 {
 	this.openRecord(this.data.name_space);
-}
+};
 
 /**
 *	openRecord
@@ -436,7 +436,7 @@ cms.prototype.openRecord = function(name_space)
 	
 	this.broadcaster.broadcastMessage("onOpen");	
 	
-}
+};
 
 /**
 *	closeRecord
@@ -453,12 +453,12 @@ cms.prototype.closeRecord = function(name_space)
 	
 	this.broadcaster.broadcastMessage("onClose");
 
-}
+};
 
 cms.prototype.closeMessage = function()
 {
 	$('message_content').remove();
-}
+};
 
 /**
 *	registerClick
@@ -490,7 +490,7 @@ cms.prototype.registerClick = function(obj)
 	}else{
 		$('selection_set').innerHTML = 'With Selected';
 	}
-}
+};
 
 /**
 *	checkAll
@@ -510,7 +510,7 @@ cms.prototype.checkAll = function(mode)
 			this.registerClick(obj);
 		}
 	}
-}
+};
 
 /**
 *	toggleTabs
@@ -526,9 +526,9 @@ cms.prototype.toggleTabs = function()
 		//alert(triggers[i].id);
 		toggle = tA[i].id.replace('tab_','');
 		//alert(toggle);
-		Event.observe(tA[i], 'click', function(){alert(toggle)});
+		Event.observe(tA[i], 'click', function(){alert(toggle);});
 	}
-}
+};
 
 /**
 *	showTab
@@ -571,7 +571,7 @@ cms.prototype.showTab = function(tab)
 	*/
 	
 	this.lastSection = tab;
-}
+};
 
 
 /**
@@ -584,7 +584,7 @@ cms.prototype.searchDataGrid = function(){
 	if($('search').value != 'Search...'){
 		window.document.forms['searchrec'].submit();
 	}
-}
+};
 
 /**
 *	viewRows
@@ -596,7 +596,7 @@ cms.prototype.viewRows = function(obj,url){
 	
 	window.location = url + '&limit=' + obj.value;
 	
-}
+};
 
 /**
 *	setFilter
@@ -610,7 +610,7 @@ cms.prototype.setFilter = function(obj,url){
 	}else{
 		window.location = url;
 	}
-}
+};
 
 /**
 *	batchProcess
@@ -634,7 +634,7 @@ cms.prototype.batchProcess = function(table)
 		alert('Select some rows first');
 	}
 	
-}
+};
 
 /**
 *	toggleSection
@@ -655,7 +655,7 @@ cms.prototype.toggleSection = function(elem)
 		obj.addClassName('open');
 		Effect.BlindUp(obj,{duration:0.2});
 	}
-}
+};
 
 /**
 *	toggleHelp
@@ -674,7 +674,7 @@ cms.prototype.toggleHelp = function()
 	} else {
 		alert('Help documentation not found.');
 	}
-}
+};
 
 
 /**
@@ -694,4 +694,47 @@ cms.prototype.loopBack = function(name_space)
 		this.showTab('main');
 		this.handleErrors(tA);
 	}
-}
+};
+
+/**
+*	dirify
+*
+*
+*/
+
+cms.prototype.dirify = function(input)
+{
+	output = input.strip(); // strip whitespace
+	output = output.gsub("[^a-zA-Z0-9 \_-]", ""); // only take alphanumerical characters, but keep the spaces too...
+	output = output.gsub(" ", "_", output); // replace spaces by underscores
+	output = output.toLowerCase();  // make it lowercase
+	return output;
+};
+
+/**
+*	createSlug
+*
+*
+*/
+
+cms.prototype.createSlug = function(elem,source)
+{
+	var elem = $(elem);
+	// If a value doesn't already exist, generate the slug
+	if (!elem.value) {
+		if (source) {
+			var source = $(source);
+		} else {
+			var source = elem.up(1).previous(0).down(2);
+		}
+		Event.observe(source,'keyup', function()
+		{
+			elem.value = CMS.dirify(source.value);
+		}, true);
+		
+	}
+	Event.observe(elem,'change', function()
+	{
+		elem.value = CMS.dirify(elem.value);
+	}, true);
+};

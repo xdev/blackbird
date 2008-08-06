@@ -25,9 +25,9 @@ function formController(name_space)
 				obj.onchange = function(){
 					var t = eval('formController_'+controller);
 					t.change(this);
-				}				
+				};
 			}
-		}				
+		}
 		
 	}
 }
@@ -77,7 +77,7 @@ formController.prototype.change = function(obj){
 	
 	this.updateStatus(obj,status);
 
-}
+};
 
 /**
 *	updateStatus
@@ -107,7 +107,7 @@ formController.prototype.updateStatus = function(obj,status)
 		}
 	}
 
-}
+};
 
 /**
 *	reset
@@ -130,7 +130,7 @@ formController.prototype.reset = function()
 	
 	Form.reset('form_' + this.name_space);
 	
-}
+};
 
 /**
 *	getLength
@@ -143,11 +143,11 @@ formController.prototype.getLength = function()
 	if(this.data_delta != undefined){
 		if(this.data_delta.length > 0){
 			return this.data_delta.length;
-		}		
+		}
 	}
 	
 	return 0;
-}
+};
 
 /**
 *	addChangeHandler
@@ -161,5 +161,5 @@ formController.prototype.addChangeHandler = function(elem,handler)
 	$(elem).onchange = function(){
 		controller.bind(this);
 		eval(handler)(this);
-	}
-}
+	};
+};
