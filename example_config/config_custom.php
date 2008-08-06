@@ -23,7 +23,7 @@ setConfig('CMS_USERS_TABLE','cms_users');
 // error_reporting(E_ALL);
 
 // Get DB settings from local config_local.php file
-if (file_exists($_SERVER['DOCUMENT_ROOT'].'/cms_config/config_local.php')) {
+if (file_exists(CUSTOM.'config_local.php')) {
 	include 'config_local.php';
 } else {
 	die('<h1>Site not configured.</h1>');
