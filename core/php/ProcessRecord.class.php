@@ -131,6 +131,7 @@ class ProcessRecord
 							$name = $this->_name_space . $col['Field'];
 							$upload = true;
 							
+							// Check for file validation
 							if(isset($options['file_validator']) && is_uploaded_file($_FILES[$name]['tmp_name'])){
 								$t = Utils::validateFile($_FILES[$name],$options['file_validator']);
 								if($t === true){
@@ -147,7 +148,7 @@ class ProcessRecord
 
 							}
 
-							//if so.. do upload
+							
 							if($upload === true){
 								if($value = Utils::uploadFile($name,$value,$options)) {
 									
@@ -156,14 +157,18 @@ class ProcessRecord
 										'value'=>$value
 									);
 									
+									$src_dir = WEB_ROOT . 'files/'.$options['table'].'/'.$options['col_name'].'/';
+									
+									// Check for thumbnail settings
 									if(isset($options['thumbnails'])){
 										foreach($options['thumbnails'] as $thumb){
-											$src = WEB_ROOT . 'files/'.$options['table'].'/'.$options['col_name'].'/'.$value;
-											$targ = WEB_ROOT . 'files/'.$options['table'].'/'.$thumb['output_directory'].'/image_'.$options['id'].'.jpg';
+											$targ_dir = Utils::validateDirectory($src_dir.$thumb['output_directory']).'/';
+											$src = $src_dir.$value;
+											$targ = $targ_dir.$value;
 											Utils::createThumb($src,$targ,$thumb['height'],$thumb['width'],array('quality'=>$thumb['quality'],'mode'=>$thumb['mode']));
 										}
 									}
-
+								// Delete?
 								}elseif (isset($_POST[$name.'_delete']) && $_POST[$name.'_delete']) {
 									$row_data[] = array(
 										'field'=>$options['col_name'],
