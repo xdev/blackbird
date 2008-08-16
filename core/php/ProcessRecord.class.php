@@ -285,6 +285,29 @@ class ProcessRecord
 						$col_ready = true;
 					break;
 					
+					case $module == 'tags':
+						// Get col value
+						if ($value = $_REQUEST[$this->_name_space . $col['Field']]) {
+							$tags = explode(',',$value);
+							$idA = array();
+							foreach ($tags as $key=>$tag) {
+								// Trim excess whitespace
+								$tags[$key] = trim($tag);
+								if ($q = $this->db->queryRow("SELECT id FROM tags WHERE name='$tags[$key]'")) {
+									$idA[] = $q['id'];
+								} elseif ($this->db->insert('tags',array(array('field'=>'name','value'=>$tags[$key])))) {
+									if ($q = $this->db->queryRow("SELECT id FROM tags WHERE name='$tags[$key]'")) {
+										$idA[] = $q['id'];
+									}
+								}
+							}
+							$value = implode(',',$idA);
+						}
+						
+						$row_data[] = array("field"=>$col['Field'],"value"=>$value);
+						$col_ready = true;
+					break;
+					
 					case $module == 'timestamp':
 						$row_data[] = array("field"=>$col['Field'],"value"=>(($col['Field'] == 'created' && $_REQUEST[$this->_name_space . $col['Field']]) ? $_REQUEST[$this->_name_space . $col['Field']] : Utils::now()));
 						$col_ready = true;

@@ -238,6 +238,23 @@ class EditRecord
 								
 							break;
 							
+							case "tags":
+								
+								if ($value) {
+									$tag_idA = explode(',',$value);
+									$tagA = array();
+									foreach ($tag_idA as $id) {
+										if ($q = $this->db->queryRow("SELECT name FROM tags WHERE id = $id")) {
+											$tagA[] = $q['name'];
+										}
+									}
+									$value = implode(', ',$tagA);
+								}
+								Forms::text($_name_space . $col['Field'],$value,$options);
+								$col_ready = true;
+								
+							break;
+							
 							
 							case "disabled":
 								$col_ready = true;
