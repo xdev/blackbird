@@ -419,3 +419,24 @@ ul.multicheck
 {	
 	font-size: 11px;
 }
+
+
+
+
+.tag_suggestions {
+	floatx: left;
+}
+
+	.tag_suggestions li {
+		cursor: default;
+		float: left;
+		padding: 2px 5px;
+		margin: 1px 1px 0 0;
+	}
+	.tag_suggestions li:hover {
+		text-decoration: underline;
+	}
+	
+	.tag_suggestions li.selected {
+		background-color: #CCCCCC;
+	}

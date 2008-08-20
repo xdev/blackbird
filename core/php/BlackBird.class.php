@@ -772,6 +772,7 @@ Portions of this software rely upon the following software which are covered by 
 		$tA[] = array('table_name'=>'cms_groups','cols_default'=>'id,active,name,admin','in_nav'=>1);
 		$tA[] = array('table_name'=>'cms_history','cols_default'=>'*','in_nav'=>1);
 		$tA[] = array('table_name'=>'cms_cols','cols_default'=>'id,table_name,column_name,edit_module,edit_mode,process_module,process_mode,validate,filter,help');
+		$tA[] = array('table_name'=>'cms_tags','cols_default'=>'id,name','in_nav'=>1);
 		
 		$q = $this->db->query("SHOW COLUMNS FROM `cms_tables`");
 		$this->config['cms_tables'] = self::normalizeArray($tA,$q);

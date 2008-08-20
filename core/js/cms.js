@@ -738,3 +738,25 @@ cms.prototype.createSlug = function(elem,source)
 		elem.value = CMS.dirify(elem.value);
 	}, true);
 };
+
+/**
+*	suggestTag
+*
+*
+*/
+
+cms.prototype.suggestTag = function(elem,tags)
+{
+	elem = $(elem);
+	suggestions = elem.id+'_suggestions';
+	// Insert suggestion markup
+	elem.insert({after:'<ul id="'+suggestions+'" class="tag_suggestions"><li>'+tags.join('</li><li>')+'</li></ul>'});
+	// Update suggestions as the user types
+	Event.observe(elem,'keyup', function()
+	{
+		input = this.value.split(',');
+		// Find all possible suggestions
+		suggest = tags.findAll(function(s) { return s.startsWith(input[input.length-1].strip()); });
+		$(suggestions).update('<li>'+suggest.join('</li><li>')+'</li>');
+	}, true);
+};

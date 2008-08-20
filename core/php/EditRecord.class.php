@@ -240,17 +240,34 @@ class EditRecord
 							
 							case "tags":
 								
-								if ($value) {
-									$tag_idA = explode(',',$value);
-									$tagA = array();
-									foreach ($tag_idA as $id) {
-										if ($q = $this->db->queryRow("SELECT name FROM tags WHERE id = $id")) {
-											$tagA[] = $q['name'];
-										}
+								// Load all existing tags into a JSON string
+								$tagsA = array();
+								if ($q = $this->db->query("
+									SELECT *
+									FROM cms_tags
+									ORDER BY name
+								")) {
+									foreach ($q as $row) {
+										$tagsA[$row['id']] = $row['name'];
 									}
-									$value = implode(', ',$tagA);
+								}
+								// Convert tag ids to name values
+								if ($value) {
+									$tag_idsA = explode(',',$value);
+									$valueA = array();
+									foreach ($tag_idsA as $id) {
+										if (isset($tagsA[$id])) $valueA[] = $tagsA[$id];
+									}
+									$value = implode(', ',$valueA);
 								}
 								Forms::text($_name_space . $col['Field'],$value,$options);
+								if (isset($q) && $q) printf(
+									'<script type="text/javascript" charset="utf-8">
+										Event.observe(window,\'load\', function(){CMS.suggestTag(\'%s\',%s)}, true);
+									</script>',
+									$_name_space . $col['Field'],
+									'[\''.implode('\',\'',$tagsA).'\']'
+								);
 								$col_ready = true;
 								
 							break;

@@ -293,10 +293,10 @@ class ProcessRecord
 							foreach ($tags as $key=>$tag) {
 								// Trim excess whitespace
 								$tags[$key] = trim($tag);
-								if ($q = $this->db->queryRow("SELECT id FROM tags WHERE name='$tags[$key]'")) {
+								if ($q = $this->db->queryRow("SELECT id FROM cms_tags WHERE name='$tags[$key]'")) {
 									$idA[] = $q['id'];
-								} elseif ($this->db->insert('tags',array(array('field'=>'name','value'=>$tags[$key])))) {
-									if ($q = $this->db->queryRow("SELECT id FROM tags WHERE name='$tags[$key]'")) {
+								} elseif ($this->db->insert('cms_tags',array(array('field'=>'name','value'=>$tags[$key])))) {
+									if ($q = $this->db->queryRow("SELECT id FROM cms_tags WHERE name='$tags[$key]'")) {
 										$idA[] = $q['id'];
 									}
 								}
