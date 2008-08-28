@@ -212,7 +212,7 @@ class ProcessRecord
 								}
 							}
 							
-							$this->cms->sortPosition($this->table,"SELECT id FROM `$this->table` $where ORDER BY $col[Field]",$this->id,$value);
+							$this->cms->sortPosition($this->table,"SELECT id FROM `$this->table` $where ORDER BY $col[Field]",$this->id,$value,$col['Field']);
 						}
 						if($this->query_action == "insert"){
 							//check for constraints from config

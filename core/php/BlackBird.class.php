@@ -655,12 +655,13 @@ Portions of this software rely upon the following software which are covered by 
 	* @param   string   sql record set query
 	* @param   string   record id
 	* @param   string   new position
+	* @param   string   field name
 	*
 	* @return  null     
 	*
 	*/
 	
-	public function sortPosition($table,$sql,$id,$pos)
+	public function sortPosition($table,$sql,$id,$pos,$field='position')
 	{
 		
 		$q = $this->db->query($sql);
@@ -677,7 +678,7 @@ Portions of this software rely upon the following software which are covered by 
 		
 		for($i=0;$i<count($tA);$i++){
 			$sqlA = array();
-			$sqlA[] = array('field'=>'position','value'=>($i+1));
+			$sqlA[] = array('field'=>$field,'value'=>($i+1));
 			$this->db->update($table,$sqlA,'id',$tA[$i]);
 		}
 	
