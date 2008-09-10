@@ -1,0 +1,3 @@
+[submodule "bobolink"]
+	path = bobolink
+	url = git://github.com/xdev/bobolink
