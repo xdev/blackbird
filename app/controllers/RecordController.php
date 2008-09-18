@@ -14,7 +14,7 @@ class RecordController extends _Controller
 	
 	public function Edit()
 	{
-		
+		$this->view();
 	}
 	
 	public function Process()

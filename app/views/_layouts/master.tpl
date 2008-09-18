@@ -19,45 +19,47 @@ Portions of this software rely upon the following software which are covered by 
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 		<title>Blackbird</title>
-		
 		<?php 
-		/*print $this->js() ?>
-		<?php print $this->css() ?>
-		<?php print $this->ieConditionals() ?>
-		<?php print $this->feed() ?>
-		*/
-		print '
-		<link rel="stylesheet" type="text/css" media="screen" href="' . WEB . 'assets/css/style.css" />
+		print $this->css();
+		print '		
 		<script type="text/javascript" src="' . WEB . 'assets/js/prototype.js" ></script>
 		<script type="text/javascript" src="' . WEB . 'assets/js/scriptaculous/scriptaculous.js?load=effects,dragdrop" ></script>';
-		
 		?>
 	</head>
 	
 	<body>
 		
 		<div id="bb_navigation">
-			<?php			
-			/*			
-			<?php print $this->logo() ?>
-			<?php print $this->tables() ?>
-			<?php print $this->actions() ?>
-			*/
-			?>
+			<?= $content['ui_nav'] ?>
 		</div>
 		
 		<div id="bb_session_nav">
-			<?php
-			/*
-			<?php print $this->breadcrumb() ?>
-			<?php print $this->session() ?>
-			*/
-			?>
+			<?= $content['ui_breadcrumb'] ?>
+			<?= $content['ui_session'] ?>
 		</div>
 		
 		<div id="bb_main">
+			<?= $content['ui_toolbar'] ?>
+			
+			<div id="bb_module">
+				<div id="pane_main">
+
+				<div class="data_grid_embed">
+				<div class="actions">
+					<div class="right">
+						<p class="actions related">
+							<input class="search" id="main_search" type="text" value="Search..." size="20" onclick="clickclear(this, 'Search...')" onblur="clickrecall(this,'Search...')"  />
+							<a class="icon search" href="#" onclick="data_grid_main.search();" title="Submit search query">Search</a>
+							<a class="icon undo" href="#" onclick="data_grid_main.reset();" title="Reset Data Grid">Reset</a>
+						</p>
+						<p class="pagination"><span class="values">9 Records</span></p>
+					</div>
+					<div class="clearfix"></div>
+				</div>
 			<?= $content['main'] ?>
+			</div>
 		</div>
+	</div>
 		
 	</body>
 	

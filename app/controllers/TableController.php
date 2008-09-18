@@ -12,6 +12,9 @@ class TableController extends _Controller
 	public function Browse()
 	{
 		
+		//view datagrid
+		$this->view();
+		
 	}
 	
 }
