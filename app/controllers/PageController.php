@@ -1,14 +1,6 @@
 <?php
 
-/**
- * The PageController is called when another Controller is not found and the site is set up to have database-driven dynamic pages.
- * 
- *
- * @package XDEV MVC
- * @author Charles Mastin
- * @author Joshua Rudd
- **/
-
+// handle 1 off pages of info
 class PageController extends _Controller
 {
 	

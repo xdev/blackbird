@@ -1,6 +1,4 @@
 <?php
 
-/* $Id$ */
-
-setConfig("BLACKBIRD_VERSION","1.0.20");
-setConfig("REQUIRED_SCHEMA_VERSION","1.0.14");
+setConfig("BLACKBIRD_VERSION","2.0.0");
+setConfig("REQUIRED_SCHEMA_VERSION","2.0.0");
