@@ -1,0 +1,152 @@
+/* $Id$ */
+
+a.icon
+{
+	background-repeat: no-repeat;
+	background-position: 50% -50px;
+	display: block;
+	font-size: 9px;
+	line-height: 1em;
+	text-indent: -9000px;
+	height: 24px;
+	width: 24px;
+}
+
+a.button
+{
+	background-repeat: no-repeat;
+	background-position: 0 0;
+	display: block;
+	text-indent: -4000px;
+	height: 25px;
+	margin-right: 3px;
+	float: left;
+}
+a.button:hover
+{
+	background-position: 0 -25px;
+}
+
+a.button.save_back
+{
+	background-image: url("../img/buttons/save_and_back.png");
+	width: 152px;
+}
+
+a.button.save_continue
+{
+	background-image: url("../img/buttons/save_and_continue.png");
+	width: 156px;
+}
+
+a.button.back
+{
+	background-image: url("../img/buttons/back_to_browse.png");
+	width: 110px;
+}
+
+a.button.save
+{
+	background-image: url("../img/buttons/save.png");
+	width: 57px;
+}
+
+a.button.cancel
+{
+	background-image: url("../img/buttons/cancel.png");
+	width: 57px;
+}
+
+a.button.delete
+{
+	background-image: url("../img/buttons/delete.png");
+	width: 57px;
+}
+
+
+a.button.login
+{
+	background-image: url("../img/buttons/login.png");
+	width: 57px;
+}
+
+a.button.reset_password
+{
+	background-image: url("../img/buttons/reset_password.png");
+	width: 112px;
+}
+
+a:link.icon,
+a:visited.icon
+{
+	background-position: 50% 0;
+}
+
+a:link:hover.icon,
+a:visited:hover.icon
+{
+	background-position: 50% -25px;
+}
+
+a.icon.help
+{
+	background-image: url("../img/icons/help.png");
+	float: right;
+	margin-top: 6px;
+	margin-right: 6px;
+}
+
+a.icon.first
+{
+	background-image: url("../img/icons/first.png");
+	width: 18px;
+}
+
+a.icon.previous
+{
+	background-image: url("../img/icons/previous.png");
+	width: 18px;
+}
+
+a.icon.next
+{
+	background-image: url("../img/icons/next.png");
+	width: 18px;
+}
+
+a.icon.last
+{
+	background-image: url("../img/icons/last.png");
+	width: 18px;
+}
+
+a.icon.search
+{
+	background-image: url("../img/icons/search.png");
+}
+
+a.icon.export
+{
+	background-image: url("../img/icons/export.png");
+}
+
+a.icon.delete
+{
+	background-image: url("../img/icons/delete.png");
+}
+
+a.icon.undo
+{
+	background-image: url("../img/icons/undo.png");
+}
+
+a.icon.edit
+{
+	background-image: url("../img/icons/edit.png");
+}
+
+a.icon.new
+{
+	background-image: url("../img/icons/new.png");
+	width: 53px;
+}

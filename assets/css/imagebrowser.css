@@ -1,0 +1,67 @@
+/* $Id$ */
+
+ul.image_browser
+{
+	margin-bottom: 20px;
+}
+
+.img_module
+{
+	float: left;
+	padding: 10px 9px 10px 10px;
+	background: #DDDDDD;
+	margin-right: 1px;
+	margin-bottom: 1px;
+	height: 160px;
+	width: 140px;
+}
+
+.img_module .handle
+{
+	height: 140px;
+	background: #CCCCCC;
+}
+
+.img_module .handle:hover
+{
+	cursor: move;
+}
+
+.img_module.inactive img
+
+{
+
+	filter: alpha(opacity:35);
+	KHTMLOpacity: 0.35;
+	MozOpacity: 0.35;
+	opacity: 0.35;
+
+}
+
+.img_module.inactive
+
+{
+
+	background: #F6F6F6;
+
+
+}
+
+
+.img_module:hover
+{
+	background: #E6E8ED;
+}
+
+.img_module span
+{
+	font-size: 10px;
+	width: 80px;
+	float: left;
+}
+
+.img_module a
+{
+	float: right;
+}
+

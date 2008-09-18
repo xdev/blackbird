@@ -1,5 +1,3 @@
 <?php
 
-/* $Id$ */
-
-require 'core/config_core.php';
+require 'app/bootstrap.php';
