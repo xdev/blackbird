@@ -13,6 +13,7 @@ class TableController extends _Controller
 	{
 		
 		//view datagrid
+		
 		$this->view();
 		
 	}

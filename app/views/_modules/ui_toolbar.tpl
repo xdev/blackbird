@@ -19,3 +19,13 @@
 		<input type="button" value="Close" onclick="window.location=''; return false;" />
 	</div>
 </div>
+
+<!--
+<div id="bb_toolbar">
+	<h1>Product features</h1>
+	
+	<div id="bb_record_actions">
+		<input type="button" value="+ New Record" onclick="window.location='/cms/add/product_features'" />
+	</div>
+</div>
+-->

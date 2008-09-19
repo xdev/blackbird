@@ -22,8 +22,8 @@ Portions of this software rely upon the following software which are covered by 
 		<?php 
 		print $this->css();
 		print '		
-		<script type="text/javascript" src="' . WEB . 'assets/js/prototype.js" ></script>
-		<script type="text/javascript" src="' . WEB . 'assets/js/scriptaculous/scriptaculous.js?load=effects,dragdrop" ></script>';
+		<script type="text/javascript" src="' . BASE . 'assets/js/prototype.js" ></script>
+		<script type="text/javascript" src="' . BASE . 'assets/js/scriptaculous/scriptaculous.js?load=effects,dragdrop" ></script>';
 		?>
 	</head>
 	
@@ -43,23 +43,10 @@ Portions of this software rely upon the following software which are covered by 
 			
 			<div id="bb_module">
 				<div id="pane_main">
-
-				<div class="data_grid_embed">
-				<div class="actions">
-					<div class="right">
-						<p class="actions related">
-							<input class="search" id="main_search" type="text" value="Search..." size="20" onclick="clickclear(this, 'Search...')" onblur="clickrecall(this,'Search...')"  />
-							<a class="icon search" href="#" onclick="data_grid_main.search();" title="Submit search query">Search</a>
-							<a class="icon undo" href="#" onclick="data_grid_main.reset();" title="Reset Data Grid">Reset</a>
-						</p>
-						<p class="pagination"><span class="values">9 Records</span></p>
-					</div>
-					<div class="clearfix"></div>
+				<?= $content['main'] ?>
 				</div>
-			<?= $content['main'] ?>
 			</div>
 		</div>
-	</div>
 		
 	</body>
 	

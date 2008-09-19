@@ -32,6 +32,9 @@ define('WEB_ROOT','');
 define('WWW','http' . (@$_SERVER['HTTPS'] ? 's' : '') . '://' . $_SERVER['SERVER_NAME'] . '/');
 
 
+
+define('BLACKBIRD_TABLE_PREFIX','cms_');
+
 /* LOAD REQUIRED FILES --------------------------------------------------- */
 
 // Environment config
@@ -43,9 +46,11 @@ require_once LIB . 'BrickHouse' . DS . 'Model.php';
 require_once LIB . 'BrickHouse' . DS . 'ControllerFront.php';
 require_once LIB . 'BrickHouse' . DS . 'Controller.php';
 
-// Database classes
+// Bobolink classes
 require_once LIB . 'Bobolink' . DS . 'database' . DS . 'Db.interface.php';
 require_once LIB . 'Bobolink' . DS . 'database' . DS . 'AdaptorMysql.class.php';
+
+require_once LIB . 'Bobolink' . DS . 'utils' . DS . 'Utils.class.php';
 
 
 /* LOAD PLUGINS ---------------------------------------------------------- */
@@ -76,7 +81,7 @@ $controller = _ControllerFront::getInstance();
 $uA = $controller->getUri();
 $uri = $uA['array'];
 
-$router = array();
+$routes = array();
 
 //pull in predefined routes
 require_once CONFIG . 'routes.php';
@@ -86,4 +91,4 @@ $tA = explode("/",substr($_SERVER['PHP_SELF'],1,-(strlen('index.php') + 1)));
 
 /* DISPATCH -------------------------------------------------------------- */
 
-$controller->dispatch($router);
+$controller->dispatch($routes);

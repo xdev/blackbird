@@ -7,7 +7,7 @@
 			<ul>';
 		
 		foreach($section['tables'] as $table){
-			print '<li><a href="/blackbird/browse/'.$table.'">'.$table.'</a></li>';
+			print '<li><a href="'.BASE.'table/browse/'.$table.'">'.$table.'</a></li>';
 		}
 		print '
 		</ul>

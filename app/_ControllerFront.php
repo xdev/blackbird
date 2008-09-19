@@ -13,6 +13,11 @@ class _ControllerFront extends ControllerFront
 	{
 		self::setUri();
 		
+		
+		
+		
+		//check sess
+		
 		/*
 			// make sure '.htaccess' file is present - if not, try to create it from 'htaccess' file
 			if (!file_exists(CMS_FILESYSTEM.'.htaccess')) {

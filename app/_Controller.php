@@ -9,16 +9,16 @@ class _Controller extends Controller
 	{
 		parent::__construct($route);
 		$this->front = _ControllerFront::getInstance();
-		$this->prepUI();
 	}
 	
-	public function actions()
+	public function render()
 	{
-		return '
-		<ul id="bb_main_nav_actions">
-			<li id="bb_nav_action_expand">Expand</li>
-			<li id="bb_nav_action_collapse">Collapse</li>
-		</ul>';
+		//if we have a layout - should get more specific, if we have an html master layout
+		if($this->layout_view){
+			$this->prepUI();
+		}
+		
+		return parent::render();
 	}
 	
 	public function css()
@@ -37,15 +37,24 @@ class _Controller extends Controller
 		foreach ($files as $filename) {
 			$r .= sprintf(
 				'<link rel="stylesheet" href="%s" type="text/css" media="screen" charset="utf-8" />',
-				WEB . 'assets/css/' . $filename
+				BASE . 'assets/css/' . $filename
 			);
 		}
 		return $r;
 	}
 	
+	
+	
 	public function prepUI()
 	{
-		$tA = array(
+		
+		$file = MODELS . 'UserModel.php';
+		include $file;
+		$m = new UserModel();
+		$tablesA = $m->getNavigation();
+		
+		
+		$_tablesA = array(
 			array(
 				'name'=>'Content',
 				'tables'=>array(
@@ -70,12 +79,11 @@ class _Controller extends Controller
 					'Groups',
 					'Users'					
 					))
-				
-			
 			
 		);
 		
-		$this->view(array('container'=>'ui_nav','view'=>'/_modules/ui_nav','data'=>array('tableA'=>$tA)));
+		
+		$this->view(array('container'=>'ui_nav','view'=>'/_modules/ui_nav','data'=>array('tableA'=>$tablesA)));
 		
 		$this->view(array('container'=>'ui_toolbar','view'=>'/_modules/ui_toolbar','data'=>''));
 		
