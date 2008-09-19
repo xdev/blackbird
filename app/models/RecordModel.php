@@ -75,11 +75,17 @@ class RecordModel extends Model
 						
 			$this->data[] = array('name'=>$col['Field'],'value'=>$q[$col['Field']],'type'=>$col['Type'],'config'=>$q_col);
 		}
+		
+		return $this->data;
 	}
 	
 	public function getRelated()
 	{
 		//find relations
+		$this->table = $this->route['table'];
+		$q_related = $this->db->query("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."relations WHERE table_parent = '$this->table' ORDER BY position");
+		return $q_related;
+		
 	}
 	
 	public function getHistory()

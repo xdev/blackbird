@@ -81,11 +81,10 @@ class _Controller extends Controller
 					))
 			
 		);
-		
-		
+				
 		$this->view(array('container'=>'ui_nav','view'=>'/_modules/ui_nav','data'=>array('tableA'=>$tablesA)));
 		
-		$this->view(array('container'=>'ui_toolbar','view'=>'/_modules/ui_toolbar','data'=>''));
+		$this->view(array('container'=>'ui_toolbar','view'=>'/_modules/ui_toolbar','data'=>array('controller'=>$this->route['controller'])));
 		
 		$this->view(array('container'=>'ui_breadcrumb','view'=>'/_modules/ui_breadcrumb','data'=>''));
 		
