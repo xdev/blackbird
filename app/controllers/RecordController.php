@@ -13,7 +13,12 @@ class RecordController extends _Controller
 		require_once LIB . 'Bobolink' . DS . 'forms' . DS . 'Forms.class.php';
 		$this->query_action = 'insert';
 		
+		//prepare id 
+		$this->id = '';//get it from somewhere in db
+		$this->table = $this->route['table'];
+		
 		//just the main record data
+		$this->model->getData(array('query_action'=>$this->query_action));
 		$main = $this->ColumnLoop();
 		
 		$this->view(array('data'=>array('main'=>$main)));
@@ -23,7 +28,13 @@ class RecordController extends _Controller
 	{	
 		require_once LIB . 'Bobolink' . DS . 'forms' . DS . 'Forms.class.php';
 		$this->query_action = 'update';
+		
+		//set id
+		$this->id = $this->route['id'];
+		$this->table = $this->route['table'];
+		
 		//main record data
+		$this->model->getData(array('query_action'=>$this->query_action));
 		$main = $this->ColumnLoop();
 		//all related data
 		
@@ -71,9 +82,9 @@ class RecordController extends _Controller
 			//plugins
 			
 			//col_config needs to be created for each column in the model = FAIL			
-			if($this->model->col_config){
+			if($column['config']){
 				
-				$q_col = $this->model->col_config;
+				$q_col = $column['config'];
 				
 				if($q_col['default_value'] != '' && $this->mode == "insert"){
 					$value = $q_col['default_value'];

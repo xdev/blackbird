@@ -9,12 +9,14 @@ class _ControllerFront extends ControllerFront
 	Session info in here
 	*/
 	
+	public static $config;
+	
 	private function __construct()
 	{
 		self::setUri();
 		
 		
-		
+		self::setConfig();
 		
 		//check sess
 		
@@ -37,7 +39,7 @@ class _ControllerFront extends ControllerFront
 				require_once(LIB.'session/Session.class.php');
 				require_once(LIB.'_version.php');	
 
-				if(defined('CMS_SESSION_MANAGER')){
+				if(defined(BLACKBIRD_TABLE_PREFIX . 'SESSION_MANAGER')){
 					require_once(CMS_SESSION_MANAGER);
 				}else{
 					require_once(INCLUDES.'SessionManager.class.php');
@@ -62,7 +64,7 @@ class _ControllerFront extends ControllerFront
 			}
 
 			// Check to see if we have a sufficient schema installed
-			if($this->db->query("SHOW TABLES LIKE 'cms_info'")){
+			if($this->db->query("SHOW TABLES LIKE BLACKBIRD_TABLE_PREFIX . 'info'")){
 				if($q = $this->db->queryRow("SELECT * FROM cms_info WHERE name = 'schema_version'")){
 					if($q['value'] < REQUIRED_SCHEMA_VERSION){
 						die('You have an outdated SQL schema, please run the update script');
@@ -131,7 +133,7 @@ class _ControllerFront extends ControllerFront
 	private function checkDB()
 	{
 		// If CMS database tables do not exist, create them using the schema.sql file
-		if (!$this->db->query("SHOW TABLES LIKE 'cms_%'")) {
+		if (!$this->db->query("SHOW TABLES LIKE BLACKBIRD_TABLE_PREFIX . '%'")) {
 			if ($schema = file_get_contents(CMS_FILESYSTEM.'core/sql/schema.sql')) {
 				$schema = explode(';',$schema);
 				array_pop($schema);
@@ -147,7 +149,7 @@ class _ControllerFront extends ControllerFront
 	private function setConfig()
 	{
 		
-		$this->config = array();
+		self::$config = array();
 		
 		$tA = array();
 		$tA[] = array('table_name'=>'*','column_name'=>'id','edit_module'=>'readonly','edit_mode'=>'edit');
@@ -159,49 +161,49 @@ class _ControllerFront extends ControllerFront
 		$tA[] = array('table_name'=>'*','column_name'=>'state','edit_module'=>'selectState');
 		$tA[] = array('table_name'=>'*','column_name'=>'country','edit_module'=>'selectCountry');
 		
-		$tA[] = array('table_name'=>'cms_groups','column_name'=>'admin','edit_module'=>'boolean','filter'=>'<config><filter>1</filter></config>');
-		$tA[] = array('table_name'=>'cms_groups','column_name'=>'tables','edit_module'=>'plugin','process_module'=>'plugin');
+		$tA[] = array('table_name'=>BLACKBIRD_TABLE_PREFIX . 'groups','column_name'=>'admin','edit_module'=>'boolean','filter'=>'<config><filter>1</filter></config>');
+		$tA[] = array('table_name'=>BLACKBIRD_TABLE_PREFIX . 'groups','column_name'=>'tables','edit_module'=>'plugin','process_module'=>'plugin');
 		
-		$tA[] = array('table_name'=>'cms_users','column_name'=>'password','display_name'=>'Password Reset','edit_module'=>'plugin','edit_mode'=>'edit','process_module'=>'plugin','process_mode'=>'update');
-		$tA[] = array('table_name'=>'cms_users','column_name'=>'password','edit_module'=>'plugin','edit_mode'=>'insert','process_module'=>'plugin','process_mode'=>'insert');
-		$tA[] = array('table_name'=>'cms_users','column_name'=>'groups','edit_module'=>'plugin','process_module'=>'plugin');
-		$tA[] = array('table_name'=>'cms_users','column_name'=>'super_user','edit_module'=>'hidden');
+		$tA[] = array('table_name'=>BLACKBIRD_TABLE_PREFIX . 'users','column_name'=>'password','display_name'=>'Password Reset','edit_module'=>'plugin','edit_mode'=>'edit','process_module'=>'plugin','process_mode'=>'update');
+		$tA[] = array('table_name'=>BLACKBIRD_TABLE_PREFIX . 'users','column_name'=>'password','edit_module'=>'plugin','edit_mode'=>'insert','process_module'=>'plugin','process_mode'=>'insert');
+		$tA[] = array('table_name'=>BLACKBIRD_TABLE_PREFIX . 'users','column_name'=>'groups','edit_module'=>'plugin','process_module'=>'plugin');
+		$tA[] = array('table_name'=>BLACKBIRD_TABLE_PREFIX . 'users','column_name'=>'super_user','edit_module'=>'hidden');
 		
-		$tA[] = array('table_name'=>'cms_history','column_name'=>'table_name','filter'=>'<config><filter>1</filter></config>');
-		$tA[] = array('table_name'=>'cms_history','column_name'=>'action','filter'=>'<config><filter>1</filter></config>');
-		$tA[] = array('table_name'=>'cms_history','column_name'=>'user_id','filter'=>'<config><filter>1</filter></config>');
+		$tA[] = array('table_name'=>BLACKBIRD_TABLE_PREFIX . 'history','column_name'=>'table_name','filter'=>'<config><filter>1</filter></config>');
+		$tA[] = array('table_name'=>BLACKBIRD_TABLE_PREFIX . 'history','column_name'=>'action','filter'=>'<config><filter>1</filter></config>');
+		$tA[] = array('table_name'=>BLACKBIRD_TABLE_PREFIX . 'history','column_name'=>'user_id','filter'=>'<config><filter>1</filter></config>');
 		
-		$tA[] = array('table_name'=>'cms_cols','column_name'=>'edit_channel','edit_module'=>'selectStatic','edit_config'=>'
+		$tA[] = array('table_name'=>BLACKBIRD_TABLE_PREFIX . 'cols','column_name'=>'edit_channel','edit_module'=>'selectStatic','edit_config'=>'
 				<config><data_csv>main,related</data_csv></config>');
-		$tA[] = array('table_name'=>'cms_cols','column_name'=>'edit_mode','edit_module'=>'selectStatic','edit_config'=>'
+		$tA[] = array('table_name'=>BLACKBIRD_TABLE_PREFIX . 'cols','column_name'=>'edit_mode','edit_module'=>'selectStatic','edit_config'=>'
 				<config><data_csv>edit,insert</data_csv></config>');
-		$tA[] = array('table_name'=>'cms_cols','column_name'=>'process_channel','edit_module'=>'selectStatic','edit_config'=>'
+		$tA[] = array('table_name'=>BLACKBIRD_TABLE_PREFIX . 'cols','column_name'=>'process_channel','edit_module'=>'selectStatic','edit_config'=>'
 				<config><data_csv>main,related</data_csv></config>');
-		$tA[] = array('table_name'=>'cms_cols','column_name'=>'process_mode','edit_module'=>'selectStatic','edit_config'=>'
+		$tA[] = array('table_name'=>BLACKBIRD_TABLE_PREFIX . 'cols','column_name'=>'process_mode','edit_module'=>'selectStatic','edit_config'=>'
 				<config><data_csv>update,insert</data_csv></config>');		
-		$tA[] = array('table_name'=>'cms_cols','column_name'=>'edit_module','edit_module'=>'selectStatic','edit_config'=>'
+		$tA[] = array('table_name'=>BLACKBIRD_TABLE_PREFIX . 'cols','column_name'=>'edit_module','edit_module'=>'selectStatic','edit_config'=>'
 				<config><data_csv>plugin,boolean,hidden,readonly,checkbox,fileField,selectDefault,selectParent,selectFiles,selectStatic,selectDate,selectDateTime,selectState,selectCountry,text,textarea,listManager</data_csv></config>');	
-		$tA[] = array('table_name'=>'cms_cols','column_name'=>'process_module','edit_module'=>'selectStatic','edit_config'=>'
+		$tA[] = array('table_name'=>BLACKBIRD_TABLE_PREFIX . 'cols','column_name'=>'process_module','edit_module'=>'selectStatic','edit_config'=>'
 				<config><data_csv>plugin,position,file</data_csv></config>');
 				
 		/*
-		$tA[] = array('table_name'=>'cms_cols','column_name'=>'table_name','edit_module'=>'selectDefault','edit_config'=>'
+		$tA[] = array('table_name'=>BLACKBIRD_TABLE_PREFIX . 'cols','column_name'=>'table_name','edit_module'=>'selectDefault','edit_config'=>'
 				<config><select_sql>SHOW TABLES</select_sql><col_value>0</col_value><col_display>0</col_display><allow_null>false</allow_null></config>');
 		*/
 	
-		$q = $this->db->query("SHOW COLUMNS FROM `cms_cols`");		
-		$this->config['cms_cols'] = self::normalizeArray($tA,$q);
+		$q = AdaptorMysql::query("SHOW COLUMNS FROM `" . BLACKBIRD_TABLE_PREFIX . "cols`");		
+		self::$config['cols'] = self::normalizeArray($tA,$q);
 		
 		$tA = array();
 		//need to add active to user
-		$tA[] = array('table_name'=>'cms_users','cols_default'=>'id,firstname,lastname,email,groups','in_nav'=>1);
-		$tA[] = array('table_name'=>'cms_groups','cols_default'=>'id,active,name,admin','in_nav'=>1);
-		$tA[] = array('table_name'=>'cms_history','cols_default'=>'*','in_nav'=>1);
-		$tA[] = array('table_name'=>'cms_cols','cols_default'=>'id,table_name,column_name,edit_module,edit_mode,process_module,process_mode,validate,filter,help');
-		$tA[] = array('table_name'=>'cms_tags','cols_default'=>'id,name','in_nav'=>1);
+		$tA[] = array('table_name'=>BLACKBIRD_TABLE_PREFIX . 'users','cols_default'=>'id,firstname,lastname,email,groups','in_nav'=>1);
+		$tA[] = array('table_name'=>BLACKBIRD_TABLE_PREFIX . 'groups','cols_default'=>'id,active,name,admin','in_nav'=>1);
+		$tA[] = array('table_name'=>BLACKBIRD_TABLE_PREFIX . 'history','cols_default'=>'*','in_nav'=>1);
+		$tA[] = array('table_name'=>BLACKBIRD_TABLE_PREFIX . 'cols','cols_default'=>'id,table_name,column_name,edit_module,edit_mode,process_module,process_mode,validate,filter,help');
+		$tA[] = array('table_name'=>BLACKBIRD_TABLE_PREFIX . 'tags','cols_default'=>'id,name','in_nav'=>1);
 		
-		$q = $this->db->query("SHOW COLUMNS FROM `cms_tables`");
-		$this->config['cms_tables'] = self::normalizeArray($tA,$q);
+		$q = AdaptorMysql::query("SHOW COLUMNS FROM `" . BLACKBIRD_TABLE_PREFIX . "tables`");
+		self::$config['tables'] = self::normalizeArray($tA,$q);
 		
 	}
 	

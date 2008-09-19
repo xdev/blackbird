@@ -10,8 +10,14 @@ class RecordModel extends Model
 		parent::__construct($route);
 		
 		//figure out if we're operating through a normal request mode, or via ajax
+
 		
+	}
+	
+	public function getData()
+	{
 		
+		//needs to function in both edit and insert modes, obviously	
 		$this->table = $this->route['table'];
 		$this->mode = 'edit';
 		$this->channel = 'main';
@@ -23,53 +29,51 @@ class RecordModel extends Model
 		$this->data = array();
 		$this->col_config = false;
 		
-		foreach($q_cols as $col){			
-			$this->data[] = array('name'=>$col['Field'],'value'=>$q[$col['Field']],'type'=>$col['Type']);
-		}		
-		
-		//get configuration data for form
-		$q_c = array();
-		//get all the base config
-		/*
-		$tA = Utils::checkArray($this->cms->config[BLACKBIRD_TABLE_PREFIX.'cols'],array('column_name'=>$col['Field']),true);
-		if(is_array($tA)){
-			$q_c = $tA;
-		}
-		*/
-		
-		//get anything from the blackbird_cols
-		if($q_sql = $this->db->query("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."cols WHERE column_name = '$col[Field]' ORDER BY table_name,edit_mode,edit_channel")){
-			$q_c = array_merge($q_c,$q_sql);
-		}					
-					
-		$q_col = Utils::checkArray($q_c,array('table_name'=>$this->table,'edit_mode'=>$this->mode,'edit_channel'=>$this->channel));
-		if(!$q_col){
-			$q_col = Utils::checkArray($q_c,array('table_name'=>$this->table,'edit_mode'=>$this->mode,'edit_channel'=>''));
-		}
-		
-		if(!$q_col){
-			$q_col = Utils::checkArray($q_c,array('table_name'=>$this->table,'edit_mode'=>'','edit_channel'=>$this->channel));
-			if(!$q_col){
-				$q_col = Utils::checkArray($q_c,array('table_name'=>$this->table,'edit_mode'=>'','edit_channel'=>''));
+		foreach($q_cols as $col){
+			
+			//check for config info here
+			$q_col = false;
+			//get configuration data for form
+			$q_c = array();
+			//get all the base config
+			
+			$tA = Utils::checkArray(_ControllerFront::$config['cols'],array('column_name'=>$col['Field']),true);
+			if(is_array($tA)){
+				$q_c = $tA;
 			}
-		}
-		
-		if(!$q_col){
-			$q_col = Utils::checkArray($q_c,array('table_name'=>'*','edit_mode'=>$this->mode,'edit_channel'=>$this->channel));
+
+			//get anything from the blackbird_cols
+			if($q_sql = $this->db->query("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."cols WHERE column_name = '$col[Field]' ORDER BY table_name,edit_mode,edit_channel")){
+				$q_c = array_merge($q_c,$q_sql);
+			}					
+
+			$q_col = Utils::checkArray($q_c,array('table_name'=>$this->table,'edit_mode'=>$this->mode,'edit_channel'=>$this->channel));
 			if(!$q_col){
-				$q_col = Utils::checkArray($q_c,array('table_name'=>'*','edit_mode'=>$this->mode,'edit_channel'=>''));
+				$q_col = Utils::checkArray($q_c,array('table_name'=>$this->table,'edit_mode'=>$this->mode,'edit_channel'=>''));
 			}
-		}
-		
-		if(!$q_col){
-			$q_col = Utils::checkArray($q_c,array('table_name'=>'*','edit_mode'=>'','edit_channel'=>$this->channel));
+
 			if(!$q_col){
-				$q_col = Utils::checkArray($q_c,array('table_name'=>'*','edit_mode'=>'','edit_channel'=>''));
+				$q_col = Utils::checkArray($q_c,array('table_name'=>$this->table,'edit_mode'=>'','edit_channel'=>$this->channel));
+				if(!$q_col){
+					$q_col = Utils::checkArray($q_c,array('table_name'=>$this->table,'edit_mode'=>'','edit_channel'=>''));
+				}
 			}
-		}
-		
-		if($q_col){
-			$this->col_config = $q_col;
+
+			if(!$q_col){
+				$q_col = Utils::checkArray($q_c,array('table_name'=>'*','edit_mode'=>$this->mode,'edit_channel'=>$this->channel));
+				if(!$q_col){
+					$q_col = Utils::checkArray($q_c,array('table_name'=>'*','edit_mode'=>$this->mode,'edit_channel'=>''));
+				}
+			}
+
+			if(!$q_col){
+				$q_col = Utils::checkArray($q_c,array('table_name'=>'*','edit_mode'=>'','edit_channel'=>$this->channel));
+				if(!$q_col){
+					$q_col = Utils::checkArray($q_c,array('table_name'=>'*','edit_mode'=>'','edit_channel'=>''));
+				}
+			}
+						
+			$this->data[] = array('name'=>$col['Field'],'value'=>$q[$col['Field']],'type'=>$col['Type'],'config'=>$q_col);
 		}
 	}
 	
