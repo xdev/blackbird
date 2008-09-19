@@ -2,16 +2,25 @@
 if($controller == 'record'){
 print '	
 <div id="bb_toolbar">
-	<h1>Edit Record</h1>
-	<dl id="bb_record_meta">
-		<dt>Id</dt>
-		<dd>4</dd>
-		<dt>Created</dt>
-		<dd>2008-04-25 10:16:48</dd>
-		<dt>Modified</dt>
-		<dd>2008-04-25 10:16:48</dd>
-	</dl>
+	<h1>';
+	printf(($mode == 'edit') ? 'Edit Record' : 'New Record');
+print '</h1>';
 
+	if($mode == 'edit'){
+		printf('
+		<dl id="bb_record_meta">
+			<dt>Id</dt>
+			<dd>%s</dd>
+			%s
+			%s
+		</dl>',
+		$id,
+		(isset($created)) ? '<dt>Created</dt><dd>'.$created.'</dd>' : '',
+		(isset($modified)) ? '<dt>Modified</dt><dd>'.$modified.'</dd>' : ''
+		);
+	}
+	
+	print '
 	<div id="bb_record_actions">
 		<!-- set up change handler to set main_active to this value upon change.. ehh -->
 		<select onchange="CMS.setActive(this,\'main\');">
@@ -27,7 +36,7 @@ print '
 if($controller == 'table'){
 	print '
 <div id="bb_toolbar">
-	<h1>Product features</h1>
+	<h1>' . $table . '</h1>
 	
 	<div id="bb_record_actions">
 		<input type="button" value="+ New Record" onclick="window.location=\''. BASE . 'record/add/' . $table . '\'" />

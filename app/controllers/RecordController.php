@@ -16,6 +16,7 @@ class RecordController extends _Controller
 		//prepare id 
 		$this->id = '';//get it from somewhere in db
 		$this->table = $this->route['table'];
+		$this->mode = 'insert';
 		
 		//just the main record data
 		$this->model->getData(array('query_action'=>$this->query_action));
@@ -32,6 +33,7 @@ class RecordController extends _Controller
 		//set id
 		$this->id = $this->route['id'];
 		$this->table = $this->route['table'];
+		$this->mode = 'edit';
 		
 		//main record data
 		$this->model->getData(array('query_action'=>$this->query_action));
@@ -59,6 +61,7 @@ class RecordController extends _Controller
 		Forms::hidden($_name_space . 'query_action',$this->query_action,null);
 		
 		$recordData = $this->model->data;
+		$row_data = $recordData;
 		
 		//loop items
 		foreach($recordData as $column){
@@ -110,12 +113,12 @@ class RecordController extends _Controller
 				$module = $q_col['edit_module'];
 
 				if(strlen($q_col['edit_config']) > 1){
-					//$config = $this->cms->parseConfig($q_col['edit_config']);
+					$config = _ControllerFront::parseConfig($q_col['edit_config']);
 					$options = array_merge($options,$config);
 				}
 
 				if($q_col['validate'] != ''){
-					//$options = array_merge($options,$this->cms->parseConfig($q_col['validate']));
+					$options = array_merge($options,_ControllerFront::parseConfig($q_col['validate']));
 				}
 
 				if($module != ""){
@@ -304,7 +307,7 @@ class RecordController extends _Controller
 						}
 						
 						if(strlen($q_col['process_config']) > 1){
-							//$options = array_merge($options,$this->cms->parseConfig($q_col['process_config']));
+							$options = array_merge($options,_ControllerFront::parseConfig($q_col['process_config']));
 						}
 												
 						if($module == 'plugin'){
@@ -320,7 +323,7 @@ class RecordController extends _Controller
 						}
 						
 						if($module == 'file'){
-							$options['db'] = $this->db;
+							$options['db'] = AdaptorMysql::getInstance();
 							$name = $this->_name_space . $col['Field'];
 							$upload = true;
 							
@@ -375,7 +378,7 @@ class RecordController extends _Controller
 						$where = '';
 						
 						if(strlen($q_col['process_config']) > 1){
-							//$config = $this->cms->parseConfig($q_col['process_config']);
+							$config = _ControllerFront::parseConfig($q_col['process_config']);
 						}else if(isset($config)){
 							unset($config);
 						}
@@ -400,7 +403,7 @@ class RecordController extends _Controller
 								}
 							}
 							
-							//$this->cms->sortPosition($this->table,"SELECT id FROM `$this->table` $where ORDER BY $col[Field]",$this->id,$value);
+							_ControllerFront::sortPosition($this->table,"SELECT id FROM `$this->table` $where ORDER BY $col[Field]",$this->id,$value);
 						}
 						if($this->query_action == "insert"){
 							//check for constraints from config

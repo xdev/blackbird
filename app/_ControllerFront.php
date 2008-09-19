@@ -114,6 +114,38 @@ class _ControllerFront extends ControllerFront
 		return self::$instance;
 	}
 	
+	public static function parseConfig($xml)
+	{
+		require_once LIB.'bobolink/xml/XmlToArray.class.php';
+		$p = new XmlToArray($xml);
+		$out = $p->getOutput();
+		//first child, not necessarily the config node?
+		return $out['config'];
+	}
+	
+	public static function sortPosition($table,$sql,$id,$pos)
+	{
+		
+		$q = AdaptorMysql::query($sql);
+		
+		$tA = array();
+		for($i=0;$i<count($q);$i++){
+			if($id != $q[$i]['id']){
+				$tA[] = $q[$i]['id'];
+			}
+		
+		}
+			
+		array_splice($tA,($pos-1),0,$id);
+		
+		for($i=0;$i<count($tA);$i++){
+			$sqlA = array();
+			$sqlA[] = array('field'=>'position','value'=>($i+1));
+			AdaptorMysql::update($table,$sqlA,'id',$tA[$i]);
+		}
+	
+	}
+	
 	public function setTable()
 	{
 		if(isset($this->pathA[1])){

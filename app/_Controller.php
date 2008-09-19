@@ -8,6 +8,8 @@ class _Controller extends Controller
 	public function __construct($route)
 	{
 		parent::__construct($route);
+		$this->mode = '';
+		$this->id = '';
 		$this->front = _ControllerFront::getInstance();
 	}
 	
@@ -84,7 +86,13 @@ class _Controller extends Controller
 				
 		$this->view(array('container'=>'ui_nav','view'=>'/_modules/ui_nav','data'=>array('tableA'=>$tablesA)));
 		
-		$this->view(array('container'=>'ui_toolbar','view'=>'/_modules/ui_toolbar','data'=>array('controller'=>$this->route['controller'],'table'=>$this->route['table'])));
+		$this->view(array('container'=>'ui_toolbar','view'=>'/_modules/ui_toolbar',
+			'data'=>array(
+				'controller'=>$this->route['controller'],
+				'table'=>$this->route['table'],
+				'tablename'=>$this->route['table'],
+				'mode'=>$this->mode,
+				'id'=>$this->id)));
 		
 		$this->view(array('container'=>'ui_breadcrumb','view'=>'/_modules/ui_breadcrumb','data'=>array('table'=>$this->route['table'],'tablename'=>$this->route['table'])));
 		
