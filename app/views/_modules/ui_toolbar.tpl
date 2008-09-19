@@ -20,7 +20,7 @@ print '
 		</select>
 		<input type="button" value="Save" onclick="$(\'form_main\').submit(); return false;" />
 		<!-- CMS.loopBack(\'main\') -->
-		<input type="button" value="Close" onclick="window.location=\'\'; return false;" />
+		<input type="button" value="Close" onclick="window.location=\'' . BASE . 'table/browse/' . $table . '\'; return false;" />
 	</div>
 </div>';
 }
@@ -30,7 +30,7 @@ if($controller == 'table'){
 	<h1>Product features</h1>
 	
 	<div id="bb_record_actions">
-		<input type="button" value="+ New Record" onclick="window.location=\'/cms/add/product_features\'" />
+		<input type="button" value="+ New Record" onclick="window.location=\''. BASE . 'record/add/' . $table . '\'" />
 	</div>
 </div>';
 }

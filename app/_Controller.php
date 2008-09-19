@@ -84,9 +84,9 @@ class _Controller extends Controller
 				
 		$this->view(array('container'=>'ui_nav','view'=>'/_modules/ui_nav','data'=>array('tableA'=>$tablesA)));
 		
-		$this->view(array('container'=>'ui_toolbar','view'=>'/_modules/ui_toolbar','data'=>array('controller'=>$this->route['controller'])));
+		$this->view(array('container'=>'ui_toolbar','view'=>'/_modules/ui_toolbar','data'=>array('controller'=>$this->route['controller'],'table'=>$this->route['table'])));
 		
-		$this->view(array('container'=>'ui_breadcrumb','view'=>'/_modules/ui_breadcrumb','data'=>''));
+		$this->view(array('container'=>'ui_breadcrumb','view'=>'/_modules/ui_breadcrumb','data'=>array('table'=>$this->route['table'],'tablename'=>$this->route['table'])));
 		
 		$this->view(array('container'=>'ui_session','view'=>'/_modules/ui_session','data'=>''));
 	}

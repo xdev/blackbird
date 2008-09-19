@@ -28,7 +28,7 @@ foreach($rowData as $row){
 	$class = '';
 	if($i%2 == 0){ $class = ' class="odd" ';}
 	print '<tr'.$class.'>';
-	$click = ' onclick="window.location=\'/blackbird/record/edit/'.$table.'/'.$row['id'].'\';" ';
+	$click = ' onclick="window.location=\''. BASE .'record/edit/'.$table.'/'.$row['id'].'\';" ';
 	foreach($row as $column){
 		print '<td'.$click.'>'.$column.'</td>';
 	}

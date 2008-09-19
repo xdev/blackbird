@@ -1,2 +1,2 @@
 home page <?= $test ?>
-<?php print $this->snippet('_snippet'); ?>
+<?php print $this->fetchView('_snippet'); ?>

@@ -14,12 +14,17 @@ class RecordModel extends Model
 		
 	}
 	
-	public function getData()
+	public function getData($config=null)
 	{
 		
 		//needs to function in both edit and insert modes, obviously	
 		$this->table = $this->route['table'];
 		$this->mode = 'edit';
+		
+		if($config['query_action'] == 'insert'){
+			$this->mode = 'add';
+		}
+		
 		$this->channel = 'main';
 		$this->id = $this->route['id'];
 		

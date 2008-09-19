@@ -38,7 +38,9 @@ class RecordController extends _Controller
 		$main = $this->_buildForm();
 		//all related data
 		
-		$this->view(array('data'=>array('main'=>$main,'related'=>'Testing Related Data Here')));
+		
+		
+		$this->view(array('data'=>array('main'=>$main,'related'=>$this->model->getRelated(),'mode'=>$this->query_action)));
 	}
 	
 	private function _buildForm()
@@ -54,6 +56,7 @@ class RecordController extends _Controller
 		
 		
 		Forms::hidden($_name_space . 'table',$this->table,null);
+		Forms::hidden($_name_space . 'query_action',$this->query_action,null);
 		
 		$recordData = $this->model->data;
 		
@@ -86,7 +89,7 @@ class RecordController extends _Controller
 			//plugins
 			
 			//col_config needs to be created for each column in the model = FAIL			
-			if($column['config']){
+			if($column['config'] && !$col_ready){
 				
 				$q_col = $column['config'];
 				
@@ -226,8 +229,13 @@ class RecordController extends _Controller
 		//server side validation
 		$this->_name_space = 'main_';
 		$this->table = $_POST[$this->_name_space.'table'];
-		$this->id = $_POST[$this->_name_space.'id'];
-		$this->query_action = 'update';
+		$this->query_action = $_POST[$this->_name_space.'query_action'];
+		
+		if($this->query_action == 'update'){		
+			$this->id = $_POST[$this->_name_space.'id'];
+		}else{
+			$this->id = '';
+		}
 		
 		$this->db = AdaptorMysql::getInstance();
 		

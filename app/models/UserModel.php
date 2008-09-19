@@ -38,13 +38,13 @@ class UserModel extends Model
 							
 				foreach($xml->table as $mytable){
 					$t = sprintf($mytable['name']);
-					/*
-					$tA = Utils::checkArray($this->cms->config[BLACKBIRD_TABLE_PREFIX.'tables'],array('table_name'=>$t));
+					
+					$tA = Utils::checkArray(_ControllerFront::$config['tables'],array('table_name'=>$t));
 					if(is_array($tA)){
 						$qT = $tA;
 					}else{				
 						$qT = $this->db->queryRow("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."tables WHERE table_name = '$t'");
-					}*/
+					}
 					$qT = $this->db->queryRow("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."tables WHERE table_name = '$t'");
 					
 					if($qT['menu_id'] != '' && $qT['menu_id'] != 0){

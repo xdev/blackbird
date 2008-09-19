@@ -37,7 +37,7 @@
 	
 	var myAjax = new Ajax.Updater(
 		obj,
-		'/blackbird/table/datagrid', 
+		'<?= BASE ?>table/datagrid', 
 		{
 			method		: 'post', 
 			parameters	: formatPost(sendVars),
