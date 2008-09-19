@@ -21,7 +21,7 @@ class UserModel extends Model
 		
 		if($q['super_user'] == 1){
 		
-			$q = $this->db->query("SHOW TABLES");
+			$q = $this->db->query("SHOW TABLES",MYSQL_BOTH);
 			
 			foreach($q as $table){
 				$tables[] = array('name'=>$table[0],'value'=>'browse,insert,update,delete','menu'=>0,'in_nav'=>1);
