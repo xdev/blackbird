@@ -2,106 +2,49 @@
 
 class _ControllerFront extends ControllerFront
 {
-	
-	/*
-	Layout helper methods in here
-	
-	Session info in here
-	*/
-	
 	public static $config;
 	
 	private function __construct()
 	{
-		self::setUri();
+		parent::setUri();
 		
+		/*
+		// make sure '.htaccess' file is present - if not, try to create it from 'htaccess' file
+		if (!file_exists(CMS_FILESYSTEM.'.htaccess')) {
+			if (!file_exists(CMS_FILESYSTEM.'htaccess')) {
+				die('.htaccess file not found');
+			}
+			if (!copy(CMS_FILESYSTEM.'htaccess',CMS_FILESYSTEM.'.htaccess')) {
+				die('.htaccess file could not be created');
+			}
+		}
+		
+		//custom session
+		if(defined(BLACKBIRD_TABLE_PREFIX . 'SESSION_MANAGER')){
+			require_once(CMS_SESSION_MANAGER);
+		}else{
+			require_once(INCLUDES.'SessionManager.class.php');
+		}
+		
+		// Check to see if we have a sufficient schema installed
+		if($this->db->query("SHOW TABLES LIKE BLACKBIRD_TABLE_PREFIX . 'info'")){
+			if($q = $this->db->queryRow("SELECT * FROM cms_info WHERE name = 'schema_version'")){
+				if($q['value'] < REQUIRED_SCHEMA_VERSION){
+					die('You have an outdated SQL schema, please run the update script');
+				}
+			}			
+		}else{
+			die('You have an outdated SQL schema, please run the update script');
+		}
+		
+		*/
+		
+		//broken for the moment
+		//self::checkDB();
 		
 		self::setConfig();
 		
-		//check sess
 		
-		/*
-			// make sure '.htaccess' file is present - if not, try to create it from 'htaccess' file
-			if (!file_exists(CMS_FILESYSTEM.'.htaccess')) {
-				if (!file_exists(CMS_FILESYSTEM.'htaccess')) {
-					die('.htaccess file not found');
-				}
-				if (!copy(CMS_FILESYSTEM.'htaccess',CMS_FILESYSTEM.'.htaccess')) {
-					die('.htaccess file could not be created');
-				}
-			}
-
-			//load core classes
-			if (file_exists(LIB)) {
-				require_once(LIB.'database/Db.interface.php');
-				require_once(LIB.'forms/Forms.class.php');
-				require_once(LIB.'utils/Utils.class.php');
-				require_once(LIB.'session/Session.class.php');
-				require_once(LIB.'_version.php');	
-
-				if(defined(BLACKBIRD_TABLE_PREFIX . 'SESSION_MANAGER')){
-					require_once(CMS_SESSION_MANAGER);
-				}else{
-					require_once(INCLUDES.'SessionManager.class.php');
-				}
-
-				if(!isset($DB['adaptor'])){
-					$DB['adaptor'] = 'Mysql';
-				}
-
-				$class = 'Adaptor' . $DB['adaptor'];
-				require LIB . 'database/' . $class .  '.class.php';
-				$this->db = new $class();
-
-				$this->db->sql('SET NAMES utf8');
-
-				self::checkDB();
-
-				self::setConfig();
-				$this->session = new SessionManager($this);
-			} else {
-				die('Bobolink PHP library is not properly installed');
-			}
-
-			// Check to see if we have a sufficient schema installed
-			if($this->db->query("SHOW TABLES LIKE BLACKBIRD_TABLE_PREFIX . 'info'")){
-				if($q = $this->db->queryRow("SELECT * FROM cms_info WHERE name = 'schema_version'")){
-					if($q['value'] < REQUIRED_SCHEMA_VERSION){
-						die('You have an outdated SQL schema, please run the update script');
-					}
-				}			
-			}else{
-				die('You have an outdated SQL schema, please run the update script');
-			}
-
-			$this->pathA = explode("/",substr($_SERVER["REQUEST_URI"],1));
-			$tA = explode("/",substr($_SERVER['PHP_SELF'],1,-(strlen('index.php') + 1)));
-
-			if(isset($_SERVER["HTTP_REFERER"])){
-				$this->refA = explode("/",$_SERVER["HTTP_REFERER"]);
-				$t = array_search($_SERVER['SERVER_NAME'],$this->refA);
-				$this->refA = array_slice($this->refA, ($t+1));
-			}
-
-			//if we are running from a folder, or series of folders splice away the unused bits		
-			if($tA[0] != ''){
-				array_splice($this->pathA,0,count($tA));
-				if(isset($this->refA)){
-					$this->refA = array_slice($this->refA,count($tA)); 
-				}
-			}		
-			$this->path = $this->pathA;
-
-			if(isset($this->pathA[0])){
-				if($this->pathA[0] != 'login' && $this->pathA[0] != 'logout'){
-					$this->session->check();
-				}			
-			}
-
-			if(!isset($this->pathA[0])){
-				Utils::metaRefresh(CMS_ROOT . "home");
-			}
-			*/
 	}
 	
 	//override the singleton constructor	
@@ -123,6 +66,53 @@ class _ControllerFront extends ControllerFront
 		return $out['config'];
 	}
 	
+	public static function injectData($a,$table)
+	{
+		return $a;
+	}
+	
+	public static function formatCol($col_name,$col_value,$table)
+	{
+	
+		$boolSet = array("active","admin");
+		
+		if(in_array($col_name,$boolSet)){
+			if($col_value == 0){ return "false";}
+			if($col_value == 1){ return "true";}
+		}
+		
+		if($col_name == 'groups'){
+			
+			//split list
+			$tA = explode(',',$col_value);
+			$r = array();
+			foreach($tA as $item){
+				$q = AdaptorMysql::queryRow("SELECT name FROM ".BLACKBIRD_TABLE_PREFIX."groups WHERE id = '$item'");
+				$r[] = $q['name'];
+			}
+			
+			return join(', ',$r);
+			
+			
+		}	
+		
+		if($col_name == 'user_id' && $table == BLACKBIRD_TABLE_PREFIX.'history'){
+		
+			$q = AdaptorMysql::queryRow("SELECT email FROM " . BLACKBIRD_USERS_TABLE . " WHERE id = '$col_value'");
+			return $q['email'];
+		
+		}
+		
+		if(strlen($col_value) > 100){
+			$data = substr($col_value,0,100) . "...";
+			return strip_tags($data);
+		}
+		
+		return $col_value;
+	
+	
+	}
+		
 	public static function sortPosition($table,$sql,$id,$pos)
 	{
 		
@@ -165,7 +155,7 @@ class _ControllerFront extends ControllerFront
 	private function checkDB()
 	{
 		// If CMS database tables do not exist, create them using the schema.sql file
-		if (!$this->db->query("SHOW TABLES LIKE BLACKBIRD_TABLE_PREFIX . '%'")) {
+		if (!AdaptorMysql::query("SHOW TABLES LIKE BLACKBIRD_TABLE_PREFIX . '%'")) {
 			if ($schema = file_get_contents(CMS_FILESYSTEM.'core/sql/schema.sql')) {
 				$schema = explode(';',$schema);
 				array_pop($schema);
