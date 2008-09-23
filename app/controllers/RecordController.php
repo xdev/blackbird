@@ -136,7 +136,13 @@ class RecordController extends _Controller
 							$options['row_data'] = $row_data;
 							$options['id'] = $this->id;
 							$options['col_name'] = $column['name'];
-
+							
+							$file = APP . DS . 'plugins' . DS . 'record_column_edit.php';
+							
+							if(file_exists($file) && @include_once($file)){
+								plugin__record_column_edit($_name_space . $column['name'],$value, $options);
+							}
+							
 							//$this->cms->pluginColumnEdit($_name_space . $column['name'],$value, $options);
 							$col_ready = true;
 						break;

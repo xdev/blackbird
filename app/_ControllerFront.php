@@ -42,6 +42,9 @@ class _ControllerFront extends ControllerFront
 		//broken for the moment
 		//self::checkDB();
 		
+		//$c = Utils::loadClass(LIB . 'bobolink/email/EmailProtector.class.php','EmailProtector',array(true));
+		//var_dump($c);
+		
 		self::setConfig();
 		
 		
@@ -73,7 +76,6 @@ class _ControllerFront extends ControllerFront
 	
 	public static function formatCol($col_name,$col_value,$table)
 	{
-	
 		$boolSet = array("active","admin");
 		
 		if(in_array($col_name,$boolSet)){
@@ -107,7 +109,6 @@ class _ControllerFront extends ControllerFront
 			$data = substr($col_value,0,100) . "...";
 			return strip_tags($data);
 		}
-		
 		return $col_value;
 	
 	

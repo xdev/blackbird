@@ -9,10 +9,10 @@ class TableModel extends Model
 		if($table != ''){
 			$this->table = $table;
 		}
-		/*
+		
 		//set necessary variables
 		
-		
+		$table_parent = '';
 		$this->sql = '';
 		
 		//these should be mapped in from the controller - not set here
@@ -105,7 +105,7 @@ class TableModel extends Model
 		
 		if($search != ""){
 						
-			$q = $this->db->query("SHOW COLUMNS FROM $table");
+			$q = $this->db->query("SHOW COLUMNS FROM $this->table",MYSQL_BOTH);
 			$search_fields = array();
 			for($i=0;$i<count($q);$i++){
 				$row = $q[$i];
@@ -181,6 +181,7 @@ class TableModel extends Model
 				$rows_total = 0;
 			}	
 		}
+		$this->recordSet = array();
 		
 		//build recordSet and headerData
 		if($query_data){
@@ -190,7 +191,7 @@ class TableModel extends Model
 				$rowData = array();
 				
 				for($j=0;$j<count($fields);$j++){
-					$data = _ControllerFront::formatCol($fields[$j],$row[$j],$table );
+					$data = _ControllerFront::formatCol($fields[$j],$row[$fields[$j]],$table );
 					$tA[$fields[$j]] = array('col'=>$fields[$j],'value'=>$data);	
 				}
 				
@@ -220,24 +221,9 @@ class TableModel extends Model
 		//if($this->cms->session->privs("delete",$table)){
 		//	$delete_allowed = true;
 		//}
-		*/
-		
-		
-		//if($q_display['cols_default'] == ""){
-			//die();
-			$select_cols = '*';
-			$q = AdaptorMysql::query("SHOW COLUMNS FROM $this->table",MYSQL_BOTH);
-			$fields = array();
-			for($i=0;$i<count($q);$i++){
-				$row = $q[$i];
-				$fields[] = $row[0];
-			}
-		//}
-		//Get all data from table - unlimited??
-		$q = AdaptorMysql::query("SELECT * FROM `$this->table`");
-		
+		//die(print_r($this->recordSet));
 								
-		return array('headerData'=>$fields,'rowData'=>$q);
+		return array('headerData'=>$fields,'rowData'=>$this->recordSet,'sort_col'=>$sort_col,'sort_dir'=>$sort_dir,'table'=>$this->table);
 		
 	}
 	

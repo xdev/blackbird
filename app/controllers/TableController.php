@@ -22,13 +22,14 @@ class TableController extends _Controller
 		$this->layout_view = null;
 		$table = $_POST['table'];
 		
-		$data = array();
-		$data['table'] = $table;
+		//$data = array();
+		//$data['table'] = $table;
 		$tA = $this->model->getData($table);
-		$data['rowData'] = $tA['rowData'];
-		$data['headerData'] = $tA['headerData'];
+		//$data['rowData'] = $tA['rowData'];
+		//$data['headerData'] = $tA['headerData'];
+		
 					
-		$this->view(array('data'=>$data));
+		$this->view(array('data'=>$tA));
 	}
 	
 }
