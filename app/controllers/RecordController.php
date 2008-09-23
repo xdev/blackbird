@@ -2,6 +2,10 @@
 
 class RecordController extends _Controller
 {
+	
+	/*
+	Needs a context switch between rendering of page, or rendering of snippets for remote access
+	*/
 		
 	public function Index()
 	{
@@ -39,10 +43,28 @@ class RecordController extends _Controller
 		$this->model->getData(array('query_action'=>$this->query_action));
 		$main = $this->_buildForm();
 		//all related data
+		if($related = $this->model->getRelated()){
+		
+			for($i=0;$i<count($related);$i++){
+				$relation = $related[$i];
+				$relation['name_space'] = 'related_' . $relation['table_child'];
+				if($relation['label'] == ''){
+					$relation['label'] = $relation['table_child'];
+				}
+				$related[$i] = $relation;
+			}
+		
+		}
+		
+		$this->view(array('data'=>array('main'=>$main,'related'=>$related,'mode'=>$this->query_action)));
+	}
+	
+	private function _buildRelations()
+	{
+		
+		//loop around and scoop up placeholder stuff we need for stuffs, mostly setting variables ehh? Do everything else via javascript?
 		
 		
-		
-		$this->view(array('data'=>array('main'=>$main,'related'=>$this->model->getRelated(),'mode'=>$this->query_action)));
 	}
 	
 	private function _buildForm()

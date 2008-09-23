@@ -9,8 +9,11 @@ function blackbird()
 {
 	var groupA;
 	var tables;
+	var lastSection;
+	var tab;
 	if (tmp = this.readCookie('Blackbird')) blackbirdCookie = tmp.evalJSON();
 	this.initToggleNavigation();
+	this.initTabNavigation();
 }
 
 // http://www.quirksmode.org/js/cookies.html
@@ -124,3 +127,64 @@ blackbird.prototype.setNavigationCookie = function()
 	this.createCookie('Blackbird',Object.toJSON(blackbirdCookie).replace(/\s+/g,''),365);
 	//if (blackbirdCookie == 'undefined') this.eraseCookie('Blackbird');
 };
+
+blackbird.prototype.handleTabClick = function(event)
+{
+	var elem = Event.element(event);	
+	var t = elem.hash.substring(1);
+	this.showTab(t);
+}
+
+blackbird.prototype.initTabNavigation = function()
+{
+	var tA = $('bb_main_sections').select('a');
+	var iMax = tA.length;
+	for(var i=0;i<iMax; i++){
+		Event.observe(tA[i],'click',this.handleTabClick.bind(this));
+	}
+	
+	//loop
+	
+	//observe click yoz
+}
+
+blackbird.prototype.showTab = function(tab)
+{
+	var tA = $('bb_main_sections').select('a');
+	var iMax = tA.length;
+	for(var i=0;i<iMax; i++){
+		
+		var nav = tA[i];
+		var name_space = nav.hash.substring(1);
+		var item = $('section_' + name_space);
+
+		if(item){
+			if(tab == name_space){
+				nav.addClassName('selected');
+				///this.tab = item;
+				//this.tab.show();
+				item.show();
+			}else{
+				item.hide();
+				nav.removeClassName('selected');
+			}
+			
+		}
+	}
+	
+	/*
+	if(tab != this.lastSection){
+		//check for old formController
+		var cont = eval('formController_' + tab);
+		if(cont != undefined){
+			if(cont.getLength() > 0){
+				alert('there are unsaved changes');
+			}	
+		}
+	}
+	*/
+	
+	this.lastSection = tab;
+}
+
+
