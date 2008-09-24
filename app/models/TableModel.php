@@ -12,7 +12,8 @@ class TableModel extends Model
 		
 		//set necessary variables
 		
-		$table_parent = '';
+		$table_parent = Utils::setVar("table_parent",'');
+		$id_parent = Utils::setVar("id_parent",'');
 		$this->sql = '';
 		
 		//these should be mapped in from the controller - not set here
@@ -42,7 +43,6 @@ class TableModel extends Model
 		//column description information		
 		$fields = array();
 		if($q_display['cols_default'] == ""){
-			//die();
 			$select_cols = '*';
 			$q = AdaptorMysql::query("SHOW COLUMNS FROM $this->table",MYSQL_BOTH);
 			$fields = array();
@@ -77,14 +77,14 @@ class TableModel extends Model
 		
 		if($table == BLACKBIRD_TABLE_PREFIX.'history'){
 			$filterWhere = $this->sql;
-			$label = 'CMS History';
+			$label = '_History_';
 		}else if($table_parent != ''){
 			$relation = AdaptorMysql::queryRow("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."relations WHERE table_parent = '$table_parent' AND table_child = '$table'");
 			$q_parent = AdaptorMysql::queryRow("SELECT * FROM $table_parent WHERE id = $id_parent");
 			$sql_val = $q_parent[$relation['column_parent']];
 			$whereA[] = "$relation[column_child] = '$sql_val'";			
 			$filterWhere = "$relation[column_child] = '$sql_val'";
-			
+									
 			//from build in a page
 			if(isset($this->config['sql_where'])){				
 				$whereA[] = $this->config['sql_where'];

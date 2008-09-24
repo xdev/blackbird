@@ -6,13 +6,12 @@ $datagrid = 'data_grid_' . $_POST['name_space'];
 <div class="actions">
 	<div class="right">
 		<p class="actions related">
-			
 			<input class="search" id="<?= $_POST['name_space'] ?>_search" type="text" value="Search..." size="20" onclick="clickclear(this, 'Search...')" onblur="clickrecall(this,'Search...')"  />
 			<a class="icon search" href="#" onclick="<?= $datagrid ?>.search();" title="Submit search query">Search</a>
 			<a class="icon undo" href="#" onclick="<?= $datagrid ?>.reset();" title="Reset Data Grid">Reset</a>
 		</p>
-		<!-- insert pagination logic here -->
 		<?php
+		//pagination
 		
 		$click = $datagrid . ".setProperty('offset','";
 		
