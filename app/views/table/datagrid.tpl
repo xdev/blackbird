@@ -1,14 +1,50 @@
+<?php
+$datagrid = 'data_grid_' . $_POST['name_space'];
+?>
 <div class="data_grid_embed">
 	
 <div class="actions">
 	<div class="right">
 		<p class="actions related">
-			<input class="search" id="main_search" type="text" value="Search..." size="20" onclick="clickclear(this, 'Search...')" onblur="clickrecall(this,'Search...')"  />
-			<a class="icon search" href="#" onclick="data_grid_main.search();" title="Submit search query">Search</a>
-			<a class="icon undo" href="#" onclick="data_grid_main.reset();" title="Reset Data Grid">Reset</a>
+			
+			<input class="search" id="<?= $_POST['name_space'] ?>_search" type="text" value="Search..." size="20" onclick="clickclear(this, 'Search...')" onblur="clickrecall(this,'Search...')"  />
+			<a class="icon search" href="#" onclick="<?= $datagrid ?>.search();" title="Submit search query">Search</a>
+			<a class="icon undo" href="#" onclick="<?= $datagrid ?>.reset();" title="Reset Data Grid">Reset</a>
 		</p>
 		<!-- insert pagination logic here -->
-		<p class="pagination"><span class="values"><?php print count($rowData) ?> Records</span></p>
+		<?php
+		
+		$click = $datagrid . ".setProperty('offset','";
+		
+		if($rows_total > $limit){
+
+			$rem = ceil($rows_total / $limit);
+			$lastp = floor($rows_total / $limit);
+			$sort_t = ($offset / $rows_total);
+
+			$p = floor($rem * $sort_t);
+
+			print '<p class="pagination">';										
+
+			printf('<a class="icon first" %s title="First page">First</a>', ($p != 0) ? 'href="#" onclick="' . $click . 0 . '\');"' : '');
+			printf('<a class="icon previous" %s title="Previous page">Previous</a>', ($p != 0) ? 'href="#" onclick="' . $click . (($p - 1) * $limit).'\');"' : '' );
+
+			//Record display info
+			$t = $offset + $limit;
+			if($t > $rows_total){
+				$t = $rows_total;
+			}
+
+			printf('<span class="values">%s</span>',"($offset-$t) of " . $rows_total . " Records");
+			printf('<a class="icon next" %s title="Next page">Next</a>', ($p < $rem - 1) ? 'href="#" onclick="'. $click . (($p + 1) * $limit).'\');"' : '');
+			printf('<a class="icon last" %s title="Last page">Last</a>', ($p < $rem - 1) ? 'href="#" onclick="'. $click . ($lastp * $limit) . '\');"' : '');
+			print '</p>';
+
+		}else{
+			print '<p class="pagination"><span class="values">' . count($rowData) . ' Records</span></p>';
+		}
+		
+		?>
 	</div>
 	<div class="clearfix"></div>
 </div>
@@ -20,7 +56,7 @@
 //filters
 
 //datagrid javascript controller reference.. this should be removed for a non-obstrusive approach, coming later
-$datagrid = 'data_grid_' . $_POST['name_space'];
+
 //headers
 foreach($headerData as $row){
 	//print '<th>'.$row.'</th>';

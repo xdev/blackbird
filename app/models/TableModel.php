@@ -222,8 +222,18 @@ class TableModel extends Model
 		//	$delete_allowed = true;
 		//}
 		//die(print_r($this->recordSet));
-								
-		return array('headerData'=>$fields,'rowData'=>$this->recordSet,'sort_col'=>$sort_col,'sort_dir'=>$sort_dir,'table'=>$this->table);
+		
+					
+		return array(
+			'headerData'=>$fields,
+			'rowData'=>$this->recordSet,
+			'sort_col'=>$sort_col,
+			'sort_dir'=>$sort_dir,
+			'table'=>$this->table,
+			'rows_total'=>$rows_total,
+			'limit'=>$limit,
+			'offset'=>$offset
+		);
 		
 	}
 	
