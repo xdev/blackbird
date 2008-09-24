@@ -137,15 +137,13 @@ blackbird.prototype.handleTabClick = function(event)
 
 blackbird.prototype.initTabNavigation = function()
 {
-	var tA = $('bb_main_sections').select('a');
-	var iMax = tA.length;
-	for(var i=0;i<iMax; i++){
-		Event.observe(tA[i],'click',this.handleTabClick.bind(this));
+	if($('bb_main_sections')){
+		var tA = $('bb_main_sections').select('a');
+		var iMax = tA.length;
+		for(var i=0;i<iMax; i++){
+			Event.observe(tA[i],'click',this.handleTabClick.bind(this));
+		}
 	}
-	
-	//loop
-	
-	//observe click yoz
 }
 
 blackbird.prototype.showTab = function(tab)

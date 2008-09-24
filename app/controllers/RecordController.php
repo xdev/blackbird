@@ -177,7 +177,7 @@ class RecordController extends _Controller
 
 							//factor in the contraint if set
 							if(isset($config['col_constraint'])){
-								$options['select_sql'] = "SELECT * FROM `$this->table` WHERE $config[col_constraint] = '".$row_data[$config['col_constraint']]."' ORDER BY $col[Field]";
+								$options['select_sql'] = "SELECT * FROM `$this->table` WHERE $config[col_constraint] = '".$row_data[$config['col_constraint']]."' ORDER BY $column[name]";
 							}else{
 								$options['select_sql'] = "SELECT * FROM `$this->table` ORDER BY $column[name]";
 							}
