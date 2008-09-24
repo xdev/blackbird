@@ -254,6 +254,13 @@ a:hover {
 	#bb_module {
 		border-top: 1px solid #F7FAFF;
 		clear: both;
+		position: absolute;
+		top: 63px;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		overflow: auto;
+		overflow-x: hidden;
 		/*float: left;
 		width: 100%;*/
 	}
