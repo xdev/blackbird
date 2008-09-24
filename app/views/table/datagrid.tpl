@@ -19,6 +19,8 @@
 <?php
 //filters
 
+//datagrid javascript controller reference.. this should be removed for a non-obstrusive approach, coming later
+$datagrid = 'data_grid_' . $_POST['name_space'];
 //headers
 foreach($headerData as $row){
 	//print '<th>'.$row.'</th>';
@@ -33,13 +35,13 @@ foreach($headerData as $row){
 			$tDir = "DESC";
 			$dir = "ascending";
 		}
-		//$click = 'onclick = "' . $controller . '.sortColumn(\'' . $col['col'] . '\',\'' . $tDir . '\');"';
+		$click = 'onclick = "' . $datagrid . '.sortColumn(\'' . $field . '\',\'' . $tDir . '\');"';
 		print "<th class=\"active $dir\" ><a href=\"#\" $click>$field</a></th>";
 	}else{
 		//if(isset($col['injected'])){
 		//	print '<th>' .$field.'</th>';
 		//}else{
-			//$click = 'onclick = "' . $controller . '.sortColumn(\'' . $col['col'] . '\',\'ASC\');"';
+			$click = 'onclick = "' . $datagrid . '.sortColumn(\'' . $field . '\',\'ASC\');"';
 			print "<th><a href=\"#\" $click>$field</a></th>";
 		//}
 	}	
@@ -54,6 +56,10 @@ foreach($rowData as $key=>$value){
 	//take into account permissions	
 	$class = '';
 	$click = ' onclick="window.location=\''. BASE .'record/edit/'.$table.'/'.$key.'\';" '; //replace with non obtrusive javascript
+	if(isset($_POST['mode'])){
+		//will be replaced with stuffs
+		$click = '';
+	}	
 	
 	if($i%2 == 0){ $class = ' class="odd" ';}
 	print '<tr'.$class.'>';

@@ -1,53 +1,25 @@
 <?php
 
-//set up ajax data grid here son
-
-//surrounding markup and suck yo
-
-
-//needs to use some namespace and table love
-
-
-?>
-
-<div id="mytable">
-	
-</div>
-
+printf('
+<div class="section" id="section_%s">
+<div class="table">
 <script type="text/javascript">
-	//set up ajax responder or something swag like that
-	
-	
-	var sendVars = new Object();
-	/*
-	for(var i in this.data){
-		sendVars[i] = this.data[i];
-	}
-
-	for(var i in this.filters){
-		sendVars['filter_' + i] = this.filters[i];
-	}
-	*/
-	
-	sendVars.table = <?php print "'" . $this->route['table'] . "';" ?>;
-	
-
-	//var tA = $('pane_' + this.data.name_space).select('.data_grid_embed');
-	
-	
-	var obj = $('mytable');
-	
-	var myAjax = new Ajax.Updater(
-		obj,
-		'<?= BASE ?>table/datagrid', 
+	<!-- <![CDATA[ 
+	var data_grid_%s= new dataGrid(
 		{
-			method		: 'post', 
-			parameters	: formatPost(sendVars),
-			evalScript	: true
+			table: "%s",
+			name_space: "%s",
+			cms_root: "%s"
 		}
 	);
-	
-	//;//,
-	
-	
+	// ]]> -->
 </script>
+</div>
+</div>',
+$name_space,
+$name_space,
+$this->route['table'],
+$name_space,
+BASE);
+
+?>

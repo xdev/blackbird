@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /**
 *	dataGrid
 *
@@ -32,6 +30,7 @@ function dataGrid(options)
 	{
 		this._scope.getUpdate();
 	}
+	this.getUpdate();
 	
 }
 
@@ -155,12 +154,12 @@ dataGrid.prototype.getUpdate = function()
 	
 	sendVars.action = 'getDataGrid';
 		
-	var tA = $('pane_' + this.data.name_space).select('.data_grid_embed');
+	var tA = $('section_' + this.data.name_space).select('.table');
 	var obj = tA[0];
 			
 	var myAjax = new Ajax.Updater(
 		obj,
-		this.data.cms_root + 'ajax', 
+		this.data.cms_root + 'table/datagrid', 
 		{
 			method		: 'post', 
 			parameters	: formatPost(sendVars),

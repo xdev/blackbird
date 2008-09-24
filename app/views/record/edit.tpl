@@ -1,39 +1,21 @@
 <?php
 
-//main divs
-
-//tab nav
-
-//main tab
-
-//surrounding form markup
-//dump contents
-//closing form markup
-//target iform
-
-//related tabs
-//iterate array
-	//dump contents
-	//make iform?
-
-//other stuff
-
 if(is_array($related)){
 
-$r = '<ul id="bb_main_sections">';
-$r .= '<li><a id="bb_toggle_main" class="active" href="#main">Main</a></li>';
-foreach ($related as $relation) {
-	$r .= sprintf(
-		'<li><a id="bb_toggle_%s" class="%s" href="#%s">%s</a></li>',
-		$relation['name_space'],
-		$mode == "insert" ? 'dim' : '',
-		$relation['name_space'],
-		$relation['label']
-	);
-}
-$r .= '</ul>';
+	$r = '<ul id="bb_main_sections">';
+	$r .= '<li><a id="bb_toggle_main" class="active" href="#main">Main</a></li>';
+	foreach ($related as $relation) {
+		$r .= sprintf(
+			'<li><a id="bb_toggle_%s" class="%s" href="#%s">%s</a></li>',
+			$relation['name_space'],
+			$mode == "insert" ? 'dim' : '',
+			$relation['name_space'],
+			$relation['label']
+		);
+	}
+	$r .= '</ul>';
 
-print $r;
+	print $r;
 
 }
 
@@ -53,34 +35,39 @@ if(is_array($related)){
 		print '<div class="section" id="section_'.$relation['name_space'].'" style="display:none;">';
 		//holder for edit
 		print '<div class="edit_form" style="display:none;"><div class="detail"></div></div>';
-				
+		
 		printf('
 		<div class="table">
-			<script type="text/javascript">
-
-				var sendVars = new Object();				
-				sendVars.table = "%s";
-				
-				var tA = $("section_" + "%s").select(".table");
-				var obj = tA[0];
-				var myAjax = new Ajax.Updater(
-					obj,
-					"%s", 
-					{
-						method		: "post", 
-						parameters	: formatPost(sendVars),
-						evalScript	: true
-					}
-				);
-
-			</script>
-		
+		<script type="text/javascript">
+			<!-- <![CDATA[ 
+			var data_grid_%s= new dataGrid(
+				{
+					mode: "related",
+					table: "%s",
+					table_parent: "%s",
+					id_parent: "%s",
+					name_space: "%s",
+					cms_root: "%s",
+					%s
+				}
+			);
+			// ]]> -->
+		</script>
 		</div>',
-		$relation['table_child'],
 		$relation['name_space'],
-		BASE . 'table/datagrid'
+		$relation['table_child'],
+		$relation['table_parent'],
+		$this->id,
+		$relation['name_space'],
+		BASE,
+		(isset($relation['sql_where'])) ? sprintf('sql_where: "%s"',$relation['sql_where']) : ''
 		);
 		
+		/*
+		CMS.broadcaster.addListener(data_grid_%s.listener);
+		CMS.addCallback(\'' . $name_space . '\',data_grid_'.$name_space.',"getUpdate");
+		*/
+				
 		print '</div>';
 	
 	}

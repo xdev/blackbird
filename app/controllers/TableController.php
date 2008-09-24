@@ -13,7 +13,7 @@ class TableController extends _Controller
 	{
 		
 		//view datagrid					
-		$this->view();
+		$this->view(array('data'=>array('name_space'=>'main')));
 		
 	}
 	

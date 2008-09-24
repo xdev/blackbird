@@ -22,11 +22,17 @@ Portions of this software rely upon the following software which are covered by 
 		<?php 
 		print $this->css();
 		print '		
+		<!-- library code -->
 		<script type="text/javascript" src="' . BASE . 'assets/js/prototype.js" ></script>
 		<script type="text/javascript" src="' . BASE . 'assets/js/scriptaculous/scriptaculous.js?load=effects,dragdrop" ></script>
 		<script type="text/javascript" src="' . BASE . 'assets/js/functions.js" ></script>
+		<script type="text/javascript" src="' . BASE . 'assets/js/eventbroadcaster.js" ></script>		
+		<!-- app code -->
 		<script type="text/javascript" src="' . BASE . 'assets/js/blackbird.js" ></script>
-		';
+		<!-- widget code -->
+		<script type="text/javascript" src="' . BASE . 'assets/js/datagrid.js" ></script>		
+		<script type="text/javascript" src="' . BASE . 'assets/js/form.js" ></script>
+		<script type="text/javascript" src="' . BASE . 'assets/js/listmanager.js" ></script>';
 		?>
 	</head>
 	
