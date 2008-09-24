@@ -18,18 +18,16 @@ class RecordModel extends Model
 	{
 		
 		//needs to function in both edit and insert modes, obviously	
-		$this->table = $this->route['table'];
-		
+		//$this->table = $this->route['table'];
+		$this->table = $config['table'];
+		$this->id = $config['id'];
+		$this->channel = $config['channel'];
 		
 		if($config['query_action'] == 'insert'){
 			$this->mode = 'add';
-			$this->id = '';
 		}else{
 			$this->mode = 'edit';
-			$this->id = $this->route['id'];
-		}
-		
-		$this->channel = 'main';
+		}		
 		
 		$q = $this->db->queryRow("SELECT * FROM `" . $this->table . "` WHERE id = '" . $this->id . "'");
 		$q_cols = $this->db->query("SHOW COLUMNS FROM `$this->table`",MYSQL_BOTH);

@@ -31,7 +31,6 @@ class RecordController extends _Controller
 	
 	public function Edit()
 	{	
-		require_once LIB . 'Bobolink' . DS . 'forms' . DS . 'Forms.class.php';
 		$this->query_action = 'update';
 		
 		//set id
@@ -40,7 +39,7 @@ class RecordController extends _Controller
 		$this->mode = 'edit';
 		
 		//main record data
-		$this->model->getData(array('query_action'=>$this->query_action));
+		$this->model->getData(array('query_action'=>$this->query_action,'table'=>$this->table,'id'=>$this->id,'channel'=>'main'));
 		$main = $this->_buildForm();
 		//all related data
 		if($related = $this->model->getRelated()){
@@ -59,6 +58,24 @@ class RecordController extends _Controller
 		$this->view(array('data'=>array('main'=>$main,'related'=>$related,'mode'=>$this->query_action)));
 	}
 	
+	public function Editrelated()
+	{
+		$this->query_action = 'update';
+		
+		//set id
+		$this->id = $_POST['id'];
+		$this->table = $_POST['table'];
+		$this->mode = 'edit';
+		
+		//main record data
+		$this->model->getData(array('query_action'=>$this->query_action,'table'=>$this->table,'id'=>$this->id,'channel'=>'related'));
+		$main = $this->_buildForm();
+		$this->view(array('data'=>array('main'=>$main,'mode'=>$this->query_action)));
+		
+		$this->layout_view = null;
+		
+	}
+	
 	private function _buildRelations()
 	{
 		
@@ -69,6 +86,7 @@ class RecordController extends _Controller
 	
 	private function _buildForm()
 	{
+		require_once LIB . 'Bobolink' . DS . 'forms' . DS . 'Forms.class.php';
 		//the master loopage		
 		//do a few things different if we're editing vs inserting a new record.. however not much
 		//use output buffering to feed this to the view... this is a unique controller driven situation

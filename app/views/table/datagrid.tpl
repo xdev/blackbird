@@ -93,7 +93,7 @@ foreach($rowData as $key=>$value){
 	$click = ' onclick="window.location=\''. BASE .'record/edit/'.$table.'/'.$key.'\';" '; //replace with non obtrusive javascript
 	if(isset($_POST['mode'])){
 		//will be replaced with stuffs
-		$click = '';
+		$click = ' onclick="'.$datagrid.'.editRecord('.$key.',this);" ';
 	}	
 	
 	if($i%2 == 0){ $class = ' class="odd" ';}

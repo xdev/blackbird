@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 
 <!--
-Copyright 2004-2008 
+Copyright 2004-2008
 Authors Charles Mastin & Joshua Rudd
 c @ charlesmastin.com
 contact @ joshuarudd.com
@@ -15,48 +15,55 @@ Portions of this software rely upon the following software which are covered by 
 * Scriptaculous Library
 
 -->
-	
+
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 		<title>Blackbird</title>
-		<?php 
+		<?php
 		print $this->css();
-		print '		
+		print '
 		<!-- library code -->
 		<script type="text/javascript" src="' . BASE . 'assets/js/prototype.js" ></script>
 		<script type="text/javascript" src="' . BASE . 'assets/js/scriptaculous/scriptaculous.js?load=effects,dragdrop" ></script>
 		<script type="text/javascript" src="' . BASE . 'assets/js/functions.js" ></script>
-		<script type="text/javascript" src="' . BASE . 'assets/js/eventbroadcaster.js" ></script>		
+		<script type="text/javascript" src="' . BASE . 'assets/js/eventbroadcaster.js" ></script>
 		<!-- app code -->
 		<script type="text/javascript" src="' . BASE . 'assets/js/blackbird.js" ></script>
 		<!-- widget code -->
-		<script type="text/javascript" src="' . BASE . 'assets/js/datagrid.js" ></script>		
+		<script type="text/javascript" src="' . BASE . 'assets/js/datagrid.js" ></script>
 		<script type="text/javascript" src="' . BASE . 'assets/js/form.js" ></script>
 		<script type="text/javascript" src="' . BASE . 'assets/js/listmanager.js" ></script>';
 		?>
 	</head>
-	
+
 	<body>
-		
+
 		<div id="bb_navigation">
 			<?= $content['ui_nav'] ?>
 		</div>
-		
+
 		<div id="bb_session_nav">
 			<?= $content['ui_breadcrumb'] ?>
 			<?= $content['ui_session'] ?>
 		</div>
-		
+
 		<div id="bb_main">
 			<?= $content['ui_toolbar'] ?>
-			
+
 			<div id="bb_module">
 				<div id="pane_main">
 				<?= $content['main'] ?>
 				</div>
 			</div>
 		</div>
-		
+
+		<script type="text/javascript">
+		Event.observe(window,'load',function(){
+			blackbird = new blackbird();
+			blackbird.setProperty("base","<?= BASE ?>");
+		});
+		</script>
+
 	</body>
-	
+
 </html>
