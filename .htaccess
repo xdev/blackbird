@@ -1,0 +1,21 @@
+<IfModule mod_rewrite.c>
+
+RewriteEngine on
+RewriteBase /blackbird
+
+# Remove trailing slashes for dynamic pages
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)/$ $1 [L,R]
+
+# Prevent access to protected directories and files
+RewriteRule ^_scripts|_source|app|lib|example_config|tmp/(.*)$ . [F]
+#RewriteRule ^README|LICENSE$ . [F]
+
+# Redirect dynamic requests to index.php file
+RewriteCond %{REQUEST_FILENAME} !favicon\.ico
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule . index.php [L,QSA]
+
+</IfModule>
