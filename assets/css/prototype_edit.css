@@ -1,0 +1,38 @@
+.bb_module_edit {
+	
+}
+
+.bb_module_edit .form_item {
+	clear: both;
+	float: left;
+	padding: 10px 0;
+}
+
+	.bb_module_edit .form_item label {
+		color: #1F2633;
+		float: left;
+		font-size: 12px;
+		line-height: 1.25em;
+		padding: 5px 5px 0 1em;
+		text-align: right;
+		width: 85px;
+	}
+	.bb_module_edit .form_item label:after {
+		content: ':';
+	}
+	
+	.bb_module_edit .form_item .input {
+		float: left;
+	}
+	
+		.bb_module_edit .form_item .input input,
+		.bb_module_edit .form_item .input select,
+		.bb_module_edit .form_item .input textarea {
+			font-size: 12px;
+			line-height: 1.25em;
+		}
+	
+		.bb_module_edit .form_item .input .tip {
+			color: #525866;
+			font-size: 9px;
+		}

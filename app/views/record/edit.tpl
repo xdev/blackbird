@@ -21,7 +21,7 @@ if(is_array($related)){
 
 ?>
 
-<div class="bb_module">
+<div class="bb_module bb_module_edit">
 <div class="section main_projects" id="section_main">
 <form id="form_main" name="form_main" enctype="multipart/form-data" action="<?= BASE ?>record/process" method="post" target="form_target_main" onsubmit="Element.show('ajax');" >
 <?= $main ?>
