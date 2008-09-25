@@ -1,6 +1,10 @@
 var blackbirdCookie;
 blackbirdCookie = new Object();
 
+document.observe('dom:loaded',function(){
+	blackbird = new blackbird();
+});
+
 function blackbird(options)
 {
 	this.data = new Object();
@@ -122,14 +126,14 @@ blackbird.prototype.initTabNavigation = function()
 			Event.observe(tA[i],'click',this.handleTabClick.bind(this));
 		}
 	}
-}
+};
 
 blackbird.prototype.handleTabClick = function(event)
 {
 	var elem = Event.element(event);	
 	var t = elem.hash.substring(1);
 	this.showTab(t);
-}
+};
 
 blackbird.prototype.showTab = function(tab)
 {
@@ -168,7 +172,7 @@ blackbird.prototype.showTab = function(tab)
 	*/
 	
 	this.lastSection = tab;
-}
+};
 
 /**
 *	addNewRecord
