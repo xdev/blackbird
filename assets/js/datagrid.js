@@ -125,7 +125,7 @@ dataGrid.prototype.editRecord = function(id,elem)
 	var p = $(elem).up('tr');
 	$(p).addClassName('active');
 	
-	CMS.recordHandler(this.data.table,id,this.data.name_space,'edit',CMS.processEdit,'update');
+	blackbird.recordHandler(this.data.table,id,this.data.name_space,'edit',blackbird.processEdit,'update');
 	
 	this.clearHilite();
 	
