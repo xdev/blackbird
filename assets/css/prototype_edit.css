@@ -28,8 +28,9 @@
 		.bb_module_edit .form_item .input input,
 		.bb_module_edit .form_item .input select,
 		.bb_module_edit .form_item .input textarea {
+			font-family: "Lucida Grande", Lucida, Sans-serif;
 			font-size: 12px;
-			line-height: 1.25em;
+			line-height: 1.25em;			
 		}
 	
 		.bb_module_edit .form_item .input .tip {

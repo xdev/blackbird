@@ -1,7 +1,7 @@
 
 <?php
 
-print $this->fetchView('/_modules/ui_toolbar',array('controller'=>'record','mode'=>'edit','table'=>$this->table));
+print $this->fetchView('/_modules/ui_toolbar',array('controller'=>'record','mode'=>'edit','table'=>$this->table,'id'=>$id));
 
 if(is_array($related)){
 
@@ -23,7 +23,7 @@ if(is_array($related)){
 }
 
 ?>
-<div id="bb_module">
+<div id="bb_module_edit">
 
 <div class="bb_module bb_module_edit">
 <div class="section <?= $name_space ?>_<?= $table ?>" id="section_<?= $name_space ?>">

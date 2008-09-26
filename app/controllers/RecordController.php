@@ -55,7 +55,7 @@ class RecordController extends _Controller
 		
 		}
 		
-		$this->view(array('data'=>array('main'=>$main,'related'=>$related,'mode'=>$this->query_action,'name_space'=>'main','table'=>$this->table)));
+		$this->view(array('data'=>array('main'=>$main,'related'=>$related,'mode'=>$this->query_action,'name_space'=>'main','table'=>$this->table,'id'=>$this->id)));
 	}
 	
 	public function Editrelated()

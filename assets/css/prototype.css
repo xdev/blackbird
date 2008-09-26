@@ -268,3 +268,17 @@ a:hover {
 		/*float: left;
 		width: 100%;*/
 	}
+	
+	#bb_module_edit {
+		border-top: 1px solid #F7FAFF;
+		clear: both;
+		position: absolute;
+		top: 90px;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		overflow: auto;
+		overflow-x: hidden;
+		/*float: left;
+		width: 100%;*/
+	}
