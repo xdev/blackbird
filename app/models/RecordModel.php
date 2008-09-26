@@ -79,7 +79,7 @@ class RecordModel extends Model
 				}
 			}
 						
-			$this->data[] = array('name'=>$col['Field'],'value'=>$q[$col['Field']],'type'=>$col['Type'],'config'=>$q_col);
+			$this->data[$col['Field']] = array('name'=>$col['Field'],'value'=>$q[$col['Field']],'type'=>$col['Type'],'config'=>$q_col);
 		}
 		
 		return $this->data;

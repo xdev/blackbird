@@ -1,7 +1,13 @@
-
 <?php
 
-print $this->fetchView('/_modules/ui_toolbar',array('controller'=>'record','mode'=>'edit','table'=>$this->table,'id'=>$id));
+print $this->fetchView('/_modules/ui_toolbar',array(
+	'controller'=>'record',
+	'mode'=>'edit',
+	'table'=>$this->table,
+	'id'=>$id,
+	'active'=>$active,
+	'name_space'=>$name_space,
+	'type'=>'main'));
 
 if(is_array($related)){
 

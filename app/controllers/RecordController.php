@@ -26,7 +26,9 @@ class RecordController extends _Controller
 		$this->model->getData(array('query_action'=>$this->query_action,'table'=>$this->table,'id'=>$this->id,'channel'=>'main'));
 		$main = $this->_buildForm();
 		
-		$this->view(array('data'=>array('main'=>$main,'id'=>$this->id,'table'=>$this->table,'mode'=>$this->mode)));
+		//get active state
+		
+		$this->view(array('data'=>array('main'=>$main,'id'=>$this->id,'table'=>$this->table,'mode'=>$this->mode,'active'=>1)));
 	}
 	
 	public function Edit()
@@ -55,24 +57,47 @@ class RecordController extends _Controller
 			}
 		
 		}
-		
-		$this->view(array('data'=>array('main'=>$main,'related'=>$related,'mode'=>$this->query_action,'name_space'=>'main','table'=>$this->table,'id'=>$this->id)));
+		//
+		$this->view(array('data'=>array(
+			'main'=>$main,
+			'related'=>$related,
+			'mode'=>$this->query_action,
+			'name_space'=>'main',
+			'table'=>$this->table,
+			'id'=>$this->id,
+			'active'=>$this->model->data['active']['value'])));
 	}
 	
 	public function Editrelated()
 	{
-		$this->query_action = 'update';
 		
-		//set id
-		$this->id = $_POST['id'];
 		$this->table = $_POST['table'];
-		$this->mode = 'edit';
+		$this->mode = $_POST['mode'];
+		$this->query_action = $_POST['query_action'];
+		if($this->mode == 'edit'){
+			$this->id = $_POST['id'];
+		}else{
+			$this->id = '';
+		}
+		
 		$this->channel = 'related';
 		
 		//main record data
 		$this->model->getData(array('query_action'=>$this->query_action,'table'=>$this->table,'id'=>$this->id,'channel'=>$this->channel));
 		$main = $this->_buildForm();
-		$this->view(array('data'=>array('main'=>$main,'mode'=>$this->query_action,'name_space'=>$_POST['name_space'])));
+		
+		if($this->model->data['active']['value'] != ''){
+			$this->active = $this->model->data['active']['value'];
+		}else{
+			$this->active = 1;
+		}
+							
+		$this->view(array('data'=>array(
+			'main'=>$main,
+			'mode'=>$this->query_action,
+			'name_space'=>$_POST['name_space'],
+			'id'=>$this->id,
+			'active'=>$this->active)));
 		
 		$this->layout_view = null;
 		
@@ -97,7 +122,6 @@ class RecordController extends _Controller
 		ob_start();
 		
 		$_name_space = 'main_';
-		
 		
 		Forms::hidden($_name_space . 'table',$this->table,null);
 		Forms::hidden($_name_space . 'query_action',$this->query_action,null);
@@ -504,9 +528,7 @@ class RecordController extends _Controller
 		}
 		
 		$q_table = $this->db->queryRow("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."tables WHERE table_name = '$this->table'");
-		
-		//die(print_r($row_data));
-		
+				
 		if(strlen($q_table['process_module']) > 3){
 			//$this->cms->pluginTableProcess($this->table,$this->id,$this->query_action);
 		}else{
