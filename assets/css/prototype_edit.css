@@ -14,6 +14,12 @@
 	padding: 10px 0;
 	width: 100%;
 }
+.bb_module_edit .form_item:hover,
+.bb_module_edit .form_item.active {
+	background-color: #DEE1E5;
+	border-top: 1px solid #EAEDF2;
+	border-bottom: 1px solid #D2D5D8;
+}
 
 	.bb_module_edit .form_item label {
 		color: #1C2E4D;
