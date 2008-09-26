@@ -168,7 +168,7 @@ a:hover {
 		bottom: 0;
 }
 
-	#bb_toolbar {
+	.bb_toolbar.main {
 		background-color: #7A8599;
 		border-top: 1px solid #8D9BB3;
 		border-bottom: 1px solid #505866;
@@ -179,15 +179,27 @@ a:hover {
 		text-shadow: #505866 0px -1px 0;
 		/*width: 100%;*/
 	}
+	
+	.bb_toolbar.related {
+		background-color: #7A8599;
+		border-top: 1px solid #8D9BB3;
+		border-bottom: 1px solid #505866;
+		color: #FFFFFF;
+		/*float: left;*/
+		height: 45px;
+		position: relative;
+		text-shadow: #505866 0px -1px 0;
+		/*width: 100%;*/
+	}
 		
-		#bb_toolbar h1 {
+		.bb_toolbar.main h1 {
 			font-size: 16px;
 			position: absolute;
 				top: 9px;
 				left: 10px;
 		}
 		
-		#bb_toolbar #bb_record_meta {
+		.bb_toolbar.main .bb_record_meta {
 			font-size: 9px;
 			line-height: 1.25em;
 			position: absolute;
@@ -197,21 +209,21 @@ a:hover {
 			width: 180px;
 		}
 		
-			#bb_toolbar #bb_record_meta dt {
+			.bb_toolbar.main .bb_record_meta dt {
 				float: left;
 			}
-			#bb_toolbar #bb_record_meta dt:after {
+			.bb_toolbar.main .bb_record_meta dt:after {
 				content: ':';
 			}
 		
-		#bb_toolbar #bb_record_actions {
+		.bb_toolbar.main .bb_record_actions {
 			position: absolute;
 				left: 10px;
 				bottom: 9px;
 		}
 		
-			#bb_toolbar #bb_record_actions input,
-			#bb_toolbar #bb_record_actions select {
+			.bb_toolbar.main .bb_record_actions input,
+			.bb_toolbar.main .bb_record_actions select {
 				font-size: 12px;
 			}
 	
@@ -267,6 +279,20 @@ a:hover {
 		overflow-x: hidden;
 		/*float: left;
 		width: 100%;*/
+	}
+	
+	/* placeholder access to scroll datagrid */
+	.data_grid_embed.main table
+	{
+		border-top: 1px solid #F7FAFF;
+		clear: both;
+		position: absolute;
+		top: 65px;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		overflow: auto;
+		overflow-x: hidden;
 	}
 	
 	#bb_module_edit {

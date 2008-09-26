@@ -1,4 +1,19 @@
-<form id="form_main" name="form_main" enctype="multipart/form-data" action="<?= BASE ?>record/process" method="post" target="form_target_main" onsubmit="Element.show('ajax');" >
+<div class="bb_toolbar related">
+	<h1>Related Edit Toolbar</h1>
+	<div class="bb_record_actions">
+		<!-- set up change handler to set main_active to this value upon change.. ehh 
+		CMS.setActive(this,'main');	
+		-->		
+		<select onchange="">
+			<option value="1" selected="selected">Active</option>
+			<option value="0" >Inactive</option>
+		</select>
+		<input type="button" value="Save" onclick="$('form_<?= $name_space ?>').submit(); return false;" />
+		<!-- CMS.loopBack(\'main\') -->
+		<input type="button" value="Close" onclick="blackbird.closeRecord('<?= $name_space ?>'); return false;" />
+	</div>
+</div>
+<form id="form_<?= $name_space ?>" name="form_<?= $name_space ?>" enctype="multipart/form-data" action="<?= BASE ?>record/process" method="post" target="form_target_<?= $name_space ?>" onsubmit="Element.show('ajax');" >
 <?= $main ?>
 </form>
-<iframe id="form_target_main" name="form_target_main" class="related_iframe"></iframe>
+<iframe id="form_target_<?= $name_space ?>" name="form_target_<?= $name_space ?>" class="related_iframe"></iframe>

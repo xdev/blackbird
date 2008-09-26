@@ -10,7 +10,7 @@
 //target iform
 
 //reference to inactive related content or something
-
+print $this->fetchView('/_modules/ui_toolbar',array('controller'=>'record','mode'=>'insert','table'=>$this->table,'id'=>$id));
 ?>
 <div id="bb_module">
 

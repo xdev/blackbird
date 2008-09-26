@@ -22,6 +22,7 @@ class TableModel extends Model
 		$offset = Utils::setVar("offset","0");
 		$limit = Utils::setVar("limit","20");
 		$search = Utils::setVar("search");
+		$mode = Utils::setVar("mode","main");
 		
 		//get config data
 		$tA = Utils::checkArray(_ControllerFront::$config['tables'],array('table_name'=>$this->table,'display_mode'=>'related'));
@@ -221,7 +222,6 @@ class TableModel extends Model
 		//if($this->cms->session->privs("delete",$table)){
 		//	$delete_allowed = true;
 		//}
-		//die(print_r($this->recordSet));
 		
 					
 		return array(
@@ -232,13 +232,9 @@ class TableModel extends Model
 			'table'=>$this->table,
 			'rows_total'=>$rows_total,
 			'limit'=>$limit,
-			'offset'=>$offset
+			'offset'=>$offset,
+			'mode'=>$mode
 		);
-		
-	}
-	
-	public function getDataGrid($table='')
-	{
 		
 	}
 	

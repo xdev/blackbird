@@ -1,14 +1,14 @@
 <?php
 if($controller == 'record'){
 print '	
-<div id="bb_toolbar">
+<div class="bb_toolbar main">
 	<h1>';
 	printf(($mode == 'edit') ? 'Edit Record' : 'New Record');
 print '</h1>';
 
 	if($mode == 'edit'){
 		printf('
-		<dl id="bb_record_meta">
+		<dl class="bb_record_meta">
 			<dt>Id</dt>
 			<dd>%s</dd>
 			%s
@@ -21,7 +21,7 @@ print '</h1>';
 	}
 	
 	print '
-	<div id="bb_record_actions">
+	<div class="bb_record_actions">
 		<!-- set up change handler to set main_active to this value upon change.. ehh -->
 		<select onchange="CMS.setActive(this,\'main\');">
 			<option value="1" selected="selected">Active</option>
@@ -35,10 +35,10 @@ print '</h1>';
 }
 if($controller == 'table'){
 	print '
-<div id="bb_toolbar">
+<div class="bb_toolbar main">
 	<h1>' . $table . '</h1>
 	
-	<div id="bb_record_actions">
+	<div class="bb_record_actions">
 		<input type="button" value="+ New Record" onclick="window.location=\''. BASE . 'record/add/' . $table . '\'" />
 	</div>
 </div>';

@@ -233,10 +233,15 @@ blackbird.prototype.openRecord = function(name_space)
 		
 	var obj = $(tA[0]);
 	if (obj.style.display == 'none') {
-		Effect.SlideDown(obj, {duration: .5});
+		//Effect.SlideDown(obj, {duration: .5});
 	}
+	obj.show();
 	
-	//this.broadcaster.broadcastMessage("onOpen");	
+	//this.broadcaster.broadcastMessage("onOpen");
+	//hide the datagrid for this section ehh
+	var tA = $('section_' + name_space).select('.table');
+	var obj = tA[0];
+	obj.hide();
 	
 };
 
@@ -251,9 +256,14 @@ blackbird.prototype.closeRecord = function(name_space)
 	
 	var tA = $('section_' + name_space).select('.edit_form');
 	var obj = tA[0];
-	Effect.SlideUp(obj, {duration: .5});
+	//Effect.SlideUp(obj, {duration: .5});
+	obj.hide();
 	
 	//this.broadcaster.broadcastMessage("onClose");
+	//show the datagrid for this section ehh
+	var tA = $('section_' + name_space).select('.table');
+	var obj = tA[0];
+	obj.show();
 
 };
 

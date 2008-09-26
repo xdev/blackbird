@@ -1,5 +1,3 @@
-<div id="bb_module">
-
 <?php
 
 printf('
@@ -25,4 +23,3 @@ $name_space,
 BASE);
 
 ?>
-</div>

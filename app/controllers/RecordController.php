@@ -26,7 +26,7 @@ class RecordController extends _Controller
 		$this->model->getData(array('query_action'=>$this->query_action,'table'=>$this->table,'id'=>$this->id,'channel'=>'main'));
 		$main = $this->_buildForm();
 		
-		$this->view(array('data'=>array('main'=>$main)));
+		$this->view(array('data'=>array('main'=>$main,'id'=>$this->id,'table'=>$this->table,'mode'=>$this->mode)));
 	}
 	
 	public function Edit()
@@ -37,9 +37,10 @@ class RecordController extends _Controller
 		$this->id = $this->route['id'];
 		$this->table = $this->route['table'];
 		$this->mode = 'edit';
+		$this->channel = 'main';
 		
 		//main record data
-		$this->model->getData(array('query_action'=>$this->query_action,'table'=>$this->table,'id'=>$this->id,'channel'=>'main'));
+		$this->model->getData(array('query_action'=>$this->query_action,'table'=>$this->table,'id'=>$this->id,'channel'=>$this->channel));
 		$main = $this->_buildForm();
 		//all related data
 		if($related = $this->model->getRelated()){
@@ -66,11 +67,12 @@ class RecordController extends _Controller
 		$this->id = $_POST['id'];
 		$this->table = $_POST['table'];
 		$this->mode = 'edit';
+		$this->channel = 'related';
 		
 		//main record data
-		$this->model->getData(array('query_action'=>$this->query_action,'table'=>$this->table,'id'=>$this->id,'channel'=>'related'));
+		$this->model->getData(array('query_action'=>$this->query_action,'table'=>$this->table,'id'=>$this->id,'channel'=>$this->channel));
 		$main = $this->_buildForm();
-		$this->view(array('data'=>array('main'=>$main,'mode'=>$this->query_action)));
+		$this->view(array('data'=>array('main'=>$main,'mode'=>$this->query_action,'name_space'=>$_POST['name_space'])));
 		
 		$this->layout_view = null;
 		
