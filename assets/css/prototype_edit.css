@@ -2,20 +2,27 @@
 	
 }
 
+	.bb_module_edit iframe {
+		display: none;
+	}
+
 .bb_module_edit .form_item {
+	border-top: 1px solid #FFFFFF;
+	border-bottom: 1px solid #DEE1E5;
 	clear: both;
 	float: left;
 	padding: 10px 0;
+	width: 100%;
 }
 
 	.bb_module_edit .form_item label {
-		color: #1F2633;
+		color: #1C2E4D;
 		float: left;
 		font-size: 12px;
-		line-height: 1.25em;
-		padding: 5px 5px 0 1em;
+		line-height: 1em;
+		padding: 5px 0 0 0;
 		text-align: right;
-		width: 85px;
+		width: 15%;
 	}
 	.bb_module_edit .form_item label:after {
 		content: ':';
@@ -23,6 +30,8 @@
 	
 	.bb_module_edit .form_item .input {
 		float: left;
+		width: 81%;
+		margin: 0 2%;
 	}
 	
 		.bb_module_edit .form_item .input input,
@@ -30,10 +39,19 @@
 		.bb_module_edit .form_item .input textarea {
 			font-family: "Lucida Grande", Lucida, Sans-serif;
 			font-size: 12px;
-			line-height: 1.25em;			
+			line-height: 1.25em;
+			
+		}
+		.bb_module_edit .form_item .input input.text,
+		.bb_module_edit .form_item .input textarea {
+			width: 95%;
+		}
+		.bb_module_edit .form_item .input textarea {
+			padding: 2px;
 		}
 	
 		.bb_module_edit .form_item .input .tip {
-			color: #525866;
+			color: #1C2E4D;
 			font-size: 9px;
+			padding-top: 3px;
 		}
