@@ -217,7 +217,7 @@ a:hover {
 	
 	#bb_main_sections {
 		background-color: #656E80;
-		border-top: 1px solid #7A8599;
+		border-top: 1px solid #6F7A8C;
 		border-bottom: 1px solid #505866;
 		float: left;
 		text-shadow: #505866 0px -1px 0;
@@ -256,7 +256,7 @@ a:hover {
 			}
 	
 	#bb_module {
-		border-top: 1px solid #F7FAFF;
+		/*border-top: 1px solid #F7FAFF;*/
 		clear: both;
 		position: absolute;
 		top: 65px;
@@ -269,11 +269,15 @@ a:hover {
 		width: 100%;*/
 	}
 	
+	.bb_module {
+		
+	}
+	
 	#bb_module_edit {
-		border-top: 1px solid #F7FAFF;
+		/*border-top: 1px solid #F7FAFF;*/
 		clear: both;
 		position: absolute;
-		top: 90px;
+		top: 88px;
 		left: 0;
 		right: 0;
 		bottom: 0;
