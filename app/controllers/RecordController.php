@@ -23,7 +23,7 @@ class RecordController extends _Controller
 		$this->mode = 'insert';
 		
 		//just the main record data
-		$this->model->getData(array('query_action'=>$this->query_action));
+		$this->model->getData(array('query_action'=>$this->query_action,'table'=>$this->table,'id'=>$this->id,'channel'=>'main'));
 		$main = $this->_buildForm();
 		
 		$this->view(array('data'=>array('main'=>$main)));
@@ -55,7 +55,7 @@ class RecordController extends _Controller
 		
 		}
 		
-		$this->view(array('data'=>array('main'=>$main,'related'=>$related,'mode'=>$this->query_action)));
+		$this->view(array('data'=>array('main'=>$main,'related'=>$related,'mode'=>$this->query_action,'name_space'=>'main','table'=>$this->table)));
 	}
 	
 	public function Editrelated()

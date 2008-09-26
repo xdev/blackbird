@@ -50,13 +50,7 @@ Portions of this software rely upon the following software which are covered by 
 		</div>
 
 		<div id="bb_main">
-			<?= $content['ui_toolbar'] ?>
-
-			<div id="bb_module">
-				<div id="pane_main">
-					<?= $content['main'] ?>
-				</div>
-			</div>
+			<?= $content['main'] ?>
 		</div>
 
 	</body>

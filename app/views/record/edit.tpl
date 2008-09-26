@@ -1,4 +1,7 @@
+
 <?php
+
+print $this->fetchView('/_modules/ui_toolbar',array('controller'=>'record','mode'=>'edit','table'=>$this->table));
 
 if(is_array($related)){
 
@@ -20,13 +23,14 @@ if(is_array($related)){
 }
 
 ?>
+<div id="bb_module">
 
 <div class="bb_module bb_module_edit">
-<div class="section main_projects" id="section_main">
-<form id="form_main" name="form_main" enctype="multipart/form-data" action="<?= BASE ?>record/process" method="post" target="form_target_main" onsubmit="Element.show('ajax');" >
+<div class="section <?= $name_space ?>_<?= $table ?>" id="section_<?= $name_space ?>">
+<form id="form_<?= $name_space ?>" name="form_<?= $name_space ?>" enctype="multipart/form-data" action="<?= BASE ?>record/process" method="post" target="form_target_<?= $name_space ?>" onsubmit="Element.show('ajax');" >
 <?= $main ?>
 </form>
-<iframe id="form_target_main" name="form_target_main" class="related_iframe"></iframe>
+<iframe id="form_target_<?= $name_space ?>" name="form_target_<?= $name_space ?>" class="related_iframe"></iframe>
 </div>
 
 <?php
@@ -75,4 +79,5 @@ if(is_array($related)){
 }
 
 ?>
+</div>
 </div>
