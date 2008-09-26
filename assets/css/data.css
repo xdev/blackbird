@@ -8,8 +8,8 @@ Data Grid
 
 table.data_grid
 {
-	background-color: #FFFFFF;
-	color: #666666;
+	border-bottom: 1px solid #D9DDE5;
+	color: #1A1C26;
 	margin: 0;
 	padding: 0;
 	border-collapse: collapse;
@@ -19,71 +19,86 @@ table.data_grid
 	table.data_grid th,
 	table.data_grid td
 	{
-		border: 1px solid #CCCCCC;
+		border-left: 1px solid #D9DDE5;
+		border-top: none;
+		border-bottom: none;
+		font-size: 11px;
 		margin: 0;
-		padding: 4px;
+		padding: 6px 10px;
+	}
+	table.data_grid th:first-child,
+	table.data_grid td:first-child {
+		border-left: none !important;
 	}
 	
 	table.data_grid th
 	{
-		background-color: #CCCCCC;
-		border: 1px solid #B3B3B3;
-		color: #666666;
-		text-shadow: #FFFFFF 0px 1px 2px;
-		font-weight: bold;
-		padding: 14px 4px 4px 4px;
+		background-color: #B5B9BF;
+		border-left: 1px solid #585D66;
+		border-bottom: 1px solid #7A8599;
+		color: #1C2E4D;
+		text-shadow: #D9DFE5 0px 1px 0;
+		font-size: 12px;
+		font-weight: normal;
+		padding: 10px;
 		text-align: left;
 		vertical-align: bottom;
 	}
-		table.data_grid th.ascending,
-		table.data_grid th.descending
-		{
-			padding-right: 18px;
-		}
 	
 		table.data_grid th a
 		{
-			background-position: 100% 100%;
+			background-position: 100% 50%;
 			background-repeat: no-repeat;
-			color: #666666;
+			color: #1C2E4D;
 			display: block;
-			margin: -14px -4px -4px -4px;
-			padding: 14px 4px 4px 4px;
+			margin: -10px;
+			padding: 10px;
 			width: 100%;
 		}
 			table.data_grid th a:hover,
 			table.data_grid th.active a
 			{
-				background-color: #BBBBBB;
-				color: #000000;
+				background-color: #919499;
+				color: #FFFFFF;
+				text-decoration: none;
+				text-shadow: #767A7F 0px -1px 0;
 			}
 			
 			table.data_grid th.ascending a
 			{
 				background-image: url("../img/arrow_ascending.gif");
-				margin-right: -18px;
-				padding-right: 18px;
 			}
 			.data_grid th.descending a
 			{
 				background-image: url("../img/arrow_descending.gif");
-				margin-right: -18px;
-				padding-right: 18px;
 			}
 				table.data_grid th.ascending a:hover,
 				table.data_grid th.descending a:hover
 				{
-					background-color: #AAAAAA;
+					background-color: #919499;
 				}
 	
 	table.data_grid tr td
 	{
+		/*display: block;*/
+		overflow: hidden;
+		max-width: 100px;
 		vertical-align: middle;
+		white-space: nowrap;
+	}
+	table.data_grid tr td {
 	}
 	
 		table.data_grid tr.odd td
 		{
-			background-color: #F6F6F6;
+			background-color: #FFFFFF;
+		}
+		
+		table.data_grid tr:hover td,
+		table.data_grid tr.odd:hover td {
+			background-color: #D9DDE5;
+			border-left: 1px solid #C1C5CC;
+			cursor: pointer;
 		}
 		
 		
