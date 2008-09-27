@@ -30,7 +30,13 @@ class RecordController extends _Controller
 		
 		//get active state
 		
-		$this->view(array('data'=>array('main'=>$main,'id'=>$this->id,'table'=>$this->table,'mode'=>$this->mode,'active'=>1)));
+		$this->view(array('data'=>array(
+			'main'=>$main,
+			'id'=>$this->id,
+			'table'=>$this->table,
+			'mode'=>$this->mode,
+			'active'=>1,
+			'name_space'=>$this->name_space)));
 	}
 	
 	public function Edit()
@@ -42,6 +48,8 @@ class RecordController extends _Controller
 		$this->table = $this->route['table'];
 		$this->mode = 'edit';
 		$this->channel = 'main';
+		
+		$this->name_space = 'main';
 		
 		//main record data
 		$this->model->getData(array('query_action'=>$this->query_action,'table'=>$this->table,'id'=>$this->id,'channel'=>$this->channel));
@@ -63,8 +71,8 @@ class RecordController extends _Controller
 		$this->view(array('data'=>array(
 			'main'=>$main,
 			'related'=>$related,
-			'mode'=>$this->query_action,
-			'name_space'=>'main',
+			'mode'=>$this->mode,
+			'name_space'=>$this->name_space,
 			'table'=>$this->table,
 			'id'=>$this->id,
 			'active'=>$this->model->data['active']['value'])));
@@ -83,6 +91,7 @@ class RecordController extends _Controller
 		}
 		
 		$this->channel = 'related';
+		$this->name_space = $_POST['name_space'];
 		
 		//main record data
 		$this->model->getData(array('query_action'=>$this->query_action,'table'=>$this->table,'id'=>$this->id,'channel'=>$this->channel));
@@ -96,7 +105,7 @@ class RecordController extends _Controller
 							
 		$this->view(array('data'=>array(
 			'main'=>$main,
-			'mode'=>$this->query_action,
+			'mode'=>$this->mode,
 			'name_space'=>$_POST['name_space'],
 			'id'=>$this->id,
 			'active'=>$this->active)));
@@ -123,7 +132,7 @@ class RecordController extends _Controller
 		
 		ob_start();
 		
-		$_name_space = 'main_';
+		$_name_space = $this->name_space . '_';
 		
 		Forms::hidden($_name_space . 'table',$this->table,null);
 		Forms::hidden($_name_space . 'query_action',$this->query_action,null);
@@ -304,7 +313,7 @@ class RecordController extends _Controller
 	public function Process()
 	{
 		//server side validation
-		$this->_name_space = 'main_';
+		$this->_name_space = $_POST['name_space'] . '_';
 		$this->table = $_POST[$this->_name_space.'table'];
 		$this->query_action = $_POST[$this->_name_space.'query_action'];
 		

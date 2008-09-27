@@ -229,9 +229,7 @@ blackbird.prototype.processEdit = function()
 
 blackbird.prototype.openRecord = function(name_space)
 {
-	var tA = $('section_' + name_space).select('.edit_form');
-		
-	var obj = $(tA[0]);
+	var obj = $('section_' + name_space).select('.edit_form')[0];
 	if (obj.style.display == 'none') {
 		//Effect.SlideDown(obj, {duration: .5});
 	}
@@ -239,8 +237,7 @@ blackbird.prototype.openRecord = function(name_space)
 	
 	//this.broadcaster.broadcastMessage("onOpen");
 	//hide the datagrid for this section ehh
-	var tA = $('section_' + name_space).select('.table');
-	var obj = tA[0];
+	obj = $('section_' + name_space).select('.table')[0];
 	obj.hide();
 	
 };
@@ -254,15 +251,13 @@ blackbird.prototype.openRecord = function(name_space)
 blackbird.prototype.closeRecord = function(name_space)
 {
 	
-	var tA = $('section_' + name_space).select('.edit_form');
-	var obj = tA[0];
+	var obj = $('section_' + name_space).select('.edit_form')[0];
 	//Effect.SlideUp(obj, {duration: .5});
 	obj.hide();
 	
 	//this.broadcaster.broadcastMessage("onClose");
 	//show the datagrid for this section ehh
-	var tA = $('section_' + name_space).select('.table');
-	var obj = tA[0];
+	obj = $('section_' + name_space).select('.table')[0];
 	obj.show();
 
 };
@@ -276,24 +271,20 @@ blackbird.prototype.closeRecord = function(name_space)
 blackbird.prototype.recordHandler = function(table,id,name_space,mode,handler,query_action)
 {
 
-	var sendVars = new Object();
-			
-	sendVars.query_action = query_action;
-	sendVars.mode = query_action;
-	sendVars.table = table;
-	sendVars.id = id;
-	sendVars.id_parent = this.data.id_parent;
-	sendVars.action = 'editRecord';
-	sendVars.name_space = name_space;
-	sendVars.table_parent = this.data.table_parent;
-	
+	var sendVars = new Object({
+		query_action:query_action,
+		mode:mode,
+		table:table,
+		id:id,
+		id_parent:this.data.id_parent,
+		action:'editRecord',
+		name_space:name_space,
+		table_parent:this.data.table_parent
+	});
 	
 	this.data.name_space = name_space;
-	
-	var tA = $('section_' + this.data.name_space).select('.detail');
-	
-	var obj = $(tA[0]);
 
+	var obj = $('section_' + this.data.name_space).select('.detail')[0];
 	var _scope = this;
 	
 	var myAjax = new Ajax.Updater(

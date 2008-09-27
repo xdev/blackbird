@@ -184,14 +184,14 @@ a:hover {
 		/*height: 45px;*/
 	}
 		
-		.bb_toolbar.main h1 {
+		.bb_toolbar h1 {
 			font-size: 16px;
 			position: absolute;
 				top: 9px;
 				left: 10px;
 		}
 		
-		.bb_toolbar.main .bb_record_meta {
+		.bb_toolbar .bb_record_meta {
 			font-size: 9px;
 			line-height: 1.25em;
 			position: absolute;
@@ -201,23 +201,22 @@ a:hover {
 			width: 180px;
 		}
 		
-			.bb_toolbar.main .bb_record_meta dt {
+			.bb_toolbar .bb_record_meta dt {
 				float: left;
 			}
-			.bb_toolbar.main .bb_record_meta dt:after {
+			.bb_toolbar .bb_record_meta dt:after {
 				content: ':';
 			}
 		
-		.bb_toolbar.main .bb_toolbar_actions
- {
+		.bb_toolbar .bb_toolbar_actions {
 			position: absolute;
 				left: 10px;
 				bottom: 9px;
 		}
 		
-			.bb_toolbar.main .bb_toolbar_actions
+			.bb_toolbar .bb_toolbar_actions
  input,
-			.bb_toolbar.main .bb_toolbar_actions
+			.bb_toolbar .bb_toolbar_actions
  select {
 				font-size: 12px;
 			}
