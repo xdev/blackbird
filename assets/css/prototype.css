@@ -208,14 +208,17 @@ a:hover {
 				content: ':';
 			}
 		
-		.bb_toolbar.main .bb_record_actions {
+		.bb_toolbar.main .bb_toolbar_actions
+ {
 			position: absolute;
 				left: 10px;
 				bottom: 9px;
 		}
 		
-			.bb_toolbar.main .bb_record_actions input,
-			.bb_toolbar.main .bb_record_actions select {
+			.bb_toolbar.main .bb_toolbar_actions
+ input,
+			.bb_toolbar.main .bb_toolbar_actions
+ select {
 				font-size: 12px;
 			}
 	

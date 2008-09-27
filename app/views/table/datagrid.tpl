@@ -1,29 +1,27 @@
 <div class="bb_toolbar <?= $mode ?>">
 	<h1><?= $table ?></h1>
-	<div class="actions">
-	<div class="left">
-		<?php
-		$datagrid = 'data_grid_' . $_POST['name_space'];
-		if($mode == 'main'){
-			print '<input type="button" value="+ New Record" onclick="window.location=\''. BASE . 'record/add/' . $table . '\'" />';
-		}else{
-			print '<input type="button" value="+ New Record" onclick="blackbird.addNewRecord(\'' . $table . '\',\'' . $_POST['name_space'] . '\');" />';
-		}
-		?>
-	</div>
-	<div class="right">
+	<div class="bb_toolbar_actions">
+		<?php $datagrid = 'data_grid_' . $_POST['name_space'] ?>
+		
+		<?php if($mode == 'main'): ?>
+			<input type="button" value="+ New Record" onclick="window.location='<?= BASE ?>record/add/<?= $table ?>'" />
+		<?php else: ?>
+			<input type="button" value="+ New Record" onclick="blackbird.addNewRecord('<?= $table ?>','<?= $_POST['name_space'] ?>');" />
+		<?php endif ?>
+		
 		<p class="actions related">
 			<input class="search" id="<?= $_POST['name_space'] ?>_search" type="text" value="Search..." size="20" onclick="clickclear(this, 'Search...')" onblur="clickrecall(this,'Search...')"  />
 			<a class="icon search" href="#" onclick="<?= $datagrid ?>.search();" title="Submit search query">Search</a>
 			<a class="icon undo" href="#" onclick="<?= $datagrid ?>.reset();" title="Reset Data Grid">Reset</a>
 		</p>
+		
 		<?php
 		//pagination
-
+		
 		$click = $datagrid . ".setProperty('offset','";
-
+		
 		if($rows_total > $limit){
-
+			
 			$rem = ceil($rows_total / $limit);
 			$lastp = floor($rows_total / $limit);
 			$sort_t = ($offset / $rows_total);
@@ -52,8 +50,6 @@
 
 		?>
 	</div>
-	<div class="clearfix"></div>
-</div>
 </div>
 
 
@@ -61,40 +57,27 @@
 
 
 <table class="data_grid">
-<thead><tr>
-<?php
-//filters
-
-//datagrid javascript controller reference.. this should be removed for a non-obstrusive approach, coming later
-
-//headers
-foreach($headerData as $row){
-	//print '<th>'.$row.'</th>';
-	$field = $row;
-	$click = '';
-	if($sort_col == $field){
-		if($sort_dir == '' || $sort_dir == 'DESC'){
-			$tDir = "ASC";
-			$dir = "descending";
-		}
-		if($sort_dir == "ASC"){
-			$tDir = "DESC";
-			$dir = "ascending";
-		}
-		$click = 'onclick = "' . $datagrid . '.sortColumn(\'' . $field . '\',\'' . $tDir . '\');"';
-		print "<th class=\"active $dir\" ><a href=\"#\" $click>$field</a></th>";
-	}else{
-		//if(isset($col['injected'])){
-		//	print '<th>' .$field.'</th>';
-		//}else{
-			$click = 'onclick = "' . $datagrid . '.sortColumn(\'' . $field . '\',\'ASC\');"';
-			print "<th><a href=\"#\" $click>$field</a></th>";
-		//}
-	}
-}
-?>
-</tr></thead>
+	<thead>
+		<tr>
+			<?php
+			//filters
+			//datagrid javascript controller reference.. this should be removed for a non-obstrusive approach, coming later
+			//headers
+			?>
+			<?php foreach($headerData as $field): ?>
+				<?php $click = '' ?>
+				<?php if($sort_col == $field): ?>
+					<th class="active <?= ($sort_dir == 'DESC' || !$sort_dir ? 'descending' : 'ascending') ?>"><a href="#" onclick="<?= $datagrid ?>.sortColumn('<?= $field ?>','<?= ($sort_dir == 'DESC' || !$sort_dir ? 'ASC' : 'DESC') ?>');"><?= $field ?></a></th>
+				<?php elseif(isset($col['injected'])): ?>
+					<th><?= $field ?></th>
+				<?php else: ?>
+					<th><a href="#" onclick="<?= $datagrid ?>.sortColumn('<?= $field ?>','ASC');"><?= $field ?></a></th>
+				<?php endif ?>
+			<?php endforeach ?>
+		</tr>
+	</thead>
 <tbody>
+	
 <?php
 //record set body... really simple
 $i=0;
