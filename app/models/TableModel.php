@@ -20,7 +20,7 @@ class TableModel extends Model
 		$sort_col = Utils::setVar("sort_col","id");
 		$sort_dir = Utils::setVar("sort_dir","DESC");
 		$offset = Utils::setVar("offset","0");
-		$limit = Utils::setVar("limit","20");
+		$limit = Utils::setVar("limit","100");
 		$search = Utils::setVar("search");
 		$mode = Utils::setVar("mode","main");
 		

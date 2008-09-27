@@ -76,11 +76,16 @@ class _ControllerFront extends ControllerFront
 	
 	public static function formatCol($col_name,$col_value,$table)
 	{
-		$boolSet = array("active","admin");
+		$boolSet = array("admin");
 		
 		if(in_array($col_name,$boolSet)){
 			if($col_value == 0){ return "false";}
 			if($col_value == 1){ return "true";}
+		}
+		
+		if($col_name == 'active'){
+			if($col_value == 1){ return 'Active';}
+			if($col_value == 0){ return 'Inactive';}
 		}
 		
 		if($col_name == 'groups'){

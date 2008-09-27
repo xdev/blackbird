@@ -22,6 +22,8 @@ class RecordController extends _Controller
 		$this->table = $this->route['table'];
 		$this->mode = 'insert';
 		
+		$this->name_space = 'main';
+		
 		//just the main record data
 		$this->model->getData(array('query_action'=>$this->query_action,'table'=>$this->table,'id'=>$this->id,'channel'=>'main'));
 		$main = $this->_buildForm();
