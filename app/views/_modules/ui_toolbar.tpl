@@ -33,7 +33,7 @@
 		
 		<?php if($type == 'main'){; ?>		
 		  	<input type="button" value="Save" onclick="$('form_<?= $name_space ?>').submit(); return false;" />
-	  		<input type="button" value="Close" onclick="window.location='<?= BASE ?>'table/browse/<?= $table  ?>'; return false;" />
+	  		<input type="button" value="Close" onclick="window.location='<?= BASE ?>table/browse/<?= $table  ?>'; return false;" />
 		<?php }else{ ?>
 		  	<input type="button" value="Save" onclick="$('form_<?= $name_space ?>').submit(); return false;" />
 		  	<input type="button" value="Close" onclick="blackbird.closeRecord('<?= $name_space  ?>'); return false;" />

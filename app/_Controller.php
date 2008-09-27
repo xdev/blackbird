@@ -30,7 +30,6 @@ class _Controller extends Controller
 		$this->css[] = 'prototype.css';
 		$this->css[] = 'prototype_edit.css';
 		$this->css[] = 'data.css';
-		//$this->css[] = 'edit.css';
 		$this->css[] = 'imagebrowser.css';
 		// Remove duplicates
 		$files = array_unique($this->css);
