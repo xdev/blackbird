@@ -23,6 +23,7 @@ function blackbird(options)
 	
 	this.callbacks = new Object();
 	this.broadcaster = new EventBroadcaster();
+	this.broadcaster.addListener(this);
 }
 
 blackbird.prototype.setProperty = function(prop,value)
@@ -260,7 +261,7 @@ blackbird.prototype.onRemoteErrors = function(obj)
 	if($('ajax')){
 		$('ajax').hide();
 	}
-
+	
 	this.showTab(obj.name_space);
 
 	for(var i in obj.errors){

@@ -307,6 +307,9 @@ class RecordController extends _Controller
 	
 	public function Process()
 	{
+		$this->layout_view = null;
+		
+		
 		//server side validation
 		$this->_name_space = $_POST['name_space'] . '_';
 		$this->table = $_POST[$this->_name_space.'table'];
@@ -562,13 +565,24 @@ class RecordController extends _Controller
 				
 			}else{
 				
-				$GLOBALS['errors'] = $this->errorData;
+				//$GLOBALS['errors'] = $this->errorData;
+				$this->view(array('view'=>'/_errors/remote','data'=>array(
+					'mode'=>$this->mode,
+					'name_space'=>$_POST['name_space'],
+					'table'=>$this->table,
+					'id'=>$this->id,
+					'errors'=>$this->errorData)));
 			
 			}
 		
 		}
 				
-		$this->layout_view = null;		
+		
+		//if we have warnings, feed them back	
+		
+		
+		
+		
 	}
 	
 }
