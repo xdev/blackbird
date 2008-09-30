@@ -234,14 +234,19 @@ blackbird.prototype.onRemoteComplete = function(obj)
 	if($('ajax')){
 		$('ajax').hide();
 	}
-	var listener = this.callbacks[obj.name_space].obj;
-	var method = this.callbacks[obj.name_space].method;
+	//var listener = this.callbacks[obj.name_space].obj;
+	//var method = this.callbacks[obj.name_space].method;
 	
-	this.closeRecord(obj.name_space);
+	//create message div or something
 	
-	if(listener[method]){
-		listener[method].apply(listener,[obj]);
+	if(obj.channel == 'related'){	
+		this.closeRecord(obj.name_space);	
+		this.broadcaster.broadcastMessage("onUpdate");
 	}
+	
+	//if(listener[method]){
+	//	listener[method].apply(listener,[obj]);
+	//}
 };
 
 /*
@@ -435,7 +440,6 @@ blackbird.prototype.openRecord = function(name_space)
 
 blackbird.prototype.closeRecord = function(name_space)
 {
-	
 	var obj = $('section_' + name_space).select('.edit_form')[0];
 	//Effect.SlideUp(obj, {duration: .5});
 	obj.hide();

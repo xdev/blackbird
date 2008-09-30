@@ -133,6 +133,11 @@ dataGrid.prototype.editRecord = function(id,elem)
 	
 }
 
+dataGrid.prototype.onUpdate = function()
+{
+	this.getUpdate();
+}
+
 /**
 *	getUpdate
 *

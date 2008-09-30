@@ -23,6 +23,7 @@ class RecordController extends _Controller
 		$this->mode = 'insert';
 		
 		$this->name_space = 'main';
+		$this->channel = 'main';
 		
 		//just the main record data
 		$this->model->getData(array('query_action'=>$this->query_action,'table'=>$this->table,'id'=>$this->id,'channel'=>'main'));
@@ -134,12 +135,33 @@ class RecordController extends _Controller
 		
 		$_name_space = $this->name_space . '_';
 		
+		//processing instructions
 		Forms::hidden('name_space',$this->name_space,array('omit_id'=>true));
-		Forms::hidden($_name_space . 'table',$this->table,null);
-		Forms::hidden($_name_space . 'query_action',$this->query_action,null);
+		Forms::hidden('mode',$this->mode,array('omit_id'=>true));
+		Forms::hidden('channel',$this->channel,array('omit_id'=>true));
+		Forms::hidden('table',$this->table,array('omit_id'=>true));
+		Forms::hidden('query_action',$this->query_action,array('omit_id'=>true));
 		
 		$recordData = $this->model->data;
 		$row_data = $recordData;
+		
+		//CMS_RELATIONS fields
+		if($this->channel == "related"){
+			$sql = "SELECT * FROM ". BLACKBIRD_TABLE_PREFIX ."relations WHERE table_parent = '" . $_POST['table_parent'] . "' AND table_child = '$this->table'";
+			if($q_relation = AdaptorMysql::queryRow($sql)){
+				$i=0;
+				foreach($recordData as $column){
+					if($column['name'] == $q_relation['column_child']){
+						array_splice($recordData,$i,1);
+						break;
+					}
+					$i++;
+				}
+				$q_parent = AdaptorMysql::queryRow("SELECT * FROM " . $_POST['table_parent'] . " WHERE id = " . $_POST['id_parent']);					
+				Forms::hidden($_name_space . $q_relation['column_child'],$q_parent[$q_relation['column_parent']]);
+				Forms::hidden('id_parent',$q_parent[$q_relation['column_parent']],array('omit_id'=>true));
+			}
+		}
 		
 		//loop items
 		foreach($recordData as $column){
@@ -161,7 +183,7 @@ class RecordController extends _Controller
 				$column['name'] == 'created' ||
 				$column['name'] == 'modified'
 			) {
-				if($this->query_action == "update"){
+				if($this->query_action == "update" || $column['name'] == 'active'){
 					Forms::hidden($_name_space . $column['name'],$value,$options);
 				}
 				$col_ready = true;
@@ -312,8 +334,10 @@ class RecordController extends _Controller
 		
 		//server side validation
 		$this->_name_space = $_POST['name_space'] . '_';
-		$this->table = $_POST[$this->_name_space.'table'];
-		$this->query_action = $_POST[$this->_name_space.'query_action'];
+		$this->mode = $_POST['mode'];
+		$this->table = $_POST['table'];
+		$this->query_action = $_POST['query_action'];
+		$this->channel = $_POST['channel'];
 		
 		if($this->query_action == 'update'){		
 			$this->id = $_POST[$this->_name_space.'id'];
@@ -563,11 +587,19 @@ class RecordController extends _Controller
 				
 				$this->db->insert(BLACKBIRD_TABLE_PREFIX.'history',$row_data);
 				
+				$this->view(array('data'=>array(
+					'mode'=>$this->mode,
+					'channel'=>$this->channel,
+					'name_space'=>$_POST['name_space'],
+					'table'=>$this->table,
+					'id'=>$this->id)));
+				
 			}else{
 				
 				//$GLOBALS['errors'] = $this->errorData;
 				$this->view(array('view'=>'/_errors/remote','data'=>array(
 					'mode'=>$this->mode,
+					'channel'=>$this->channel,
 					'name_space'=>$_POST['name_space'],
 					'table'=>$this->table,
 					'id'=>$this->id,

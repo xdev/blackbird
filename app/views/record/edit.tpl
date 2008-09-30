@@ -3,7 +3,7 @@
 print $this->fetchView('/_modules/ui_toolbar',array(
 	'controller'=>'record',
 	'mode'=>'edit',
-	'table'=>$this->table,
+	'table'=>$table,
 	'id'=>$id,
 	'active'=>$active,
 	'name_space'=>$name_space,
@@ -38,9 +38,13 @@ if(is_array($related)){
 </form>
 <iframe id="form_target_<?= $name_space ?>" name="form_target_<?= $name_space ?>" class="related_iframe"></iframe>
 <script type="text/javascript">
+	<!-- <![CDATA[ 
 	document.observe('dom:loaded',function(){
 		formController_<?= $name_space ?> = new formController('form_<?= $name_space ?>');
+		blackbird.setProperty('id_parent','<?= $id ?>');
+		blackbird.setProperty('table_parent','<?= $table ?>');
 	});
+	// ]]> -->
 </script>
 </div>
 
@@ -66,23 +70,23 @@ if(is_array($related)){
 					%s
 				}
 			);
+			document.observe("dom:loaded",function(){
+			%s
+			});
 			// ]]> -->
 		</script>
 		</div>',
 		$relation['name_space'],
 		$relation['table_child'],
 		$relation['table_parent'],
-		$this->id,
+		$id,
 		$relation['name_space'],
 		BASE,
-		(isset($relation['sql_where'])) ? sprintf('sql_where: "%s"',$relation['sql_where']) : ''
-		);
+		(isset($relation['sql_where'])) ? sprintf('sql_where: "%s"',$relation['sql_where']) : '',
+		'blackbird.broadcaster.addListener(data_grid_'.$relation['name_space'].');'
 		
-		/*
-		CMS.broadcaster.addListener(data_grid_%s.listener);
-		CMS.addCallback(\'' . $name_space . '\',data_grid_'.$name_space.',"getUpdate");
-		*/
-				
+		);
+			
 		print '</div>';
 	
 	}
