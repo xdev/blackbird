@@ -34,6 +34,16 @@
 		content: ':';
 	}
 	
+	.bb_module_edit .form_item label.must_validate:after
+	{
+		content: '*:';
+	}
+	
+	.bb_module_edit .form_item label.must_validate:before
+	{
+		content: '*';
+	}
+	
 	.bb_module_edit .form_item .input {
 		float: left;
 		width: 81%;
@@ -61,3 +71,5 @@
 			font-size: 9px;
 			padding-top: 3px;
 		}
+		
+	

@@ -1,5 +1,25 @@
 <?php
 
+$tempObj = Array();
+
+//Used to manage user-overrides. This would be easier if we simply put it all into a GLOBAL variable.. mmkay.
+function setConfig($name,$value)
+{
+	global $tempObj;
+	$tempObj[$name] = $value;
+}
+
+function createConstants()
+{
+	global $tempObj;
+	foreach($tempObj as $key=>$value){
+		if(!is_array($value) && !defined($key)){
+			define($key,$value);
+		}
+	}
+	unset($tempObj);
+}
+
 /* DEFINE PATHS ---------------------------------------------------------- */
 // Directory splitter
 define('DS', DIRECTORY_SEPARATOR);
@@ -23,23 +43,34 @@ define('VIEWS',APP . 'views' . DS);
 define('CONTROLLERS',APP . 'controllers' . DS);
 
 // Path to libraries - relative to index.php
-define('LIB','lib' . DS);
+setConfig('LIB','lib' . DS);
 
 // Web root ??? what is this for ???
-define('WEB_ROOT','');
+setConfig('WEB_ROOT','');
 
 // Server/domain name with http(s)://
-define('WWW','http' . (@$_SERVER['HTTPS'] ? 's' : '') . '://' . $_SERVER['SERVER_NAME'] . '/');
+setConfig('WWW','http' . (@$_SERVER['HTTPS'] ? 's' : '') . '://' . $_SERVER['SERVER_NAME'] . '/');
 
+setConfig('BLACKBIRD_TABLE_PREFIX','cms_');
 
-
-define('BLACKBIRD_TABLE_PREFIX','cms_');
-
-/* LOAD REQUIRED FILES --------------------------------------------------- */
 
 // Environment config
 require_once CONFIG . 'environment.php';
 
+//LOAD UP THE CUSTOM CONFIG
+//convert to array.. take next to last segment ... append _config
+$tA = explode(DS,APP);
+$base = $tA[count($tA)-3];
+$file = '..' . DS . $base . '_config' . DS . 'config.php';
+setConfig('CUSTOM','..' . DS . $base . '_config' . DS);
+if(require($file)){
+}else{
+	die('<h1>No custom config found = Fail!</h1>');
+}	
+
+createConstants();
+
+/* LOAD REQUIRED FILES --------------------------------------------------- */
 // Core MVC framework classes
 require_once LIB . 'Brickhouse' . DS . 'ErrorHandler.php';
 require_once LIB . 'Brickhouse' . DS . 'Model.php';
@@ -85,7 +116,7 @@ $routes = array();
 //pull in predefined routes
 require_once CONFIG . 'routes.php';
 
-$tA = explode("/",substr($_SERVER['PHP_SELF'],1,-(strlen('index.php') + 1)));
+$tA = explode(DS,substr($_SERVER['PHP_SELF'],1,-(strlen('index.php') + 1)));
 
 
 /* DISPATCH -------------------------------------------------------------- */

@@ -30,6 +30,7 @@ Portions of this software rely upon the following software which are covered by 
 		<!-- widget code -->
 		<script type="text/javascript" src="<?= BASE ?>assets/js/datagrid.js"></script>		
 		<script type="text/javascript" src="<?= BASE ?>assets/js/form.js"></script>
+		<script type="text/javascript" src="<?= BASE ?>assets/js/validator.js"></script>	
 		<script type="text/javascript" src="<?= BASE ?>assets/js/listmanager.js"></script>
 		<script type="text/javascript">
 			document.observe('dom:loaded',function(){

@@ -1,5 +1,3 @@
-/* $Id$ */
-
 function validate(form,name_space,sub)
 {
 	var submit = true;

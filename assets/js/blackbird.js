@@ -16,9 +16,13 @@ function blackbird(options)
 	var tables;
 	var lastSection;
 	var tab;
+	
 	if (tmp = this.readCookie('Blackbird')) blackbirdCookie = tmp.evalJSON();
 	this.initToggleNavigation();
 	this.initTabNavigation();
+	
+	this.callbacks = new Object();
+	this.broadcaster = new EventBroadcaster();
 }
 
 blackbird.prototype.setProperty = function(prop,value)
@@ -29,6 +33,25 @@ blackbird.prototype.setProperty = function(prop,value)
 blackbird.prototype.getProperty = function(prop)
 {
 	return this.data[prop];
+};
+
+/*
+
+Method: addCallback
+
+Adds a callback obj to a namespace to handle AJAX events
+
+Parameters:
+
+	name_space - name space
+	obj - object reference
+	method - method name
+
+*/
+
+blackbird.prototype.addCallback = function(name_space,obj,method)
+{
+	this.callbacks[name_space] = { obj: obj, method: method };
 };
 
 //Table Navigation
@@ -137,41 +160,202 @@ blackbird.prototype.handleTabClick = function(event)
 
 blackbird.prototype.showTab = function(tab)
 {
-	var tA = $('bb_main_sections').select('a');
-	var iMax = tA.length;
-	for(var i=0;i<iMax; i++){
+	if($('bb_main_sections')){
+		var tA = $('bb_main_sections').select('a');
+		var iMax = tA.length;
+		for(var i=0;i<iMax; i++){
 		
-		var nav = tA[i];
-		var name_space = nav.hash.substring(1);
-		var item = $('section_' + name_space);
+			var nav = tA[i];
+			var name_space = nav.hash.substring(1);
+			var item = $('section_' + name_space);
 
-		if(item){
-			if(tab == name_space){
-				nav.addClassName('selected');
-				///this.tab = item;
-				//this.tab.show();
-				item.show();
-			}else{
-				item.hide();
-				nav.removeClassName('selected');
-			}
+			if(item){
+				if(tab == name_space){
+					nav.addClassName('selected');
+					///this.tab = item;
+					//this.tab.show();
+					item.show();
+				}else{
+					item.hide();
+					nav.removeClassName('selected');
+				}
 			
+			}
 		}
+	
+		/*
+		if(tab != this.lastSection){
+			//check for old formController
+			var cont = eval('formController_' + tab);
+			if(cont != undefined){
+				if(cont.getLength() > 0){
+					alert('there are unsaved changes');
+				}	
+			}
+		}
+		*/
+	
+		this.lastSection = tab;
+	
+	}
+};
+
+/**
+*	handleErrors
+*
+*
+*/
+
+blackbird.prototype.handleErrors = function(obj)
+{
+	var t = '';
+	var iMax = obj.length;
+	for(var i=0;i<iMax;i++){
+		t += obj[i].message + '\n';
+	}
+	alert(t);
+};
+
+/*
+
+Method: onRemoteComplete
+
+Fires when remote operations are complete and closes record container
+
+Parameters:
+
+	obj - object reference
+
+*/
+
+blackbird.prototype.onRemoteComplete = function(obj)
+{
+	if($('ajax')){
+		$('ajax').hide();
+	}
+	var listener = this.callbacks[obj.name_space].obj;
+	var method = this.callbacks[obj.name_space].method;
+	
+	this.closeRecord(obj.name_space);
+	
+	if(listener[method]){
+		listener[method].apply(listener,[obj]);
+	}
+};
+
+/*
+
+Method:	onRemoteErrors
+
+Handles errors from remote script operations
+
+Parameters:
+
+	obj - object reference
+
+*/
+
+blackbird.prototype.onRemoteErrors = function(obj)
+{
+	if($('ajax')){
+		$('ajax').hide();
+	}
+
+	this.showTab(obj.name_space);
+
+	for(var i in obj.errors){
+		var elem = obj.name_space + '_' + obj.errors[i][0];
+		
+		var newobj = 'error_' + obj.name_space + '_' + obj.errors[i][0];
+		
+		if($(newobj)){
+			//update interior content yo
+			$(newobj).update(obj.errors[i][1]);
+		}else{
+			new Insertion.After($(elem), '<div id="' + newobj + '" class="error">' + obj.errors[i][1] + '</div>');
+		}
+			
+		var label = $('form_' + obj.name_space).getElementsBySelector('label[for="' + elem + '"]');
+		label[0].addClassName('error');
+		label[0].style.color = '#CC3333';
 	}
 	
-	/*
-	if(tab != this.lastSection){
-		//check for old formController
-		var cont = eval('formController_' + tab);
-		if(cont != undefined){
-			if(cont.getLength() > 0){
-				alert('there are unsaved changes');
-			}	
-		}
+	if(obj.name_space != 'main'){
+		//show form buttons
+		//var tA = $('section_' + obj.name_space).select('.buttons');
+		//var obj = tA[0];
+		//obj.show();
+		//new Effect.Opacity(obj, {duration:0.5, from:0.2, to:1.0});
 	}
-	*/
+	if(obj.name_space == 'main'){
+		//$('edit_buttons').show();	
+	}
 	
-	this.lastSection = tab;
+};
+
+
+/**
+*	onSubmit
+*
+*
+*/
+
+blackbird.prototype.onSubmit = function()
+{
+	if($('ajax')){
+		$('ajax').show();
+	}
+};
+
+/**
+*	submitRelated
+*
+*
+*/
+
+blackbird.prototype.submitRelated = function(name_space)
+{	
+	$(name_space + '_active').value = $('active_' + name_space).value;
+	var errorsA = this.validate(name_space);
+	if(errorsA == true){
+		this.broadcaster.broadcastMessage("onSubmit");
+		//$('pane_' + name_space).select('.buttons')[0].hide();
+		
+	}
+	if(errorsA.length > 0){
+		this.handleErrors(errorsA);
+	}
+};
+
+/**
+*	submitMain
+*
+*
+*/
+
+blackbird.prototype.submitMain = function(name_space)
+{
+	this.showTab('main');
+	$(name_space + '_active').value = $('active_' + name_space).value;
+	var tA = this.validate(name_space);
+	if(tA == true){
+		//$('edit_buttons').hide();
+	}
+	if(tA.length > 0){
+		this.showTab('main');
+		this.handleErrors(tA);
+	}
+};
+
+/**
+*	validate
+*
+*
+*/
+
+blackbird.prototype.validate = function(name_space)
+{
+	return validate($('form_' + name_space),name_space);
 };
 
 /**
@@ -184,7 +368,7 @@ blackbird.prototype.addNewRecord = function(table,name_space)
 {
 
 	this.recordHandler(table,'',name_space,'add',this.processAdd,'insert');
-	//this.broadcaster.broadcastMessage("onAddNew");
+	this.broadcaster.broadcastMessage("onAddNew");
 	
 };
 
@@ -235,7 +419,7 @@ blackbird.prototype.openRecord = function(name_space)
 	}
 	obj.show();
 	
-	//this.broadcaster.broadcastMessage("onOpen");
+	this.broadcaster.broadcastMessage("onOpen");
 	//hide the datagrid for this section ehh
 	obj = $('section_' + name_space).select('.table')[0];
 	obj.hide();
@@ -255,7 +439,7 @@ blackbird.prototype.closeRecord = function(name_space)
 	//Effect.SlideUp(obj, {duration: .5});
 	obj.hide();
 	
-	//this.broadcaster.broadcastMessage("onClose");
+	this.broadcaster.broadcastMessage("onClose");
 	//show the datagrid for this section ehh
 	obj = $('section_' + name_space).select('.table')[0];
 	obj.show();

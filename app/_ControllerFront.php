@@ -71,52 +71,67 @@ class _ControllerFront extends ControllerFront
 	
 	public static function injectData($a,$table)
 	{
-		return $a;
+		$r = null;
+		$file = CUSTOM . DS . 'plugins' . DS . 'inject_data.php';
+		if(file_exists($file) && include_once$file){
+			$r = config__inject_data($a,$table);			
+		}
+		
+		if($r == null){
+			$r = $a;
+		}		
+		
+		return $r;
+	}
+	
+	
+	public static function pluginColumnEdit($name,$value,$options)
+	{
+		$r = null;
+		$file = CUSTOM . DS . 'plugins' . DS . 'record_column_edit.php';
+		if(file_exists($file) && include_once$file){
+			//return true if we wish to abort default behavior for this column, otherwise carry on
+			$r = config__record_column_edit($name,$value,$options);
+		}
+		
+		if($r == null){		
+			$file = APP . DS . 'plugins' . DS . 'record_column_edit.php';
+			include_once $file;
+			plugin__record_column_edit($name,$value,$options);
+		}
+				
+	}
+	
+	public static function pluginColumnProcess($name,$value,$options)
+	{
+		$r = null;
+		$file = CUSTOM . DS . 'plugins' . DS . 'record_column_process.php';
+		if(file_exists($file) && include_once $file){
+			$r = config__record_column_process($name,$value,$options);
+		}
+		
+		if($r == null){		
+			$file = APP . DS . 'plugins' . DS . 'record_column_process.php';
+			@include_once $file;
+			$r = plugin__record_column_process($name,$value,$options);		
+		}
+		
+		return $r;
 	}
 	
 	public static function formatCol($col_name,$col_value,$table)
 	{
-		$boolSet = array("admin");
-		
-		if(in_array($col_name,$boolSet)){
-			if($col_value == 0){ return "false";}
-			if($col_value == 1){ return "true";}
+		$r = null;
+		$file = CUSTOM . DS . 'plugins' . DS . 'format_column.php';
+		if(file_exists($file) && include_once $file){
+			$r = config__format_column($col_name,$col_value,$table);
 		}
-		
-		if($col_name == 'active'){
-			if($col_value == 1){ return 'Active';}
-			if($col_value == 0){ return 'Inactive';}
+		if($r == null){
+			$file = APP . DS . 'plugins' . DS . 'format_column.php';
+			include_once $file;			
+			$r = plugin__format_column($col_name,$col_value,$table);
 		}
-		
-		if($col_name == 'groups'){
-			
-			//split list
-			$tA = explode(',',$col_value);
-			$r = array();
-			foreach($tA as $item){
-				$q = AdaptorMysql::queryRow("SELECT name FROM ".BLACKBIRD_TABLE_PREFIX."groups WHERE id = '$item'");
-				$r[] = $q['name'];
-			}
-			
-			return join(', ',$r);
-			
-			
-		}	
-		
-		if($col_name == 'user_id' && $table == BLACKBIRD_TABLE_PREFIX.'history'){
-		
-			$q = AdaptorMysql::queryRow("SELECT email FROM " . BLACKBIRD_USERS_TABLE . " WHERE id = '$col_value'");
-			return $q['email'];
-		
-		}
-		
-		if(strlen($col_value) > 100){
-			$data = substr($col_value,0,100) . "...";
-			return strip_tags($data);
-		}
-		return $col_value;
-	
-	
+		return $r;
 	}
 		
 	public static function sortPosition($table,$sql,$id,$pos)

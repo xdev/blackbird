@@ -134,6 +134,7 @@ class RecordController extends _Controller
 		
 		$_name_space = $this->name_space . '_';
 		
+		Forms::hidden('name_space',$this->name_space,array('omit_id'=>true));
 		Forms::hidden($_name_space . 'table',$this->table,null);
 		Forms::hidden($_name_space . 'query_action',$this->query_action,null);
 		
@@ -214,13 +215,7 @@ class RecordController extends _Controller
 							$options['id'] = $this->id;
 							$options['col_name'] = $column['name'];
 							
-							$file = APP . DS . 'plugins' . DS . 'record_column_edit.php';
-							
-							if(file_exists($file) && @include_once($file)){
-								plugin__record_column_edit($_name_space . $column['name'],$value, $options);
-							}
-							
-							//$this->cms->pluginColumnEdit($_name_space . $column['name'],$value, $options);
+							_ControllerFront::pluginColumnEdit($_name_space . $column['name'],$value, $options);
 							$col_ready = true;
 						break;
 
@@ -325,14 +320,12 @@ class RecordController extends _Controller
 		
 		$this->db = AdaptorMysql::getInstance();
 		
-		$q_cols = $this->db->query("SHOW COLUMNS FROM $this->table");
+		$q_cols = $this->db->query("SHOW COLUMNS FROM $this->table",MYSQL_BOTH);
 		$row_data = array();
-				
-				
-				
+		
 		//set up error handler here
 		$this->errorData = array();		
-				
+						
 		foreach($q_cols as $col){
 			
 			
@@ -362,7 +355,7 @@ class RecordController extends _Controller
 					$q_col = Utils::checkArray($q_c,array('table_name'=>'*','process_mode'=>''));
 				}
 			}
-						
+									
 			if($q_col){
 			
 				$module = $q_col['process_module'];
@@ -394,8 +387,9 @@ class RecordController extends _Controller
 						}
 												
 						if($module == 'plugin'){
-							//$t = $this->cms->pluginColumnProcess($this->_name_space . $col['Field'],$value,$options);
-
+							
+							$t = _ControllerFront::pluginColumnProcess($this->_name_space . $col['Field'],$value, $options);
+							
 							if(isset($t['error'])){
 								$this->errorData[] = array('field'=>$col['Field'],'error'=>$t['error']);	
 							}else{
@@ -406,6 +400,7 @@ class RecordController extends _Controller
 						}
 						
 						if($module == 'file'){
+														
 							$options['db'] = AdaptorMysql::getInstance();
 							$name = $this->_name_space . $col['Field'];
 							$upload = true;
@@ -534,12 +529,12 @@ class RecordController extends _Controller
 				if(isset($_REQUEST[$this->_name_space . $col['Field']])){
 					$row_data[] = array("field"=>$col['Field'],"value"=>$_REQUEST[$this->_name_space . $col['Field']]);
 				}
-			}
+			}			
 				
 		}
-		
-		$q_table = $this->db->queryRow("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."tables WHERE table_name = '$this->table'");
 				
+		$q_table = $this->db->queryRow("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."tables WHERE table_name = '$this->table'");
+						
 		if(strlen($q_table['process_module']) > 3){
 			//$this->cms->pluginTableProcess($this->table,$this->id,$this->query_action);
 		}else{
@@ -547,7 +542,7 @@ class RecordController extends _Controller
 			if(count($this->errorData) == 0){
 				
 				if($this->query_action == "insert"){
-					$sql = $this->db->insert($this->table,$row_data);
+					$sql = $this->db->insert($this->table,$row_data);					
 					$this->id = mysql_insert_id();
 				}
 				
@@ -572,12 +567,8 @@ class RecordController extends _Controller
 			}
 		
 		}
-		
+				
 		$this->layout_view = null;		
 	}
 	
-	public function pluginColumnEdit()
-	{
-		
-	}
 }

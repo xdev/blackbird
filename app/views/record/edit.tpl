@@ -37,6 +37,11 @@ if(is_array($related)){
 <?= $main ?>
 </form>
 <iframe id="form_target_<?= $name_space ?>" name="form_target_<?= $name_space ?>" class="related_iframe"></iframe>
+<script type="text/javascript">
+	document.observe('dom:loaded',function(){
+		formController_<?= $name_space ?> = new formController('form_<?= $name_space ?>');
+	});
+</script>
 </div>
 
 <?php

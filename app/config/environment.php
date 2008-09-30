@@ -37,22 +37,3 @@ define('LOG_FORMAT', 'Y-m');
 
 // Error namespace for $GLOBALS[ERRORS] array
 define('ERRORS', 'errors');
-
-
-
-/* DATABASE SETTINGS ----------------------------------------------------- */
-
-
-/* Database settings format for use in the db.php file:
-
-$GLOBALS['DATABASE'] = array(
-	'host' => '',
-	'user' => '',
-	'pass' => '',
-	'db'   => ''
-);
-
-*/
-
-// Get DB settings from local db.php file (for security, don't include the db.php file in a repository)
-(@include 'db.php') || die('<h1>No database credentials</h1>');

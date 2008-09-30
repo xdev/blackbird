@@ -36,7 +36,7 @@ class _Controller extends Controller
 		// Build links
 		$r = '';
 		foreach ($files as $filename) {
-			$r .= sprintf(
+			$r .= "\r\t\t" . sprintf(
 				'<link rel="stylesheet" href="%s" type="text/css" media="screen" charset="utf-8" />',
 				BASE . 'assets/css/' . $filename
 			);
@@ -54,44 +54,7 @@ class _Controller extends Controller
 		$m = new UserModel();
 		$tablesA = $m->getNavigation();
 		
-		
-		$_tablesA = array(
-			array(
-				'name'=>'Content',
-				'tables'=>array(
-					'Awards',
-					'Contact',
-					'Distributor links',
-					'Distributors',
-					'Files',
-					'Home features',
-					'Home images',
-					'News',
-					'Product features',
-					'Publications',
-					'Publications categories',
-					'Sections'
-					
-					)),
-			array(
-				'name'=>'Admin',
-				'tables'=>array(
-					'History',
-					'Groups',
-					'Users'					
-					))
-			
-		);
-				
 		$this->view(array('container'=>'ui_nav','view'=>'/_modules/ui_nav','data'=>array('tableA'=>$tablesA)));
-		
-		$this->view(array('container'=>'ui_toolbar','view'=>'/_modules/ui_toolbar',
-			'data'=>array(
-				'controller'=>$this->route['controller'],
-				'table'=>$this->route['table'],
-				'tablename'=>$this->route['table'],
-				'mode'=>$this->mode,
-				'id'=>$this->id)));
 		
 		$this->view(array('container'=>'ui_breadcrumb','view'=>'/_modules/ui_breadcrumb','data'=>array('table'=>$this->route['table'],'tablename'=>$this->route['table'])));
 		
