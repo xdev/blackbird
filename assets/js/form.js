@@ -15,17 +15,47 @@ function formController(form)
 	for(i=0;i<iMax;i++){
 		var obj = tA[i];
 		//if(obj.nodeName == "INPUT" || obj.nodeName == "TEXTAREA" || obj.nodeName == "SELECT"){
-			if(obj.hasClassName('noparse')){
-			}else{
+			//if(obj.hasClassName('noparse')){
+			//}else{
 				this.data_alpha.push( [obj.id,obj.value] );
 				var c = this;
+				Event.observe(obj,'focus',function()
+				{
+					c.focus(this);
+				});
+				Event.observe(obj,'blur',function()
+				{
+					c.blur(this);
+				});
 				obj.onchange = function(){
 					c.change(this);
 				};
-			}
+			//}
 		//}
 	}
 }
+
+/**
+*	focus
+*
+*
+*/
+
+formController.prototype.focus = function(obj){
+	form_item = obj.up('.form_item');
+	form_item.addClassName('active');
+};
+
+/**
+*	blur
+*
+*
+*/
+
+formController.prototype.blur = function(obj){
+	form_item = obj.up('.form_item');
+	form_item.removeClassName('active');
+};
 
 /**
 *	change
@@ -35,7 +65,7 @@ function formController(form)
 
 formController.prototype.change = function(obj){
 	var status = 1;
-
+	
 	for(var i in this.data_alpha){
 		if(this.data_alpha[i][0] == obj.id){
 			if(this.data_alpha[i][1] == obj.value){
@@ -75,16 +105,10 @@ formController.prototype.change = function(obj){
 
 formController.prototype.updateStatus = function(obj,status)
 {
-
-	if(obj != 'reset'){
-		var label = $(this.form).getElementsBySelector('label[for="' + obj.id + '"]');
-
-		if(status == 1){
-			label[0].style.background = "#E6E8ED";//FFFF33
-		}
-		if(status == 0){
-			label[0].style.background = "none";
-		}
+	if (obj != 'reset') {
+		var form_item = obj.up('.form_item');
+		if (status == 1) form_item.addClassName('changed');
+		if (status == 0) form_item.removeClassName('changed');
 	}
 
 	if(this.data_delta != undefined){

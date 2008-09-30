@@ -14,7 +14,11 @@
 	padding: 10px 0;
 	width: 100%;
 }
-.bb_module_edit .form_item:hover,
+.bb_module_edit .form_item.changed {
+	background-color: #E5E5CD;
+	border-top: 1px solid #F2F2D9;
+	border-bottom: 1px solid #D9D8C2;
+}
 .bb_module_edit .form_item.active {
 	background-color: #DEE1E5;
 	border-top: 1px solid #EAEDF2;
@@ -34,14 +38,14 @@
 		content: ':';
 	}
 	
+	.bb_module_edit .form_item label.must_validate
+	{
+		font-weight: bold;
+	}
+	
 	.bb_module_edit .form_item label.must_validate:after
 	{
 		content: '*:';
-	}
-	
-	.bb_module_edit .form_item label.must_validate:before
-	{
-		content: '*';
 	}
 	
 	.bb_module_edit .form_item .input {
