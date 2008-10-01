@@ -127,13 +127,63 @@ class TableModel extends Model
 				$col = $filter['column_name'];
 				if(in_array($col,$fields)){
 					$filterA[] = $col;
+					
+					$_filter = array();
+					
 					if(isset($_REQUEST['filter_'.$col])){
 						if($_REQUEST['filter_'.$col] != ''){
 							$t = $_REQUEST['filter_'.$col];
 							$whereA[] = "$col = '$t'";
-							$this->filtersA[] = array('col'=>$col,'value'=>$t);
+							//$this->filtersA[] = array('col'=>$col,'value'=>$t);
+							$_filter['col'] = $col;
+							$_filter['value'] = $t;
 						}
 					}
+					
+					
+					//query up option data					
+					($filterWhere != '') ? $w = 'WHERE ' . $filterWhere : $w = '';
+					$optionA = array();
+					$field = $col;
+					if($q_select = AdaptorMysql::query("SELECT DISTINCT `$field` FROM `$table` $w ORDER BY `$field`")){
+						
+
+						foreach($q_select AS $row){
+							$sel = '';
+							if(isset($_REQUEST['filter_'.$field])){
+								if($_REQUEST['filter_'.$field] == $row[$field]){
+									$sel = 'selected="selected"';
+								}
+							}
+
+							$tv = _ControllerFront::formatCol($field,$row[$field],$table);
+							$q_c = AdaptorMysql::query("SELECT * FROM " . BLACKBIRD_TABLE_PREFIX . "cols WHERE column_name = '$field'");
+
+							if($q_c){				
+								$q_col = Utils::checkArray($q_c,array('table_name'=>$table));
+								if(!$q_col){
+									$q_col = Utils::checkArray($q_c,array('table_name'=>'*'));
+								}
+
+								if($q_col){
+									if($q_col['filter'] != ''){
+										$tA = _ControllerFront::parseConfig($q_col['filter']);
+										if(isset($tA['filter_length'])){
+											if(strlen(strip_tags($tv)) > $tA['filter_length']){
+												$tv = substr(strip_tags($tv),0,$tA['filter_length']) . '...';
+											}
+										}
+									}
+								}
+							}
+							
+							$optionA[] = array('value'=>$row[$field],'label'=>$tv,'selected'=>$sel);
+						}
+					}
+					
+					$_filter['options'] = $optionA;					
+					$this->filtersA[$field] = $_filter;
+					
 				}
 			}
 		}		
@@ -234,8 +284,8 @@ class TableModel extends Model
 			'limit'=>$limit,
 			'offset'=>$offset,
 			'mode'=>$mode,
-			'filterA'=>$filterA,
-			'filterWhere'=>$filterWhere
+			'filtersA'=>$this->filtersA,
+			'filterA'=>$filterA
 		);
 		
 	}

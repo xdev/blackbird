@@ -9,12 +9,9 @@
 			<input type="button" value="+ New Record" onclick="blackbird.addNewRecord('<?= $table ?>','<?= $_POST['name_space'] ?>');" />
 		<?php endif ?>
 		
-		
 			<input class="search" id="<?= $_POST['name_space'] ?>_search" type="text" value="Search..." size="20" onclick="clickclear(this, 'Search...')" onblur="clickrecall(this,'Search...')"  />
 			<a class="icon search" href="#" onclick="<?= $datagrid ?>.search();" title="Submit search query">Search</a>
-			<a class="icon undo" href="#" onclick="<?= $datagrid ?>.reset();" title="Reset Data Grid">Reset</a>
-		
-		
+			<a class="icon undo" href="#" onclick="<?= $datagrid ?>.reset();" title="Reset Data Grid">Reset</a>		
 		<?php
 		//pagination
 		
@@ -45,7 +42,7 @@
 			//print '</p>';
 
 		}else{
-			//print '<p class="pagination"><span class="values">' . count($rowData) . ' Records</span></p>';
+			print '<span class="values">' . count($rowData) . ' Records</span>';
 		}
 
 		?>
@@ -58,56 +55,17 @@
 
 <table class="data_grid">
 	<thead>
-		<?php if(count($filterA) > 0): ?>
+		<?php if(count($filtersA) > 0): ?>
 			<tr class="filter">
 				<?php foreach($headerData as $field): ?>
 					<td>
 						<?php if(in_array($field,$filterA)): ?>
-							<!-- consider a view snippet here -->
-							<?php
-							
-							//Move this logic into the model ehh... there
-							($filterWhere != '') ? $where = 'WHERE ' . $filterWhere : $where = '';
-
-							if($q_select = AdaptorMysql::query("SELECT DISTINCT `$field` FROM `$table` $where ORDER BY `$field`")){
-								$onchange='onchange="' . $datagrid . '.setFilter(\''. $field . '\',this);"';
-								print "<select id=\"filter_$field\" $onchange>";
-								print '<option value="">All</option>';
-
-								foreach($q_select AS $row){
-									$sel = '';
-									if(isset($_REQUEST['filter_'.$field])){
-										if($_REQUEST['filter_'.$field] == $row[$field]){
-											$sel = 'selected="selected"';
-										}
-									}
-
-									$tv = _ControllerFront::formatCol($field,$row[$field],$table);
-									$q_c = AdaptorMysql::query("SELECT * FROM " . BLACKBIRD_TABLE_PREFIX . "cols WHERE column_name = '$field'");
-
-									if($q_c){				
-										$q_col = Utils::checkArray($q_c,array('table_name'=>$table));
-										if(!$q_col){
-											$q_col = Utils::checkArray($q_c,array('table_name'=>'*'));
-										}
-
-										if($q_col){
-											if($q_col['filter'] != ''){
-												$tA = _ControllerFront::parseConfig($q_col['filter']);
-												if(isset($tA['filter_length'])){
-													if(strlen(strip_tags($tv)) > $tA['filter_length']){
-														$tv = substr(strip_tags($tv),0,$tA['filter_length']) . '...';
-													}
-												}
-											}
-										}
-									}
-									print '<option value="'. $row[$field] . '"' . $sel . '>' . $tv . '</option>';
-								}
-								print "</select>";
-							}
-							
-							?>
+							<select id="filter_<?= $field ?>" onchange="<?= $datagrid ?>.setFilter('<?= $field ?>',this);">
+							<option value="">All</option>
+							<?php foreach($filtersA[$field]['options'] as $row): ?>
+							<option value="<?= $row['value'] ?>" <?= $row['selected'] ?>><?= $row['label'] ?></option>								
+							<?php endforeach ?>							
+							</select>
 						<?php endif ?>
 					</td>
 				<?php endforeach ?>
