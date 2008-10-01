@@ -100,6 +100,14 @@ table.data_grid
 			border-left: 1px solid #C1C5CC;
 			cursor: pointer;
 		}
+		table.data_grid tr.filter:hover td,
+		table.data_grid tr.filter td {
+			background-color: #B5B9BF;
+			border-left: 1px solid #585D66;
+			border-bottom: 1px solid #7A8599;
+			padding-top: 1px;
+			padding-bottom: 1px;
+		}
 		
 		
 		
@@ -186,8 +194,3 @@ table.data_grid.readonly .records tr.odd:hover td
 	background-color: #F6F6F6;
 	color: #666666;
 }
-
-
-
-
-

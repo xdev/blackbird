@@ -55,22 +55,6 @@
 
 <table class="data_grid">
 	<thead>
-		<?php if(count($filtersA) > 0): ?>
-			<tr class="filter">
-				<?php foreach($headerData as $field): ?>
-					<td>
-						<?php if(in_array($field,$filterA)): ?>
-							<select id="filter_<?= $field ?>" onchange="<?= $datagrid ?>.setFilter('<?= $field ?>',this);">
-							<option value="">All</option>
-							<?php foreach($filtersA[$field]['options'] as $row): ?>
-							<option value="<?= $row['value'] ?>" <?= $row['selected'] ?>><?= $row['label'] ?></option>								
-							<?php endforeach ?>							
-							</select>
-						<?php endif ?>
-					</td>
-				<?php endforeach ?>
-			</tr>
-		<?php endif ?>
 		<tr>
 			<?php foreach($headerData as $field): ?>
 				<?php $click = '' ?>
@@ -83,6 +67,22 @@
 				<?php endif ?>
 			<?php endforeach ?>
 		</tr>
+	<?php if(count($filtersA) > 0): ?>
+		<tr class="filter">
+			<?php foreach($headerData as $field): ?>
+				<td>
+					<?php if(in_array($field,$filterA)): ?>
+						<select id="filter_<?= $field ?>" onchange="<?= $datagrid ?>.setFilter('<?= $field ?>',this);">
+						<option value="">All</option>
+						<?php foreach($filtersA[$field]['options'] as $row): ?>
+						<option value="<?= $row['value'] ?>" <?= $row['selected'] ?>><?= $row['label'] ?></option>								
+						<?php endforeach ?>							
+						</select>
+					<?php endif ?>
+				</td>
+			<?php endforeach ?>
+		</tr>
+	<?php endif ?>
 	</thead>
 <tbody>
 	
