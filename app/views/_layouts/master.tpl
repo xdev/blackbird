@@ -40,10 +40,12 @@ Portions of this software rely upon the following software which are covered by 
 	</head>
 
 	<body>
-
+		
+		<?php if(_ControllerFront::$session->logged === true): ?>
 		<div id="bb_navigation">
 			<?= $content['ui_nav'] ?>
 		</div>
+		<?php endif ?>
 
 		<div id="bb_session_nav">
 			<?= $content['ui_breadcrumb'] ?>

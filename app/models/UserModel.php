@@ -87,13 +87,12 @@ class UserModel extends Model
 			$row_data[] = array('field'=>'start_time','value'=>Utils::now());
 			$row_data[] = array('field'=>'session_id','value'=>session_id());
 			$this->db->insert(BLACKBIRD_TABLE_PREFIX . "sessions",$row_data);
-		
+						
 			session_name("Blackbird_sid");
 			session_start();
 			
 			$_SESSION['u_id'] = $q['id'];
 			$_SESSION['u_token'] = $pass;
-			print 'login in on this bia';
 			return true;
 			
 		}else{

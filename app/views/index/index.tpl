@@ -1,2 +1,1 @@
-home page <?= $test ?>
-<?php print $this->fetchView('_snippet'); ?>
+<h1>Dashboard</h1>

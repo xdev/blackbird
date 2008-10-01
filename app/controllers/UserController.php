@@ -38,7 +38,10 @@ class UserController extends _Controller
 	
 	public function Edit()
 	{
-		$this->view();
+		$this->view(array('data'=>array(
+			'name_space'=>'user',
+			'row'=>$this->model->u_row
+			)));
 	}
 	
 	public function Add()
@@ -49,6 +52,11 @@ class UserController extends _Controller
 	public function Process()
 	{
 		//handle an update or insert to the table		
+	}
+	
+	public function Admin()
+	{
+		$this->view();
 	}
 		
 }
