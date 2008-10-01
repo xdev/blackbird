@@ -1,3 +1,4 @@
+<div id="bb_sections" class="browse bb_module bb_module_edit">
 <div class="section" id="section_<?= $name_space ?>">
 	<div class="table">
 		<script type="text/javascript">
@@ -12,4 +13,5 @@
 			// ]]> -->
 		</script>
 	</div>
+</div>
 </div>

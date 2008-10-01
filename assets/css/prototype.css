@@ -299,3 +299,12 @@ a:hover {
 				bottom: 0;
 			overflow: auto;
 		}
+		
+		#bb_sections.browse .container {
+			position: absolute;
+				top: 65px;
+				left: 0;
+				right: 0;
+				bottom: 0;
+			overflow: auto;
+		}
