@@ -173,6 +173,7 @@ a:hover {
 		border-top: 1px solid #8D9BB3;
 		border-bottom: 1px solid #505866;
 		color: #FFFFFF;
+		clear: both;
 		height: 63px;
 		position: relative;
 		text-shadow: #505866 0px -1px 0;
@@ -221,7 +222,7 @@ a:hover {
 				font-size: 12px;
 			}
 	
-	#bb_main_sections {
+	#bb_toggle_sections {
 		background-color: #656E80;
 		border-top: 1px solid #6F7A8C;
 		border-bottom: 1px solid #505866;
@@ -230,16 +231,16 @@ a:hover {
 		width: 100%;
 	}
 	
-		#bb_main_sections li {
+		#bb_toggle_sections li {
 			border-right: 1px solid #505866;
 			float: left;
 			margin-top: -1px;
 		}
-		#bb_main_sections li:first-child {
+		#bb_toggle_sections li:first-child {
 			font-weight: bold;
 		}
 		
-			#bb_main_sections li a {
+			#bb_toggle_sections li a {
 				border-bottom: 1px solid #505866;
 				color: #EFF2F7;
 				cursor: default;
@@ -247,14 +248,14 @@ a:hover {
 				margin-bottom: -1px;
 				padding: 5px 10px;
 			}
-			#bb_main_sections li a:hover {
+			#bb_toggle_sections li a:hover {
 				background-color: #CDD1D8;
 				border-bottom: 1px solid #CDD1D8;
 				color: #282C33;
 				text-decoration: none;
 				text-shadow: #FFFFFF 0px 1px 0;
 			}
-			#bb_main_sections li a.selected {
+			#bb_toggle_sections li a.selected {
 				background-color: #CDD1D8;
 				border-bottom: 1px solid #C1C5CC;
 				color: #282C33;
@@ -275,7 +276,7 @@ a:hover {
 		width: 100%;*/
 	}
 	
-	#bb_module_edit {
+	#bb_sections {
 		/*border-top: 1px solid #F7FAFF;*/
 		clear: both;
 		position: absolute;

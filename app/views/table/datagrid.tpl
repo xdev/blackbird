@@ -9,11 +9,11 @@
 			<input type="button" value="+ New Record" onclick="blackbird.addNewRecord('<?= $table ?>','<?= $_POST['name_space'] ?>');" />
 		<?php endif ?>
 		
-		<p class="actions related">
+		
 			<input class="search" id="<?= $_POST['name_space'] ?>_search" type="text" value="Search..." size="20" onclick="clickclear(this, 'Search...')" onblur="clickrecall(this,'Search...')"  />
 			<a class="icon search" href="#" onclick="<?= $datagrid ?>.search();" title="Submit search query">Search</a>
 			<a class="icon undo" href="#" onclick="<?= $datagrid ?>.reset();" title="Reset Data Grid">Reset</a>
-		</p>
+		
 		
 		<?php
 		//pagination
@@ -28,7 +28,7 @@
 
 			$p = floor($rem * $sort_t);
 
-			print '<p class="pagination">';
+			//print '<p class="pagination">';
 
 			printf('<a class="icon first" %s title="First page">First</a>', ($p != 0) ? 'href="#" onclick="' . $click . 0 . '\');"' : '');
 			printf('<a class="icon previous" %s title="Previous page">Previous</a>', ($p != 0) ? 'href="#" onclick="' . $click . (($p - 1) * $limit).'\');"' : '' );
@@ -42,10 +42,10 @@
 			printf('<span class="values">%s</span>',"($offset-$t) of " . $rows_total . " Records");
 			printf('<a class="icon next" %s title="Next page">Next</a>', ($p < $rem - 1) ? 'href="#" onclick="'. $click . (($p + 1) * $limit).'\');"' : '');
 			printf('<a class="icon last" %s title="Last page">Last</a>', ($p < $rem - 1) ? 'href="#" onclick="'. $click . ($lastp * $limit) . '\');"' : '');
-			print '</p>';
+			//print '</p>';
 
 		}else{
-			print '<p class="pagination"><span class="values">' . count($rowData) . ' Records</span></p>';
+			//print '<p class="pagination"><span class="values">' . count($rowData) . ' Records</span></p>';
 		}
 
 		?>
@@ -53,7 +53,7 @@
 </div>
 
 
-<div class="data_grid_embed <?= $mode ?>">
+<div class="container data_grid_embed <?= $mode ?>">
 
 
 <table class="data_grid">

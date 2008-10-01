@@ -143,8 +143,8 @@ blackbird.prototype.setNavigationCookie = function()
 //Edit page tab behavior
 blackbird.prototype.initTabNavigation = function()
 {
-	if($('bb_main_sections')){
-		var tA = $('bb_main_sections').select('a');
+	if($('bb_toggle_sections')){
+		var tA = $('bb_toggle_sections').select('a');
 		var iMax = tA.length;
 		for(var i=0;i<iMax; i++){
 			Event.observe(tA[i],'click',this.handleTabClick.bind(this));
@@ -161,8 +161,8 @@ blackbird.prototype.handleTabClick = function(event)
 
 blackbird.prototype.showTab = function(tab)
 {
-	if($('bb_main_sections')){
-		var tA = $('bb_main_sections').select('a');
+	if($('bb_toggle_sections')){
+		var tA = $('bb_toggle_sections').select('a');
 		var iMax = tA.length;
 		for(var i=0;i<iMax; i++){
 		
