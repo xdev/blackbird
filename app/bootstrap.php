@@ -53,6 +53,9 @@ setConfig('WWW','http' . (@$_SERVER['HTTPS'] ? 's' : '') . '://' . $_SERVER['SER
 
 setConfig('BLACKBIRD_TABLE_PREFIX','cms_');
 
+define("BLACKBIRD_VERSION","2.0.0");
+
+define("REQUIRED_SCHEMA_VERSION","2.0.0");
 
 // Environment config
 require_once CONFIG . 'environment.php';
@@ -80,8 +83,8 @@ require_once LIB . 'Brickhouse' . DS . 'Controller.php';
 // Bobolink classes
 require_once LIB . 'Bobolink' . DS . 'database' . DS . 'Db.interface.php';
 require_once LIB . 'Bobolink' . DS . 'database' . DS . 'AdaptorMysql.class.php';
-
 require_once LIB . 'Bobolink' . DS . 'utils' . DS . 'Utils.class.php';
+require_once LIB . 'Bobolink' . DS . 'forms' . DS . 'Forms.class.php';
 
 
 /* LOAD PLUGINS ---------------------------------------------------------- */
