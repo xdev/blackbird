@@ -1,8 +1,10 @@
 <?php
 
+// Used to manage user-overrides.
+// This would be easier if we simply put it all into a GLOBAL variable.. mmkay.
+
 $tempObj = Array();
 
-//Used to manage user-overrides. This would be easier if we simply put it all into a GLOBAL variable.. mmkay.
 function setConfig($name,$value)
 {
 	global $tempObj;
@@ -51,10 +53,16 @@ setConfig('WEB_ROOT','');
 // Server/domain name with http(s)://
 setConfig('WWW','http' . (@$_SERVER['HTTPS'] ? 's' : '') . '://' . $_SERVER['SERVER_NAME'] . '/');
 
-setConfig('BLACKBIRD_TABLE_PREFIX','cms_');
+// Database table prefix
+setConfig('BLACKBIRD_TABLE_PREFIX','blackbird_');
 
+// Database users table, typically changed with a Session override
+setConfig('BLACKBIRD_USERS_TABLE','blackbird_users');
+
+// Version number of this software
 define("BLACKBIRD_VERSION","2.0.0");
 
+// Required database schema
 define("REQUIRED_SCHEMA_VERSION","2.0.0");
 
 // Environment config
@@ -65,12 +73,14 @@ require_once CONFIG . 'environment.php';
 $tA = explode(DS,APP);
 $base = $tA[count($tA)-3];
 $file = '..' . DS . $base . '_config' . DS . 'config.php';
-setConfig('CUSTOM','..' . DS . $base . '_config' . DS);
-if(require($file)){
-}else{
-	die('<h1>No custom config found = Fail!</h1>');
-}	
 
+// Set location of custom project-based config info
+setConfig('CUSTOM','..' . DS . $base . '_config' . DS);
+
+// Bring it in or abort
+(!require($file)) ? die('<h1>No custom config found = Fail!</h1>') : '';	
+
+// Define all variables created with setConfig
 createConstants();
 
 /* LOAD REQUIRED FILES --------------------------------------------------- */

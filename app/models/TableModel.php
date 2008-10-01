@@ -233,7 +233,9 @@ class TableModel extends Model
 			'rows_total'=>$rows_total,
 			'limit'=>$limit,
 			'offset'=>$offset,
-			'mode'=>$mode
+			'mode'=>$mode,
+			'filterA'=>$filterA,
+			'filterWhere'=>$filterWhere
 		);
 		
 	}

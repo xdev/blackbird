@@ -58,12 +58,62 @@
 
 <table class="data_grid">
 	<thead>
+		<?php if(count($filterA) > 0): ?>
+			<tr class="filter">
+				<?php foreach($headerData as $field): ?>
+					<td>
+						<?php if(in_array($field,$filterA)): ?>
+							<!-- consider a view snippet here -->
+							<?php
+							
+							//Move this logic into the model ehh... there
+							($filterWhere != '') ? $where = 'WHERE ' . $filterWhere : $where = '';
+
+							if($q_select = AdaptorMysql::query("SELECT DISTINCT `$field` FROM `$table` $where ORDER BY `$field`")){
+								$onchange='onchange="' . $datagrid . '.setFilter(\''. $field . '\',this);"';
+								print "<select id=\"filter_$field\" $onchange>";
+								print '<option value="">All</option>';
+
+								foreach($q_select AS $row){
+									$sel = '';
+									if(isset($_REQUEST['filter_'.$field])){
+										if($_REQUEST['filter_'.$field] == $row[$field]){
+											$sel = 'selected="selected"';
+										}
+									}
+
+									$tv = _ControllerFront::formatCol($field,$row[$field],$table);
+									$q_c = AdaptorMysql::query("SELECT * FROM " . BLACKBIRD_TABLE_PREFIX . "cols WHERE column_name = '$field'");
+
+									if($q_c){				
+										$q_col = Utils::checkArray($q_c,array('table_name'=>$table));
+										if(!$q_col){
+											$q_col = Utils::checkArray($q_c,array('table_name'=>'*'));
+										}
+
+										if($q_col){
+											if($q_col['filter'] != ''){
+												$tA = _ControllerFront::parseConfig($q_col['filter']);
+												if(isset($tA['filter_length'])){
+													if(strlen(strip_tags($tv)) > $tA['filter_length']){
+														$tv = substr(strip_tags($tv),0,$tA['filter_length']) . '...';
+													}
+												}
+											}
+										}
+									}
+									print '<option value="'. $row[$field] . '"' . $sel . '>' . $tv . '</option>';
+								}
+								print "</select>";
+							}
+							
+							?>
+						<?php endif ?>
+					</td>
+				<?php endforeach ?>
+			</tr>
+		<?php endif ?>
 		<tr>
-			<?php
-			//filters
-			//datagrid javascript controller reference.. this should be removed for a non-obstrusive approach, coming later
-			//headers
-			?>
 			<?php foreach($headerData as $field): ?>
 				<?php $click = '' ?>
 				<?php if($sort_col == $field): ?>

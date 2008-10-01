@@ -175,7 +175,7 @@ class _ControllerFront extends ControllerFront
 	{
 		if(isset($this->pathA[1])){
 			$this->table = $this->pathA[1];
-			$q_label = $this->db->queryRow("SELECT display_name FROM cms_tables WHERE table_name = '$this->table'");
+			$q_label = $this->db->queryRow("SELECT display_name FROM " . BLACKBIRD_TABLE_PREFIX . "tables WHERE table_name = '$this->table'");
 			if($q_label['display_name'] == ''){
 				$this->label = Utils::formatHumanReadable($this->table);
 			}else{
