@@ -14,7 +14,6 @@ class RecordController extends _Controller
 		
 	public function Add()
 	{
-		require_once LIB . 'Bobolink' . DS . 'forms' . DS . 'Forms.class.php';
 		$this->query_action = 'insert';
 		
 		//prepare id 
@@ -125,7 +124,6 @@ class RecordController extends _Controller
 	
 	private function _buildForm()
 	{
-		require_once LIB . 'Bobolink' . DS . 'forms' . DS . 'Forms.class.php';
 		//the master loopage		
 		//do a few things different if we're editing vs inserting a new record.. however not much
 		//use output buffering to feed this to the view... this is a unique controller driven situation

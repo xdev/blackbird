@@ -3,6 +3,7 @@
 class _ControllerFront extends ControllerFront
 {
 	public static $config;
+	public static $session;
 	
 	private function __construct()
 	{
@@ -18,36 +19,49 @@ class _ControllerFront extends ControllerFront
 				die('.htaccess file could not be created');
 			}
 		}
+		*/
 		
+		// Check to see if we have a sufficient schema installed
+		if(AdaptorMysql::query("SHOW TABLES LIKE '" . BLACKBIRD_TABLE_PREFIX . "info'")){
+			if($q = AdaptorMysql::queryRow("SELECT * FROM " . BLACKBIRD_TABLE_PREFIX . "info WHERE name = 'schema_version'")){
+				if($q['value'] < REQUIRED_SCHEMA_VERSION){
+					die('You have an outdated SQL schema ['.$q['value'] .'], please run the update script for [' . REQUIRED_SCHEMA_VERSION . ']');
+				}
+			}			
+		}else{
+			die('You have an outdated SQL schema, please run the update script for [' . REQUIRED_SCHEMA_VERSION . ']');
+		}
+						
 		//custom session
+		/*
 		if(defined(BLACKBIRD_TABLE_PREFIX . 'SESSION_MANAGER')){
 			require_once(CMS_SESSION_MANAGER);
 		}else{
 			require_once(INCLUDES.'SessionManager.class.php');
 		}
-		
-		// Check to see if we have a sufficient schema installed
-		if($this->db->query("SHOW TABLES LIKE BLACKBIRD_TABLE_PREFIX . 'info'")){
-			if($q = $this->db->queryRow("SELECT * FROM cms_info WHERE name = 'schema_version'")){
-				if($q['value'] < REQUIRED_SCHEMA_VERSION){
-					die('You have an outdated SQL schema, please run the update script');
-				}
-			}			
-		}else{
-			die('You have an outdated SQL schema, please run the update script');
-		}
-		
 		*/
-		
-		//broken for the moment
-		//self::checkDB();
-		
-		//$c = Utils::loadClass(LIB . 'bobolink/email/EmailProtector.class.php','EmailProtector',array(true));
-		//var_dump($c);
-		
 		self::setConfig();
 		
+		//create session
+		require_once MODELS . 'UserModel.php';
+		self::$session = new UserModel();		
+		//if we're not in the user controller trying to call login logout processlogin
+		if(self::$requestA[0] == 'user' && (self::$requestA[1] == 'login' || self::$requestA[1] == 'logout' || self::$requestA[1] == 'processlogin')){
+			//
+		}else{
+			self::$session->checkSession();
+		}
 		
+		//broken for the moment - auto install sql if necessary
+		//self::checkDB();
+		
+				
+		
+	}
+	
+	public static function getSession()
+	{
+		return self::$session;
 	}
 	
 	//override the singleton constructor	
@@ -176,6 +190,7 @@ class _ControllerFront extends ControllerFront
 	private function checkDB()
 	{
 		// If CMS database tables do not exist, create them using the schema.sql file
+		/*
 		if (!AdaptorMysql::query("SHOW TABLES LIKE BLACKBIRD_TABLE_PREFIX . '%'")) {
 			if ($schema = file_get_contents(CMS_FILESYSTEM.'core/sql/schema.sql')) {
 				$schema = explode(';',$schema);
@@ -187,6 +202,7 @@ class _ControllerFront extends ControllerFront
 				die('Could not load SQL schema and data');
 			}
 		}
+		*/
 	}
 	
 	private function setConfig()

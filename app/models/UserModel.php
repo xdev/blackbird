@@ -6,15 +6,125 @@ class UserModel extends Model
 	public function __construct()
 	{
 		//query the users table
+		$this->logged = false;
 		$this->db = AdaptorMysql::getInstance();
 		//get all tables and such
-		$this->getTables();
+		
+		/*
+		if (!file_exists(CMS_FILESYSTEM.'tmp')) {
+			mkdir(CMS_FILESYSTEM.'tmp',0700);
+			if (!file_exists(CMS_FILESYSTEM.'tmp/.htaccess')) {
+				if (!file_put_contents(CMS_FILESYSTEM.'tmp/.htaccess','deny from all')) die('nofile');
+			}
+		}
+		session_save_path(CMS_FILESYSTEM.'tmp');
+		*/		
+		//$this->checkSession();		
+	}
+	
+	public function checkSession()
+	{
+		//are we logged in, if not die, and throw us to the login page
+		session_name("Blackbird_sid");
+		session_start();
+		
+		if(isset($_COOKIE['Blackbird_sid'])){
+
+			if(isset($_SESSION['u_id']) && isset($_SESSION['u_token'])){
+				$tid = $_SESSION['u_id'];
+				$pass = $_SESSION['u_token'];
+
+				if($q = $this->db->queryRow("SELECT * FROM `" . BLACKBIRD_TABLE_PREFIX . "users` WHERE id = '$tid' AND password = '$pass'")){
+
+					$this->u_id = $q['id'];
+					$this->u_row = $q;
+					$this->logged = true;
+					$this->displayname = $q['firstname'] . " " . $q['lastname'];
+
+					if($q['super_user'] == 1){
+						$this->super_user = true;
+					}
+					
+					if (isset($q['active']) && !$q['active']) {
+						$this->redirect();
+					}
+
+					$this->getTables();
+
+				}else{
+					$this->redirect();
+				}
+
+			}else{
+				$this->redirect();
+			}
+
+		}else{
+			$this->redirect();
+		}
+	}
+	
+	private function redirect()
+	{
+		if(isset($_SERVER['REQUEST_URI'])){
+			if(substr($_SERVER['REQUEST_URI'],-(strlen('index.php') + 1)) != BASE){
+				Utils::metaRefresh(BASE . "user/login/?redirect=$_SERVER[REQUEST_URI]");
+			}
+		}
+		Utils::metaRefresh(BASE . "user/login");
+		die();
+	}
+	
+	public function login($user,$pass)
+	{
+		//not sure where we want to go with this one
+		$email = $user;
+		
+		if($q = $this->db->queryRow("SELECT id FROM `" . BLACKBIRD_TABLE_PREFIX . "users` WHERE email = '$email' AND password = '$pass'")){
+			
+			$row_data = array();
+			$row_data[] = array('field'=>'user_id','value'=>$q['id']);
+			$row_data[] = array('field'=>'start_time','value'=>Utils::now());
+			$row_data[] = array('field'=>'session_id','value'=>session_id());
+			$this->db->insert(BLACKBIRD_TABLE_PREFIX . "sessions",$row_data);
+		
+			session_name("Blackbird_sid");
+			session_start();
+			
+			$_SESSION['u_id'] = $q['id'];
+			$_SESSION['u_token'] = $pass;
+			print 'login in on this bia';
+			return true;
+			
+		}else{
+			return false;
+		}
+	}
+	
+	public function logout()
+	{
+		//session_save_path(CMS_FILESYSTEM.'tmp');
+		session_name("Blackbird_sid");
+		session_start();
+				
+		$row_data = array();
+		$row_data[] = array('field'=>'end_time','value'=>Utils::now());
+		$this->db->update(BLACKBIRD_TABLE_PREFIX . "sessions",$row_data,'session_id',session_id());
+		
+		$_SESSION = array();
+				
+		if (isset($_COOKIE["Blackbird_sid"])) {
+			setcookie("Blackbird_sid", '', time()-42000, '/');
+		}
+		
+		session_destroy();		
+		//$this->cms->session->logged = false;
 	}
 	
 	private function getTables()
 	{
 		//search through all the tables of all the groups this user belongs to.
-		$t_id = 1;//$this->u_id;
+		$t_id = $this->u_id; //1
 		$q = $this->db->queryRow("SELECT groups,super_user FROM ".BLACKBIRD_TABLE_PREFIX."users WHERE id = '$t_id'");
 		
 		$tables = array();
@@ -37,8 +147,7 @@ class UserModel extends Model
 				$xml = simplexml_load_string($qGroup['tables']);
 							
 				foreach($xml->table as $mytable){
-					$t = sprintf($mytable['name']);
-					
+					$t = sprintf($mytable['name']);					
 					$tA = Utils::checkArray(_ControllerFront::$config['tables'],array('table_name'=>$t));
 					if(is_array($tA)){
 						$qT = $tA;
@@ -69,44 +178,46 @@ class UserModel extends Model
 	
 	public function getNavigation()
 	{
-		$tables = $this->prepTables();
 		$navA = array();
-		
-		foreach($tables as $key=>$value){
-			if($value['in_nav'] == 1){
+		if($this->logged==true){
+			$tables = $this->prepTables();
+					
+			foreach($tables as $key=>$value){
+				if($value['in_nav'] == 1){
 			
-				if(!isset($navA[$value['menu']])){
-					if($value['menu'] != '' && $value['menu'] != 0){
-						$q_name = $this->db->queryRow("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."menus WHERE id = '$value[menu]'");
-						$name = $q_name['name'];
+					if(!isset($navA[$value['menu']])){
+						if($value['menu'] != '' && $value['menu'] != 0){
+							$q_name = $this->db->queryRow("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."menus WHERE id = '$value[menu]'");
+							$name = $q_name['name'];
+						}else{
+							$name = 'Admin';
+						}
+						$navA[$value['menu']] = array('id'=>$value['menu'],'name'=>$name,'tables'=>array($key));
 					}else{
-						$name = 'Admin';
+						$navA[$value['menu']]['tables'][] = $key;
 					}
-					$navA[$value['menu']] = array('id'=>$value['menu'],'name'=>$name,'tables'=>array($key));
-				}else{
-					$navA[$value['menu']]['tables'][] = $key;
 				}
 			}
-		}
 		
-		//order all the menu sets by their position-- needs improvement		
-		$tempA = array();
-		foreach($navA as $key=>$value)
-		{
-			if($key != 'cms_admin'){
-				if($q = $this->db->queryRow("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."menus WHERE id = '$key'")){
-					$tempA[] = array('position'=>$q['position'],'value'=>$value,'key'=>$key);
+			//order all the menu sets by their position-- needs improvement		
+			$tempA = array();
+			foreach($navA as $key=>$value)
+			{
+				if($key != 'cms_admin'){
+					if($q = $this->db->queryRow("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."menus WHERE id = '$key'")){
+						$tempA[] = array('position'=>$q['position'],'value'=>$value,'key'=>$key);
+					}
+				}else{
+					//adds to the end, could push to sorted array later
+					$tempA[] = array('position'=>10000,'value'=>$value,'key'=>$key);
 				}
-			}else{
-				//adds to the end, could push to sorted array later
-				$tempA[] = array('position'=>10000,'value'=>$value,'key'=>$key);
 			}
-		}
-		$tempA = Utils::arraySort($tempA,'position');
-		$navA = array();
-		foreach($tempA as $item)
-		{
-			$navA[] = $tempA[$item['key']] = $item['value'];
+			$tempA = Utils::arraySort($tempA,'position');
+			$navA = array();
+			foreach($tempA as $item)
+			{
+				$navA[] = $tempA[$item['key']] = $item['value'];
+			}
 		}
 		
 		return $navA;
