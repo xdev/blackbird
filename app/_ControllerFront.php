@@ -7,8 +7,7 @@ class _ControllerFront extends ControllerFront
 	
 	private function __construct()
 	{
-		parent::setUri();
-		
+		parent::setUri();		
 		/*
 		// make sure '.htaccess' file is present - if not, try to create it from 'htaccess' file
 		if (!file_exists(CMS_FILESYSTEM.'.htaccess')) {

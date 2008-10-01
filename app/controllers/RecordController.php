@@ -35,7 +35,7 @@ class RecordController extends _Controller
 			'id'=>$this->id,
 			'table'=>$this->table,
 			'mode'=>$this->mode,
-			'active'=>1,
+			'active'=>$this->model->getActive(),
 			'name_space'=>$this->name_space)));
 	}
 	
@@ -75,7 +75,7 @@ class RecordController extends _Controller
 			'name_space'=>$this->name_space,
 			'table'=>$this->table,
 			'id'=>$this->id,
-			'active'=>$this->model->data['active']['value'])));
+			'active'=>$this->model->getActive())));
 	}
 	
 	public function Editrelated()
@@ -337,8 +337,10 @@ class RecordController extends _Controller
 		$this->query_action = $_POST['query_action'];
 		$this->channel = $_POST['channel'];
 		
+		$this->key = AdaptorMysql::getPrimaryKey($this->table);
+		
 		if($this->query_action == 'update'){		
-			$this->id = $_POST[$this->_name_space.'id'];
+			$this->id = $_POST[$this->_name_space . $this->key];
 		}else{
 			$this->id = '';
 		}
@@ -572,7 +574,8 @@ class RecordController extends _Controller
 				}
 				
 				if($this->query_action == "update"){
-					$sql = $this->db->update($this->table,$row_data,"id",$this->id);
+					$key = AdaptorMysql::getPrimaryKey($this->table);
+					$sql = $this->db->update($this->table,$row_data,$key,$this->id);
 				}
 						
 				$row_data = array();

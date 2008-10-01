@@ -17,6 +17,7 @@
 	?>
 	<div class="bb_toolbar_actions">
 		<!-- set up change handler to set main_active to this value upon change.. ehh -->
+		<?php if($active != null): ?>
 		<select id="active_<?= $name_space ?>" onchange="">
 			<?php
 			if($active == 1){
@@ -30,7 +31,7 @@
 			<option value="1" <?= $s1 ?>>Active</option>
 			<option value="0" <?= $s2 ?>>Inactive</option>
 	     </select>
-		
+		<?php endif ?>
 		<?php if($type == 'main'){; ?>		
 		  	<input type="button" value="Save" onclick="blackbird.submitMain('<?= $name_space ?>'); return false;" />
 	  		<input type="button" value="Close" onclick="window.location='<?= BASE ?>table/browse/<?= $table  ?>'; return false;" />

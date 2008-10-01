@@ -10,8 +10,18 @@ class RecordModel extends Model
 		parent::__construct($route);
 		
 		//figure out if we're operating through a normal request mode, or via ajax
-
 		
+	}
+	
+	public function getActive()
+	{
+		//return value if exists, else default
+		if(isset($this->data['active']['value'])){
+			return $this->data['active']['value'];
+		}else{
+		//if column doesn't exist return null
+			return null;
+		}
 	}
 	
 	public function getData($config=null)
@@ -27,15 +37,27 @@ class RecordModel extends Model
 			$this->mode = 'add';
 		}else{
 			$this->mode = 'edit';
+		}
+		
+		//get table description data
+		$this->tableMeta = AdaptorMysql::query("SHOW COLUMNS FROM $this->table",MYSQL_BOTH);
+		
+		//get key
+		//default, set as first column
+		$this->key = $this->tableMeta[0]['Field'];
+		//find real primary key
+		foreach($this->tableMeta as $column){
+			if($column['Key'] == 'PRI'){
+				$this->key = $column['Field'];
+			}
 		}		
 		
-		$q = $this->db->queryRow("SELECT * FROM `" . $this->table . "` WHERE id = '" . $this->id . "'");
-		$q_cols = $this->db->query("SHOW COLUMNS FROM `$this->table`",MYSQL_BOTH);
+		$q = $this->db->queryRow("SELECT * FROM `" . $this->table . "` WHERE " . $this->key . " = '" . $this->id . "'");
 		
 		$this->data = array();
 		$this->col_config = false;
 		
-		foreach($q_cols as $col){
+		foreach($this->tableMeta as $col){
 			
 			//check for config info here
 			$q_col = false;

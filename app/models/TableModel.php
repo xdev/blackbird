@@ -17,12 +17,16 @@ class TableModel extends Model
 		$this->sql = '';
 		
 		//these should be mapped in from the controller - not set here
-		$sort_col = Utils::setVar("sort_col","id");
 		$sort_dir = Utils::setVar("sort_dir","DESC");
 		$offset = Utils::setVar("offset","0");
 		$limit = Utils::setVar("limit","100");
 		$search = Utils::setVar("search");
 		$mode = Utils::setVar("mode","main");
+		
+		//get table description data
+		$this->tableMeta = AdaptorMysql::query("SHOW COLUMNS FROM $this->table",MYSQL_BOTH);
+		$this->key = AdaptorMysql::getPrimaryKey($this->table);		
+		$sort_col = Utils::setVar("sort_col",$this->key);
 		
 		//get config data
 		$tA = Utils::checkArray(_ControllerFront::$config['tables'],array('table_name'=>$this->table,'display_mode'=>'related'));
@@ -44,24 +48,17 @@ class TableModel extends Model
 		//column description information		
 		$fields = array();
 		if($q_display['cols_default'] == ""){
-			$select_cols = '*';
-			$q = AdaptorMysql::query("SHOW COLUMNS FROM $this->table",MYSQL_BOTH);
-			$fields = array();
-			for($i=0;$i<count($q);$i++){
-				$row = $q[$i];
-				$fields[] = $row[0];
-			}
+			$select_cols = '*';			
 		}else{
 			$select_cols = $q_display['cols_default'];
 			$fields = explode(",",$select_cols);
-			
-			if($select_cols == "*"){
-				$q = AdaptorMysql::query("SHOW COLUMNS FROM $this->table",MYSQL_BOTH);
-				$fields = array();
-				for($i=0;$i<count($q);$i++){
-					$row = $q[$i];
-					$fields[] = $row[0];
-				}
+		}
+		
+		if($select_cols == "*"){
+			$fields = array();
+			for($i=0;$i<count($this->tableMeta);$i++){
+				$row = $this->tableMeta[$i];
+				$fields[] = $row[0];
 			}
 		}
 		
@@ -247,7 +244,8 @@ class TableModel extends Model
 				}
 				
 				$rowData = _ControllerFront::injectData($tA,$table);
-				$this->recordSet[$row['id']] = $rowData;
+				//convert to the key
+				$this->recordSet[$row[$this->key]] = $rowData;
 				
 			}
 			

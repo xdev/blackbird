@@ -321,7 +321,9 @@ blackbird.prototype.onSubmit = function()
 
 blackbird.prototype.submitRelated = function(name_space)
 {	
-	$(name_space + '_active').value = $('active_' + name_space).value;
+	if($('active_' + name_space)){
+		$(name_space + '_active').value = $('active_' + name_space).value;
+	}
 	var errorsA = this.validate(name_space);
 	if(errorsA == true){
 		this.broadcaster.broadcastMessage("onSubmit");
@@ -342,7 +344,9 @@ blackbird.prototype.submitRelated = function(name_space)
 blackbird.prototype.submitMain = function(name_space)
 {
 	this.showTab('main');
-	$(name_space + '_active').value = $('active_' + name_space).value;
+	if($('active_' + name_space)){
+		$(name_space + '_active').value = $('active_' + name_space).value;
+	}
 	var tA = this.validate(name_space);
 	if(tA == true){
 		//$('edit_buttons').hide();
