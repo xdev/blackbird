@@ -279,13 +279,23 @@ a:hover {
 	#bb_sections {
 		/*border-top: 1px solid #F7FAFF;*/
 		clear: both;
-		position: absolute;
-		top: 88px;
+		xposition: relative;
+		/*position: absolute;
+		top: 24px;
 		left: 0;
 		right: 0;
 		bottom: 0;
 		overflow: auto;
-		overflow-x: hidden;
+		overflow-x: hidden;*/
 		/*float: left;
 		width: 100%;*/
 	}
+	
+		#bb_sections .container {
+			position: absolute;
+				top: 88px;
+				left: 0;
+				right: 0;
+				bottom: 0;
+			overflow: auto;
+		}
