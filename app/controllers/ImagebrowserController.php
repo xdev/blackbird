@@ -32,6 +32,6 @@ class ImagebrowserController extends _Controller
 	public function Getimage()
 	{
 		$this->layout_view = null;
-		$this->view('view'=>'_image','data'=>array('id'=>$_POST['id']));
+		$this->view(array('view'=>'_image','data'=>array('id'=>$_POST['id'])));
 	}
 }
