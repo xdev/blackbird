@@ -1,13 +1,6 @@
-/* $Id$ */
+/* TABLE ----------------------------------------------------------------- */
 
-/* -------------------------------------------------------
-
-Data Grid
-
---------------------------------------------------------*/
-
-table.data_grid
-{
+.data_grid {
 	border-bottom: 1px solid #D9DDE5;
 	color: #1A1C26;
 	margin: 0;
@@ -16,181 +9,98 @@ table.data_grid
 	width: 100%;
 }
 
-	table.data_grid th,
-	table.data_grid td
-	{
-		border-left: 1px solid #D9DDE5;
-		border-top: none;
-		border-bottom: none;
-		font-size: 11px;
-		margin: 0;
-		padding: 6px 10px;
+/* ALL CELLS ------------------------------------------------------------- */
+
+.data_grid tr th,
+.data_grid tr td {
+	border-left: 1px solid #D9DDE5;
+	border-top: none;
+	border-bottom: none;
+	font-size: 11px;
+	margin: 0;
+	padding: 6px 10px;
+}
+.data_grid tr th:first-child,
+.data_grid tr td:first-child {
+	border-left: none !important;
+}
+
+
+/* TABLE HEADER ---------------------------------------------------------- */
+
+.data_grid thead tr th {
+	background-color: #B5B9BF;
+	border-left: 1px solid #585D66;
+	border-bottom: 1px solid #7A8599;
+	color: #1C2E4D;
+	text-shadow: #D9DFE5 0px 1px 0;
+	font-size: 12px;
+	font-weight: normal;
+	padding: 10px;
+	text-align: left;
+	vertical-align: bottom;
+}
+
+	.data_grid thead tr th a {
+		background-position: 100% 50%;
+		background-repeat: no-repeat;
+		color: #1C2E4D;
+		display: block;
+		margin: -10px;
+		padding: 10px;
+		width: 100%;
 	}
-	table.data_grid th:first-child,
-	table.data_grid td:first-child {
-		border-left: none !important;
+		.data_grid thead tr th a:hover,
+		.data_grid thead tr th.active a {
+			background-color: #919499;
+			
+			text-decoration: none;
+			text-shadow: #767A7F 0px -1px 0;
+		}
+		.data_grid thead tr th.active a {
+			color: #FFFFFF;
+		}
+		
+		.data_grid thead tr th.ascending a {
+			background-image: url("../img/arrow_ascending.gif");
+		}
+		.data_grid thead tr th.descending a {
+			background-image: url("../img/arrow_descending.gif");
+		}
+			.data_grid thead tr th.ascending a:hover,
+			.data_grid thead tr th.descending a:hover {
+				background-color: #919499;
+			}
+
+
+/* TABLE BODY ------------------------------------------------------------ */
+
+.data_grid tbody tr td {
+	/*display: block;*/
+	overflow: hidden;
+	max-width: 100px;
+	vertical-align: middle;
+	white-space: nowrap;
+}
+.data_grid tbody tr td.sort {
+	color: red;
+}
+
+	.data_grid tbody tr.odd td {
+		background-color: #FFFFFF;
 	}
 	
-	table.data_grid th
-	{
+	.data_grid tbody tr:hover td,
+	.data_grid tbody tr.odd:hover td {
+		background-color: #D9DDE5;
+		border-left: 1px solid #C1C5CC;
+		cursor: pointer;
+	}
+	.data_grid thead tr.filter:hover td,
+	.data_grid thead tr.filter td {
 		background-color: #B5B9BF;
 		border-left: 1px solid #585D66;
 		border-bottom: 1px solid #7A8599;
-		color: #1C2E4D;
-		text-shadow: #D9DFE5 0px 1px 0;
-		font-size: 12px;
-		font-weight: normal;
-		padding: 10px;
-		text-align: left;
-		vertical-align: bottom;
+		padding-top: 1px;
+		padding-bottom: 1px;
 	}
-	
-		table.data_grid th a
-		{
-			background-position: 100% 50%;
-			background-repeat: no-repeat;
-			color: #1C2E4D;
-			display: block;
-			margin: -10px;
-			padding: 10px;
-			width: 100%;
-		}
-			table.data_grid th a:hover,
-			table.data_grid th.active a
-			{
-				background-color: #919499;
-				color: #FFFFFF;
-				text-decoration: none;
-				text-shadow: #767A7F 0px -1px 0;
-			}
-			
-			table.data_grid th.ascending a
-			{
-				background-image: url("../img/arrow_ascending.gif");
-			}
-			.data_grid th.descending a
-			{
-				background-image: url("../img/arrow_descending.gif");
-			}
-				table.data_grid th.ascending a:hover,
-				table.data_grid th.descending a:hover
-				{
-					background-color: #919499;
-				}
-	
-	table.data_grid tr td
-	{
-		/*display: block;*/
-		overflow: hidden;
-		max-width: 100px;
-		vertical-align: middle;
-		white-space: nowrap;
-	}
-	table.data_grid tr td {
-	}
-	
-		table.data_grid tr.odd td
-		{
-			background-color: #FFFFFF;
-		}
-		
-		table.data_grid tr:hover td,
-		table.data_grid tr.odd:hover td {
-			background-color: #D9DDE5;
-			border-left: 1px solid #C1C5CC;
-			cursor: pointer;
-		}
-		table.data_grid tr.filter:hover td,
-		table.data_grid tr.filter td {
-			background-color: #B5B9BF;
-			border-left: 1px solid #585D66;
-			border-bottom: 1px solid #7A8599;
-			padding-top: 1px;
-			padding-bottom: 1px;
-		}
-		
-		
-		
-		table.data_grid tr td.snug
-		{
-			text-align: center;
-			white-space: nowrap;
-			width: 1%;
-		}
-		table.data_grid tr th.snug
-		{
-			white-space: nowrap;
-			width: 1%;
-		}
-
-table.data_grid .records tr
-{
-	cursor: pointer;
-}
-
-table.data_grid .records tr.locked
-{
-	cursor: default;
-}
-
-table.data_grid .records tr.inactive td
-{
-	color: #CCCCCC;
-}
-	table.data_grid .records tr:hover td,
-	table.data_grid .records tr.hover td
-	{
-		background-color: #E6E8ED;
-		color: #3B3B3B;
-	}
-	
-	table.data_grid .records tr td.active
-	{
-		background-color: #F7FAFF;
-		color: #3B3B3B;
-	}
-	
-	table.data_grid .records tr.inactive td.active
-	{
-		color: #CCCCCC;
-	}
-	
-	table.data_grid .records tr.odd td.active
-	{
-		background-color: #EDF0F5;
-	}
-	table.data_grid .records tr:hover td.active,
-	table.data_grid .records tr.hover td.active
-	{
-		background-color: #DFE1E5;
-	}
-	
-	table.data_grid .records tr.inactive:hover td.active,
-	table.data_grid .records tr.hover td.active
-	{
-		color: #3B3B3B;
-	}
-
-
-table.data_grid .records tr.active td
-{
-	background-color: #D1D8E5;
-}
-
-table.data_grid.readonly .records tr
-{
-	cursor: default;
-}
-
-table.data_grid.readonly .records tr:hover td
-{
-	background-color: #FFFFFF;
-	color: #666666;
-}
-
-
-table.data_grid.readonly .records tr.odd:hover td
-{
-	background-color: #F6F6F6;
-	color: #666666;
-}

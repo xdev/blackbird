@@ -187,32 +187,6 @@ Misc
 	color: #FFFFFF;
 }
 
-
-/* -------------------------------------------------------
-
-Delete
-
---------------------------------------------------------*/
-#delete .data_grid td
-{
-	
-}
-
-	#delete .data_grid tr.first_row td
-	{
-		color: #FFFFFF;
-		background-color: #CC0000;
-		border-right: 1px solid #FFFFFF;
-		
-	}
-	
-	#delete .data_grid tr.first_row td.last_col
-	{
-		border-right: none;
-		
-	}
-
-
 .home .column
 {
 	width: 465px;
