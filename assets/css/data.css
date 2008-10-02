@@ -114,12 +114,13 @@
 /* DATAGRID NAVIGATION --------------------------------------------------- */
 
 #bb_sections .container.data_grid_embed {
+	border-bottom: 1px solid #505866;
 	bottom: 30px !important;
 }
 
 .datagrid_navigation {
 	background-color: #7A8599;
-	border-top: 1px solid #6F7A8C;
+	border-top: 1px solid #8D9BB3;
 	color: #FFFFFF;
 	font-size: 11px;
 	height: 25px;
