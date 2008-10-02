@@ -92,9 +92,9 @@
 			<tr class="<?= $i++%2 ? 'even' : 'odd' ?>">
 				<?php foreach($value as $column): ?>
 				<?php if($mode == 'related'): ?>
-				<td class="<?= $column['col'] ?>" onclick="<?= $datagrid ?>.editRecord(<?= $key ?>,this)">
+				<td class="<?= $column['col'] == $sort_col ? 'sort' : '' ?>" onclick="<?= $datagrid ?>.editRecord(<?= $key ?>,this)">
 				<?php else: ?>
-				<td class="<?= $column['col'] ?>" onclick="window.location='<?= BASE ?>record/edit/<?= $table ?>/<?= $key ?>';">
+				<td class="<?= $column['col'] == $sort_col ? 'sort' : '' ?>" onclick="window.location='<?= BASE ?>record/edit/<?= $table ?>/<?= $key ?>';">
 				<?php endif ?>
 					<?= $column['value'] ?>
 				</td>

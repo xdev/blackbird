@@ -83,17 +83,20 @@
 	white-space: nowrap;
 }
 .data_grid tbody tr td.sort {
-	color: red;
+	background-color: #E8EAEF;
 }
 
 	.data_grid tbody tr.odd td {
 		background-color: #FFFFFF;
 	}
+	.data_grid tbody tr.odd td.sort {
+		background-color: #F7F7F7;
+	}
 	
 	.data_grid tbody tr:hover td,
 	.data_grid tbody tr.odd:hover td {
-		background-color: #D9DDE5;
-		border-left: 1px solid #C1C5CC;
+		background-color: #7A8599;
+		color: #FFFFFF;
 		cursor: pointer;
 	}
 	.data_grid thead tr.filter:hover td,

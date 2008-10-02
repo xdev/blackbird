@@ -25,7 +25,7 @@ a:hover {
 	color: #A1B1C1;
 	overflow: hidden;
 	position: absolute;
-		top: 25px;
+		top: 30px;
 		left: 0;
 		bottom: 0;
 	width: 179px;
@@ -45,21 +45,26 @@ a:hover {
 	}*/
 	
 	#bb_navigation #bb_main_nav_tables { /* ie7.css */
-		border-top: 1px solid #2A2E40;
+		/*border-top: 1px solid #2A2E40;*/
 		border-bottom: 1px solid #000000;
 		font-size: 11px;
 		overflow: auto;
 		overflow-x: hidden;
-		padding: 9px 0;
+		padding: 0;
 		position: absolute;
 			top: 0;
-			bottom: 25px;
+			bottom: 30px;
 		width: 180px;
 	}
 		
 		#bb_navigation #bb_main_nav_tables li {
-			padding-bottom: 7px;
+			border-top: 1px solid #2A2E40;
+			border-bottom: 1px solid #000000;
+			padding: 5px 0;
 			text-shadow: #000000 0px -1px 0;
+		}
+		#bb_navigation #bb_main_nav_tables li:last-child {
+			border-bottom: none;
 		}
 		
 		#bb_navigation #bb_main_nav_tables li span {
@@ -68,8 +73,11 @@ a:hover {
 			background-repeat: no-repeat;
 			cursor: default;
 			display: block;
-			padding: 4px 0 4px 24px;
+			padding: 5px 0 5px 24px;
 			text-transform: uppercase;
+		}
+		#bb_navigation #bb_main_nav_tables li span:active {
+			color: #8898A6;
 		}
 		#bb_navigation #bb_main_nav_tables li.open span {
 			background-image: url(../img/arrow_open.png);
@@ -79,12 +87,13 @@ a:hover {
 		}
 			
 			#bb_navigation #bb_main_nav_tables ul li {
-				padding-bottom: 0;
+				border: none;
+				padding: 1px 0 0 0;
 			}
 			
 			#bb_navigation #bb_main_nav_tables a {
 				display: block;
-				padding: 4px 0 4px 24px;
+				padding: 5px 0 5px 24px;
 				width: 100%;
 			}
 			#bb_navigation #bb_main_nav_tables a:hover,
@@ -92,13 +101,16 @@ a:hover {
 				background-color: #000000;
 				text-decoration: none;
 			}
+			#bb_navigation #bb_main_nav_tables a.selected {
+				font-weight: bold;
+			}
 	
 	#bb_navigation #bb_main_nav_actions {
 		border-top: 1px solid #2A2E40;
-		height: 18px;
+		height: 21px;
 		line-height: 1em;
 		overflow: hidden;
-		padding: 6px 0 0 10px;
+		padding: 8px 0 0 10px;
 		position: absolute;
 			left: 0;
 			bottom: 0;
@@ -121,7 +133,7 @@ a:hover {
 	border-bottom: 1px solid #000000;
 	color: #A1B1C1;
 	font-size: 11px;
-	height: 24px;
+	height: 29px;
 	line-height: 1em;
 	min-width: 640px;
 	overflow: hidden;
@@ -138,18 +150,18 @@ a:hover {
 	
 	#bb_session_nav #bb_breadcrumb {
 		position: absolute;
-			top: 7px;
-			left: 10px;
+			top: 10px;
+			left: 24px;
 	}
 	
 		#bb_session_nav #bb_breadcrumb li {
 			float: left;
-			margin-right: 20px;
+			margin-right: 24px;
 		}
 	
 	#bb_session_nav ul {
 		position: absolute;
-			top: 7px;
+			top: 10px;
 			right: 10px;
 	}
 	
@@ -162,7 +174,7 @@ a:hover {
 	overflow: hidden;
 	min-width: 460px;
 	position: absolute;
-		top: 25px;
+		top: 30px;
 		left: 180px;
 		right: 0;
 		bottom: 0;

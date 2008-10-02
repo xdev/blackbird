@@ -4,7 +4,7 @@
 		<span><?= $section['name'] ?></span>
 		<ul>
 			<?php foreach($section['tables'] as $table): ?>
-				<li><a href="<?= BASE ?>table/browse/<?= $table ?>"><?= Utils::titleCase(str_replace('_',' ',$table)) ?></a></li>
+				<li><a class="<?= (isset($this->route[3]) && $table == $this->route[3] ? 'selected' : '') ?>" href="<?= BASE ?>table/browse/<?= $table ?>"><?= Utils::titleCase(str_replace('_',' ',$table)) ?></a></li>
 			<?php endforeach ?>
 		</ul>
 	</li>
