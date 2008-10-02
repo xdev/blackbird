@@ -1,5 +1,5 @@
 <div class="bb_toolbar <?= $mode ?>">
-	<h1>Browse <?= $this->titleCase($table) ?></h1>
+	<h1>Browse: <?= Utils::titleCase(str_replace('_',' ',$table)) ?></h1>
 	<div class="bb_toolbar_actions">
 		<?php $datagrid = 'data_grid_' . $_POST['name_space'] ?>
 		
