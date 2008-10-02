@@ -1,5 +1,5 @@
 <div class="bb_toolbar <?= $type ?>">
-	<h1><?= ($mode == 'edit' ? 'Edit ' . $table . ': ' . $id : 'New ' . $table . ' record') ?></h1>
+	<h1><?= ($mode == 'edit' ? 'Edit ' . $this->titleCase($this->singulizer($table)) . ' ' . $id : 'New ' . $table . ' record') ?></h1>
 	<?php if($mode == 'edit'): ?>
 	<dl class="bb_record_meta">
 		<?php if(isset($created)): ?>
