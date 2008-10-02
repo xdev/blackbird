@@ -2,17 +2,7 @@
 
 class RecordModel extends Model
 {
-	
-	//private $data;
-	
-	public function __construct($route)
-	{
-		parent::__construct($route);
 		
-		//figure out if we're operating through a normal request mode, or via ajax
-		
-	}
-	
 	public function getActive()
 	{
 		//return value if exists, else default
@@ -24,11 +14,42 @@ class RecordModel extends Model
 		}
 	}
 	
+	public function processDelete($table,$id_set)
+	{	
+		if(_ControllerFront::$session->getPermissions('delete',$table)){
+
+			switch($table){
+
+				default:
+
+					foreach($id_set as $id){
+						AdaptorMysql::sql("DELETE FROM `$table` WHERE id = $id");
+						$this->logChange($table,$id);
+					}				
+
+				break;
+
+			}
+
+		}
+
+	}
+	
+	private function logChange($table,$id)
+	{
+		$row_data = array();
+		$row_data[] = array('field'=>'table_name','value'=>$table);
+		$row_data[] = array('field'=>'record_id','value'=>$id);
+		$row_data[] = array('field'=>'action','value'=>'delete');
+		$row_data[] = array('field'=>'user_id','value'=>_ControllerFront::$session->u_id);
+		$row_data[] = array('field'=>'session_id','value'=>session_id());
+		AdaptorMysql::insert(BLACKBIRD_TABLE_PREFIX . 'history',$row_data);
+	}
+	
 	public function getData($config=null)
 	{
 		
 		//needs to function in both edit and insert modes, obviously	
-		//$this->table = $this->route['table'];
 		$this->table = $config['table'];
 		$this->id = $config['id'];
 		$this->channel = $config['channel'];
@@ -107,10 +128,10 @@ class RecordModel extends Model
 		return $this->data;
 	}
 	
-	public function getRelated()
+	public function getRelated($table)
 	{
 		//find relations
-		$this->table = $this->route['table'];
+		$this->table = $table;
 		$q_related = $this->db->query("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."relations WHERE table_parent = '$this->table' ORDER BY position");
 		return $q_related;
 		

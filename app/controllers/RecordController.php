@@ -55,7 +55,7 @@ class RecordController extends _Controller
 		$this->model->getData(array('query_action'=>$this->query_action,'table'=>$this->table,'id'=>$this->id,'channel'=>$this->channel));
 		$main = $this->_buildForm();
 		//all related data
-		if($related = $this->model->getRelated()){
+		if($related = $this->model->getRelated($this->table)){
 		
 			for($i=0;$i<count($related);$i++){
 				$relation = $related[$i];
@@ -590,6 +590,7 @@ class RecordController extends _Controller
 				
 				$this->view(array('data'=>array(
 					'mode'=>$this->mode,
+					'query_action'=>$this->query_action,
 					'channel'=>$this->channel,
 					'name_space'=>$_POST['name_space'],
 					'table'=>$this->table,
@@ -600,6 +601,7 @@ class RecordController extends _Controller
 				//$GLOBALS['errors'] = $this->errorData;
 				$this->view(array('view'=>'/_errors/remote','data'=>array(
 					'mode'=>$this->mode,
+					'query_action'=>$this->query_action,
 					'channel'=>$this->channel,
 					'name_space'=>$_POST['name_space'],
 					'table'=>$this->table,

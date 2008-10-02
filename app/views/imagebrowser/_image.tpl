@@ -6,7 +6,7 @@ $controller = 'ImageBrowser_' . $name_space;
 ?>
 <li class="img_module<?= $class ?>" id="<?= $name_space ?>_img_<?= $img['id'] ?>" >
 	<div class="handle">	
-	<?php if(isset($this->config['col_file'])): ?>
+	<?php if(isset($config['col_file'])): ?>
 	<img src="<?= $config['folder'] . $img[$config['col_file']] ?>?nc=<?php print rand(0,1000) ?>" alt="img" />
 	<?php else: ?>
 	<img src="<?= $config['folder'] . $config['file_prefix'] . $img['id'] ?>.jpg?nc=<?php print rand(0,1000) ?>" alt="img" />

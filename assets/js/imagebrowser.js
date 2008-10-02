@@ -38,7 +38,7 @@ function ImageBrowser(options){
 
 ImageBrowser.prototype.onRemoteComplete = function(obj)
 {
-	switch(obj.mode)
+	switch(obj.query_action)
 	{
 		
 		case 'insert':

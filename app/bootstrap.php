@@ -48,7 +48,7 @@ define('CONTROLLERS',APP . 'controllers' . DS);
 setConfig('LIB','lib' . DS);
 
 // Web root ??? what is this for ???
-setConfig('WEB_ROOT','');
+setConfig('WEB_ROOT',ROOT);
 
 // Server/domain name with http(s)://
 setConfig('WWW','http' . (@$_SERVER['HTTPS'] ? 's' : '') . '://' . $_SERVER['SERVER_NAME'] . '/');

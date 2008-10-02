@@ -19,7 +19,6 @@ class UserModel extends Model
 		}
 		session_save_path(CMS_FILESYSTEM.'tmp');
 		*/		
-		//$this->checkSession();		
 	}
 	
 	public function checkSession()
@@ -247,7 +246,7 @@ class UserModel extends Model
 		return $tables;
 	}
 	
-	public function privs($priv,$table_name)
+	public function getPermissions($priv,$table_name)
 	{
 		
 		$tables = $this->prepTables();
