@@ -15,6 +15,8 @@ function dataGrid(options)
 	this.filters = new Object();
 	this.tr = undefined;
 	
+	this.interval = null;
+	
 	this.listener = new Object();
 	this.listener._scope = this;
 	this.listener.onClose = function()
@@ -31,6 +33,8 @@ function dataGrid(options)
 		this._scope.getUpdate();
 	}
 	this.getUpdate();
+	
+	
 	
 }
 
@@ -57,6 +61,11 @@ dataGrid.prototype.setFilter = function(prop,obj)
 {
 	this.filters[prop] = obj.value;
 	this.getUpdate();
+}
+
+dataGrid.prototype.setLimit = function(elem)
+{
+	this.setProperty('limit',elem.value);
 }
 
 /**
@@ -90,26 +99,20 @@ dataGrid.prototype.sortColumn = function(col,dir)
 *
 */
 
-dataGrid.prototype.search = function(obj)
+dataGrid.prototype.search = function()
 {
+	clearInterval(this.interval);
+	this.interval = null;
 	if($(this.data.name_space + '_search').value != 'Search...'){
 		this.data.search = $(this.data.name_space + '_search').value;
 		this.getUpdate();
 	}
 }
 
-/**
-*	doSearch
-*
-*
-*/
-
-dataGrid.prototype.doSearch = function(obj)
+dataGrid.prototype.kickSearch = function()
 {
-	window.clearInterval(obj.interval);
-	obj.interval = null;
-	obj.data.search = $(obj.data.name_space + '_search').value;
-	obj.getUpdate();
+	clearInterval(this.interval);
+	this.interval = setInterval(this.search.bind(this),500);	
 }
 
 /**
@@ -164,15 +167,31 @@ dataGrid.prototype.getUpdate = function()
 			
 	var myAjax = new Ajax.Updater(
 		obj,
-		this.data.cms_root + 'table/datagrid', 
+		this.data.base + 'table/datagrid', 
 		{
 			method		: 'post', 
 			parameters	: formatPost(sendVars),
-			evalScript	: true
+			evalScript	: true,
+			onComplete	: this.prepSearch.bind(this)
 		}
 	);
 
+}
 
+dataGrid.prototype.prepSearch = function()
+{
+	var obj = $(this.data['name_space'] + '_search');
+	var scope = this;
+	
+	Event.observe(obj,'keyup', function()
+	{
+		scope.kickSearch();
+	}, true);
+	
+	Event.observe(obj,'change', function()
+	{
+		scope.search();
+	}, true);
 }
 
 /**
@@ -186,6 +205,7 @@ dataGrid.prototype.reset = function()
 	this.data.sort_col = 'id';
 	this.data.sort_dir = 'DESC';
 	this.data.sort_index = '0';
+	//this.data.limit = '';
 	this.data.search = '';
 	this.filters = new Object();
 	this.getUpdate();

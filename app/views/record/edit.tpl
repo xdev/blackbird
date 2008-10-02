@@ -56,7 +56,7 @@
 						table_parent: "<?= $relation['table_parent'] ?>",
 						id_parent: "<?= $id ?>",
 						name_space: "<?= $relation['name_space'] ?>",
-						cms_root: "<?= BASE ?>"
+						base: "<?= BASE ?>"
 						<?= (isset($relation['sql_where']) ? sprintf(',sql_where: "%s"',$relation['sql_where']) : '') ?>
 					}
 				);

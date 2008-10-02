@@ -8,8 +8,7 @@
 		<?php else: ?>
 		<input type="button" value="+ New Record" onclick="blackbird.addNewRecord('<?= $table ?>','<?= $_POST['name_space'] ?>');" />
 		<?php endif ?>
-		
-		<input class="search" id="<?= $_POST['name_space'] ?>_search" type="text" value="Search..." size="20" onclick="clickclear(this, 'Search...')" onblur="clickrecall(this,'Search...')"  />
+		<input class="search" id="<?= $_POST['name_space'] ?>_search" type="text" value="<?= ($search == '') ? 'Search...' : $search ?>" size="20" onclick="clickclear(this, 'Search...')" onblur="clickrecall(this,'Search...')"  />
 		<a class="icon search" href="#" onclick="<?= $datagrid ?>.search();" title="Submit search query">Search</a>
 		<a class="icon undo" href="#" onclick="<?= $datagrid ?>.reset();" title="Reset Data Grid">Reset</a>		
 		
@@ -45,6 +44,13 @@
 		<span class="values"><?= count($rowData) ?> Records</span>
 		
 		<?php endif ?>
+		<span># of Rows</span>
+		<select name="limit" onchange="<?= $datagrid ?>.setLimit(this);" >
+		<?php $limitList = array(10,20,50,100,250,500,10000); ?>
+		<?php foreach($limitList as $sort_row): ?>
+			<option value="<?= $sort_row ?>" <?= ($sort_row == $limit) ? 'selected="selected"' : '' ?>><?= ($sort_row == 10000) ? 'ALL' : $sort_row ?></option>";
+		<?php endforeach ?>
+		</select>
 		
 	</div>
 </div>

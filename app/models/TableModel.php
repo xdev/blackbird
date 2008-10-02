@@ -283,7 +283,8 @@ class TableModel extends Model
 			'offset'=>$offset,
 			'mode'=>$mode,
 			'filtersA'=>$this->filtersA,
-			'filterA'=>$filterA
+			'filterA'=>$filterA,
+			'search'=>$search
 		);
 		
 	}

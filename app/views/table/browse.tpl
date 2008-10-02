@@ -7,7 +7,7 @@
 					{
 						table: "<?= $this->route['table'] ?>",
 						name_space: "<?= $name_space ?>",
-						cms_root: "<?= BASE ?>"
+						base: "<?= BASE ?>"
 					}
 				);
 				// ]]> -->
