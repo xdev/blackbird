@@ -231,40 +231,32 @@ class TableModel extends Model
 		}
 		$this->recordSet = array();
 		
-		//build recordSet and headerData
+		//build recordSet
 		if($query_data){
 			foreach($query_data as $row){
-				
 				$tA = array();
-				$rowData = array();
 				
 				for($j=0;$j<count($fields);$j++){
 					$data = _ControllerFront::formatCol($fields[$j],$row[$fields[$j]],$table );
 					$tA[$fields[$j]] = array('col'=>$fields[$j],'value'=>$data);	
 				}
 				
-				$rowData = _ControllerFront::injectData($tA,$table);
 				//convert to the key
-				$this->recordSet[$row[$this->key]] = $rowData;
+				$this->recordSet[$row[$this->key]] = _ControllerFront::injectData($tA,$table,'body');
 				
 			}
 			
 		}
 		
-		//
+		//headerData
 		$tA = array();
 		for($j=0;$j<count($fields);$j++){
-			if(isset($row[$j])){
-				$data = _ControllerFront::formatCol($fields[$j],$row[$j],$table);
-			}else{
-				$data = _ControllerFront::formatCol($fields[$j],'',$table);
-			}
-			
+			(isset($row[$j])) ? $value = $row[$j] : $value = '';
+			$data = _ControllerFront::formatCol($fields[$j],$value,$table);			
 			$tA[$fields[$j]] = array('col'=>$fields[$j],'value'=>$data);	
 		}
 		
-		$rowData = _ControllerFront::injectData($tA,$table);
-		$this->headerData = $rowData;
+		$this->headerData = _ControllerFront::injectData($tA,$table,'head');
 		
 		$delete_allowed = false;
 		//if($this->cms->session->privs("delete",$table)){
@@ -273,7 +265,7 @@ class TableModel extends Model
 		
 					
 		return array(
-			'headerData'=>$fields,
+			'headerData'=>$this->headerData,
 			'rowData'=>$this->recordSet,
 			'sort_col'=>$sort_col,
 			'sort_dir'=>$sort_dir,

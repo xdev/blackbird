@@ -245,7 +245,7 @@ class DataGridAjax
 					
 		
 		
-		//build recordSet and headerData
+		//prepare recordSet
 		if($query_data){
 			foreach($query_data as $row){
 				
@@ -264,7 +264,7 @@ class DataGridAjax
 			
 		}
 		
-		//
+		//prepare headerData
 		$tA = array();
 		for($j=0;$j<count($fields);$j++){
 			if(isset($row[$j])){

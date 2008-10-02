@@ -59,13 +59,13 @@
 	<table class="data_grid">
 		<thead>
 			<tr>
-				<?php foreach($headerData as $field): ?>
-				<?php if($sort_col == $field): ?>
-				<th class="active <?= ($sort_dir == 'DESC' || !$sort_dir ? 'descending' : 'ascending') ?>"><a href="#" onclick="<?= $datagrid ?>.sortColumn('<?= $field ?>','<?= ($sort_dir == 'DESC' || !$sort_dir ? 'ASC' : 'DESC') ?>');"><?= $field ?></a></th>
-				<?php elseif(isset($col['injected'])): ?>
-				<th><?= $field ?></th>
+				<?php foreach($headerData as $field): ?>					
+				<?php if($sort_col == $field['col']): ?>
+				<th class="active <?= ($sort_dir == 'DESC' || !$sort_dir ? 'descending' : 'ascending') ?>"><a href="#" onclick="<?= $datagrid ?>.sortColumn('<?= $field['col'] ?>','<?= ($sort_dir == 'DESC' || !$sort_dir ? 'ASC' : 'DESC') ?>');"><?= $field['col'] ?></a></th>
+				<?php elseif(isset($field['injected'])): ?>
+				<th><?= $field['col'] ?></th>
 				<?php else: ?>
-				<th><a href="#" onclick="<?= $datagrid ?>.sortColumn('<?= $field ?>','ASC');"><?= $field ?></a></th>
+				<th><a href="#" onclick="<?= $datagrid ?>.sortColumn('<?= $field['col'] ?>','ASC');"><?= $field['col'] ?></a></th>
 				<?php endif ?>
 				<?php endforeach ?>
 			</tr>
@@ -73,10 +73,10 @@
 			<tr class="filter">
 				<?php foreach($headerData as $field): ?>
 				<td>
-					<?php if(in_array($field,$filterA)): ?>
-					<select id="filter_<?= $field ?>" onchange="<?= $datagrid ?>.setFilter('<?= $field ?>',this);">
+					<?php if(in_array($field['col'],$filterA)): ?>
+					<select id="filter_<?= $field['col'] ?>" onchange="<?= $datagrid ?>.setFilter('<?= $field['col'] ?>',this);">
 					<option value="">All</option>
-					<?php foreach($filtersA[$field]['options'] as $row): ?>
+					<?php foreach($filtersA[$field['col']]['options'] as $row): ?>
 					<option value="<?= $row['value'] ?>" <?= $row['selected'] ?>><?= $row['label'] ?></option>
 					<?php endforeach ?>
 					</select>

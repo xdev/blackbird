@@ -82,12 +82,12 @@ class _ControllerFront extends ControllerFront
 		return $out['config'];
 	}
 	
-	public static function injectData($a,$table)
+	public static function injectData($a,$table,$mode)
 	{
 		$r = null;
 		$file = CUSTOM . DS . 'plugins' . DS . 'inject_data.php';
 		if(file_exists($file) && include_once$file){
-			$r = config__inject_data($a,$table);			
+			$r = config__inject_data($a,$table,$mode);			
 		}
 		
 		if($r == null){
