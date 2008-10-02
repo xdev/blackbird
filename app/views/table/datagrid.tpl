@@ -12,46 +12,6 @@
 		<a class="icon search" href="#" onclick="<?= $datagrid ?>.search();" title="Submit search query">Search</a>
 		<a class="icon undo" href="#" onclick="<?= $datagrid ?>.reset();" title="Reset Data Grid">Reset</a>		
 		
-		<?php if($rows_total > $limit): ?>
-		
-		<?php
-			$rem    = ceil($rows_total / $limit);
-			$lastp  = floor($rows_total / $limit);
-			$sort_t = ($offset / $rows_total);
-			$p      = floor($rem * $sort_t);
-		?>
-		
-		<?php if($p): ?>
-		<a class="icon first" href="#" onclick="<?= $datagrid ?>.setProperty('offset','0');" title="First page">First</a>
-		<a class="icon previous" href="#" onclick="<?= $datagrid ?>.setProperty('offset','<?= (($p - 1) * $limit) ?>');" title="Previous page">Previous</a>
-		<?php else: ?>
-		<a class="icon first" title="You are at the first page">First</a>
-		<a class="icon previous" title="You are at the first page">Previous</a>
-		<?php endif ?>
-
-		<span class="values"><?= $offset+1 ?> - <?= (($offset + $limit > $rows_total) ? $rows_total : $offset + $limit) ?> of <?= $rows_total ?> Records</span>
-		
-		<?php if($p < $rem - 1): ?>
-		<a class="icon next" href="#" onclick="<?= $datagrid ?>.setProperty('offset','<?= (($p + 1) * $limit) ?>');" title="Next page">Next</a>
-		<a class="icon last" href="#" onclick="<?= $datagrid ?>.setProperty('offset','<?= ($lastp * $limit) ?>');" title="Last page">Last</a>
-		<?php else: ?>
-		<a class="icon next" title="You are at the last page">Next</a>
-		<a class="icon last" title="You are at the last page">Last</a>
-		<?php endif ?>
-			
-		<?php else: ?>
-		
-		<span class="values"><?= count($rowData) ?> Records</span>
-		
-		<?php endif ?>
-		<span># of Rows</span>
-		<select name="limit" onchange="<?= $datagrid ?>.setLimit(this);" >
-		<?php $limitList = array(10,20,50,100,250,500,10000); ?>
-		<?php foreach($limitList as $sort_row): ?>
-			<option value="<?= $sort_row ?>" <?= ($sort_row == $limit) ? 'selected="selected"' : '' ?>><?= ($sort_row == 10000) ? 'ALL' : $sort_row ?></option>";
-		<?php endforeach ?>
-		</select>
-		
 	</div>
 </div>
 
@@ -72,7 +32,7 @@
 			<?php if(count($filtersA) > 0): ?>
 			<tr class="filter">
 				<?php foreach($headerData as $field): ?>
-				<td>
+				<td class="<?= $sort_col == $field ? 'active' : '' ?>">
 					<?php if(in_array($field,$filterA)): ?>
 					<select id="filter_<?= $field ?>" onchange="<?= $datagrid ?>.setFilter('<?= $field ?>',this);">
 					<option value="">All</option>
@@ -103,4 +63,46 @@
 			<?php endforeach ?>
 		</tbody>
 	</table>
+</div>
+
+<div class="datagrid_navigation">
+	<?php if($rows_total > $limit): ?>
+	
+	<?php
+		$rem    = ceil($rows_total / $limit);
+		$lastp  = floor($rows_total / $limit);
+		$sort_t = ($offset / $rows_total);
+		$p      = floor($rem * $sort_t);
+	?>
+	
+	<?php if($p): ?>
+	<a class="icon first" href="#" onclick="<?= $datagrid ?>.setProperty('offset','0');" title="First page">First</a>
+	<a class="icon previous" href="#" onclick="<?= $datagrid ?>.setProperty('offset','<?= (($p - 1) * $limit) ?>');" title="Previous page">Previous</a>
+	<?php else: ?>
+	<a class="icon first" title="You are at the first page">First</a>
+	<a class="icon previous" title="You are at the first page">Previous</a>
+	<?php endif ?>
+
+	<span class="values"><?= $offset+1 ?> - <?= (($offset + $limit > $rows_total) ? $rows_total : $offset + $limit) ?> of <?= $rows_total ?> Records</span>
+	
+	<?php if($p < $rem - 1): ?>
+	<a class="icon next" href="#" onclick="<?= $datagrid ?>.setProperty('offset','<?= (($p + 1) * $limit) ?>');" title="Next page">Next</a>
+	<a class="icon last" href="#" onclick="<?= $datagrid ?>.setProperty('offset','<?= ($lastp * $limit) ?>');" title="Last page">Last</a>
+	<?php else: ?>
+	<a class="icon next" title="You are at the last page">Next</a>
+	<a class="icon last" title="You are at the last page">Last</a>
+	<?php endif ?>
+		
+	<?php else: ?>
+	
+	<span class="values"><?= count($rowData) ?> Records</span>
+	
+	<?php endif ?>
+	<span># of Rows</span>
+	<select name="limit" onchange="<?= $datagrid ?>.setLimit(this);" >
+	<?php $limitList = array(10,20,50,100,250,500,10000); ?>
+	<?php foreach($limitList as $sort_row): ?>
+		<option value="<?= $sort_row ?>" <?= ($sort_row == $limit) ? 'selected="selected"' : '' ?>><?= ($sort_row == 10000) ? 'ALL' : $sort_row ?></option>";
+	<?php endforeach ?>
+	</select>
 </div>

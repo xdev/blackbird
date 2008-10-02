@@ -18,7 +18,7 @@
 	border-bottom: none;
 	font-size: 11px;
 	margin: 0;
-	padding: 6px 10px;
+	padding: 5px 10px;
 }
 .data_grid tr th:first-child,
 .data_grid tr td:first-child {
@@ -51,9 +51,8 @@
 		width: 100%;
 	}
 		.data_grid thead tr th a:hover,
-		.data_grid thead tr th.active a {
+		.data_grid thead tr .active a {
 			background-color: #919499;
-			
 			text-decoration: none;
 			text-shadow: #767A7F 0px -1px 0;
 		}
@@ -99,11 +98,45 @@
 		color: #FFFFFF;
 		cursor: pointer;
 	}
-	.data_grid thead tr.filter:hover td,
-	.data_grid thead tr.filter td {
+	.data_grid thead tr.filter td,
+	.data_grid thead tr.filter:hover td {
 		background-color: #B5B9BF;
 		border-left: 1px solid #585D66;
 		border-bottom: 1px solid #7A8599;
-		padding-top: 1px;
-		padding-bottom: 1px;
+		padding: 2px;
+	}
+	
+		.data_grid thead tr.filter td select {
+			font-size: 10px;
+		}
+		
+		
+/* DATAGRID NAVIGATION --------------------------------------------------- */
+
+#bb_sections .container.data_grid_embed {
+	bottom: 30px !important;
+}
+
+.datagrid_navigation {
+	background-color: #7A8599;
+	border-top: 1px solid #6F7A8C;
+	color: #FFFFFF;
+	font-size: 11px;
+	height: 25px;
+	line-height: 1em;
+	overflow: hidden;
+	padding: 4px 10px 0 10px;
+	position: absolute;
+		right: 0;
+		left: 0;
+		bottom: 0;
+	text-align: right;
+	text-shadow: #505866 0px -1px 0;
+}
+
+	.datagrid_navigation a {
+		color: #FFFFFF;
+	}
+	.datagrid_navigation a:link {
+		text-decoration: underline;
 	}
