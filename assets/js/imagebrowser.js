@@ -26,7 +26,7 @@ function ImageBrowser(options){
 		this._scope.insertImage(bits);
 	}
 	
-	CMS.broadcaster.addListener(this.listener);
+	blackbird.broadcaster.addListener(this.listener);
 		
 }
 
@@ -103,16 +103,14 @@ ImageBrowser.prototype.deleteImg = function(id)
 		var sendVars = new Object();
 		
 		
-		sendVars.action = 'deleteRecord';
 		sendVars.name_space = this.data.name_space;
-		
 		sendVars.table = this.data.table;
 		sendVars.id = id;
-		sendVars.parent_id = CMS.data.parent_id;
+		sendVars.parent_id = blackbird.data.parent_id;
 		
 		
 		var myAjax = new Ajax.Request(
-			this.data.cms_root + 'ajax', 
+			this.data.base + 'imagebrowser/deleteimage', 
 			{
 				method		: 'post', 
 				parameters	: formatPost(sendVars)
@@ -151,10 +149,14 @@ ImageBrowser.prototype.updateLabel = function()
 	var someNodeList = $(this.data.name_space + '_image_set').getElementsByTagName('li');
 	var nodes = $A(someNodeList);
 	
-	var tA = $('pane_' + this.data.name_space).select('.right');
+	var tA = $('section_' + this.data.name_space).select('.total');
 	var obj = tA[0];
+	var t = 'Images';
+	if(nodes.length == 1){
+		t = 'Image';
+	}
 	
-	obj.innerHTML = nodes.length + ' Images(s)';
+	obj.innerHTML = nodes.length + ' ' + t;
 	
 }
 
@@ -166,8 +168,7 @@ ImageBrowser.prototype.updateLabel = function()
 
 ImageBrowser.prototype.editImg = function(id)
 {
-	CMS.recordHandler(this.data.table,id,this.data.name_space,'edit',CMS.processEdit,'update');
-
+	blackbird.recordHandler(this.data.table,id,this.data.name_space,'edit',blackbird.processEdit,'update');
 }
 
 /**
@@ -178,7 +179,7 @@ ImageBrowser.prototype.editImg = function(id)
 
 ImageBrowser.prototype.handleNew = function(bits)
 {
-	CMS.broadcaster.broadcastMessage("onNew",bits);
+	blackbird.broadcaster.broadcastMessage("onNew",bits);
 }
 
 /**
@@ -207,15 +208,11 @@ ImageBrowser.prototype.getNewImage = function(id,mode)
 {
 	var sendVars = new Object();
 	
-	sendVars.action = 'loadModule';
-	sendVars.module = 'ImageBrowser';
-	sendVars.remote_method = '_getImgDetail';
-	
 	sendVars.table = this.data.table;
 	sendVars.id = id;
 	
 	sendVars.name_space = this.data.name_space;
-	sendVars.table_parent = CMS.data.table_parent;
+	sendVars.table_parent = blackbird.data.table_parent;
 	
 	var obj = this;
 	
@@ -229,7 +226,7 @@ ImageBrowser.prototype.getNewImage = function(id,mode)
 	}
 	
 	var myAjax = new Ajax.Request(
-		this.data.cms_root + 'ajax',
+		this.data.base + 'imagebrowser/getimage',
 		{
 			method			: 'post', 
 			parameters		: formatPost(sendVars),
@@ -257,7 +254,6 @@ ImageBrowser.prototype.insertImage = function(bits)
 	this.updateLabel();
 	this.createSortable();
 	this.onOrderChange();
-	
 	
 }
 
@@ -292,17 +288,14 @@ ImageBrowser.prototype.onOrderChange = function()
 				
 	var sendVars = new Object();
 	
-	sendVars.action = 'loadModule';
 	sendVars.table = this.data.table;
-	sendVars.module = 'ImageBrowser';
 	sendVars.name_space = this.data.name_space;
 	sendVars.id_set = order.join(',');
-	sendVars.table_parent = CMS.data.table_parent;
-	sendVars.remote_method = 'sort_order';
+	sendVars.table_parent = blackbird.data.table_parent;
 	
 	
 	var myAjax = new Ajax.Request(
-		this.data.cms_root + 'ajax',
+		this.data.base + 'imagebrowser/sort',
 		{
 			method		: 'post', 
 			parameters	: formatPost(sendVars)

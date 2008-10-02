@@ -42,13 +42,14 @@
 
 	<?php if(is_array($related)) foreach($related as $relation): ?>
 	<div class="section" id="section_<?= $relation['name_space'] ?>" style="display:none;">
-		
+		<?php if($relation['display'] == 'data_grid'): ?>
 		<div class="record edit_form detail" style="display:none;"></div>
 		
 		<div class="table">
 			<script type="text/javascript">
-				<!-- <![CDATA[ 
-				var data_grid_<?= $relation['name_space'] ?> = new dataGrid(
+				<!-- <![CDATA[
+				document.observe("dom:loaded",function(){
+				data_grid_<?= $relation['name_space'] ?> = new dataGrid(
 					{
 						mode: "related",
 						table: "<?= $relation['table_child'] ?>",
@@ -59,12 +60,26 @@
 						<?= (isset($relation['sql_where']) ? sprintf(',sql_where: "%s"',$relation['sql_where']) : '') ?>
 					}
 				);
-				document.observe("dom:loaded",function(){
-					blackbird.broadcaster.addListener(data_grid_<?= $relation['name_space'] ?>);
+				blackbird.broadcaster.addListener(data_grid_<?= $relation['name_space'] ?>);
 				});
 				// ]]> -->
 			</script>
 		</div>
+		<?php elseif($relation['display'] == 'image_browser'): ?>
+		<div class="record edit_form detail" style="display:none;"></div>
+			
+			<div class="table">
+				<?= $this->fetchView('/imagebrowser/browse',array(
+					'name_space'=>$relation['name_space'],
+					'table'=>$relation['table_child'],
+					'config'=>_ControllerFront::parseConfig($relation['config']),
+					'id'=>$id)
+				) ?>
+			</div>
+			
+		<?php elseif($relation['display'] == 'plugin'): ?>
+			
+		<?php endif ?>
 	</div>
 	<?php endforeach ?>
 	

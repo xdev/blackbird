@@ -582,7 +582,7 @@ class RecordController extends _Controller
 				$row_data[] = array('field'=>'table_name','value'=>$this->table);
 				$row_data[] = array('field'=>'record_id','value'=>$this->id);
 				$row_data[] = array('field'=>'action','value'=>$this->query_action);
-				//$row_data[] = array('field'=>'user_id','value'=>$this->cms->session->u_id);
+				$row_data[] = array('field'=>'user_id','value'=>_ControllerFront::$session->u_id);
 				$row_data[] = array('field'=>'sql','value'=>$sql);
 				$row_data[] = array('field'=>'session_id','value'=>session_id());
 				
