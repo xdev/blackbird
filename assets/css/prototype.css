@@ -186,7 +186,7 @@ a:hover {
 		border-bottom: 1px solid #505866;
 		color: #FFFFFF;
 		clear: both;
-		height: 63px;
+		height: 58px;
 		position: relative;
 		text-shadow: #505866 0px -1px 0;
 	}
@@ -204,27 +204,10 @@ a:hover {
 				left: 10px;
 		}
 		
-		.bb_toolbar .bb_record_meta {
-			font-size: 9px;
-			line-height: 1.25em;
-			position: absolute;
-				right: 10px;
-				bottom: 9px;
-			text-align: right;
-			width: 180px;
-		}
-		
-			.bb_toolbar .bb_record_meta dt {
-				float: left;
-			}
-			.bb_toolbar .bb_record_meta dt:after {
-				content: ':';
-			}
-		
 		.bb_toolbar .bb_toolbar_actions {
 			position: absolute;
 				left: 10px;
-				bottom: 9px;
+				bottom: 5px;
 		}
 		
 			.bb_toolbar .bb_toolbar_actions
@@ -278,7 +261,7 @@ a:hover {
 		/*border-top: 1px solid #F7FAFF;*/
 		clear: both;
 		position: absolute;
-		top: 65px;
+		top: 60px;
 		left: 0;
 		right: 0;
 		bottom: 0;
@@ -305,7 +288,7 @@ a:hover {
 	
 		#bb_sections .container {
 			position: absolute;
-				top: 88px;
+				top: 83px;
 				left: 0;
 				right: 0;
 				bottom: 0;
@@ -314,7 +297,7 @@ a:hover {
 		
 		#bb_sections.browse .container {
 			position: absolute;
-				top: 65px;
+				top: 60px;
 				left: 0;
 				right: 0;
 				bottom: 0;

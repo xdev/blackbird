@@ -49,6 +49,9 @@
 		text-decoration: none;
 		width: 100%;
 	}
+	.data_grid thead tr th.active {
+		padding-right: 10px;
+	}
 		.data_grid thead tr th a:hover,
 		.data_grid thead tr .active a {
 			background-color: #919499;
@@ -56,14 +59,16 @@
 		}
 		.data_grid thead tr th.active a {
 			color: #FFFFFF;
+			margin-right: -10px;
+			padding-right: 10px;
 			text-shadow: #767A7F 0px -1px 0;
 		}
 		
 		.data_grid thead tr th.ascending a {
-			background-image: url("../img/arrow_ascending.gif");
+			background-image: url("../img/arrow_ascending.png");
 		}
 		.data_grid thead tr th.descending a {
-			background-image: url("../img/arrow_descending.gif");
+			background-image: url("../img/arrow_descending.png");
 		}
 			.data_grid thead tr th.ascending a:hover,
 			.data_grid thead tr th.descending a:hover {
@@ -76,7 +81,7 @@
 .data_grid tbody tr td {
 	/*display: block;*/
 	overflow: hidden;
-	max-width: 100px;
+	max-width: 240px;
 	vertical-align: middle;
 	white-space: nowrap;
 }
