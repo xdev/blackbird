@@ -19,7 +19,7 @@
 	<table class="data_grid">
 		<thead>
 			<tr>
-				<?php foreach($headerData as $field): ?>					
+				<?php foreach($headerData as $field): ?>
 				<?php if($sort_col == $field['col']): ?>
 				<th class="active <?= ($sort_dir == 'DESC' || !$sort_dir ? 'descending' : 'ascending') ?>"><a href="#" onclick="<?= $datagrid ?>.sortColumn('<?= $field['col'] ?>','<?= ($sort_dir == 'DESC' || !$sort_dir ? 'ASC' : 'DESC') ?>');"><?= $field['col'] ?></a></th>
 				<?php elseif(isset($field['injected'])): ?>
