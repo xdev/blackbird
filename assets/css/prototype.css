@@ -106,6 +106,9 @@ a:hover {
 			}
 	
 	#bb_navigation #bb_main_nav_actions {
+		background-image: url(../img/gradient-30.png);
+		background-position: 0 100%;
+		background-repeat: repeat-x;
 		border-top: 1px solid #2A2E40;
 		height: 21px;
 		line-height: 1em;
@@ -130,6 +133,9 @@ a:hover {
 
 #bb_session_nav {
 	background-color: #161C26;
+	background-image: url(../img/gradient-30.png);
+	background-position: 0 100%;
+	background-repeat: repeat-x;
 	border-bottom: 1px solid #000000;
 	color: #A1B1C1;
 	font-size: 11px;
@@ -182,6 +188,9 @@ a:hover {
 
 	.bb_toolbar {
 		background-color: #7A8599;
+		background-image: url(../img/gradient-60.png);
+		background-position: 0 100%;
+		background-repeat: repeat-x;
 		border-top: 1px solid #8D9BB3;
 		border-bottom: 1px solid #505866;
 		color: #FFFFFF;
@@ -210,18 +219,21 @@ a:hover {
 				bottom: 5px;
 		}
 		
-			.bb_toolbar .bb_toolbar_actions
- input,
-			.bb_toolbar .bb_toolbar_actions
- select {
-				font-size: 12px;
+			.bb_toolbar .bb_toolbar_actions input,
+			.bb_toolbar .bb_toolbar_actions select {
+				font-size: 11px;
 			}
 	
 	#bb_toggle_sections {
-		background-color: #656E80;
+		background-color: #5B6373;
+		background-image: url(../img/gradient-30.png);
+		background-position: 0 100%;
+		background-repeat: repeat-x;
 		border-top: 1px solid #6F7A8C;
 		border-bottom: 1px solid #505866;
 		float: left;
+		font-size: 13px;
+		line-height: 1em;
 		text-shadow: #505866 0px -1px 0;
 		width: 100%;
 	}
@@ -232,29 +244,24 @@ a:hover {
 			margin-top: -1px;
 		}
 		#bb_toggle_sections li:first-child {
+			border-right: 3px solid #161C26;
 			font-weight: bold;
 		}
 		
 			#bb_toggle_sections li a {
-				border-bottom: 1px solid #505866;
 				color: #EFF2F7;
 				cursor: default;
 				display: block;
 				margin-bottom: -1px;
-				padding: 5px 10px;
+				padding: 7px 10px;
 			}
 			#bb_toggle_sections li a:hover {
-				background-color: #CDD1D8;
-				border-bottom: 1px solid #CDD1D8;
-				color: #282C33;
+				background-color: #656F7F;
 				text-decoration: none;
-				text-shadow: #FFFFFF 0px 1px 0;
 			}
 			#bb_toggle_sections li a.selected {
-				background-color: #CDD1D8;
-				border-bottom: 1px solid #C1C5CC;
-				color: #282C33;
-				text-shadow: #FFFFFF 0px 1px 0;
+				background-color: #7A8599;
+				color: #FFFFFF;
 			}
 	
 	#bb_module {
@@ -271,24 +278,9 @@ a:hover {
 		width: 100%;*/
 	}
 	
-	#bb_sections {
-		/*border-top: 1px solid #F7FAFF;*/
-		clear: both;
-		xposition: relative;
-		/*position: absolute;
-		top: 24px;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		overflow: auto;
-		overflow-x: hidden;*/
-		/*float: left;
-		width: 100%;*/
-	}
-	
 		#bb_sections .container {
 			position: absolute;
-				top: 83px;
+				top: 87px;
 				left: 0;
 				right: 0;
 				bottom: 0;

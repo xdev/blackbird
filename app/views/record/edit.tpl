@@ -1,5 +1,5 @@
 <ul id="bb_toggle_sections">
-	<li><a id="bb_toggle_main" class="selected" href="#main">Main</a></li>
+	<li><a id="bb_toggle_main" class="selected" href="#main">Edit Record</a></li>
 	<?php if(is_array($related)) foreach ($related as $relation): ?>
 	<li><a id="bb_toggle_<?= $relation['name_space'] ?>" class="<?= ($mode == "insert" ? 'dim' : '') ?>" href="#<?= $relation['name_space'] ?>"><?= $relation['label'] ?></a></li>
 	<?php endforeach ?>
