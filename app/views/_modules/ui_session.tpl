@@ -4,6 +4,5 @@
 	<li><a href="<?= BASE ?>user/admin">Admin</a></li><li><a href="<?= BASE ?>user/logout">Logout</a></li>
 	<?php else: ?>
 	<li><a href="<?= BASE ?>user/login">Login</a></li>
-	<?php endif ?>	
-	<li>Blackbird 2.0_alpha</li>
+	<?php endif ?>
 </ul>

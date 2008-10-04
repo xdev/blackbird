@@ -176,10 +176,7 @@ class RecordController extends _Controller
 
 			//built in stuffs
 			if (
-				$column['name'] == 'id' ||
-				$column['name'] == 'active' ||
-				$column['name'] == 'created' ||
-				$column['name'] == 'modified'
+				$column['name'] == 'id'
 			) {
 				if($this->query_action == "update" || $column['name'] == 'active'){
 					Forms::hidden($_name_space . $column['name'],$value,$options);

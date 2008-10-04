@@ -76,8 +76,11 @@ a:hover {
 			padding: 5px 0 5px 24px;
 			text-transform: uppercase;
 		}
+		#bb_navigation #bb_main_nav_tables li span:hover {
+			color: #BDD2E6;
+		}
 		#bb_navigation #bb_main_nav_tables li span:active {
-			color: #8898A6;
+			color: #A1B1C1;
 		}
 		#bb_navigation #bb_main_nav_tables li.open span {
 			background-image: url(../img/arrow_open.png);
@@ -110,6 +113,8 @@ a:hover {
 		background-position: 0 100%;
 		background-repeat: repeat-x;
 		border-top: 1px solid #2A2E40;
+		font-size: 11px;
+		font-weight: bold;
 		height: 21px;
 		line-height: 1em;
 		overflow: hidden;
@@ -124,7 +129,6 @@ a:hover {
 		#bb_navigation #bb_main_nav_actions li {
 			cursor: default;
 			float: left;
-			font-size: 11px;
 			margin-right: 10px;
 		}
 		#bb_navigation #bb_main_nav_actions li:hover {
@@ -139,6 +143,7 @@ a:hover {
 	border-bottom: 1px solid #000000;
 	color: #A1B1C1;
 	font-size: 11px;
+	font-weight: bold;
 	height: 29px;
 	line-height: 1em;
 	min-width: 640px;
@@ -195,6 +200,8 @@ a:hover {
 		border-bottom: 1px solid #505866;
 		color: #FFFFFF;
 		clear: both;
+		font-size: 11px;
+		font-weight: bold;
 		height: 58px;
 		position: relative;
 		text-shadow: #505866 0px -1px 0;
@@ -205,6 +212,10 @@ a:hover {
 	.bb_toolbar.related {
 		/*height: 45px;*/
 	}
+	
+		.bb_toolbar a {
+			color: #FFFFFF;
+		}
 		
 		.bb_toolbar h1 {
 			font-size: 16px;
@@ -221,7 +232,7 @@ a:hover {
 		
 			.bb_toolbar .bb_toolbar_actions input,
 			.bb_toolbar .bb_toolbar_actions select {
-				font-size: 11px;
+				
 			}
 	
 	#bb_toggle_sections {
@@ -239,7 +250,7 @@ a:hover {
 	}
 	
 		#bb_toggle_sections li {
-			border-right: 1px solid #505866;
+			border-right: 1px solid #3B414C;
 			float: left;
 			margin-top: -1px;
 		}

@@ -11,16 +11,18 @@ $images = AdaptorMysql::query("SELECT * FROM $table WHERE $config[col_parent] = 
 	</div>
 </div>
 
-<ul id="<?= $name_space ?>_image_set" class="container image_browser">
-<?php foreach($images as $img): ?>
-	<?= $this->fetchView('/imagebrowser/_image',array(
-			'table'=>$table,
-			'id'=>$img['id'],
-			'name_space'=>$name_space,
-			'config'=>$config)
-	) ?>			
-<?php endforeach ?>
-</ul><div style="clear:both"></div>
+<div class="container">
+	<ul id="<?= $name_space ?>_image_set" class="	image_browser">
+		<?php foreach($images as $img): ?>
+			<?= $this->fetchView('/imagebrowser/_image',array(
+					'table'=>$table,
+					'id'=>$img['id'],
+					'name_space'=>$name_space,
+					'config'=>$config)
+			) ?>			
+		<?php endforeach ?>
+	</ul>
+</div>
 
 <script type="text/javascript">
 	<!-- <![CDATA[ 

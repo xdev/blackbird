@@ -16,7 +16,6 @@
 					'mode'=>'edit',
 					'table'=>$table,
 					'id'=>$id,
-					'active'=>$active,
 					'name_space'=>$name_space,
 					'type'=>'main')
 			) ?>

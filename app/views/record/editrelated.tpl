@@ -4,7 +4,6 @@ print $this->fetchView('/_modules/ui_toolbar',array(
 	'mode'=>$mode,
 	'table'=>$this->table,
 	'id'=>$id,
-	'active'=>$active,
 	'name_space'=>$name_space,
 	'type'=>'related'));
 ?>
