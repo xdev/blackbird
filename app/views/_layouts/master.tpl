@@ -40,7 +40,7 @@ Portions of this software rely upon the following software which are covered by 
 		</script>
 	</head>
 
-	<body class="logged">
+	<body class="logged" id="body">
 		
 		<div id="bb_navigation">
 			<?= $content['ui_nav'] ?>

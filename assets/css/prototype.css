@@ -19,6 +19,10 @@ a:hover {
 	text-decoration: underline;
 }
 
+#about_blackbird {
+	cursor: pointer;
+}
+
 #bb_navigation { /* ie7.css */
 	background-color: #1A1C26;
 	border-right: 1px solid #000000;
@@ -76,8 +80,11 @@ a:hover {
 			padding: 5px 0 5px 24px;
 			text-transform: uppercase;
 		}
+		#bb_navigation #bb_main_nav_tables li span:hover {
+			color: #BDD2E6;
+		}
 		#bb_navigation #bb_main_nav_tables li span:active {
-			color: #8898A6;
+			color: #A1B1C1;
 		}
 		#bb_navigation #bb_main_nav_tables li.open span {
 			background-image: url(../img/arrow_open.png);
@@ -110,6 +117,8 @@ a:hover {
 		background-position: 0 100%;
 		background-repeat: repeat-x;
 		border-top: 1px solid #2A2E40;
+		font-size: 11px;
+		font-weight: bold;
 		height: 21px;
 		line-height: 1em;
 		overflow: hidden;
@@ -124,7 +133,6 @@ a:hover {
 		#bb_navigation #bb_main_nav_actions li {
 			cursor: default;
 			float: left;
-			font-size: 11px;
 			margin-right: 10px;
 		}
 		#bb_navigation #bb_main_nav_actions li:hover {
@@ -139,6 +147,7 @@ a:hover {
 	border-bottom: 1px solid #000000;
 	color: #A1B1C1;
 	font-size: 11px;
+	font-weight: bold;
 	height: 29px;
 	line-height: 1em;
 	min-width: 640px;
@@ -203,6 +212,8 @@ body.logged > #bb_main { /* ie7.css */
 		border-bottom: 1px solid #505866;
 		color: #FFFFFF;
 		clear: both;
+		font-size: 11px;
+		font-weight: bold;
 		height: 58px;
 		position: relative;
 		text-shadow: #505866 0px -1px 0;
@@ -213,6 +224,10 @@ body.logged > #bb_main { /* ie7.css */
 	.bb_toolbar.related {
 		
 	}
+	
+		.bb_toolbar a {
+			color: #FFFFFF;
+		}
 		
 		.bb_toolbar h1 {
 			font-size: 16px;
@@ -229,7 +244,7 @@ body.logged > #bb_main { /* ie7.css */
 		
 			.bb_toolbar .bb_toolbar_actions input,
 			.bb_toolbar .bb_toolbar_actions select {
-				font-size: 11px;
+				
 			}
 	
 	#bb_toggle_sections {
@@ -247,7 +262,7 @@ body.logged > #bb_main { /* ie7.css */
 	}
 	
 		#bb_toggle_sections li {
-			border-right: 1px solid #505866;
+			border-right: 1px solid #3B414C;
 			float: left;
 			margin-top: -1px;
 		}
@@ -304,9 +319,26 @@ body.logged > #bb_main { /* ie7.css */
 			overflow: auto;
 		}
 		
-#login
-{
-	padding: 20px;
-	width: 300px;
-	background-color: #CCCCCC;
+#lightbox {
+	background: url(../img/lightbox.png) 0 0 repeat;
+	position: fixed;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
 }
+
+	#lightbox .wrapper {
+		position: fixed;
+			top: 50%;
+			left: 50%;
+	}
+	
+	#lightbox .dialog {
+		background-color: #FFFFFF;
+		border: 1px solid #000000;
+		height: 300px;
+		margin-top: -150px;
+		margin-left: -200px;
+		width: 400px;
+	}

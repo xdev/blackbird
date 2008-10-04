@@ -1,2 +1,4 @@
-<h1>Logout</h1>
-<p><a href="<?= BASE ?>user/login">login</a></p>
+<div class="bb_toolbar">
+	<h1>You have successfully logged out</h1>
+</div>
+<p><a href="<?= BASE ?>user/login">login</a>

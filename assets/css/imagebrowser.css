@@ -2,7 +2,7 @@
 
 ul.image_browser
 {
-	margin-bottom: 20px;
+	float: left;
 }
 
 .img_module
