@@ -24,7 +24,21 @@ function blackbird(options)
 	this.callbacks = new Object();
 	this.broadcaster = new EventBroadcaster();
 	this.broadcaster.addListener(this);
+	
+	Event.observe('about_blackbird','click',function(){
+		blackbird.openLightbox();
+	});
 }
+
+blackbird.prototype.openLightbox = function(type)
+{
+	$('body').insert({bottom: '<div id="lightbox" style="display: none;"><div class="wrapper"><div class="dialog">HELLO WORLD!</div></div></div>'});
+	Effect.Appear($('lightbox'),{duration: .2});
+	
+	
+	
+	/* AJAX STUFF */
+};
 
 blackbird.prototype.setProperty = function(prop,value)
 {

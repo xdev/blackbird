@@ -5,4 +5,5 @@
 	<?php else: ?>
 	<li><a href="<?= BASE ?>user/login">Login</a></li>
 	<?php endif ?>
+	<li><a id="about_blackbird" title="About Blackbird" href="#<?= BASE ?>about">Blackbird</a></li>
 </ul>

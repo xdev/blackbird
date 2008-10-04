@@ -40,7 +40,7 @@ Portions of this software rely upon the following software which are covered by 
 		</script>
 	</head>
 
-	<body>
+	<body id="body">
 		
 		<?php if(_ControllerFront::$session->logged === true): ?>
 		<div id="bb_navigation">

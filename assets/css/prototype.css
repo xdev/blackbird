@@ -19,6 +19,10 @@ a:hover {
 	text-decoration: underline;
 }
 
+#about_blackbird {
+	cursor: pointer;
+}
+
 #bb_navigation { /* ie7.css */
 	background-color: #1A1C26;
 	border-right: 1px solid #000000;
@@ -306,3 +310,27 @@ a:hover {
 				bottom: 0;
 			overflow: auto;
 		}
+		
+#lightbox {
+	background: url(../img/lightbox.png) 0 0 repeat;
+	position: fixed;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+}
+
+	#lightbox .wrapper {
+		position: fixed;
+			top: 50%;
+			left: 50%;
+	}
+	
+	#lightbox .dialog {
+		background-color: #FFFFFF;
+		border: 1px solid #000000;
+		height: 300px;
+		margin-top: -150px;
+		margin-left: -200px;
+		width: 400px;
+	}
