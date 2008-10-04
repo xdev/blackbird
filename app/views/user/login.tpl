@@ -1,9 +1,9 @@
+<div id="login">
 <h1>Login</h1>
-<div class="bb_module bb_module_edit">
 <form id="form_<?= $name_space ?>" name="form_<?= $name_space ?>" enctype="multipart/form-data" action="<?= BASE ?>user/processlogin" method="post" target="form_target_<?= $name_space ?>" onsubmit="Element.show('ajax');" >
 <?php
-Forms::text($name_space . '_login','',array('label'=>'Login'));
-Forms::text($name_space . '_password','',array('label'=>'Password','type'=>'password'));
+Forms::text($name_space . '_login','',array('label'=>'Login','size'=>30));
+Forms::text($name_space . '_password','',array('label'=>'Password','type'=>'password','size'=>30));
 ?>
 <input type="button" value="submit" onclick="$('form_<?= $name_space ?>').submit(); return false;" />
 </form>

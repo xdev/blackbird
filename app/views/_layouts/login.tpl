@@ -28,11 +28,7 @@ Portions of this software rely upon the following software which are covered by 
 		<!-- app code -->
 		<script type="text/javascript" src="<?= BASE ?>assets/js/blackbird.js"></script>
 		<!-- widget code -->
-		<script type="text/javascript" src="<?= BASE ?>assets/js/datagrid.js"></script>		
-		<script type="text/javascript" src="<?= BASE ?>assets/js/form.js"></script>
 		<script type="text/javascript" src="<?= BASE ?>assets/js/validator.js"></script>	
-		<script type="text/javascript" src="<?= BASE ?>assets/js/listmanager.js"></script>
-		<script type="text/javascript" src="<?= BASE ?>assets/js/imagebrowser.js"></script>
 		<script type="text/javascript">
 			document.observe('dom:loaded',function(){
 				blackbird.setProperty("base","<?= BASE ?>");
@@ -40,19 +36,22 @@ Portions of this software rely upon the following software which are covered by 
 		</script>
 	</head>
 
-	<body class="logged">
+	<body>
 		
-		<div id="bb_navigation">
-			<?= $content['ui_nav'] ?>
-		</div>		
-
+		
+		
 		<div id="bb_session_nav">
-			<?= $content['ui_breadcrumb'] ?>
-			<?= $content['ui_session'] ?>
+		
 		</div>
 
 		<div id="bb_main">
+			<div class="bb_toolbar"></div>
+			
 			<?= $content['main'] ?>
+		</div>
+		
+		<div id="bb_box">
+			
 		</div>
 
 	</body>

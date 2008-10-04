@@ -5,6 +5,16 @@ class _ControllerFront extends ControllerFront
 	public static $config;
 	public static $session;
 	
+	//override the singleton constructor	
+	public static function getInstance()
+	{
+		if(!self::$instance){
+			$c = __CLASS__;
+			self::$instance = new $c();
+		}
+		return self::$instance;
+	}
+	
 	private function __construct()
 	{
 		parent::setUri();		
@@ -45,7 +55,12 @@ class _ControllerFront extends ControllerFront
 		require_once MODELS . 'UserModel.php';
 		self::$session = new UserModel();		
 		//if we're not in the user controller trying to call login logout processlogin
-		if(self::$requestA[0] == 'user' && (self::$requestA[1] == 'login' || self::$requestA[1] == 'logout' || self::$requestA[1] == 'processlogin')){
+		if(self::$requestA[0] == 'user' && 
+			(self::$requestA[1] == 'login' || 
+			self::$requestA[1] == 'logout' || 
+			self::$requestA[1] == 'processlogin' ||
+			self::$requestA[1] == 'reset' ||
+			self::$requestA[1] == 'processreset')){
 			//
 		}else{
 			self::$session->checkSession();
@@ -63,15 +78,22 @@ class _ControllerFront extends ControllerFront
 		return self::$session;
 	}
 	
-	//override the singleton constructor	
-	public static function getInstance()
+	public static function sendEmail($message)
 	{
-		if(!self::$instance){
-			$c = __CLASS__;
-			self::$instance = new $c();
+		// To send HTML mail, the Content-type header must be set
+		$headers  = 'MIME-Version: 1.0' . "\r\n";
+		$headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
+		
+		// Additional headers
+		$headers .= "To: $message[to_name] <$message[to_address]>\r\n";
+		$headers .= "From: Blackbird CMS <blackbird@" . $_SERVER['SERVER_NAME'] . ">\r\n";
+		
+		//bool mail ( string $to , string $subject , string $message [, string $additional_headers [, string $additional_parameters ]] )
+		if(mail($message['to_address'],$message['subject'],$message['body'],$headers)){
+			return true;
 		}
-		return self::$instance;
 	}
+	
 	
 	public static function parseConfig($xml)
 	{

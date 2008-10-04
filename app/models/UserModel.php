@@ -63,6 +63,56 @@ class UserModel extends Model
 		}
 	}
 	
+	public function checkUser($login)
+	{
+		return $this->db->queryRow("SELECT * FROM " . BLACKBIRD_USERS_TABLE . " WHERE email = '$login'");		
+	}
+	
+	public function resetPassword($id)
+	{
+		$string = md5(time());
+		$h_s = 32;
+		$pass = substr($string,rand(0,$h_s),16);
+		
+		$row_data = array(array('field'=>'password', 'value'=>sha1($pass) ));
+		if($this->db->update(BLACKBIRD_USERS_TABLE,$row_data,"id",$id)){
+			return $pass;
+		}		
+	}
+	
+	private function validatePasswordStrength($value)
+	{
+		//run regular expression
+		if($value != ''){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	public function updateUser($data)
+	{
+		$row_data = array();
+		foreach($data as $key=>$value){
+			$update = true;
+			if($key == 'password_reset'){
+				if($this->validatePasswordStrength($value)){
+					$key = 'password';
+					$value = sha1($value);
+				}else{
+					$update = false;
+				}
+			}
+			if($update){
+				$row_data[] = array('field'=>$key,'value'=>$value);
+			}
+		}
+		
+		if($this->db->update(BLACKBIRD_USERS_TABLE,$row_data,"id",$this->u_id)){
+			return true;
+		}
+	}
+	
 	private function redirect()
 	{
 		if(isset($_SERVER['REQUEST_URI'])){

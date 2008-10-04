@@ -176,7 +176,15 @@ a:hover {
 			margin-left: 20px;
 		}
 
-#bb_main { /* ie7.css */
+#bb_main {
+	position: absolute;
+		top: 30px;
+		left: 0px;
+		right: 0;
+		bottom: 0;
+}
+
+body.logged > #bb_main { /* ie7.css */
 	overflow: hidden;
 	min-width: 460px;
 	position: absolute;
@@ -203,7 +211,7 @@ a:hover {
 		
 	}
 	.bb_toolbar.related {
-		/*height: 45px;*/
+		
 	}
 		
 		.bb_toolbar h1 {
@@ -295,3 +303,10 @@ a:hover {
 				bottom: 0;
 			overflow: auto;
 		}
+		
+#login
+{
+	padding: 20px;
+	width: 300px;
+	background-color: #CCCCCC;
+}
