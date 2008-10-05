@@ -56,12 +56,15 @@ class _ControllerFront extends ControllerFront
 		self::$session = new UserModel();		
 		//if we're not in the user controller trying to call login logout processlogin
 		if(self::$requestA[0] == 'user' && 
-			(self::$requestA[1] == 'login' || 
+			(
+			self::$requestA[1] == 'login' || 
 			self::$requestA[1] == 'logout' || 
+			self::$requestA[1] == 'loggedout' || 
 			self::$requestA[1] == 'processlogin' ||
+			self::$requestA[1] == 'processlogout' ||
 			self::$requestA[1] == 'reset' ||
-			self::$requestA[1] == 'processreset')){
-			//
+			self::$requestA[1] == 'processreset'
+			)){
 		}else{
 			self::$session->checkSession();
 		}

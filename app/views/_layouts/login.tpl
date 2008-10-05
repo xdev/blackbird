@@ -36,24 +36,16 @@ Portions of this software rely upon the following software which are covered by 
 		</script>
 	</head>
 
-	<body>
+	<body id="body">
 		
-		
-		
-		<div id="bb_session_nav">
-		
-		</div>
+		<div id="bb_session_nav"></div>
 
 		<div id="bb_main">
-			<div class="bb_toolbar"></div>
-			
-			<?= $content['main'] ?>
+			<div class="bb_toolbar"></div>			
 		</div>
 		
-		<div id="bb_box">
-			
-		</div>
-
+		<div id="lightbox" style="display: nones;"><div class="wrapper"><div class="dialog"><?= $content['main'] ?></div></div></div>		
+		
 	</body>
 
 </html>

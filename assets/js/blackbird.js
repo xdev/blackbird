@@ -25,20 +25,59 @@ function blackbird(options)
 	this.broadcaster = new EventBroadcaster();
 	this.broadcaster.addListener(this);
 	
-	Event.observe('about_blackbird','click',function(){
-		blackbird.openLightbox();
-	});
+	var tA = $('body').select('.lightbox');
+	for(var i=0;i<tA.length;i++){
+		Event.observe(tA[i],'click',this.openLightbox.bind(this));		
+	}
+	
 }
 
-blackbird.prototype.openLightbox = function(type)
+blackbird.prototype.openLightbox = function(e)
 {
-	$('body').insert({bottom: '<div id="lightbox" style="display: none;"><div class="wrapper"><div class="dialog">HELLO WORLD!</div></div></div>'});
+
+	var elem = Event.element(e);
+	
+	$('body').insert({bottom: '<div id="lightbox" style="display: none;"><div class="wrapper"><div class="dialog">Loading...</div></div></div>'});
 	Effect.Appear($('lightbox'),{duration: .2});
 	
+	sendVars = {};
+		
+	var url = elem.hash.substring(1);
+	if(url == this.data.base + 'user/logout'){
+		//first check to see if we have unsaved changes
+		//if we do, append some info to the request so we can display additional info in the view
+		sendVars.changes = true;
+	}
 	
+	var myAjax = new Ajax.Updater(
+		$('lightbox').select('div.dialog')[0],
+		url, 
+		{
+			method			: 'post',
+			parameters		: formatPost(sendVars),
+			evalScripts 	: true
+		}
+	);
 	
-	/* AJAX STUFF */
 };
+
+blackbird.prototype.closeLightbox = function()
+{
+	Effect.Fade($('lightbox'),{duration: .1});
+}
+
+blackbird.prototype.logout = function()
+{
+	var obj = $('lightbox').select('div.dialog')[0];
+	var myAjax = new Ajax.Updater(
+		obj,
+		this.data.base + 'user/processlogout', 
+		{
+			method			: 'post',
+			evalScripts 	: true
+		}
+	);
+}
 
 blackbird.prototype.setProperty = function(prop,value)
 {

@@ -17,7 +17,7 @@ date_default_timezone_set('America/Los_Angeles');
 define('DEFAULT_LANG', 'en');
 
 // Default controller called by the framework
-define('DEFAULT_CONTROLLER', 'index');
+define('DEFAULT_CONTROLLER', 'dashboard');
 
 // Default controller action
 define('DEFAULT_ACTION', 'index');

@@ -1,3 +1,3 @@
 <div class="bb_toolbar">
-	<h1>Admin</h1>
+	<h1>Dashboard</h1>
 </div>

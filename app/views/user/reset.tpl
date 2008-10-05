@@ -5,6 +5,7 @@
 Forms::text($name_space . '_login',$login,array('label'=>'Email'));
 ?>
 <input type="button" value="submit" onclick="$('form_<?= $name_space ?>').submit(); return false;" />
+<input type="button" value="cancel" onclick="window.parent.location = '<?= BASE ?>user/login'; return false;" />
 </form>
 <iframe id="form_target_<?= $name_space ?>" name="form_target_<?= $name_space ?>" class="related_iframe"></iframe>
 </div>

@@ -1,5 +1,6 @@
-<div id="login">
-<h1>Login</h1>
+<!-- client branding up in here -->
+
+<h1>Blackbird Login</h1>
 <form id="form_<?= $name_space ?>" name="form_<?= $name_space ?>" enctype="multipart/form-data" action="<?= BASE ?>user/processlogin" method="post" target="form_target_<?= $name_space ?>" onsubmit="Element.show('ajax');" >
 <?php
 Forms::text($name_space . '_login','',array('label'=>'Login','size'=>30));
@@ -8,7 +9,8 @@ Forms::text($name_space . '_password','',array('label'=>'Password','type'=>'pass
 <input type="button" value="submit" onclick="$('form_<?= $name_space ?>').submit(); return false;" />
 </form>
 <iframe id="form_target_<?= $name_space ?>" name="form_target_<?= $name_space ?>" class="related_iframe"></iframe>
-</div>
+
+<!-- optional OpenID stuff in here -->
 
 <script type="text/javascript">
 	Event.observe("login_password","keypress",function(event){
