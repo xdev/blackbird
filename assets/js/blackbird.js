@@ -63,6 +63,8 @@ blackbird.prototype.onFormReset = function(form)
 		var obj = tA[i];		
 		obj.removeClassName('changed');
 	}
+	var name_space = form.substr(5);
+	$('section_' + name_space).select('.revert')[0].hide();
 }
 
 blackbird.prototype.toggleDashItem = function(e)

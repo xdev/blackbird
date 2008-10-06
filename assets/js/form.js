@@ -22,24 +22,21 @@ function formController(form)
 	
 	for(i=0;i<iMax;i++){
 		var obj = tA[i];
-		//if(obj.nodeName == "INPUT" || obj.nodeName == "TEXTAREA" || obj.nodeName == "SELECT"){
-			//if(obj.hasClassName('noparse')){
-			//}else{
-				this.data_alpha.push( [obj.id,obj.value] );
-				var c = this;
-				Event.observe(obj,'focus',function()
-				{
-					c.focus(this);
-				});
-				Event.observe(obj,'blur',function()
-				{
-					c.blur(this);
-				});
-				Event.observe(obj,'change',function()
-				{
-					c.change(this);
-				});
-			//}
+		//if(obj.hasClassName('noparse')){
+		this.data_alpha.push( [obj.id,obj.value] );
+		var c = this;
+		Event.observe(obj,'focus',function()
+		{
+			c.focus(this);
+		});
+		Event.observe(obj,'blur',function()
+		{
+			c.blur(this);
+		});
+		Event.observe(obj,'change',function()
+		{
+			c.change(this);
+		});
 		//}
 	}
 }
@@ -105,14 +102,12 @@ formController.prototype.change = function(obj){
 		}
 	}
 
-	//this should be broadcast instead
 	this.broadcaster.broadcastMessage('onFormUpdate',{
 		status:status,
 		elem:obj,
 		length:this.getLength(),
 		form:this.form
 	});
-	//this.updateStatus(obj,status);
 
 };
 
