@@ -354,7 +354,7 @@ body.logged > #bb_main { /* ie7.css */
 	background: white;
 	border: 1px solid #8D9BB3;
 	border-top: none;
-	min-width: 100px;
+	min-width: 200px;
 }
 
 .bb_dash .content
