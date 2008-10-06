@@ -53,4 +53,63 @@ class DashboardModel extends Model
 		return $this->db->query("SHOW TABLE STATUS");	
 	}
 	
+	public function getChartUsers()
+	{
+		//select
+		$q_tot = $this->db->queryRow("SELECT count(*) AS total FROM " . BLACKBIRD_TABLE_PREFIX . "history");
+		$q = $this->db->query("SELECT count(*) AS total,user_id FROM " . BLACKBIRD_TABLE_PREFIX . "history WHERE user_id != '' GROUP BY user_id");
+		$dataA = array();
+		foreach($q as $row){
+			$q_user = $this->db->queryRow("SELECT firstname,lastname FROM " . BLACKBIRD_TABLE_PREFIX . "users WHERE id = '$row[user_id]'");
+			$perc = $row['total']/$q_tot['total'];
+			$dataA[] = array('name'=>$q_user['firstname'] . ' ' . $q_user['lastname'],'total'=>$row['total'],'percent'=>floor(100*($perc)),'percent_actual'=>round($perc*100,2));			
+		}
+		$dataA = Utils::arraySort($dataA,'percent');
+		
+		$percents = '';
+		$labels = '';
+		for($i=0;$i<count($dataA);$i++){
+			$row = $dataA[$i];
+			$percents .= $row['percent'];
+			$labels .= $row['name'] . ' (' . $row['total'] . ')';
+			if($i<count($dataA)-1){
+				$percents .= ',';
+				$labels .= '|';
+			}
+		}
+		
+		$tA = array('labels'=>$labels,'percents'=>$percents,'data'=>$dataA);
+		
+		return $tA;
+	}
+	
+	public function getChartEdits($id='')
+	{
+		$q_tot = $this->db->queryRow("SELECT count(*) AS total FROM " . BLACKBIRD_TABLE_PREFIX . "history");
+		$q = $this->db->query("SELECT count(*) AS total,action FROM " . BLACKBIRD_TABLE_PREFIX . "history WHERE user_id != '' GROUP BY action");
+		
+		$dataA = array();
+		foreach($q as $row){
+			$perc = $row['total']/$q_tot['total'];
+			$dataA[] = array('name'=>$row['action'],'total'=>$row['total'],'percent'=>floor(100*($perc)),'percent_actual'=>round($perc*100,2));			
+		}
+		$dataA = Utils::arraySort($dataA,'percent');
+		
+		$percents = '';
+		$labels = '';
+		for($i=0;$i<count($dataA);$i++){
+			$row = $dataA[$i];
+			$percents .= $row['percent'];
+			$labels .= $row['name'] . ' (' . $row['total'] . ')';
+			if($i<count($dataA)-1){
+				$percents .= ',';
+				$labels .= '|';
+			}
+		}
+		
+		$tA = array('labels'=>$labels,'percents'=>$percents,'data'=>$dataA);
+		
+		return $tA;
+	}
+	
 }

@@ -20,6 +20,34 @@
 
 <div class="bb_dash">
 	<div class="titlebar">
+		<h2>All Edits by User</h2>
+		<a class="toggle" href="#" title="Open/Close">Toggle</a>
+	</div>
+	<div class="content">
+	<?php
+	print $this->fetchView('_chart_user_edits',array(
+		'percents'=>$chart_users['percents'],
+		'labels'=>$chart_users['labels']));
+	?>
+	</div>
+</div>
+
+<div class="bb_dash">
+	<div class="titlebar">
+		<h2>All Edits by Action</h2>
+		<a class="toggle" href="#" title="Open/Close">Toggle</a>
+	</div>
+	<div class="content">
+	<?php
+	print $this->fetchView('_chart_edits',array(
+		'percents'=>$chart_edits['percents'],
+		'labels'=>$chart_edits['labels']));
+	?>
+	</div>
+</div>
+
+<div class="bb_dash">
+	<div class="titlebar">
 		<h2>Activity</h2>
 		<a class="toggle" href="#" title="Open/Close">Toggle</a>
 	</div>
@@ -45,6 +73,9 @@
 </div>
 
 <script type="text/javascript">
+/*
+onrelease, send to a cookie that remembers the state and position of stuffs
+*/
 Sortable.create(
 	$('dashboard'),
 	{
