@@ -354,6 +354,7 @@ body.logged > #bb_main { /* ie7.css */
 	background: white;
 	border: 1px solid #8D9BB3;
 	border-top: none;
+	min-width: 100px;
 }
 
 .bb_dash .content
@@ -377,7 +378,24 @@ body.logged > #bb_main { /* ie7.css */
 .bb_dash .titlebar h2
 {
 	margin-left: 10px;
-	margin-top: 12px;
+	margin-top: 9px;
+	position: absolute;
+}
+
+.bb_dash .titlebar a.toggle
+{
+	margin-top: 10px;
+	margin-right: 10px;
+	float: right;
+	width: 12px;
+	height: 10px;
+	text-indent: -9000px;
+	background-image: url("../img/arrow_descending.png");
+}
+
+.bb_dash.closed .titlebar a.toggle
+{
+	background-image: url("../img/arrow_ascending.png");
 }
 
 tbody tr.odd td.insert,

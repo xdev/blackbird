@@ -30,6 +30,27 @@ function blackbird(options)
 		Event.observe(tA[i],'click',this.openLightbox.bind(this));		
 	}
 	
+	var tA = $('body').select('.titlebar a.toggle');
+	for(var i=0;i<tA.length;i++){
+		Event.observe(tA[i],'click',this.toggleDashItem.bind(this));		
+	}
+	
+	
+}
+
+blackbird.prototype.toggleDashItem = function(e)
+{
+	var elem = Event.element(e);
+	
+	
+	var targ = elem.up().up().select('.content')[0];
+	if(targ.style.display == 'none'){
+		elem.up().up().removeClassName('closed');
+		Effect.BlindDown(targ,{duration: .5});
+	}else{
+		elem.up().up().addClassName('closed');
+		Effect.BlindUp(targ,{duration: .5});
+	}
 }
 
 blackbird.prototype.openLightbox = function(e)

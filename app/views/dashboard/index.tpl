@@ -9,6 +9,7 @@
 <div class="bb_dash">
 	<div class="titlebar">
 		<h2>Users</h2>
+		<a class="toggle" href="#" title="Open/Close">Toggle</a>
 	</div>
 	<div class="content">
 	<?php
@@ -21,6 +22,7 @@
 <div class="bb_dash">
 	<div class="titlebar">
 		<h2>Activity</h2>
+		<a class="toggle" href="#" title="Open/Close">Toggle</a>
 	</div>
 	<div class="content">
 	<?php
@@ -33,6 +35,7 @@
 <div class="bb_dash">
 	<div class="titlebar">
 		<h2>Tables</h2>
+		<a class="toggle" href="#" title="Open/Close">Toggle</a>
 	</div>
 	<div class="content">
 	<?php
