@@ -14,6 +14,12 @@ function formController(form)
 
 	var tA = Form.getElements(this.form);
 	var iMax = tA.length;
+	
+	Event.observe(this.form,'reset',function()
+	{
+		c.reset();
+	});
+	
 	for(i=0;i<iMax;i++){
 		var obj = tA[i];
 		//if(obj.nodeName == "INPUT" || obj.nodeName == "TEXTAREA" || obj.nodeName == "SELECT"){
@@ -29,12 +35,18 @@ function formController(form)
 				{
 					c.blur(this);
 				});
-				obj.onchange = function(){
+				Event.observe(obj,'change',function()
+				{
 					c.change(this);
-				};
+				});
 			//}
 		//}
 	}
+}
+
+formController.prototype.reset = function()
+{
+	this.broadcaster.broadcastMessage('onFormReset',this.form);
 }
 
 /**
@@ -67,7 +79,6 @@ formController.prototype.blur = function(obj){
 
 formController.prototype.change = function(obj){
 	var status = 1;
-	
 	for(var i in this.data_alpha){
 		if(this.data_alpha[i][0] == obj.id){
 			if(this.data_alpha[i][1] == obj.value){

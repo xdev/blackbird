@@ -55,24 +55,14 @@ blackbird.prototype.onFormUpdate = function(obj)
 	}
 }
 
-blackbird.prototype.onFormReset = function()
+blackbird.prototype.onFormReset = function(form)
 {
-	/*
-	formController.prototype.reset = function()
-	{
-		for(var i in this.data_delta){
-			var label = getElementsByAttribute($(this.form), "label", "for",this.data_delta[i][0]);
-			label[0].style.background = "#CCCCCC";
-		}
-
-		delete this.data_delta;
-		this.data_delta = [];
-		this.updateStatus('reset');
-
-		Form.reset(this.form);
-
-	};
-	*/
+	var tA = $(form).select('.changed');
+	var iMax = tA.length;
+	for(i=0;i<iMax;i++){
+		var obj = tA[i];		
+		obj.removeClassName('changed');
+	}
 }
 
 blackbird.prototype.toggleDashItem = function(e)
