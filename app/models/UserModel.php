@@ -312,5 +312,14 @@ class UserModel extends Model
 	
 	}
 	
+	public function getHistory($id,$limit=50)
+	{
+		return $this->db->query("SELECT * FROM " . BLACKBIRD_TABLE_PREFIX . "history WHERE user_id = '$id' ORDER BY modtime DESC LIMIT $limit");
+	}
+	
+	public function getRecord($id)
+	{
+		return $this->db->queryRow("SELECT * FROM " . BLACKBIRD_TABLE_PREFIX . "users WHERE id = '$id'");
+	}
 	
 }

@@ -161,5 +161,16 @@ class UserController extends _Controller
 	{
 		$this->view();
 	}
+	
+	public function Profile()
+	{
+		$history = $this->model->getHistory($this->route['user'],50);
+		$record = $this->model->getRecord($this->route['user']);
+		$this->view(array('data'=>array(
+			'history'=>$history,
+			'record'=>$record)
+			)			
+		);
+	}
 		
 }

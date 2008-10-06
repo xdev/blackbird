@@ -14,6 +14,7 @@ body {
 
 a {
 	text-decoration: none;
+	color: #3D66A3;
 }
 a:hover {
 	text-decoration: underline;
@@ -344,4 +345,55 @@ body.logged > #bb_main { /* ie7.css */
 		padding: 20px;
 	}
 	
-	
+.bb_dash {
+
+	padding: 0px;
+	float: left;
+	margin-left: 10px;
+	margin-bottom: 10px;
+	background: white;
+	border: 1px solid #8D9BB3;
+	border-top: none;
+}
+
+.bb_dash .content
+{
+	padding: 10px;
+}
+
+.bb_dash .titlebar {
+	background-color: #7A8599;
+	background-image: url(../img/gradient-60.png);
+	background-position: 0 100%;
+	background-repeat: repeat-x;
+	border-top: 1px solid #8D9BB3;
+	border-bottom: 1px solid #505866;
+	color: #FFFFFF;
+	height: 28px;
+	position: relative;
+	text-shadow: #505866 0px -1px 0;
+}
+
+.bb_dash .titlebar h2
+{
+	margin-left: 10px;
+	margin-top: 12px;
+}
+
+tbody tr.odd td.insert,
+tbody tr.even td.insert
+{
+	background-color: #6FF43D !important;
+}	
+
+tr.odd td.update,
+tr.even td.update
+{
+	background-color: #F0F43D !important;
+}
+
+tbody tr.odd td.delete,
+tbody tr.even td.delete
+{
+	background-color: #F73C3C !important;
+}

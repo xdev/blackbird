@@ -7,7 +7,11 @@ class DashboardController extends _Controller
 	public function Index()
 	{
 		
-		$this->view();
+		$this->view(array('data'=>array(
+			'activity'=>$this->model->getActivity(),
+			'users'=>$this->model->getUsers(),
+			'tables'=>$this->model->getTables()
+			)));
 		
 	}
 	
