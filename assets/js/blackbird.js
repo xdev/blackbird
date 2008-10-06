@@ -38,6 +38,43 @@ function blackbird(options)
 	
 }
 
+blackbird.prototype.onFormUpdate = function(obj)
+{
+	//trim off form_
+	var name_space = obj.form.substr(5);
+	if (obj.elem != 'reset') {
+		var form_item = obj.elem.up('.form_item');
+		if (obj.status == 1) form_item.addClassName('changed');
+		if (obj.status == 0) form_item.removeClassName('changed');
+	}
+	
+	if(obj.length > 0){
+		$('section_' + name_space).select('.revert')[0].show();
+	}else{
+		$('section_' + name_space).select('.revert')[0].hide();
+	}
+}
+
+blackbird.prototype.onFormReset = function()
+{
+	/*
+	formController.prototype.reset = function()
+	{
+		for(var i in this.data_delta){
+			var label = getElementsByAttribute($(this.form), "label", "for",this.data_delta[i][0]);
+			label[0].style.background = "#CCCCCC";
+		}
+
+		delete this.data_delta;
+		this.data_delta = [];
+		this.updateStatus('reset');
+
+		Form.reset(this.form);
+
+	};
+	*/
+}
+
 blackbird.prototype.toggleDashItem = function(e)
 {
 	var elem = Event.element(e);

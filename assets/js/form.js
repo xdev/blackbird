@@ -9,6 +9,8 @@ function formController(form)
 	this.form = form;
 	this.data_delta = [];
 	this.data_alpha = [];
+	
+	this.broadcaster = new EventBroadcaster();
 
 	var tA = Form.getElements(this.form);
 	var iMax = tA.length;
@@ -93,54 +95,16 @@ formController.prototype.change = function(obj){
 	}
 
 	//this should be broadcast instead
-	this.updateStatus(obj,status);
+	this.broadcaster.broadcastMessage('onFormUpdate',{
+		status:status,
+		elem:obj,
+		length:this.getLength(),
+		form:this.form
+	});
+	//this.updateStatus(obj,status);
 
 };
 
-/**
-*	updateStatus
-*
-*
-*/
-
-formController.prototype.updateStatus = function(obj,status)
-{
-	if (obj != 'reset') {
-		var form_item = obj.up('.form_item');
-		if (status == 1) form_item.addClassName('changed');
-		if (status == 0) form_item.removeClassName('changed');
-	}
-
-	if(this.data_delta != undefined){
-		if(this.data_delta.length > 0){
-			//$('changes').innerHTML = data_delta.length + " Changes";
-		}else{
-			//$('changes').innerHTML = "";
-		}
-	}
-
-};
-
-/**
-*	reset
-*
-*
-*/
-
-formController.prototype.reset = function()
-{
-	for(var i in this.data_delta){
-		var label = getElementsByAttribute($(this.form), "label", "for",this.data_delta[i][0]);
-		label[0].style.background = "#CCCCCC";
-	}
-
-	delete this.data_delta;
-	this.data_delta = [];
-	this.updateStatus('reset');
-
-	Form.reset(this.form);
-
-};
 
 /**
 *	getLength

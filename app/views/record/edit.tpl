@@ -29,6 +29,7 @@
 					<!-- <![CDATA[ 
 					document.observe('dom:loaded',function(){
 						formController_<?= $name_space ?> = new formController('form_<?= $name_space ?>');
+						formController_<?= $name_space ?>.broadcaster.addListener(blackbird);
 						blackbird.setProperty('id_parent','<?= $id ?>');
 						blackbird.setProperty('table_parent','<?= $table ?>');
 					});
