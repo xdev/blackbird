@@ -4,8 +4,7 @@
 
 <div id="bb_sections">
 <div class="section">
-<div class="container">
-
+<div id="dashboard" class="container">
 <div class="bb_dash">
 	<div class="titlebar">
 		<h2>Users</h2>
@@ -45,6 +44,17 @@
 	</div>
 </div>
 
+<script type="text/javascript">
+Sortable.create(
+	$('dashboard'),
+	{
+		overlap		: "horizontal",
+		tag			: 'div',
+		constraint	: false,
+		handle		: "titlebar"
+    }
+);
+</script>
 </div>
 </div>
 </div>
