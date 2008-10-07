@@ -84,7 +84,7 @@ blackbird.prototype.checkForChanges = function(ns)
 	}
 	
 	return false;
-}
+};
 
 blackbird.prototype.onFormUpdate = function(obj)
 {
@@ -154,7 +154,7 @@ blackbird.prototype.openLightbox = function(e)
 
 	var elem = Event.element(e);
 	
-	$('body').insert({bottom: '<div id="lightbox" style="display: none;"><div class="wrapper"><div class="dialog">Loading...</div></div></div>'});
+	$('body').insert({bottom: '<div id="lightbox" style="display: none;"><div class="wrapper"><div class="dialog"><h1>Loading...</h1></div></div></div>'});
 	Effect.Appear($('lightbox'),{duration: .2});
 	
 	sendVars = {};
@@ -173,17 +173,27 @@ blackbird.prototype.openLightbox = function(e)
 		$('lightbox').select('div.dialog')[0],
 		url, 
 		{
-			method			: 'post',
-			parameters		: formatPost(sendVars),
-			evalScripts 	: true
+			method      : 'post',
+			parameters  : formatPost(sendVars),
+			evalScripts : true,
+			onComplete  : function(){
+				if (close = $('closeLightbox')) {
+					Event.observe(close,'click',blackbird.closeLightbox);
+					Event.observe(document.body, 'click', function(event) {
+					  if (Event.findElement(event).id == 'lightbox') blackbird.closeLightbox();
+					});
+				}
+			}
 		}
 	);
+	
+	
 	
 };
 
 blackbird.prototype.closeLightbox = function()
 {
-	Effect.Fade($('lightbox'),{duration: .1});
+	Effect.Fade($('lightbox'),{duration: .2});
 };
 
 blackbird.prototype.logout = function()
@@ -331,7 +341,7 @@ blackbird.prototype.handleTabClick = function(event)
 	var t = elem.hash.substring(1);
 	
 	//check for changes
-	var changesA = this.checkForChanges()
+	var changesA = this.checkForChanges();
 	if(changesA){
 		//loop that 
 		var r = '';
@@ -680,7 +690,7 @@ blackbird.prototype.closeMain = function(url)
 {
 	var name_space = 'main';
 	
-	var changesA = this.checkForChanges(name_space)
+	var changesA = this.checkForChanges(name_space);
 	var close = true;
 	if(changesA){
 		//loop that 
@@ -700,7 +710,7 @@ blackbird.prototype.closeMain = function(url)
 	if(close == true){
 		window.location = url;
 	}
-}
+};
 
 /**
 *	closeRecord

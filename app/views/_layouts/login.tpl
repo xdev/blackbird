@@ -44,7 +44,7 @@ Portions of this software rely upon the following software which are covered by 
 			<div class="bb_toolbar"></div>			
 		</div>
 		
-		<div id="lightbox" style="display: nones;"><div class="wrapper"><div class="dialog"><?= $content['main'] ?></div></div></div>		
+		<div id="lightbox"><div class="wrapper"><div class="dialog"><?= $content['main'] ?></div></div></div>		
 		
 	</body>
 
