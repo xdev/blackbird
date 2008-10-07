@@ -4,7 +4,7 @@
 		<a class="toggle" href="#" title="Open/Close">Toggle</a>
 	</div>
 	<div class="content">
-		<table class="data_grid" >
+		<table>
 			<tbody>
 			<?php $i=0; ?>
 			<?php foreach($data as $row): ?>

@@ -6,10 +6,10 @@
 	<div class="section">
 		<div id="dashboard" class="container">
 			
+			<?= $this->fetchView('_activity',array('data'=>$activity)) ?>
+			<?= $this->fetchView('_chart_edits',array('percents'=>$chart_edits['percents'],'labels'=>$chart_edits['labels'])) ?>
 			<?= $this->fetchView('_users',array('data'=>$users)) ?>
 			<?= $this->fetchView('_chart_user_edits',array('percents'=>$chart_users['percents'],'labels'=>$chart_users['labels'])) ?>
-			<?= $this->fetchView('_chart_edits',array('percents'=>$chart_edits['percents'],'labels'=>$chart_edits['labels'])) ?>
-			<?= $this->fetchView('_activity',array('data'=>$activity)) ?>
 			<?= $this->fetchView('_tables',array('data'=>$tables)) ?>
 		
 			<script type="text/javascript">
