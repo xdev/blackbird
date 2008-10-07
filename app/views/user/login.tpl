@@ -2,7 +2,13 @@
 
 <h1>Blackbird Login</h1>
 <?php if(isset($_GET['loggedout'])): ?>
-<p class="message ok">You were successfully logged out</p>
+
+<?= $this->fetchView('/_modules/_message',array(
+	'class'=>'ok',
+	'message'=>'You were successfully logged out!'
+	)
+) ?>
+
 <?php endif ?>
 <form id="form_<?= $name_space ?>" name="form_<?= $name_space ?>" enctype="multipart/form-data" action="<?= BASE ?>user/processlogin" method="post" target="form_target_<?= $name_space ?>" onsubmit="Element.show('ajax');" >
 <?php

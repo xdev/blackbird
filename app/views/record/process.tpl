@@ -5,7 +5,8 @@
 			mode : "<?= $mode ?>",
 			query_action : "<?= $query_action ?>",
 			channel : "<?= $channel ?>",
-			id : "<?= $id ?>"
+			id : "<?= $id ?>",
+			table : "<?= $table ?>"
 		}
 	);
 </script>

@@ -464,6 +464,7 @@ blackbird.prototype.onRemoteComplete = function(obj)
 	}
 	
 	if(obj.channel == 'main'){
+		window.location = this.data.base + 'record/edit/' + obj.table + '/' + obj.id + '?message=' + obj.mode;
 		//should reload form for simplicity
 	}
 	
@@ -539,6 +540,13 @@ blackbird.prototype.onRemoteErrors = function(obj)
 	
 };
 
+blackbird.prototype.deleteRecord = function(table,id)
+{
+	var answer = confirm('Really Delete?');
+	if(answer){
+		//process delete
+	}
+}
 
 /**
 *	onSubmit

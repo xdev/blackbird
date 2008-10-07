@@ -20,7 +20,26 @@
 					'type'=>'main')
 			) ?>
 			
+			
+			
 			<div class="container">
+				
+				<?php if(isset($_GET['message'])): ?>
+				<?php if($_GET['message'] == 'edit'): ?>
+				<?= $this->fetchView('/_modules/_message',array(
+					'class'=>'ok',
+					'message'=>'Record ' . $id . ' successfully updated!'
+					)
+				) ?>
+				<?php elseif($_GET['message'] == 'insert'): ?>
+				<?= $this->fetchView('/_modules/_message',array(
+					'class'=>'ok',
+					'message'=>'Record ' . $id . ' successfully inserted!'
+					)
+				) ?>
+				<?php endif ?>
+				<?php endif ?>
+				
 				<form id="form_<?= $name_space ?>" name="form_<?= $name_space ?>" enctype="multipart/form-data" action="<?= BASE ?>record/process" method="post" target="form_target_<?= $name_space ?>" onsubmit="Element.show('ajax');" >
 					<?= $main ?>
 				</form>
