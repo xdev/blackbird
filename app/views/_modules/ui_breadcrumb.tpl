@@ -9,7 +9,7 @@
 		<?php if($this->route['action'] == 'edit'): ?>
 		<li>Edit Record</li>
 		<?php else: ?>
-		<li>New Record</li>
+		<li>Add Record</li>
 		<?php endif ?>
 	<?php endif ?>
 </ol>

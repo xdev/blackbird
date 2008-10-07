@@ -320,6 +320,11 @@ body.logged > #bb_main { /* ie7.css */
 			overflow: auto;
 		}
 		
+		#dashboard.container {
+			top: 60px;
+			padding: 10px 0 0 10px;
+		}
+		
 #lightbox {
 	background: url(../img/lightbox.png) 0 0 repeat;
 	position: fixed;
@@ -346,57 +351,53 @@ body.logged > #bb_main { /* ie7.css */
 	}
 	
 .bb_dash {
-
-	padding: 0px;
 	float: left;
-	margin-left: 10px;
-	margin-bottom: 10px;
-	background: white;
-	border: 1px solid #8D9BB3;
-	border-top: none;
-	min-width: 200px;
+	width: 50%;
+	padding-bottom: 10px;
 }
 
-.bb_dash .content
-{
-	padding: 10px;
-}
+	.bb_dash .content {
+		background-color: #FFFFFF;
+		border: 1px solid #8D9BB3;
+		border-top: none;
+		height: 300px;
+		margin: 0 10px 0 0;
+		overflow: auto;
+	}
 
-.bb_dash .titlebar {
-	background-color: #7A8599;
-	background-image: url(../img/gradient-60.png);
-	background-position: 0 100%;
-	background-repeat: repeat-x;
-	border-top: 1px solid #8D9BB3;
-	border-bottom: 1px solid #505866;
-	color: #FFFFFF;
-	height: 28px;
-	position: relative;
-	text-shadow: #505866 0px -1px 0;
-}
+	.bb_dash .titlebar {
+		background: #7A8599 url(../img/gradient-60.png) 0 100% repeat-x;
+		border-top: 1px solid #8D9BB3;
+		border-bottom: 1px solid #505866;
+		color: #FFFFFF;
+		height: 28px;
+		position: relative;
+		margin: 0 10px 0 0;
+		text-shadow: #505866 0px -1px 0;
+	}
 
-.bb_dash .titlebar h2
-{
-	margin-left: 10px;
-	margin-top: 9px;
-	position: absolute;
-}
+		.bb_dash .titlebar h2
+		{
+			margin-left: 10px;
+			margin-top: 9px;
+			position: absolute;
+		}
 
-.bb_dash .titlebar a.toggle
-{
-	margin-top: 10px;
-	margin-right: 10px;
-	float: right;
-	width: 12px;
-	height: 10px;
-	text-indent: -9000px;
-	background-image: url("../img/arrow_descending.png");
-}
+		.bb_dash .titlebar a.toggle
+		{
+			margin-top: 10px;
+			margin-right: 10px;
+			float: right;
+			width: 12px;
+			height: 10px;
+			text-indent: -9000px;
+			background-image: url("../img/arrow_descending.png");
+		}
 
-.bb_dash.closed .titlebar a.toggle
-{
-	background-image: url("../img/arrow_ascending.png");
-}
+		.bb_dash.closed .titlebar a.toggle
+		{
+			background-image: url("../img/arrow_ascending.png");
+		}
 
 tbody tr.odd td.insert,
 tbody tr.even td.insert

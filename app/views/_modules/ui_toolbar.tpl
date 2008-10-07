@@ -1,6 +1,6 @@
 <div class="bb_toolbar <?= $type ?>">
 	<h1><?php if($type == 'user'): ?>Edit User Account<?php else: ?>
-	<?= ($mode == 'edit' ? 'Edit: ' . Utils::titleCase(Utils::singulizer(str_replace('_',' ',$table))) . ' ' . $id : 'New ' . Utils::titleCase(Utils::singulizer(str_replace('_',' ',$table)))) ?>
+	<?= ($mode == 'edit' ? 'Edit ' . Utils::titleCase(Utils::singulizer(str_replace('_',' ',$table))) . ' ' . $id : 'Add ' . Utils::titleCase(Utils::singulizer(str_replace('_',' ',$table)))) ?>
 	<?php endif ?>
 	</h1>
 	<div class="bb_toolbar_actions">
