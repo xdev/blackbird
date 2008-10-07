@@ -10,7 +10,7 @@
 			<?php						
 			for($i=0;$i<count($errors);$i++){
 				$error = $errors[$i];
-				print "['$error[field]','$error[error]']";
+				print "{field:'$error[field]',message:'$error[error]'}";
 				if($i < count($errors) - 1){
 					print ',';
 				}

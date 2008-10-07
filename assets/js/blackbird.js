@@ -18,7 +18,7 @@ function blackbird(options)
 	var tab;
 	
 	if (tmp = this.readCookie('Blackbird')) blackbirdCookie = tmp.evalJSON();
-	this.initToggleNavigation();
+	this.initTableNavigation();
 	this.initTabNavigation();
 	
 	this.callbacks = new Object();
@@ -57,12 +57,25 @@ blackbird.prototype.onFormUpdate = function(obj)
 
 blackbird.prototype.onFormReset = function(form)
 {
+	
+	//clean up form items, remove changed and error status classes
+		
 	var tA = $(form).select('.changed');
 	var iMax = tA.length;
 	for(i=0;i<iMax;i++){
 		var obj = tA[i];		
 		obj.removeClassName('changed');
 	}
+	
+	var tA = $(form).select('.failed');
+	var iMax = tA.length;
+	for(i=0;i<iMax;i++){
+		var obj = tA[i];		
+		obj.removeClassName('failed');
+		var elem = obj.select('.error_item')[0];
+		elem.remove();
+	}
+		
 	var name_space = form.substr(5);
 	$('section_' + name_space).select('.revert')[0].hide();
 }
@@ -159,7 +172,7 @@ blackbird.prototype.addCallback = function(name_space,obj,method)
 };
 
 //Table Navigation
-blackbird.prototype.initToggleNavigation = function()
+blackbird.prototype.initTableNavigation = function()
 {
 	if (elem = $('bb_main_nav_tables')) {
 		groupA = elem.childElements();
@@ -310,14 +323,43 @@ blackbird.prototype.showTab = function(tab)
 *
 */
 
-blackbird.prototype.handleErrors = function(obj)
+blackbird.prototype.handleErrors = function(obj,name_space)
 {
+	//need to remove class from items that already have it and are good now
+	var tA = $('form_'+name_space).select('.failed');
+	var iMax = tA.length;
+	for(i=0;i<iMax;i++){
+		var item = tA[i];		
+		item.removeClassName('failed');
+		var elem = item.select('.error_item')[0].remove();
+	}
+		
+	//handle new errors
 	var t = '';
 	var iMax = obj.length;
 	for(var i=0;i<iMax;i++){
+		//build message message
 		t += obj[i].message + '\n';
+		//add error class to form item
+		var form_item = obj[i].field.up('.form_item');
+		form_item.addClassName('failed');
+		//insert error content
+		var newobj = 'error_' + obj[i].field;
+		
+		if($(newobj)){
+			//update interior content yo
+			$(newobj).update(obj[i].message);
+		}else{
+			new Insertion.After($(obj[i].field), '<div id="' + newobj + '" class="error_item">' + obj[i].message + '</div>');
+		}
 	}
+	
 	alert(t);
+	
+	//focus first field
+	obj[0].field.focus();
+		
+	//display error dialog
 };
 
 /*
@@ -347,6 +389,10 @@ blackbird.prototype.onRemoteComplete = function(obj)
 		this.broadcaster.broadcastMessage("onUpdate");
 	}
 	
+	if(obj.channel == 'main'){
+		//should reload form for simplicity
+	}
+	
 	//if(listener[method]){
 	//	listener[method].apply(listener,[obj]);
 	//}
@@ -370,24 +416,36 @@ blackbird.prototype.onRemoteErrors = function(obj)
 		$('ajax').hide();
 	}
 	
+	var tA = $('form_' + obj.name_space).select('.failed');
+	var iMax = tA.length;
+	for(i=0;i<iMax;i++){
+		var item = tA[i];		
+		item.removeClassName('failed');
+		var elem = item.select('.error_item')[0];
+		elem.remove();
+	}
+	
 	this.showTab(obj.name_space);
-
+	var t = '';
 	for(var i in obj.errors){
-		var elem = obj.name_space + '_' + obj.errors[i][0];
+		t += obj.errors[i].message + '\n';
+		var elem = obj.name_space + '_' + obj.errors[i].field;
 		
-		var newobj = 'error_' + obj.name_space + '_' + obj.errors[i][0];
+		var newobj = 'error_' + obj.name_space + '_' + obj.errors[i].field;
 		
 		if($(newobj)){
 			//update interior content yo
-			$(newobj).update(obj.errors[i][1]);
+			$(newobj).update(obj.errors[i].message);
 		}else{
-			new Insertion.After($(elem), '<div id="' + newobj + '" class="error">' + obj.errors[i][1] + '</div>');
+			new Insertion.After($(elem), '<div id="' + newobj + '" class="error_item">' + obj.errors[i].message + '</div>');
 		}
-			
-		var label = $('form_' + obj.name_space).getElementsBySelector('label[for="' + elem + '"]');
-		label[0].addClassName('error');
-		label[0].style.color = '#CC3333';
+		
+		var form_item = $(obj.name_space + '_' + obj.errors[i].field);
+		form_item = form_item.up('.form_item');
+		form_item.addClassName('failed');
 	}
+	
+	//unblock browser
 	
 	if(obj.name_space != 'main'){
 		//show form buttons
@@ -399,6 +457,11 @@ blackbird.prototype.onRemoteErrors = function(obj)
 	if(obj.name_space == 'main'){
 		//$('edit_buttons').show();	
 	}
+	
+	//alert it up
+	alert(t);
+	//focus first element?	
+	$(obj.name_space + '_' + obj.errors[0].field).focus();
 	
 };
 
@@ -434,7 +497,7 @@ blackbird.prototype.submitRelated = function(name_space)
 		
 	}
 	if(errorsA.length > 0){
-		this.handleErrors(errorsA);
+		this.handleErrors(errorsA,name_space);
 	}
 };
 
@@ -456,7 +519,7 @@ blackbird.prototype.submitMain = function(name_space)
 	}
 	if(tA.length > 0){
 		this.showTab('main');
-		this.handleErrors(tA);
+		this.handleErrors(tA,'main');
 	}
 };
 

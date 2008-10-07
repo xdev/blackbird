@@ -19,6 +19,14 @@
 	border-top: 1px solid #F2F2D9;
 	border-bottom: 1px solid #D9D8C2;
 }
+.bb_module_edit .form_item.failed {
+	background-color: #FF644A !important;
+	/*
+	border-top: 1px solid #F2F2D9;
+	border-bottom: 1px solid #D9D8C2;
+	*/
+}
+
 .bb_module_edit .form_item.active {
 	background-color: #DEE1E5;
 	border-top: 1px solid #EAEDF2;
