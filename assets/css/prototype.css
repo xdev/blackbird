@@ -458,3 +458,25 @@ body.large .bb_dash {
 			color: #C90005;
 			font-weight: bold;
 		}
+		
+/* needs style TLC */
+
+.message {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font-size: 14px;
+	line-height: 1.25em;
+	padding: 1em 2ex;
+}
+
+.message.ok {
+	border: 1px solid #05CE0A;
+	background: #E9F4E9;
+
+}
+
+.message.error {
+	border: 1px solid #CC1919;
+	background: #F2E9E9;
+	color: #CC1919;
+}

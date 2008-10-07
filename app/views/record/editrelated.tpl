@@ -9,13 +9,13 @@ print $this->fetchView('/_modules/ui_toolbar',array(
 ?>
 
 <div class="container">
-	<form id="form_<?= $name_space ?>" name="form_<?= $name_space ?>" enctype="multipart/form-data" action="<?= BASE ?>record/process" method="post" target="form_target_<?= $name_space ?>" onsubmit="Element.show('ajax');" >
+	<form id="form_<?= $name_space ?>" name="form_<?= $name_space ?>" <?= (($mode == 'add') ? 'class="unsaved"' : '') ?>enctype="multipart/form-data" action="<?= BASE ?>record/process" method="post" target="form_target_<?= $name_space ?>" onsubmit="Element.show('ajax');" >
 		<?= $main ?>
 	</form>
 	<iframe id="form_target_<?= $name_space ?>" name="form_target_<?= $name_space ?>" class="related_iframe"></iframe>
 </div>
 
-<?php if($mode == 'edit'): ?>
+<?php //if($mode == 'edit'): ?>
 <script type="text/javascript">
 	<!-- <![CDATA[
 	if(window.formController_<?= $name_space ?> !== undefined){
@@ -25,4 +25,4 @@ print $this->fetchView('/_modules/ui_toolbar',array(
 	formController_<?= $name_space ?>.broadcaster.addListener(blackbird);
 	// ]]> -->
 </script>
-<?php endif ?>
+<?php //endif ?>

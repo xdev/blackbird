@@ -1,7 +1,9 @@
-<p>Are you sure you would like to logout?</p>
+<h2>Really Logout?</h2>
 <?php if($changes): ?>
-<p class="error">You have unsaved changes, you should probably save em!</p>
-<!-- insert contextual link here that closes and jumps to first open tab of changes? -->
+<p class="message error">You have unsaved changes!</p>
+<input type="button" value="Logout Anyway" onclick="blackbird.logout();" />
+<input type="button" value="Cancel" onclick="blackbird.closeLightbox();" />
+<?php else: ?>
+<input type="button" value="Logout" onclick="blackbird.logout();" />
+<input type="button" value="Cancel" onclick="blackbird.closeLightbox();" />
 <?php endif ?>
-<input type="button" id="logout_yes" value="Yes" onclick="blackbird.logout();" />
-<input type="button" id="logout_no" value="Cancel" onclick="blackbird.closeLightbox();" />

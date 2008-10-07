@@ -43,6 +43,7 @@ function formController(form)
 
 formController.prototype.reset = function()
 {
+	this.data_delta = [];
 	this.broadcaster.broadcastMessage('onFormReset',this.form);
 }
 

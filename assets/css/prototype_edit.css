@@ -42,6 +42,12 @@
 		text-align: right;
 		width: 15%;
 	}
+	
+	.bb_module_edit .form_item.failed label
+	{
+		
+	}	
+	
 	.bb_module_edit .form_item label:after {
 		content: ':';
 	}
@@ -54,6 +60,13 @@
 	.bb_module_edit .form_item label.must_validate:after
 	{
 		content: '*:';
+	}
+	
+	.bb_module_edit .form_item .error_item {
+		margin-top: 10px;
+		clear: both;
+		color: white;
+		font-weight: bold;
 	}
 	
 	.bb_module_edit .form_item .input {
@@ -83,5 +96,6 @@
 			font-size: 9px;
 			padding-top: 3px;
 		}
-		
+
+	
 	

@@ -5,7 +5,7 @@
 	</h1>
 	<div class="bb_toolbar_actions">
 		<?php if($type == 'main'): ?>
-	 	<a href="<?= BASE ?>table/browse/<?= $table  ?>">« Back to browse</a>&nbsp;&nbsp;
+	 	<a href="#" onclick="blackbird.closeMain('<?= BASE ?>table/browse/<?= $table  ?>'); return false;">« Back to browse</a>&nbsp;&nbsp;
 		<input type="button" value="Save Record" onclick="blackbird.submitMain('<?= $name_space ?>'); return false;" />
 		&nbsp;&nbsp;<a class="revert" href="#" style="display:none;" title="revert form" onclick="$('form_<?= $name_space ?>').reset(); return false;">Revert</a>
 		<?php elseif($type == 'related'): ?>

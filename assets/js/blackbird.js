@@ -61,11 +61,39 @@ blackbird.prototype.windowSize = function()
 	}
 };
 
+blackbird.prototype.checkForChanges = function(ns)
+{
+	if(ns !== undefined){
+		var tA = [{id:'form_target_'+ns}];
+	}else{
+		var tA = $('body').select('iframe');	
+	}
+	var changesA = [];
+	for(var i=0;i<tA.length;i++){
+		var name_space = tA[i].id.substr(12);
+		var obj = eval('window.formController_' + name_space);
+		if(obj !== undefined){
+			if(obj.getLength()){
+				changesA.push({name_space:name_space,changes:obj.getLength()});
+			}
+		}
+	}
+	
+	if(changesA.length > 0){
+		return changesA;
+	}
+	
+	return false;
+}
+
 blackbird.prototype.onFormUpdate = function(obj)
 {
 	//trim off form_
 	var name_space = obj.form.substr(5);
-	if (obj.elem != 'reset') {
+	
+	var mode = $('form_' + name_space).select('input[name="query_action"]')[0].value;
+	
+	if (mode == 'update') {
 		var form_item = obj.elem.up('.form_item');
 		if (obj.status == 1) form_item.addClassName('changed');
 		if (obj.status == 0) form_item.removeClassName('changed');
@@ -132,7 +160,10 @@ blackbird.prototype.openLightbox = function(e)
 	if(url == this.data.base + 'user/logout'){
 		//first check to see if we have unsaved changes
 		//if we do, append some info to the request so we can display additional info in the view
-		sendVars.changes = true;
+		var changesA = this.checkForChanges();
+		if(changesA){
+			sendVars.changes = true;
+		}
 	}
 	
 	var myAjax = new Ajax.Updater(
@@ -295,7 +326,22 @@ blackbird.prototype.handleTabClick = function(event)
 {
 	var elem = Event.element(event);	
 	var t = elem.hash.substring(1);
-	this.showTab(t);
+	
+	//check for changes
+	var changesA = this.checkForChanges()
+	if(changesA){
+		//loop that 
+		var r = '';
+		for(var i=0;i<changesA.length;i++){
+			r += changesA[i].changes + ' changes in the ' + changesA[i].name_space + ' section\n';
+		}
+		var answer = confirm('You Have Unsaved Changes...\n' + r);
+		if(answer){
+			this.showTab(t);
+		}
+	}else{	
+		this.showTab(t);
+	}
 };
 
 blackbird.prototype.showTab = function(tab)
@@ -625,6 +671,32 @@ blackbird.prototype.openRecord = function(name_space)
 	
 };
 
+blackbird.prototype.closeMain = function(url)
+{
+	var name_space = 'main';
+	
+	var changesA = this.checkForChanges(name_space)
+	var close = true;
+	if(changesA){
+		//loop that 
+		var r = '';
+		for(var i=0;i<changesA.length;i++){
+			r += changesA[i].changes + ' changes in the ' + changesA[i].name_space + ' section\n';
+		}
+		var answer = confirm('You Have Unsaved Changes...\n' + r);
+		if(answer){
+			//reset the form son
+			$('form_'+name_space).reset();
+		}else{
+			close = false;
+		}
+	}
+	
+	if(close == true){
+		window.location = url;
+	}
+}
+
 /**
 *	closeRecord
 *
@@ -633,15 +705,35 @@ blackbird.prototype.openRecord = function(name_space)
 
 blackbird.prototype.closeRecord = function(name_space)
 {
-	var obj = $('section_' + name_space).select('.edit_form')[0];
-	//Effect.SlideUp(obj, {duration: .5});
-	obj.hide();
+	var changesA = this.checkForChanges(name_space)
+	var close = true;
+	if(changesA){
+		//loop that 
+		var r = '';
+		for(var i=0;i<changesA.length;i++){
+			r += changesA[i].changes + ' changes in the ' + changesA[i].name_space + ' section\n';
+		}
+		var answer = confirm('You Have Unsaved Changes...\n' + r);
+		if(answer){
+			//reset the form son
+			$('form_'+name_space).reset();
+		}else{
+			close = false;
+		}
+	}
 	
-	this.broadcaster.broadcastMessage("onClose");
-	//show the datagrid for this section ehh
-	obj = $('section_' + name_space).select('.browse')[0];
-	obj.show();
+	if(close == true){
+		
+		var obj = $('section_' + name_space).select('.edit_form')[0];
+		//Effect.SlideUp(obj, {duration: .5});
+		obj.hide();
 
+		this.broadcaster.broadcastMessage("onClose");
+		//show the datagrid for this section ehh
+		obj = $('section_' + name_space).select('.browse')[0];
+		obj.show();
+		
+	}
 };
 
 /**
