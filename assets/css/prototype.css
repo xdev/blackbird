@@ -351,15 +351,41 @@ body.logged > #bb_main { /* ie7.css */
 			top: 50%;
 			left: 50%;
 	}
-	
+
 	#lightbox .dialog {
 		background-color: #FFFFFF;
-		border: 1px solid #000000;
 		height: 300px;
 		margin-top: -150px;
 		margin-left: -200px;
 		width: 400px;
-		padding: 20px;
+	}
+	
+	#lightbox .titlebar {
+		background: #5B6373 url(../img/gradient-60.png) 0 100% repeat-x;
+		border-top: 1px solid #6F7A8C;
+		border-bottom: 1px solid #454C59;
+		color: #FFFFFF;
+		padding: 9px 10px;
+		position: relative;
+		text-shadow: #505866 0px -1px 0;
+	}
+	
+		#lightbox .titlebar #closeLightbox {
+			background: url(../img/lightbox_close.png) 0 0 no-repeat;
+			cursor: pointer;
+			font-size: 1px;
+			height: 16px;
+			position: absolute;
+				right: 10px;
+				top: 7px;
+			text-indent: -9000px;
+			width: 16px;
+		}
+	
+	#lightbox .content {
+		line-height: 1.4em;
+		overflow: auto;
+		padding: 10px;
 	}
 
 
@@ -394,7 +420,6 @@ body.large .bb_dash {
 		border-bottom: 1px solid #454C59;
 		color: #FFFFFF;
 		height: 28px;
-		position: relative;
 		margin: 0 10px 0 0;
 		text-shadow: #505866 0px -1px 0;
 	}
@@ -445,7 +470,9 @@ body.large .bb_dash {
 		}
 		
 	.bb_dash .gravatar {
+		height: 16px;
 		vertical-align: middle;
+		width: 16px;
 	}
 		
 /* needs style TLC */
