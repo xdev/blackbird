@@ -1,19 +1,4 @@
-<div class="bb_toolbar <?= $mode ?>">
-	<h1>Browsing <?= Utils::titleCase(str_replace('_',' ',$table)) ?></h1>
-	<div class="bb_toolbar_actions">
-		<?php $datagrid = 'data_grid_' . $_POST['name_space'] ?>
-		
-		<?php if($mode == 'main'): ?>
-		<input type="button" value="+ Add Record" onclick="window.location='<?= BASE ?>record/add/<?= $table ?>'" />
-		<?php else: ?>
-		<input type="button" value="+ Add Record" onclick="blackbird.addNewRecord('<?= $table ?>','<?= $_POST['name_space'] ?>');" />
-		<?php endif ?>
-		<input class="search" id="<?= $_POST['name_space'] ?>_search" type="text" value="<?= ($search == '') ? 'Live search...' : $search ?>" size="20" onclick="clickclear(this, 'Live search...')" onblur="clickrecall(this,'Live search...')"  />
-		<a class="icon undo" href="#" onclick="<?= $datagrid ?>.reset();" title="Reset Data Grid">Reset filters</a>		
-		
-	</div>
-</div>
-
+<?php $datagrid = 'data_grid_' . $_POST['name_space'] ?>
 <div class="container data_grid_embed <?= $mode ?>">
 	<table class="data_grid">
 		<thead>

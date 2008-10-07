@@ -14,3 +14,15 @@ print $this->fetchView('/_modules/ui_toolbar',array(
 	</form>
 	<iframe id="form_target_<?= $name_space ?>" name="form_target_<?= $name_space ?>" class="related_iframe"></iframe>
 </div>
+
+<?php if($mode == 'edit'): ?>
+<script type="text/javascript">
+	<!-- <![CDATA[
+	if(window.formController_<?= $name_space ?> !== undefined){
+		delete formController_<?= $name_space ?>;
+	}
+	formController_<?= $name_space ?> = new formController('form_<?= $name_space ?>');
+	formController_<?= $name_space ?>.broadcaster.addListener(blackbird);
+	// ]]> -->
+</script>
+<?php endif ?>

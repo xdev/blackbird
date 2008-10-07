@@ -45,6 +45,17 @@
 		<?php if($relation['display'] == 'data_grid'): ?>
 		<div class="record edit_form detail" style="display:none;"></div>
 		
+		<div class="browse">
+		<div class="bb_toolbar related">
+			<h1>Browsing <?= Utils::titleCase(str_replace('_',' ',$relation['table_child'])) ?></h1>
+			<div class="bb_toolbar_actions">
+				<?php $datagrid = 'data_grid_' . $relation['name_space'] ?>				
+				<input type="button" value="+ Add Record" onclick="blackbird.addNewRecord('<?= $relation['table_child'] ?>','<?= $relation['name_space'] ?>');" />
+				<input class="search" id="<?= $relation['name_space'] ?>_search" type="text" value="Live search..." size="20" onclick="clickclear(this, 'Live search...')" onblur="clickrecall(this,'Live search...')"  />
+				<a class="icon undo" href="#" onclick="<?= $datagrid ?>.reset();" title="Reset Data Grid">Reset filters</a>		
+			</div>
+		</div>
+		
 		<div class="table">
 			<script type="text/javascript">
 				<!-- <![CDATA[
@@ -65,9 +76,11 @@
 				// ]]> -->
 			</script>
 		</div>
+		</div>
 		<?php elseif($relation['display'] == 'image_browser'): ?>
 		<div class="record edit_form detail" style="display:none;"></div>
 			
+			<div class="browse">
 			<div class="table">
 				<?= $this->fetchView('/imagebrowser/browse',array(
 					'name_space'=>$relation['name_space'],
@@ -76,7 +89,7 @@
 					'id'=>$id)
 				) ?>
 			</div>
-			
+			</div>
 		<?php elseif($relation['display'] == 'plugin'): ?>
 			
 		<?php endif ?>

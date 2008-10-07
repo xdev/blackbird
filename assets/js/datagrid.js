@@ -207,6 +207,7 @@ dataGrid.prototype.reset = function()
 	this.data.sort_index = '0';
 	//this.data.limit = '';
 	this.data.search = '';
+	$(this.data['name_space'] + '_search').value = 'Live search...';
 	this.filters = new Object();
 	this.getUpdate();
 }

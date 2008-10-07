@@ -534,7 +534,7 @@ blackbird.prototype.openRecord = function(name_space)
 	
 	this.broadcaster.broadcastMessage("onOpen");
 	//hide the datagrid for this section ehh
-	obj = $('section_' + name_space).select('.table')[0];
+	obj = $('section_' + name_space).select('.browse')[0];
 	obj.hide();
 	
 };
@@ -553,7 +553,7 @@ blackbird.prototype.closeRecord = function(name_space)
 	
 	this.broadcaster.broadcastMessage("onClose");
 	//show the datagrid for this section ehh
-	obj = $('section_' + name_space).select('.table')[0];
+	obj = $('section_' + name_space).select('.browse')[0];
 	obj.show();
 
 };
