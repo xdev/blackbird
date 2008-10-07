@@ -5,7 +5,7 @@ function plugin__record_column_process($name,$value,$options)
 
 	if($options['col_name'] == 'tables' && $options['table'] == 'cms_groups'){
 		
-		$q = $options['db']->query("SHOW TABLE STATUS");
+		$q = $options['db']->query("SHOW TABLE STATUS",MYSQL_BOTH);
 		$r = '<data>';
 		
 		$privA = array('browse','insert','update','delete');

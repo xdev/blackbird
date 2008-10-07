@@ -390,6 +390,7 @@ class RecordController extends _Controller
 						$options = array();
 						$options['mode'] = $this->query_action;
 						$options['name_space'] = $this->_name_space;
+						$options['db'] = AdaptorMysql::getInstance();
 						
 						if($this->query_action == "update"){
 							$options['id'] = $this->id;
@@ -425,7 +426,7 @@ class RecordController extends _Controller
 						
 						if($module == 'file'){
 														
-							$options['db'] = AdaptorMysql::getInstance();
+							
 							$name = $this->_name_space . $col['Field'];
 							$upload = true;
 							

@@ -101,8 +101,10 @@ blackbird.prototype.onFormUpdate = function(obj)
 	
 	if(obj.length > 0){
 		$('section_' + name_space).select('.revert')[0].show();
+		$('section_' + name_space).select('.button_submit')[0].enable();
 	}else{
 		$('section_' + name_space).select('.revert')[0].hide();
+		$('section_' + name_space).select('.button_submit')[0].disable();
 	}
 };
 
@@ -129,6 +131,7 @@ blackbird.prototype.onFormReset = function(form)
 		
 	var name_space = form.substr(5);
 	$('section_' + name_space).select('.revert')[0].hide();
+	$('section_' + name_space).select('.button_submit')[0].disable();
 };
 
 blackbird.prototype.toggleDashItem = function(e)
@@ -454,7 +457,9 @@ blackbird.prototype.onRemoteComplete = function(obj)
 	//create message div or something
 	
 	if(obj.channel == 'related'){	
-		this.closeRecord(obj.name_space);	
+		this.closeRecord(obj.name_space,false);
+		//reset the form
+		$('form_'+obj.name_space).reset();
 		this.broadcaster.broadcastMessage("onUpdate");
 	}
 	
@@ -703,22 +708,25 @@ blackbird.prototype.closeMain = function(url)
 *
 */
 
-blackbird.prototype.closeRecord = function(name_space)
+blackbird.prototype.closeRecord = function(name_space,check)
 {
-	var changesA = this.checkForChanges(name_space)
+	
 	var close = true;
-	if(changesA){
-		//loop that 
-		var r = '';
-		for(var i=0;i<changesA.length;i++){
-			r += changesA[i].changes + ' changes in the ' + changesA[i].name_space + ' section\n';
-		}
-		var answer = confirm('You Have Unsaved Changes...\n' + r);
-		if(answer){
-			//reset the form son
-			$('form_'+name_space).reset();
-		}else{
-			close = false;
+	if(check){
+		var changesA = this.checkForChanges(name_space);
+		if(changesA){
+			//loop that 
+			var r = '';
+			for(var i=0;i<changesA.length;i++){
+				r += changesA[i].changes + ' changes in the ' + changesA[i].name_space + ' section\n';
+			}
+			var answer = confirm('You Have Unsaved Changes...\n' + r);
+			if(answer){
+				//reset the form son
+				$('form_'+name_space).reset();
+			}else{
+				close = false;
+			}
 		}
 	}
 	

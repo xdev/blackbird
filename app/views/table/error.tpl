@@ -1,0 +1,1 @@
+<p class="message error">You have insufficient privileges to view this table</p>
