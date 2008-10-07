@@ -380,17 +380,18 @@ body.large .bb_dash {
 
 	.bb_dash .content {
 		background-color: #FFFFFF;
-		border: 1px solid #8D9BB3;
+		border: 1px solid #6F7A8C;
 		border-top: none;
+		font-size: 11px;
 		height: 270px;
 		margin: 0 10px 0 0;
 		overflow: auto;
 	}
 
 	.bb_dash .titlebar {
-		background: #7A8599 url(../img/gradient-60.png) 0 100% repeat-x;
-		border-top: 1px solid #8D9BB3;
-		border-bottom: 1px solid #505866;
+		background: #5B6373 url(../img/gradient-60.png) 0 100% repeat-x;
+		border-top: 1px solid #6F7A8C;
+		border-bottom: 1px solid #454C59;
 		color: #FFFFFF;
 		height: 28px;
 		position: relative;
@@ -400,27 +401,11 @@ body.large .bb_dash {
 
 		.bb_dash .titlebar h2 {
 			margin-left: 10px;
-			margin-top: 9px;
-			position: absolute;
-		}
-
-		.bb_dash .titlebar a.toggle {
-			margin-top: 10px;
-			margin-right: 10px;
-			float: right;
-			width: 12px;
-			height: 10px;
-			text-indent: -9000px;
-			background-image: url("../img/arrow_descending.png");
-		}
-
-		.bb_dash.closed .titlebar a.toggle {
-			background-image: url("../img/arrow_ascending.png");
+			margin-top: 8px;
 		}
 		
 	.bb_dash table {	
 		border-collapse: collapse;
-		font-size: 11px;
 		line-height: 1em;
 		margin: 5px 0;
 		padding: 0;
@@ -458,6 +443,10 @@ body.large .bb_dash {
 			color: #C90005;
 			font-weight: bold;
 		}
+		
+	.bb_dash .gravatar {
+		vertical-align: middle;
+	}
 		
 /* needs style TLC */
 

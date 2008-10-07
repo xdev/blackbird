@@ -39,7 +39,13 @@ class DashboardModel extends Model
 		$tA = array();
 		foreach($q as $row){
 			$q_activity = $this->db->queryRow("SELECT * FROM " . BLACKBIRD_TABLE_PREFIX . "history WHERE user_id = '$row[id]' ORDER BY modtime DESC");
-			$tA[] = array('name'=>$row['firstname'] . ' ' . $row['lastname'],'activity'=>$q_activity['modtime'],'user_id'=>$row['id']);
+			$tA[] = array(
+				'name'=>$row['firstname'] . ' ' . $row['lastname'],
+				'activity'=>$q_activity['modtime'],
+				'user_id'=>$row['id'],
+				'email'=>$row['email'],
+				'gravatar'=>'http://www.gravatar.com/avatar/' . md5($row['email']) . '?s='
+			);
 		}
 		$tA = Utils::arraySort($tA,'activity');
 		$tA = array_reverse($tA);

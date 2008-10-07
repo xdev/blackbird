@@ -1,7 +1,6 @@
 <div class="bb_dash">
 	<div class="titlebar">
 		<h2>Users</h2>
-		<a class="toggle" href="#" title="Open/Close">Toggle</a>
 	</div>
 	<div class="content">
 		<table>
@@ -9,7 +8,7 @@
 			<?php $i=0; ?>
 			<?php foreach($data as $row): ?>
 			<tr class="<?= $i++%2 ? 'even' : 'odd' ?>">
-				<td><a href="<?= BASE ?>user/profile/<?= $row['user_id'] ?>"><?= $row['name'] ?></a></td>
+				<td><img class="gravatar" alt="Gravatar" title="Gravatar" src="<?= $row['gravatar'] ?>16" />&nbsp;<a href="<?= BASE ?>user/profile/<?= $row['user_id'] ?>"><?= $row['name'] ?></a></td>
 				<?php if($row['activity'] != ''): ?>
 					<?php $diff = Utils::getTimeDifference($row['activity'],Utils::now()) ?>
 					<?php if($diff['days'] >= 30): ?>
