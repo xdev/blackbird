@@ -470,7 +470,9 @@ body.large .bb_dash {
 		}
 		
 	.bb_dash .gravatar {
+		height: 16px;
 		vertical-align: middle;
+		width: 16px;
 	}
 		
 /* needs style TLC */
