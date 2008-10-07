@@ -13,7 +13,7 @@
 		<h2>Activity</h2>
 	</div>
 	<div class="content">
-<table class="data_grid" >
+<table>
 	<thead>
 		<tr>
 			<th>Action</th>

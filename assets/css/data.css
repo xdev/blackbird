@@ -9,6 +9,7 @@
 	width: 100%;
 }
 
+
 /* ALL CELLS ------------------------------------------------------------- */
 
 .data_grid tr th,
@@ -103,10 +104,7 @@
 	
 	.data_grid tbody tr:hover td,
 	.data_grid tbody tr.odd:hover td {
-		background-color: #5B6373;
-		background-image: url(../img/gradient-30.png);
-		background-position: 0 100%;
-		background-repeat: repeat-x;
+		background: #5B6373 url(../img/gradient-30.png) 0 100% repeat-x;
 		color: #FFFFFF;
 		cursor: pointer;
 	}
@@ -131,10 +129,7 @@
 }
 
 .datagrid_navigation {
-	background-color: #7A8599;
-	background-image: url(../img/gradient-30.png);
-	background-position: 0 100%;
-	background-repeat: repeat-x;
+	background: #7A8599 url(../img/gradient-30.png) 0 100% repeat-x;
 	border-top: 1px solid #8D9BB3;
 	color: #FFFFFF;
 	font-size: 11px;

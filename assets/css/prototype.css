@@ -1,10 +1,10 @@
-/* $Id: prototype.css 104 2008-04-29 20:38:15Z joshuarudd $ */
+
+/* GLOBAL STYLES --------------------------------------------------------- */
 
 body {
 	background-color: #EFF2F7;
 	font-family: "Lucida Grande", Lucida, Sans-serif;
 	font-size: 12px;
-	overflow: hidden;
 	position: absolute;
 		top: 0;
 		right: 0;
@@ -23,6 +23,9 @@ a:hover {
 #about_blackbird {
 	cursor: pointer;
 }
+
+
+/* TABLE NAVIGATION ------------------------------------------------------ */
 
 #bb_navigation { /* ie7.css */
 	background-color: #1A1C26;
@@ -140,6 +143,9 @@ a:hover {
 			color: #FFFFFF;
 		}
 
+
+/* SESSION NAVIGATION ---------------------------------------------------- */
+
 #bb_session_nav {
 	background-color: #161C26;
 	background-image: url(../img/gradient-30.png);
@@ -185,6 +191,9 @@ a:hover {
 			float: left;
 			margin-left: 20px;
 		}
+
+
+/* MAIN CONTENT AREA ----------------------------------------------------- */
 
 #bb_main {
 	position: absolute;
@@ -324,7 +333,10 @@ body.logged > #bb_main { /* ie7.css */
 			top: 60px;
 			padding: 10px 0 0 10px;
 		}
-		
+
+
+/* LIGHTBOX -------------------------------------------------------------- */
+
 #lightbox {
 	background: url(../img/lightbox.png) 0 0 repeat;
 	position: fixed;
@@ -349,18 +361,28 @@ body.logged > #bb_main { /* ie7.css */
 		width: 400px;
 		padding: 20px;
 	}
-	
+
+
+/* DASHBOARD MODULES ----------------------------------------------------- */
+
 .bb_dash {
+	color: #1A1C26;
 	float: left;
 	width: 50%;
 	padding-bottom: 10px;
+}
+body.small .bb_dash {
+	width: 100%;
+}
+body.large .bb_dash {
+	width: 33%;
 }
 
 	.bb_dash .content {
 		background-color: #FFFFFF;
 		border: 1px solid #8D9BB3;
 		border-top: none;
-		height: 300px;
+		height: 270px;
 		margin: 0 10px 0 0;
 		overflow: auto;
 	}
@@ -376,15 +398,13 @@ body.logged > #bb_main { /* ie7.css */
 		text-shadow: #505866 0px -1px 0;
 	}
 
-		.bb_dash .titlebar h2
-		{
+		.bb_dash .titlebar h2 {
 			margin-left: 10px;
 			margin-top: 9px;
 			position: absolute;
 		}
 
-		.bb_dash .titlebar a.toggle
-		{
+		.bb_dash .titlebar a.toggle {
 			margin-top: 10px;
 			margin-right: 10px;
 			float: right;
@@ -394,25 +414,47 @@ body.logged > #bb_main { /* ie7.css */
 			background-image: url("../img/arrow_descending.png");
 		}
 
-		.bb_dash.closed .titlebar a.toggle
-		{
+		.bb_dash.closed .titlebar a.toggle {
 			background-image: url("../img/arrow_ascending.png");
 		}
-
-tbody tr.odd td.insert,
-tbody tr.even td.insert
-{
-	background-color: #6FF43D !important;
-}	
-
-tr.odd td.update,
-tr.even td.update
-{
-	background-color: #F0F43D !important;
-}
-
-tbody tr.odd td.delete,
-tbody tr.even td.delete
-{
-	background-color: #F73C3C !important;
-}
+		
+	.bb_dash table {	
+		border-collapse: collapse;
+		font-size: 11px;
+		line-height: 1em;
+		margin: 5px 0;
+		padding: 0;
+		text-align: left;
+		width: 100%;
+	}
+	
+		.bb_dash table th,
+		.bb_dash table td {
+			overflow: hidden;
+			padding: 5px;
+			white-space: nowrap;
+		}
+		.bb_dash table th:first-child,
+		.bb_dash table td:first-child {
+			padding-left: 10px;
+		}
+		
+		.bb_dash table a {
+			text-decoration: underline;
+		}
+		.bb_dash table a:hover {
+			background-color: #EFF2F7;
+		}
+		
+		.bb_dash table tbody tr td.insert {
+			color: #33B705;
+			font-weight: bold;
+		}
+		.bb_dash table tbody tr td.update {
+			color: #B2B507;
+			font-weight: bold;
+		}
+		.bb_dash table tbody tr td.delete {
+			color: #C90005;
+			font-weight: bold;
+		}

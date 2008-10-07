@@ -25,6 +25,9 @@ function blackbird(options)
 	this.broadcaster = new EventBroadcaster();
 	this.broadcaster.addListener(this);
 	
+	this.windowSize();
+	Event.observe(window,'resize',this.windowSize.bind(this));
+	
 	var tA = $('body').select('.lightbox');
 	for(var i=0;i<tA.length;i++){
 		Event.observe(tA[i],'click',this.openLightbox.bind(this));		
@@ -35,8 +38,28 @@ function blackbird(options)
 		Event.observe(tA[i],'click',this.toggleDashItem.bind(this));		
 	}
 	
-	
 }
+
+blackbird.prototype.windowSize = function()
+{
+	body = $('body');
+	bodyWidth = body.getWidth();
+	if (bodyWidth < '820') {
+		body.addClassName('small');
+		body.removeClassName('medium');
+		body.removeClassName('large');
+	}
+	else if (bodyWidth < '1460') {
+		body.addClassName('medium');
+		body.removeClassName('small');
+		body.removeClassName('large');
+	}
+	else {
+		body.addClassName('large');
+		body.removeClassName('small');
+		body.removeClassName('medium');
+	}
+};
 
 blackbird.prototype.onFormUpdate = function(obj)
 {
@@ -53,7 +76,7 @@ blackbird.prototype.onFormUpdate = function(obj)
 	}else{
 		$('section_' + name_space).select('.revert')[0].hide();
 	}
-}
+};
 
 blackbird.prototype.onFormReset = function(form)
 {
@@ -78,7 +101,7 @@ blackbird.prototype.onFormReset = function(form)
 		
 	var name_space = form.substr(5);
 	$('section_' + name_space).select('.revert')[0].hide();
-}
+};
 
 blackbird.prototype.toggleDashItem = function(e)
 {
@@ -93,7 +116,7 @@ blackbird.prototype.toggleDashItem = function(e)
 		elem.up().up().addClassName('closed');
 		Effect.BlindUp(targ,{duration: .5});
 	}
-}
+};
 
 blackbird.prototype.openLightbox = function(e)
 {
@@ -127,7 +150,7 @@ blackbird.prototype.openLightbox = function(e)
 blackbird.prototype.closeLightbox = function()
 {
 	Effect.Fade($('lightbox'),{duration: .1});
-}
+};
 
 blackbird.prototype.logout = function()
 {
@@ -140,7 +163,7 @@ blackbird.prototype.logout = function()
 			evalScripts 	: true
 		}
 	);
-}
+};
 
 blackbird.prototype.setProperty = function(prop,value)
 {
