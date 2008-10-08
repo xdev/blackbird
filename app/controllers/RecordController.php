@@ -114,6 +114,31 @@ class RecordController extends _Controller
 		
 	}
 	
+	public function Delete()
+	{
+		//
+		$this->layout_view = null;
+		$this->view(array('data'=>array(
+			'table'=>$this->route['table'],
+			'id'=>$this->route['id'])));
+	}
+	
+	public function Processdelete()
+	{
+		//take table and id
+		$table = $this->route['table'];
+		$id = $this->route['id'];
+		$this->model->processDelete($table,explode(",",$id));
+		
+		$this->layout_view = null;
+		
+		$this->view(array('data'=>array(
+			'table'=>$table,
+			'id'=>$id)));
+		
+		
+	}	
+	
 	private function _buildRelations()
 	{
 		

@@ -11,7 +11,19 @@
 				<input class="search" id="<?= $name_space ?>_search" type="text" value="Live search..." size="20" onclick="clickclear(this, 'Live search...')" onblur="clickrecall(this,'Live search...')"  />
 				<a class="icon undo" href="#" onclick="<?= $datagrid ?>.reset();" title="Reset Data Grid">Reset filters</a>		
 			</div>
-		</div>
+		</div>		
+		
+		<!-- need to view this -->
+		<?php if(isset($_GET['message'])): ?>
+		<?php if($_GET['message'] == 'delete'): ?>
+		<?= $this->fetchView('/_modules/_message',array(
+			'class'=>'error',
+			'message'=>'Record ' . $_GET['id'] . ' removed!'
+			)
+		) ?>
+		<?php endif ?>
+		<?php endif ?>
+		
 		
 		<div class="table">
 			<script type="text/javascript">

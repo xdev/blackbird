@@ -167,8 +167,7 @@ blackbird.prototype.openLightbox = function(e)
 		if(changesA){
 			sendVars.changes = true;
 		}
-	}
-	
+	}	
 	var myAjax = new Ajax.Updater(
 		$('lightbox').select('div.dialog')[0],
 		url, 
@@ -202,6 +201,19 @@ blackbird.prototype.logout = function()
 	var myAjax = new Ajax.Updater(
 		obj,
 		this.data.base + 'user/processlogout', 
+		{
+			method			: 'post',
+			evalScripts 	: true
+		}
+	);
+};
+
+blackbird.prototype.destroyRecord = function(table,id)
+{
+	var obj = $('lightbox').select('div.dialog')[0];
+	var myAjax = new Ajax.Updater(
+		obj,
+		this.data.base + 'record/processdelete/' + table + '/' + id, 
 		{
 			method			: 'post',
 			evalScripts 	: true

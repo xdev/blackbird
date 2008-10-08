@@ -1,6 +1,9 @@
 <!-- client branding up in here -->
+<div class="titlebar">
+	<h1>Blackbird Login</h1>
+</div>
+<div class="content">
 
-<h1>Blackbird Login</h1>
 <?php if(isset($_GET['loggedout'])): ?>
 
 <?= $this->fetchView('/_modules/_message',array(
@@ -28,3 +31,4 @@ Forms::text($name_space . '_password','',array('label'=>'Password','type'=>'pass
 		}
 	});
 </script>
+</div>
