@@ -155,7 +155,7 @@ blackbird.prototype.openLightbox = function(e)
 	var elem = Event.element(e);
 	
 	$('body').insert({bottom: '<div id="lightbox" style="display: none;"><div class="wrapper"><div class="dialog"><h1>Loading...</h1></div></div></div>'});
-	Effect.Appear($('lightbox'),{duration: .2});
+	Effect.Appear($('lightbox'),{duration: .25});
 	
 	sendVars = {};
 		
@@ -192,7 +192,7 @@ blackbird.prototype.openLightbox = function(e)
 
 blackbird.prototype.closeLightbox = function()
 {
-	Effect.Fade($('lightbox'),{duration: .2});
+	Effect.Fade($('lightbox'),{duration: .25});
 };
 
 blackbird.prototype.logout = function()
@@ -568,7 +568,7 @@ blackbird.prototype.deleteRecord = function(table,id)
 	if(answer){
 		//process delete
 	}
-}
+};
 
 /**
 *	onSubmit

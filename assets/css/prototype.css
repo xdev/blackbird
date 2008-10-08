@@ -353,10 +353,12 @@ body.logged > #bb_main { /* ie7.css */
 	}
 
 	#lightbox .dialog {
-		background-color: #FFFFFF;
+		background: url(../img/lightbox_dropshadow.png) 0 0 no-repeat;
 		height: 300px;
-		margin-top: -150px;
-		margin-left: -200px;
+		margin-top: -170px;
+		margin-left: -220px;
+		overflow: hidden;
+		padding: 20px;
 		width: 400px;
 	}
 	
@@ -381,10 +383,12 @@ body.logged > #bb_main { /* ie7.css */
 			text-indent: -9000px;
 			width: 16px;
 		}
+		#lightbox .titlebar #closeLightbox:hover {
+			background-position: 0 -16px;
+		}
 	
 	#lightbox .content {
 		line-height: 1.4em;
-		overflow: auto;
 		padding: 10px;
 	}
 
@@ -471,7 +475,7 @@ body.large .bb_dash {
 		
 	.bb_dash .gravatar {
 		height: 16px;
-		vertical-align: middle;
+		/*vertical-align: middle;*/
 		width: 16px;
 	}
 		
