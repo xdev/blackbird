@@ -171,13 +171,12 @@ dataGrid.prototype.getUpdate = function()
 		{
 			method		: 'post', 
 			parameters	: formatPost(sendVars),
-			evalScript	: true,
-			onComplete	: this.prepSearch.bind(this)
+			evalScript	: true			
 		}
 	);
 
 }
-
+/*
 dataGrid.prototype.prepSearch = function()
 {
 	var obj = $(this.data['name_space'] + '_search');
@@ -193,7 +192,7 @@ dataGrid.prototype.prepSearch = function()
 		scope.search();
 	}, true);
 }
-
+*/
 /**
 *	reset
 *

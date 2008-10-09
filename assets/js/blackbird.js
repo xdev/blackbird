@@ -149,6 +149,56 @@ blackbird.prototype.toggleDashItem = function(e)
 	}
 };
 
+blackbird.prototype.promptLogout = function()
+{
+	var changesA = this.checkForChanges();
+	var r = '';
+	if(changesA){
+		r += 'You have unsaved changes!';
+	}
+	
+	var answer = confirm('Logout?\n' + r);
+	if(answer){
+		window.location = this.data.base + 'user/logout';
+	}
+}
+
+blackbird.prototype.handleDelete = function(table,id,name_space)
+{
+	if(name_space == 'main'){
+		window.location = this.data.base + 'table/browse/' + table + '?message=delete&id=' + id;
+	}else{
+		this.closeRecord(name_space,false);
+		//reset the form
+		$('form_'+name_space).reset();
+		//set up callbacks because we want only the correct object to update oye!
+		this.broadcaster.broadcastMessage("onUpdate");		
+	}
+	
+}
+
+blackbird.prototype.promptDeleteRecord = function(table,id,name_space)
+{
+	var answer = confirm('Delete Record?');
+	if(answer){
+		
+		var sendVars = {
+			table:table,
+			id:id
+		}
+		
+		//do the deleting via background ajax - but need to be able to handle errors if they occur
+		var myAjax = new Ajax.Request(
+			this.data.base + 'record/delete',
+			{
+				method:'post',
+				parameters:formatPost(sendVars),
+				onComplete:this.handleDelete.bind(this,table,id,name_space)
+			}
+		);
+	}
+}
+
 blackbird.prototype.openLightbox = function(e)
 {
 
@@ -160,14 +210,7 @@ blackbird.prototype.openLightbox = function(e)
 	sendVars = {};
 		
 	var url = elem.hash.substring(1);
-	if(url == this.data.base + 'user/logout'){
-		//first check to see if we have unsaved changes
-		//if we do, append some info to the request so we can display additional info in the view
-		var changesA = this.checkForChanges();
-		if(changesA){
-			sendVars.changes = true;
-		}
-	}	
+	
 	var myAjax = new Ajax.Updater(
 		$('lightbox').select('div.dialog')[0],
 		url, 
@@ -181,6 +224,11 @@ blackbird.prototype.openLightbox = function(e)
 					Event.observe(document.body, 'click', function(event) {
 					  if (Event.findElement(event).id == 'lightbox') blackbird.closeLightbox();
 					});
+					Event.observe(document,'keypress',function(event){
+						if(event.keyCode == Event.KEY_ESC){
+							blackbird.closeLightbox();
+						}
+					});
 				}
 			}
 		}
@@ -193,6 +241,8 @@ blackbird.prototype.openLightbox = function(e)
 blackbird.prototype.closeLightbox = function()
 {
 	Effect.Fade($('lightbox'),{duration: .25});
+	
+	//clean up event listeners
 };
 
 blackbird.prototype.logout = function()

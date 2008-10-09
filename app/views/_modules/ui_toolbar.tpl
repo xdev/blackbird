@@ -9,15 +9,14 @@
 		<input type="button" value="Save Record" class="button_submit" <?= (($mode == 'edit') ? 'disabled="disabled"' : '') ?> onclick="blackbird.submitMain('<?= $name_space ?>'); return false;" />
 		&nbsp;&nbsp;<a class="revert" href="#" style="display:none;" title="revert form" onclick="$('form_<?= $name_space ?>').reset(); return false;">Revert</a>
 		<?php if($mode == 'edit'): ?>
-		<a class="delete lightbox" href="#<?= BASE ?>record/delete/<?= $table ?>/<?= $id ?>" title="delete record">Delete</a>
+		<a class="delete" href="#" onclick="blackbird.promptDeleteRecord('<?= $table ?>','<?= $id ?>','<?= $name_space ?>'); return false;" title="delete record">Delete</a>
 		<?php endif ?>
-		<!--onclick="blackbird.deleteRecord('<?= $table ?>','<?= $id ?>'); return false;"-->
 		<?php elseif($type == 'related'): ?>
 		<a href="#close" onclick="blackbird.closeRecord('<?= $name_space  ?>'); return false;">Close</a>&nbsp;&nbsp;
 		<input type="button" value="Save Record" class="button_submit" <?= (($mode == 'edit') ? 'disabled="disabled"' : '') ?> onclick="blackbird.submitRelated('<?= $name_space ?>'); return false;" />
 		&nbsp;&nbsp;<a class="revert" href="#" style="display:none;" title="revert form" onclick="$('form_<?= $name_space ?>').reset(); return false;">Revert</a>
 		<?php if($mode == 'edit'): ?>
-		<a class="delete" href="#" title="delete record" onclick="blackbird.deleteRecord('<?= $table ?>','<?= $id ?>'); return false;">Delete</a>
+		<a class="delete" href="#" onclick="blackbird.promptDeleteRecord('<?= $table ?>','<?= $id ?>','<?= $name_space ?>'); return false;" title="delete record">Delete</a>
 		<?php endif ?>
 		<?php elseif($type == 'user'): ?>
 		<input type="button" value="Save" onclick="blackbird.submitMain('<?= $name_space ?>'); return false;" />	

@@ -108,25 +108,13 @@ class UserController extends _Controller
 			)));
 	}
 	
-	public function Loggedout()
+	public function Logout()
 	{
 		$this->layout_view = 'login';
 		$this->layout_file = VIEWS . '_layouts' . DS . $this->layout_view . '.' . VIEW_EXTENSION;
-		$this->view();
-	}
-	
-	public function Processlogout()
-	{
-		$this->layout_view = null;
 		$this->model->logout();
 		$this->view();
-	}
-	
-	public function Logout()
-	{
-		$this->layout_view = null;
-		$changes = Utils::setVar('changes',null);	
-		$this->view(array('data'=>array('changes'=>$changes)));
+		Utils::metaRefresh(BASE . 'user/login?loggedout');
 	}
 	
 	public function Edit()

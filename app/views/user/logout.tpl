@@ -1,3 +1,4 @@
+<!--
 <div class="titlebar">
 	<p id="closeLightbox">Close</p>
 	<h1>Really Logout?</h1>
@@ -17,3 +18,4 @@
 <input type="button" value="Cancel" onclick="blackbird.closeLightbox();" />
 <?php endif ?>
 </div>
+-->
