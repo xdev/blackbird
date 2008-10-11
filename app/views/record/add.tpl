@@ -5,9 +5,10 @@ print $this->fetchView('/_modules/ui_toolbar',array(
 	'mode'=>'insert',
 	'table'=>$this->table,
 	'id'=>$id,
-	'active'=>$active,
 	'name_space'=>'main',
-	'type'=>'main'));
+	'type'=>'main',
+	'permission_insert'=>$permission_insert
+	));
 ?>
 <div id="bb_module">
 <div class="bb_module bb_module_edit">

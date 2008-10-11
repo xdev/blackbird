@@ -166,7 +166,6 @@ class UserModel extends Model
 		}
 		
 		session_destroy();		
-		//$this->cms->session->logged = false;
 	}
 	
 	private function getTables()
@@ -220,8 +219,7 @@ class UserModel extends Model
 		}
 		
 		$this->tables = $tables;
-	
-	
+			
 	}
 	
 	public function getNavigation()
@@ -232,7 +230,6 @@ class UserModel extends Model
 					
 			foreach($tables as $key=>$value){
 				if($value['in_nav'] == 1){
-			
 					if(!isset($navA[$value['menu']])){
 						if($value['menu'] != '' && $value['menu'] != 0){
 							$q_name = $this->db->queryRow("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."menus WHERE id = '$value[menu]'");
@@ -251,13 +248,8 @@ class UserModel extends Model
 			$tempA = array();
 			foreach($navA as $key=>$value)
 			{
-				if($key != 'cms_admin'){
-					if($q = $this->db->queryRow("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."menus WHERE id = '$key'")){
-						$tempA[] = array('position'=>$q['position'],'value'=>$value,'key'=>$key);
-					}
-				}else{
-					//adds to the end, could push to sorted array later
-					$tempA[] = array('position'=>10000,'value'=>$value,'key'=>$key);
+				if($q = $this->db->queryRow("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."menus WHERE id = '$key'")){
+					$tempA[] = array('position'=>$q['position'],'value'=>$value,'key'=>$key);
 				}
 			}
 			$tempA = Utils::arraySort($tempA,'position');

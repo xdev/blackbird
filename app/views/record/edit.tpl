@@ -17,7 +17,10 @@
 					'table'=>$table,
 					'id'=>$id,
 					'name_space'=>$name_space,
-					'type'=>'main')
+					'type'=>'main',
+					'permission_update'=>$permission_update,
+					'permission_delete'=>$permission_delete
+					)
 			) ?>
 			
 			

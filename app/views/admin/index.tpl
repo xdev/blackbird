@@ -2,9 +2,23 @@
 	<h1>Admin</h1>
 </div>
 
-<h2>Important CMS-ish tables</h2>
-<ul>
-	<li><a href="<?= BASE ?>table/browse/<?= BLACKBIRD_TABLE_PREFIX ?>groups">Groups</a></li>
-	<li><a href="<?= BASE ?>table/browse/<?= BLACKBIRD_TABLE_PREFIX ?>users">Users</a></li>
-	<li><a href="<?= BASE ?>table/browse/<?= BLACKBIRD_TABLE_PREFIX ?>history">History</a></li>
-</ul>
+<div id="bb_sections">
+	<div class="section">
+		<div id="dashboard" class="container">
+
+			<div class="bb_dash">
+				<div class="titlebar">
+					<h2>Admin Tables</h2>
+				</div>
+				<div class="content">
+					<ul>
+						<li><a href="<?= BASE ?>table/browse/<?= BLACKBIRD_TABLE_PREFIX ?>groups">Groups</a></li>
+						<li><a href="<?= BASE ?>table/browse/<?= BLACKBIRD_TABLE_PREFIX ?>users">Users</a></li>
+						<li><a href="<?= BASE ?>table/browse/<?= BLACKBIRD_TABLE_PREFIX ?>history">History</a></li>
+					</ul>
+				</div>
+			</div>
+		
+		</div>
+	</div>
+</div>

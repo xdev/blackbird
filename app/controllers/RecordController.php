@@ -35,8 +35,9 @@ class RecordController extends _Controller
 			'id'=>$this->id,
 			'table'=>$this->table,
 			'mode'=>$this->mode,
-			'active'=>$this->model->getActive(),
-			'name_space'=>$this->name_space)));
+			'name_space'=>$this->name_space,
+			'permission_insert'=>_ControllerFront::$session->getPermissions('insert',$this->table)
+			)));
 	}
 	
 	public function Edit()
@@ -67,7 +68,7 @@ class RecordController extends _Controller
 			}
 		
 		}
-		//
+		
 		$this->view(array('data'=>array(
 			'main'=>$main,
 			'related'=>$related,
@@ -75,7 +76,9 @@ class RecordController extends _Controller
 			'name_space'=>$this->name_space,
 			'table'=>$this->table,
 			'id'=>$this->id,
-			'active'=>$this->model->getActive())));
+			'permission_delete'=>_ControllerFront::$session->getPermissions('delete',$this->table),
+			'permission_update'=>_ControllerFront::$session->getPermissions('update',$this->table)
+			)));
 	}
 	
 	public function Editrelated()

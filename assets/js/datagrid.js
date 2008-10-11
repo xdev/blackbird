@@ -34,7 +34,18 @@ function dataGrid(options)
 	}
 	this.getUpdate();
 	
+	var obj = $(this.data['name_space'] + '_search');
+	var scope = this;
 	
+	Event.observe(obj,'keyup', function()
+	{
+		scope.kickSearch();
+	}, true);
+	
+	Event.observe(obj,'change', function()
+	{
+		scope.search();
+	}, true);
 	
 }
 
@@ -176,23 +187,7 @@ dataGrid.prototype.getUpdate = function()
 	);
 
 }
-/*
-dataGrid.prototype.prepSearch = function()
-{
-	var obj = $(this.data['name_space'] + '_search');
-	var scope = this;
-	
-	Event.observe(obj,'keyup', function()
-	{
-		scope.kickSearch();
-	}, true);
-	
-	Event.observe(obj,'change', function()
-	{
-		scope.search();
-	}, true);
-}
-*/
+
 /**
 *	reset
 *
