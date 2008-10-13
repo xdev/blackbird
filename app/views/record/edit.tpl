@@ -71,8 +71,10 @@
 		<div class="bb_toolbar related">
 			<h1>Browsing <?= Utils::titleCase(str_replace('_',' ',$relation['table_child'])) ?></h1>
 			<div class="bb_toolbar_actions">
-				<?php $datagrid = 'data_grid_' . $relation['name_space'] ?>				
+				<?php $datagrid = 'data_grid_' . $relation['name_space'] ?>					
+				<?php if($relation['permission_insert'] == true): ?>
 				<input type="button" value="+ Add Record" onclick="blackbird.addNewRecord('<?= $relation['table_child'] ?>','<?= $relation['name_space'] ?>');" />
+				<?php endif ?>
 				<input class="search" id="<?= $relation['name_space'] ?>_search" type="text" value="Live search..." size="20" onclick="clickclear(this, 'Live search...')" onblur="clickrecall(this,'Live search...')"  />
 				<a class="icon undo" href="#" onclick="<?= $datagrid ?>.reset();" title="Reset Data Grid">Reset filters</a>		
 			</div>

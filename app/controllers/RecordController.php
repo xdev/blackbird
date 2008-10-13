@@ -64,6 +64,7 @@ class RecordController extends _Controller
 				if($relation['label'] == ''){
 					$relation['label'] = $relation['table_child'];
 				}
+				$relation['permission_insert'] = _ControllerFront::$session->getPermissions('insert',$relation['table_child']);
 				$related[$i] = $relation;
 			}
 		

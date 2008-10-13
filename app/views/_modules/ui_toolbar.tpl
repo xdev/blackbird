@@ -11,7 +11,7 @@
 		&nbsp;&nbsp;<a class="revert" href="#" style="display:none;" title="revert form" onclick="$('form_<?= $name_space ?>').reset(); return false;">Revert</a>
 		<?php endif ?>
 		<?php if($mode == 'edit' && $permission_delete == true): ?>
-		<a class="delete" href="#" onclick="blackbird.promptDeleteRecord('<?= $table ?>','<?= $id ?>','<?= $name_space ?>'); return false;" title="delete record">Delete</a>
+		<a class="delete" href="#" onclick="blackbird.promptDeleteRecord('<?= $table ?>','<?= $id ?>','<?= $name_space ?>'); return false;" title="delete record">Delete Record</a>
 		<?php endif ?>
 		<?php elseif($type == 'related'): ?>
 		<a href="#close" onclick="blackbird.closeRecord('<?= $name_space  ?>'); return false;">Close</a>&nbsp;&nbsp;
@@ -20,7 +20,7 @@
 		&nbsp;&nbsp;<a class="revert" href="#" style="display:none;" title="revert form" onclick="$('form_<?= $name_space ?>').reset(); return false;">Revert</a>
 		<?php endif ?>
 		<?php if($mode == 'edit' && $permission_delete == true): ?>
-		<a class="delete" href="#" onclick="blackbird.promptDeleteRecord('<?= $table ?>','<?= $id ?>','<?= $name_space ?>'); return false;" title="delete record">Delete</a>
+		<a class="delete" href="#" onclick="blackbird.promptDeleteRecord('<?= $table ?>','<?= $id ?>','<?= $name_space ?>'); return false;" title="delete record">Delete Record</a>
 		<?php endif ?>
 		<?php elseif($type == 'user'): ?>
 		<input type="button" value="Save" onclick="blackbird.submitMain('<?= $name_space ?>'); return false;" />	

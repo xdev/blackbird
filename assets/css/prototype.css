@@ -250,11 +250,19 @@ body.logged > #bb_main { /* ie7.css */
 			position: absolute;
 				left: 10px;
 				bottom: 5px;
+			width: 100%;
 		}
 		
 			.bb_toolbar .bb_toolbar_actions input,
 			.bb_toolbar .bb_toolbar_actions select {
 				
+			}
+			
+			.bb_toolbar .bb_toolbar_actions a.delete
+			{
+				position: absolute;
+					top: 3px;
+					right: 20px;
 			}
 	
 	#bb_toggle_sections {
