@@ -34,10 +34,10 @@
 					'message'=>'Record ' . $id . ' successfully updated!'
 					)
 				) ?>
-				<?php elseif($_GET['message'] == 'insert'): ?>
+				<?php elseif($_GET['message'] == 'add'): ?>
 				<?= $this->fetchView('/_modules/_message',array(
 					'class'=>'ok',
-					'message'=>'Record ' . $id . ' successfully inserted!'
+					'message'=>'Record ' . $id . ' successfully added!'
 					)
 				) ?>
 				<?php endif ?>

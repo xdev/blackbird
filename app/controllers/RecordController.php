@@ -19,7 +19,7 @@ class RecordController extends _Controller
 		//prepare id 
 		$this->id = '';//get it from somewhere in db
 		$this->table = $this->route['table'];
-		$this->mode = 'insert';
+		$this->mode = 'add';
 		
 		$this->name_space = 'main';
 		$this->channel = 'main';
@@ -111,7 +111,11 @@ class RecordController extends _Controller
 			'mode'=>$this->mode,
 			'name_space'=>$_POST['name_space'],
 			'id'=>$this->id,
-			'active'=>$this->active)));
+			'active'=>$this->active,
+			'permission_delete'=>_ControllerFront::$session->getPermissions('delete',$this->table),
+			'permission_update'=>_ControllerFront::$session->getPermissions('update',$this->table),
+			'permission_insert'=>_ControllerFront::$session->getPermissions('insert',$this->table)			
+			)));
 		
 		$this->layout_view = null;
 		

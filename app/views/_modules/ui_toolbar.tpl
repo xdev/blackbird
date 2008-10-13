@@ -6,7 +6,7 @@
 	<div class="bb_toolbar_actions">
 		<?php if($type == 'main'): ?>
 	 	<a href="#" onclick="blackbird.closeMain('<?= BASE ?>table/browse/<?= $table  ?>'); return false;">« Back to browse</a>&nbsp;&nbsp;
-		<?php if(($mode == 'edit' && $permission_update == true) || ($mode == 'insert' && $permission_insert == true)): ?>
+		<?php if(($mode == 'edit' && $permission_update == true) || ($mode == 'add' && $permission_insert == true)): ?>
 		<input type="button" value="Save Record" class="button_submit" <?= (($mode == 'edit') ? 'disabled="disabled"' : '') ?> onclick="blackbird.submitMain('<?= $name_space ?>'); return false;" />
 		&nbsp;&nbsp;<a class="revert" href="#" style="display:none;" title="revert form" onclick="$('form_<?= $name_space ?>').reset(); return false;">Revert</a>
 		<?php endif ?>
@@ -15,7 +15,7 @@
 		<?php endif ?>
 		<?php elseif($type == 'related'): ?>
 		<a href="#close" onclick="blackbird.closeRecord('<?= $name_space  ?>'); return false;">Close</a>&nbsp;&nbsp;
-		<?php if(($mode == 'edit' && $permission_update == true) || ($mode == 'insert' && $permission_insert == true)): ?>
+		<?php if(($mode == 'edit' && $permission_update == true) || ($mode == 'add' && $permission_insert == true)): ?>
 		<input type="button" value="Save Record" class="button_submit" <?= (($mode == 'edit') ? 'disabled="disabled"' : '') ?> onclick="blackbird.submitRelated('<?= $name_space ?>'); return false;" />
 		&nbsp;&nbsp;<a class="revert" href="#" style="display:none;" title="revert form" onclick="$('form_<?= $name_space ?>').reset(); return false;">Revert</a>
 		<?php endif ?>

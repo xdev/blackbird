@@ -2,10 +2,10 @@
 
 print $this->fetchView('/_modules/ui_toolbar',array(
 	'controller'=>'record',
-	'mode'=>'insert',
+	'mode'=>$mode,
 	'table'=>$this->table,
 	'id'=>$id,
-	'name_space'=>'main',
+	'name_space'=>$name_space,
 	'type'=>'main',
 	'permission_insert'=>$permission_insert
 	));

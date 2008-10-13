@@ -177,7 +177,8 @@ class TableModel extends Model
 							$optionA[] = array('value'=>$row[$field],'label'=>$tv,'selected'=>$sel);
 						}
 					}
-					
+					//sort it
+					$optionA = Utils::arraySort($optionA,'label');					
 					$_filter['options'] = $optionA;					
 					$this->filtersA[$field] = $_filter;
 					

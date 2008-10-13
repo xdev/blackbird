@@ -5,7 +5,11 @@ print $this->fetchView('/_modules/ui_toolbar',array(
 	'table'=>$this->table,
 	'id'=>$id,
 	'name_space'=>$name_space,
-	'type'=>'related'));
+	'type'=>'related',
+	'permission_insert'=>$permission_insert,
+	'permission_update'=>$permission_update,
+	'permission_delete'=>$permission_delete
+	));
 ?>
 
 <div class="container">
