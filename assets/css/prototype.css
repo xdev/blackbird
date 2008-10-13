@@ -482,11 +482,13 @@ body.large .bb_dash {
 /* needs style TLC */
 
 .message {
-	margin-top: 10px;
-	margin-bottom: 10px;
-	font-size: 14px;
-	line-height: 1.25em;
-	padding: 1em 2ex;
+	/*font-size: 14px;*/
+	padding: 10px;
+}
+
+.message a.close
+{
+	margin-left: 5px;
 }
 
 .message.ok {

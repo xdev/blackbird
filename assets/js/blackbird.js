@@ -663,17 +663,19 @@ blackbird.prototype.submitRelated = function(name_space)
 
 blackbird.prototype.submitMain = function(name_space)
 {
-	this.showTab('main');
+	this.showTab(name_space);
+	/*
 	if($('active_' + name_space)){
 		$(name_space + '_active').value = $('active_' + name_space).value;
 	}
+	*/
 	var tA = this.validate(name_space);
 	if(tA == true){
 		//$('edit_buttons').hide();
 	}
 	if(tA.length > 0){
-		this.showTab('main');
-		this.handleErrors(tA,'main');
+		this.showTab(name_space);
+		this.handleErrors(tA,name_space);
 	}
 };
 

@@ -1,6 +1,6 @@
 <div class="bb_dash">
 	<div class="titlebar">
-		<h2>Activity</h2>
+		<h2>Recent Activity</h2>
 	</div>
 	<div class="content">
 		<table>

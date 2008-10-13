@@ -5,11 +5,11 @@
 			<tr>
 				<?php foreach($headerData as $field): ?>
 				<?php if($sort_col == $field['col']): ?>
-				<th class="active <?= ($sort_dir == 'DESC' || !$sort_dir ? 'descending' : 'ascending') ?>"><a href="#" onclick="<?= $datagrid ?>.sortColumn('<?= $field['col'] ?>','<?= ($sort_dir == 'DESC' || !$sort_dir ? 'ASC' : 'DESC') ?>');"><?= $field['col'] ?></a></th>
+				<th class="active <?= ($sort_dir == 'DESC' || !$sort_dir ? 'descending' : 'ascending') ?>"><a href="#" onclick="<?= $datagrid ?>.sortColumn('<?= $field['col'] ?>','<?= ($sort_dir == 'DESC' || !$sort_dir ? 'ASC' : 'DESC') ?>');"><?= Utils::titleCase(str_replace('_',' ',$field['col'])) ?></a></th>
 				<?php elseif(isset($field['injected'])): ?>
-				<th><?= $field['col'] ?></th>
+				<th><?= Utils::titleCase(str_replace('_',' ',$field['col'])) ?></th>
 				<?php else: ?>
-				<th><a href="#" onclick="<?= $datagrid ?>.sortColumn('<?= $field['col'] ?>','ASC');"><?= $field['col'] ?></a></th>
+				<th><a href="#" onclick="<?= $datagrid ?>.sortColumn('<?= $field['col'] ?>','ASC');"><?= Utils::titleCase(str_replace('_',' ',$field['col'])) ?></a></th>
 				<?php endif ?>
 				<?php endforeach ?>
 			</tr>

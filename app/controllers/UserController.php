@@ -136,7 +136,9 @@ class UserController extends _Controller
 			'password_reset'=>$_POST['user_password_reset']))){
 			//send on to something nice
 			
-			$this->view();
+			$this->view(array('data'=>array(
+				'id'=>$this->model->u_id
+				)));
 				
 		}else{
 			
@@ -154,9 +156,23 @@ class UserController extends _Controller
 	{
 		$history = $this->model->getHistory($this->route['user'],50);
 		$record = $this->model->getRecord($this->route['user']);
+		
+		if($this->route['user'] == _ControllerFront::$session->u_id){
+			$user_data = $this->model->u_row;
+		}else{
+			$user_data = null;
+		}
+		
+		$this->loadModel('Dashboard');
+		$m = new DashboardModel();
+		
 		$this->view(array('data'=>array(
 			'history'=>$history,
-			'record'=>$record)
+			'record'=>$record,
+			'name_space'=>'user',
+			'user_data'=>$user_data,
+			'chart_edits'=>$m->getChartEdits($this->route['user'])
+			)
 			)			
 		);
 	}

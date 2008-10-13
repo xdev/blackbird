@@ -1,6 +1,6 @@
 <ul>
 	<?php if(_ControllerFront::$session->logged === true): ?>
-	<li>Logged in as <a href="<?= BASE ?>user/edit"><?= _ControllerFront::$session->displayname ?></a></li>
+	<li>Logged in as <a href="<?= BASE ?>user/profile/<?= _ControllerFront::$session->u_id ?>"><?= _ControllerFront::$session->displayname ?></a></li>
 	<li><a href="<?= BASE ?>admin">Admin</a></li>
 	<li><a href="#" onclick="blackbird.promptLogout(); return false;">Logout</a></li>
 	<?php else: ?>

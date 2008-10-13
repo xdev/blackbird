@@ -6,14 +6,48 @@
 </div>
 <div id="bb_sections">
 <div class="section">
-<div class="container">
-<p>Latest 50, <a href="#">Click here to view entire history</a></p>
+<div id="dashboard" class="container">
+	
+	<?php if(isset($user_data)): ?>
+	<div class="bb_dash">
+		<div class="titlebar">
+			<h2>Details</h2>
+		</div>
+		<div class="content">
+			
+			<?php if(isset($_GET['message'])): ?>
+			<?= $this->fetchView('/_modules/_message',array(
+				'class'=>'ok',
+				'message'=>'Profile updated!'
+				)
+			) ?>	
+			<?php endif ?>
+			
+			<div class="bb_module bb_module_edit">
+			<form id="form_<?= $name_space ?>" name="form_<?= $name_space ?>" enctype="multipart/form-data" action="<?= BASE ?>user/processedit" method="post" target="form_target_<?= $name_space ?>" onsubmit="Element.show('ajax');" >
+			<?php
+			Forms::text($name_space . '_firstname',$user_data['firstname'],array('label'=>'First Name','validate'=>'default'));
+			Forms::text($name_space . '_lastname',$user_data['lastname'],array('label'=>'Last Name','validate'=>'default'));
+			Forms::text($name_space . '_email',$user_data['email'],array('label'=>'Email','validate'=>'default'));
+			Forms::text($name_space . '_password_reset','',array('label'=>'Reset Password','type'=>'password'));
+			?>
+			<input type="button" value="submit" onclick="blackbird.submitMain('<?= $name_space ?>'); return false;" />
+			</form>
+			<iframe id="form_target_<?= $name_space ?>" name="form_target_<?= $name_space ?>" class="related_iframe"></iframe>
+			</div>
+		</div>
+	</div>
+	<?php endif ?>
+
+<?= $this->fetchView('/dashboard/_chart_edits',array('percents'=>$chart_edits['percents'],'labels'=>$chart_edits['labels'])) ?>
+
 <div class="bb_dash">
 	<div class="titlebar">
-		<h2>Activity</h2>
+		<h2>Recent Activity</h2>
 	</div>
 	<div class="content">
 <table>
+	<p>Latest 50, <a href="#">Click here to view entire history</a></p>
 	<thead>
 		<tr>
 			<th>Action</th>
@@ -50,6 +84,22 @@
 	</tbody>
 </table>
 </div>
+
+<script type="text/javascript">
+	/*
+	onrelease, send to a cookie that remembers the state and position of stuffs
+	*/
+	Sortable.create(
+		$('dashboard'),
+		{
+			overlap		: "horizontal",
+			tag			: 'div',
+			constraint	: false,
+			handle		: "titlebar"
+	    }
+	);
+</script>
+
 </div>
 </div>
 </div>

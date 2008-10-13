@@ -59,6 +59,23 @@ class DashboardModel extends Model
 		return $this->db->query("SHOW TABLE STATUS");	
 	}
 	
+	private function formatChartData($dataA)
+	{
+		$percents = '';
+		$labels = '';
+		for($i=0;$i<count($dataA);$i++){
+			$row = $dataA[$i];
+			$percents .= $row['percent'];
+			$labels .= $row['name'] . ' (' . $row['total'] . ')';
+			if($i<count($dataA)-1){
+				$percents .= ',';
+				$labels .= '|';
+			}
+		}
+		
+		return array('labels'=>$labels,'percents'=>$percents,'data'=>$dataA);
+	}
+	
 	public function getChartUsers()
 	{
 		//select
@@ -70,52 +87,50 @@ class DashboardModel extends Model
 			$perc = $row['total']/$q_tot['total'];
 			$dataA[] = array('name'=>$q_user['firstname'] . ' ' . $q_user['lastname'],'total'=>$row['total'],'percent'=>floor(100*($perc)),'percent_actual'=>round($perc*100,2));			
 		}
-		$dataA = Utils::arraySort($dataA,'percent');
 		
-		$percents = '';
-		$labels = '';
-		for($i=0;$i<count($dataA);$i++){
-			$row = $dataA[$i];
-			$percents .= $row['percent'];
-			$labels .= $row['name'] . ' (' . $row['total'] . ')';
-			if($i<count($dataA)-1){
-				$percents .= ',';
-				$labels .= '|';
-			}
-		}
-		
-		$tA = array('labels'=>$labels,'percents'=>$percents,'data'=>$dataA);
-		
-		return $tA;
+		return $this->formatChartData(Utils::arraySort($dataA,'percent'));
 	}
 	
-	public function getChartEdits($id='')
+	public function getChartTables($id='')
 	{
-		$q_tot = $this->db->queryRow("SELECT count(*) AS total FROM " . BLACKBIRD_TABLE_PREFIX . "history");
-		$q = $this->db->query("SELECT count(*) AS total,action FROM " . BLACKBIRD_TABLE_PREFIX . "history WHERE user_id != '' GROUP BY action");
+		$where = '';
+		if($id != ''){
+			$where = " WHERE user_id = '$id' ";
+		}else{
+			$where = " WHERE user_id != '' ";
+		}
+		
+		$q_tot = $this->db->queryRow("SELECT count(*) AS total FROM " . BLACKBIRD_TABLE_PREFIX . "history " . $where);
+		$q = $this->db->query("SELECT count(*) AS total,action FROM " . BLACKBIRD_TABLE_PREFIX . "history " . $where . " GROUP BY action");
 		
 		$dataA = array();
 		foreach($q as $row){
 			$perc = $row['total']/$q_tot['total'];
 			$dataA[] = array('name'=>$row['action'],'total'=>$row['total'],'percent'=>floor(100*($perc)),'percent_actual'=>round($perc*100,2));			
 		}
-		$dataA = Utils::arraySort($dataA,'percent');
 		
-		$percents = '';
-		$labels = '';
-		for($i=0;$i<count($dataA);$i++){
-			$row = $dataA[$i];
-			$percents .= $row['percent'];
-			$labels .= $row['name'] . ' (' . $row['total'] . ')';
-			if($i<count($dataA)-1){
-				$percents .= ',';
-				$labels .= '|';
-			}
+		return $this->formatChartData(Utils::arraySort($dataA,'percent'));
+	}
+	
+	public function getChartEdits($id='')
+	{
+		$where = '';
+		if($id != ''){
+			$where = " WHERE user_id = '$id' ";
+		}else{
+			$where = " WHERE user_id != '' ";
 		}
 		
-		$tA = array('labels'=>$labels,'percents'=>$percents,'data'=>$dataA);
+		$q_tot = $this->db->queryRow("SELECT count(*) AS total FROM " . BLACKBIRD_TABLE_PREFIX . "history " . $where);
+		$q = $this->db->query("SELECT count(*) AS total,action FROM " . BLACKBIRD_TABLE_PREFIX . "history " . $where . " GROUP BY action");
 		
-		return $tA;
+		$dataA = array();
+		foreach($q as $row){
+			$perc = $row['total']/$q_tot['total'];
+			$dataA[] = array('name'=>$row['action'],'total'=>$row['total'],'percent'=>floor(100*($perc)),'percent_actual'=>round($perc*100,2));			
+		}
+		
+		return $this->formatChartData(Utils::arraySort($dataA,'percent'));
 	}
 	
 }

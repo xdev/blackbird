@@ -188,7 +188,7 @@ class RecordController extends _Controller
 			$value = $column['value'];
 
 			$col_ready = false;
-			$display_name = ucfirst(preg_replace('[_]',' ',$column['name']));
+			$display_name = Utils::titleCase(str_replace('_',' ',$column['name']));
 
 			$options['label'] = $display_name;
 			$options['name_space'] = $_name_space;
