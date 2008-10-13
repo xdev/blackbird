@@ -171,7 +171,8 @@ class UserController extends _Controller
 			'record'=>$record,
 			'name_space'=>'user',
 			'user_data'=>$user_data,
-			'chart_edits'=>$m->getChartEdits($this->route['user'])
+			'chart_edits'=>$m->getChartEdits($this->route['user']),
+			'chart_tables'=>$m->getChartTables($this->route['user'])
 			)
 			)			
 		);

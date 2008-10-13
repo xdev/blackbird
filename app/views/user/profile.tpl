@@ -40,7 +40,7 @@
 	<?php endif ?>
 
 <?= $this->fetchView('/dashboard/_chart_edits',array('percents'=>$chart_edits['percents'],'labels'=>$chart_edits['labels'])) ?>
-
+<?= $this->fetchView('/dashboard/_chart_tables',array('percents'=>$chart_tables['percents'],'labels'=>$chart_tables['labels'])) ?>
 <div class="bb_dash">
 	<div class="titlebar">
 		<h2>Recent Activity</h2>
@@ -84,6 +84,8 @@
 	</tbody>
 </table>
 </div>
+
+
 
 <script type="text/javascript">
 	/*

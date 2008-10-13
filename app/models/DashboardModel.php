@@ -44,7 +44,8 @@ class DashboardModel extends Model
 				'activity'=>$q_activity['modtime'],
 				'user_id'=>$row['id'],
 				'email'=>$row['email'],
-				'gravatar'=>'http://www.gravatar.com/avatar/' . md5($row['email']) . '?s='
+				'gravatar'=>'http://www.gravatar.com/avatar/' . md5($row['email']) . '?s=',
+				'groups'=>_ControllerFront::formatCol('groups',$row['groups'],null)
 			);
 		}
 		$tA = Utils::arraySort($tA,'activity');
@@ -101,12 +102,12 @@ class DashboardModel extends Model
 		}
 		
 		$q_tot = $this->db->queryRow("SELECT count(*) AS total FROM " . BLACKBIRD_TABLE_PREFIX . "history " . $where);
-		$q = $this->db->query("SELECT count(*) AS total,action FROM " . BLACKBIRD_TABLE_PREFIX . "history " . $where . " GROUP BY action");
+		$q = $this->db->query("SELECT count(*) AS total,table_name FROM " . BLACKBIRD_TABLE_PREFIX . "history " . $where . " GROUP BY table_name");
 		
 		$dataA = array();
 		foreach($q as $row){
 			$perc = $row['total']/$q_tot['total'];
-			$dataA[] = array('name'=>$row['action'],'total'=>$row['total'],'percent'=>floor(100*($perc)),'percent_actual'=>round($perc*100,2));			
+			$dataA[] = array('name'=>$row['table_name'],'total'=>$row['total'],'percent'=>floor(100*($perc)),'percent_actual'=>round($perc*100,2));			
 		}
 		
 		return $this->formatChartData(Utils::arraySort($dataA,'percent'));
