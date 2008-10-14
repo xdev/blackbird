@@ -600,17 +600,11 @@ blackbird.prototype.onRemoteErrors = function(obj)
 	}
 	
 	//unblock browser
-	
-	if(obj.name_space != 'main'){
-		//show form buttons
-		//var tA = $('section_' + obj.name_space).select('.buttons');
-		//var obj = tA[0];
-		//obj.show();
-		//new Effect.Opacity(obj, {duration:0.5, from:0.2, to:1.0});
-	}
-	if(obj.name_space == 'main'){
-		//$('edit_buttons').show();	
-	}
+	this.unblockApp();
+	$('section_' + obj.name_space).select('.revert')[0].show();
+	var elem = $('section_' + obj.name_space).select('.button_submit')[0];		
+	elem.enable();
+	elem.value = 'Save Record';
 	
 	//alert it up
 	alert(t.stripHTML());
@@ -654,13 +648,29 @@ blackbird.prototype.submitRelated = function(name_space)
 	var errorsA = this.validate(name_space);
 	if(errorsA == true){
 		this.broadcaster.broadcastMessage("onSubmit");
-		//$('pane_' + name_space).select('.buttons')[0].hide();
-		
+		this.blockApp();
+		$('section_' + name_space).select('.revert')[0].hide();
+		var elem = $('section_' + name_space).select('.button_submit')[0];		
+		elem.disable();
+		elem.value = 'Saving...';
 	}
 	if(errorsA.length > 0){
 		this.handleErrors(errorsA,name_space);
 	}
-};
+}
+
+blackbird.prototype.unblockApp = function()
+{
+	//stop observing Event.observe($('blocker'),'click',function(){return false;});	
+	$('blocker').remove();
+}
+
+blackbird.prototype.blockApp = function()
+{
+	$('body').insert({bottom: '<div id="blocker"></div>'});
+	Event.observe($('blocker'),'click',function(){return false;});	
+}
+
 
 /**
 *	submitMain
@@ -678,13 +688,17 @@ blackbird.prototype.submitMain = function(name_space)
 	*/
 	var tA = this.validate(name_space);
 	if(tA == true){
-		//$('edit_buttons').hide();
+		this.blockApp();
+		$('section_' + name_space).select('.revert')[0].hide();
+		var elem = $('section_' + name_space).select('.button_submit')[0];		
+		elem.disable();
+		elem.value = 'Saving...';
 	}
 	if(tA.length > 0){
 		this.showTab(name_space);
 		this.handleErrors(tA,name_space);
 	}
-};
+}
 
 /**
 *	validate
