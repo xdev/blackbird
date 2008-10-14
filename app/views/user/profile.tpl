@@ -31,7 +31,12 @@
 			Forms::text($name_space . '_email',$user_data['email'],array('label'=>'Email','validate'=>'default'));
 			Forms::text($name_space . '_password_reset','',array('label'=>'Reset Password','type'=>'password'));
 			?>
-			<input type="button" value="submit" onclick="blackbird.submitMain('<?= $name_space ?>'); return false;" />
+			<div class="form_item buttons">
+				<label></label>
+				<div class="input">
+					<input type="button" value="submit" onclick="blackbird.submitMain('<?= $name_space ?>'); return false;" />
+				</div>
+			</div>
 			</form>
 			<iframe id="form_target_<?= $name_space ?>" name="form_target_<?= $name_space ?>" class="related_iframe"></iframe>
 			</div>

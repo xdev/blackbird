@@ -498,12 +498,19 @@ blackbird.prototype.handleErrors = function(obj,name_space)
 		}
 	}
 	
-	alert(t);
+	alert(t.stripHTML());
 	
 	//focus first field
 	obj[0].field.focus();
 		
 	//display error dialog
+};
+
+//http://www.geekpedia.com/code20_Strip-HTML-using-JavaScript.html
+String.prototype.stripHTML = function()
+{
+	var matchTag = /<(?:.|\s)*?>/g;
+	return this.replace(matchTag, "");
 };
 
 /*
@@ -606,7 +613,7 @@ blackbird.prototype.onRemoteErrors = function(obj)
 	}
 	
 	//alert it up
-	alert(t);
+	alert(t.stripHTML());
 	//focus first element?	
 	$(obj.name_space + '_' + obj.errors[0].field).focus();
 	

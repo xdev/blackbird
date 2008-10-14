@@ -3,18 +3,21 @@
 		<h2>Users</h2>
 	</div>
 	<div class="content">
-		<p style="padding-left:10px;padding-top:10px;">
-			<input type="button" value="+ Add User" onclick="window.location='<?= BASE ?>record/add/<?= BLACKBIRD_USERS_TABLE ?>';" />
-			<!--<a href="<?= BASE ?>record/add/<?= BLACKBIRD_USERS_TABLE ?>">Add New User</a>-->
+		<p style="padding-left:10px;padding-top:10px;">This text needs to explain the way in which users work, that they can belong to multiple groups if necessary, etc.</p>
+		<p style="padding-left:10px;padding-top:10px;"><input type="button" value="+ Add User" onclick="window.location='<?= BASE ?>record/add/<?= BLACKBIRD_USERS_TABLE ?>';" />
+			&nbsp;&nbsp;<a href="<?= BASE ?>table/browse/<?= BLACKBIRD_USERS_TABLE ?>">Browse Users</a>
 		</p>
 		<table>
 			<thead>
-				<th>Name</th>
-				<th>Activity</th>
-				<th>Groups</th>
+				<tr>
+					<th>Name</th>
+					<th>Activity</th>
+					<th>Groups</th>
+				</tr>
 			</thead>
 			<tbody>
 			<?php $i=0; ?>
+			<?php $data = Utils::arraySort($data,'name'); ?>
 			<?php foreach($data as $row): ?>
 			<tr class="<?= $i++%2 ? 'even' : 'odd' ?>">
 				<td><img class="gravatar" alt="Gravatar" title="Gravatar" src="<?= $row['gravatar'] ?>16" />&nbsp;<a href="<?= BASE ?>record/edit/<?= BLACKBIRD_USERS_TABLE ?>/<?= $row['user_id'] ?>"><?= $row['name'] ?></a></td>

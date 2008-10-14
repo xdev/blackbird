@@ -9,8 +9,13 @@
 <?php
 Forms::text($name_space . '_login',$login,array('label'=>'Email'));
 ?>
-<input type="button" value="submit" onclick="$('form_<?= $name_space ?>').submit(); return false;" />
-<input type="button" value="cancel" onclick="window.parent.location = '<?= BASE ?>user/login'; return false;" />
+<div class="form_item buttons">
+	<label></label>
+	<div class="input">
+		<input type="button" value="submit" onclick="$('form_<?= $name_space ?>').submit(); return false;" />
+		<input type="button" value="cancel" onclick="window.parent.location = '<?= BASE ?>user/login'; return false;" />
+	</div>
+</div>
 </form>
 <iframe id="form_target_<?= $name_space ?>" name="form_target_<?= $name_space ?>" class="related_iframe"></iframe>
 </div>

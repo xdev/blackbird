@@ -20,7 +20,7 @@
 					<td class="<?= $row['action'] ?>"><?= ucfirst($row['action']) ?></td>
 					<td><a href="<? BASE ?>table/browse/<?= $row['table_name'] ?>"><?= Utils::titleCase(str_replace('_',' ',$row['table_name'])) ?></a></td>
 					<?php if($row['action'] != 'delete'): ?>
-					<td><a href="<? BASE ?>record/edit/<?= $row['table_name'] ?>/<?= $row['record_id'] ?>"><?= $row['record_id'] ?></td>
+					<td><a href="<? BASE ?>record/edit/<?= $row['table_name'] ?>/<?= $row['record_id'] ?>"><?= $row['record_id'] ?></a></td>
 					<?php else: ?>
 					<td><?= $row['record_id'] ?></td>
 					<?php endif ?>

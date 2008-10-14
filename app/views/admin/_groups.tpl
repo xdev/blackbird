@@ -3,15 +3,17 @@
 		<h2>Groups</h2>
 	</div>
 	<div class="content">
-		<p style="padding-left:10px;padding-top:10px;">
-			<input type="button" value="+ Add Group" onclick="window.location='<?= BASE ?>record/add/<?= BLACKBIRD_TABLE_PREFIX ?>groups';" />
-			<!--<a href="<?= BASE ?>record/add/<?= BLACKBIRD_TABLE_PREFIX ?>groups">Add New Group</a>-->
+		<p style="padding-left:10px;padding-top:10px;">This text needs to explain the way in which groups work - for each table in the database the privilege of browse, update, insert, and delete can be granted.</p>
+		<p style="padding-left:10px;padding-top:10px;"><input type="button" value="+ Add Group" onclick="window.location='<?= BASE ?>record/add/<?= BLACKBIRD_TABLE_PREFIX ?>groups';" />
+			&nbsp;&nbsp;<a href="<?= BASE ?>table/browse/<?= BLACKBIRD_TABLE_PREFIX ?>groups">Browse Groups</a>
 		</p>
 		<table>
 			<thead>
-				<th>Name</th>
-				<th>Users</th>
-				<th>Admin</th>
+				<tr>
+					<th>Name</th>
+					<th>Users</th>
+					<th>Admin</th>
+				</tr>
 			</thead>
 			<tbody>
 			<?php $i=0; ?>
