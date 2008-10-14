@@ -547,6 +547,8 @@ blackbird.prototype.onRemoteComplete = function(obj)
 		//should reload form for simplicity
 	}
 	
+	this.unblockApp();
+	
 	//if(listener[method]){
 	//	listener[method].apply(listener,[obj]);
 	//}

@@ -348,7 +348,7 @@ body.logged > #bb_main { /* ie7.css */
 			position: absolute;
 				top: 27px;
 				right: 0;
-				bottom: 40%;
+				bottom: 60%;
 				left: 0;
 		}
 		
@@ -358,7 +358,7 @@ body.logged > #bb_main { /* ie7.css */
 		
 		#bb_sections .related .record {
 			position: absolute;
-				top: 60%;
+				top: 40%;
 				right: 0;
 				bottom: 0;
 				left: 0;
