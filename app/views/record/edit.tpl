@@ -63,48 +63,50 @@
 	</div>
 
 	<?php if(is_array($related)) foreach($related as $relation): ?>
-	<div class="section" id="section_<?= $relation['name_space'] ?>" style="display:none;">
-		<?php if($relation['display'] == 'data_grid'): ?>
-		<div class="record edit_form detail" style="display:none;"></div>
+	<div class="section related" id="section_<?= $relation['name_space'] ?>" style="display:none;">
 		
+		<?php if($relation['display'] == 'data_grid'): ?>
+			
 		<div class="browse">
-		<div class="bb_toolbar related">
-			<h1>Browsing <?= Utils::titleCase(str_replace('_',' ',$relation['table_child'])) ?></h1>
-			<div class="bb_toolbar_actions">
-				<?php $datagrid = 'data_grid_' . $relation['name_space'] ?>					
-				<?php if($relation['permission_insert'] == true): ?>
-				<input type="button" value="+ Add Record" onclick="blackbird.addNewRecord('<?= $relation['table_child'] ?>','<?= $relation['name_space'] ?>');" />
-				<?php endif ?>
-				<input class="search" id="<?= $relation['name_space'] ?>_search" type="text" value="Live search..." size="20" onclick="clickclear(this, 'Live search...')" onblur="clickrecall(this,'Live search...')"  />
-				<a class="icon undo" href="#" onclick="<?= $datagrid ?>.reset();" title="Reset Data Grid">Reset filters</a>		
+			<div class="bb_toolbar related">
+				<h1>Browsing <?= Utils::titleCase(str_replace('_',' ',$relation['table_child'])) ?></h1>
+				<div class="bb_toolbar_actions">
+					<?php $datagrid = 'data_grid_' . $relation['name_space'] ?>					
+					<?php if($relation['permission_insert'] == true): ?>
+					<input type="button" value="+ Add Record" onclick="blackbird.addNewRecord('<?= $relation['table_child'] ?>','<?= $relation['name_space'] ?>');" />
+					<?php endif ?>
+					<input class="search" id="<?= $relation['name_space'] ?>_search" type="text" value="Live search..." size="20" onclick="clickclear(this, 'Live search...')" onblur="clickrecall(this,'Live search...')"  />
+					<a class="icon undo" href="#" onclick="<?= $datagrid ?>.reset();" title="Reset Data Grid">Reset filters</a>		
+				</div>
+			</div>
+			<div class="table">
+				<script type="text/javascript">
+					<!-- <![CDATA[
+					document.observe("dom:loaded",function(){
+					data_grid_<?= $relation['name_space'] ?> = new dataGrid(
+						{
+							mode: "related",
+							table: "<?= $relation['table_child'] ?>",
+							table_parent: "<?= $relation['table_parent'] ?>",
+							id_parent: "<?= $id ?>",
+							name_space: "<?= $relation['name_space'] ?>",
+							base: "<?= BASE ?>"
+							<?= (isset($relation['sql_where']) ? sprintf(',sql_where: "%s"',$relation['sql_where']) : '') ?>
+						}
+					);
+					blackbird.broadcaster.addListener(data_grid_<?= $relation['name_space'] ?>);
+					});
+					// ]]> -->
+				</script>
 			</div>
 		</div>
+		<div class="record edit_form detail" style="display:none;">
+			<!-- EDIT RELATED RECORD INSERTED HERE -->
+		</div>
 		
-		<div class="table">
-			<script type="text/javascript">
-				<!-- <![CDATA[
-				document.observe("dom:loaded",function(){
-				data_grid_<?= $relation['name_space'] ?> = new dataGrid(
-					{
-						mode: "related",
-						table: "<?= $relation['table_child'] ?>",
-						table_parent: "<?= $relation['table_parent'] ?>",
-						id_parent: "<?= $id ?>",
-						name_space: "<?= $relation['name_space'] ?>",
-						base: "<?= BASE ?>"
-						<?= (isset($relation['sql_where']) ? sprintf(',sql_where: "%s"',$relation['sql_where']) : '') ?>
-					}
-				);
-				blackbird.broadcaster.addListener(data_grid_<?= $relation['name_space'] ?>);
-				});
-				// ]]> -->
-			</script>
-		</div>
-		</div>
 		<?php elseif($relation['display'] == 'image_browser'): ?>
-		<div class="record edit_form detail" style="display:none;"></div>
 			
-			<div class="browse">
+		<div class="browse">
 			<div class="table">
 				<?= $this->fetchView('/imagebrowser/browse',array(
 					'name_space'=>$relation['name_space'],
@@ -113,7 +115,11 @@
 					'id'=>$id)
 				) ?>
 			</div>
-			</div>
+		</div>
+		<div class="record edit_form detail" style="display:none;">
+			<!-- EDIT RELATED RECORD INSERTED HERE -->
+		</div>
+		
 		<?php elseif($relation['display'] == 'plugin'): ?>
 			
 		<?php endif ?>

@@ -41,6 +41,7 @@
 	text-align: left;
 	text-shadow: #D9DFE5 0px 1px 0;
 	vertical-align: bottom;
+	white-space: nowrap;
 }
 
 	.data_grid thead tr th a {
