@@ -535,7 +535,7 @@ blackbird.prototype.onRemoteComplete = function(obj)
 	
 	//create message div or something
 	
-	if(obj.channel == 'related'){	
+	if(obj.channel == 'related'){
 		this.closeRecord(obj.name_space,false);
 		//reset the form
 		$('form_'+obj.name_space).reset();
@@ -816,6 +816,10 @@ blackbird.prototype.closeMain = function(url)
 
 blackbird.prototype.closeRecord = function(name_space,check)
 {
+	var obj = eval('window.data_grid_' + name_space);
+	if(obj !== undefined){
+		obj.clearHilite();
+	}
 	
 	var close = true;
 	if(check){

@@ -141,7 +141,11 @@ dataGrid.prototype.editRecord = function(id,elem)
 	
 	blackbird.recordHandler(this.data.table,id,this.data.name_space,'edit',blackbird.processEdit,'update');
 	
-	this.clearHilite();
+	if(this.tr != undefined && this.tr == p){	
+		
+	}else{
+		this.clearHilite();
+	}
 	
 	this.tr = p;
 	

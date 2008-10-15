@@ -104,7 +104,9 @@
 	}
 	
 	.data_grid tbody tr:hover td,
-	.data_grid tbody tr.odd:hover td {
+	.data_grid tbody tr.odd:hover td,
+	.data_grid tbody tr.active td,
+	.data_grid tbody tr.odd.active td {
 		background: #5B6373 url(../img/gradient-30.png) 0 100% repeat-x;
 		color: #FFFFFF;
 		cursor: pointer;
