@@ -768,17 +768,14 @@ blackbird.prototype.processEdit = function()
 
 blackbird.prototype.openRecord = function(name_space)
 {
-	var obj = $('section_' + name_space).select('.edit_form')[0];
-	if (obj.style.display == 'none') {
-		//Effect.SlideDown(obj, {duration: .5});
-	}
-	obj.show();
-	
 	this.broadcaster.broadcastMessage("onOpen");
-	//hide the datagrid for this section ehh
-	obj = $('section_' + name_space).select('.browse')[0];
-	obj.addClassName('edit');
-	//obj.hide();
+	
+	var obj = $('section_' + name_space).select('.browse')[0];
+	new Effect.Tween(obj, 0, 60, { duration: 0.5 }, function(value) { this.style.bottom = value + '%'; } );
+	
+	var obj = $('section_' + name_space).select('.edit_form')[0];
+	obj.show();
+	new Effect.Tween(obj, 100, 40, { duration: 0.5 }, function(value) { this.style.top = value + '%'; } );
 	
 };
 
@@ -841,19 +838,17 @@ blackbird.prototype.closeRecord = function(name_space,check)
 	}
 	
 	if(close == true){
+		this.broadcaster.broadcastMessage("onClose");
+		
+		var obj = $('section_' + name_space).select('.browse')[0];
+		//afterFinish: function() { return }
+		new Effect.Tween(obj, 60, 0, { duration: 0.5 }, function(value) { this.style.bottom = value + '%'; } );
 		
 		var obj = $('section_' + name_space).select('.edit_form')[0];
-		//Effect.SlideUp(obj, {duration: .5});
-		obj.hide();
-
-		this.broadcaster.broadcastMessage("onClose");
-		//show the datagrid for this section ehh
-		obj = $('section_' + name_space).select('.browse')[0];
-		obj.removeClassName('edit');
-		//obj.show();
-		
+		new Effect.Tween(obj, 40, 100, { duration: 0.5 }, function(value) { this.style.top = value + '%'; } );
+	
 	}
-};
+}
 
 /**
 *	recordHandler
