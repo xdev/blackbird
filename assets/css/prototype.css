@@ -531,8 +531,7 @@ body.large .bb_dash {
 	color: #CC1919;
 }
 
-#blocker
-{
+#blocker {
 	background: url(../img/blocker.png) 0 0 repeat;
 	position: fixed;
 		top: 0;
@@ -543,3 +542,29 @@ body.large .bb_dash {
 	height: 100%;
 	cursor: progress !important;
 }
+
+/*
+.divider {
+	background-color: #161C26;
+	background-image: url(../img/gradient-30.png);
+	background-position: 0 100%;
+	background-repeat: repeat-x;
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	font-size: 13px;
+	line-height: 1em;
+	color: #A1B1C1;
+	width: 100%;
+	height: 20px;
+	
+}
+
+.divider .handle {
+	text-transform: uppercase;
+	display: block;
+	width: 100px;
+	margin-left: auto;
+	margin-right: auto;
+	cursor: move;
+}
+*/
