@@ -71,6 +71,7 @@ ImageBrowser.prototype.createSortable = function()
 			overlap		: "horizontal",
 			constraint	: false,
 			handle		: "handle",
+			scroll		: window,
      		onUpdate	: this.onOrderChange.bind(this)
         }
 	);
