@@ -1,4 +1,4 @@
-<!--<div class="divider"><div class="handle">drag</div></div>-->
+<div class="divider"></div>
 
 <?= $this->fetchView('/_modules/ui_toolbar',array(
 	'controller'=>'record',

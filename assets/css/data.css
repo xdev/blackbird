@@ -112,7 +112,7 @@
 		cursor: pointer;
 	}
 	.data_grid tbody tr.active td {
-		background-color: #1A1C26 !important;
+		background-color: #31363F !important;
 	}
 	.data_grid thead tr.filter td,
 	.data_grid thead tr.filter:hover td {
