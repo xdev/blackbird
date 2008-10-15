@@ -770,12 +770,15 @@ blackbird.prototype.openRecord = function(name_space)
 {
 	this.broadcaster.broadcastMessage("onOpen");
 	
-	var obj = $('section_' + name_space).select('.browse')[0];
-	new Effect.Tween(obj, 0, 60, { duration: 0.5 }, function(value) { this.style.bottom = value + '%'; } );
-	
 	var obj = $('section_' + name_space).select('.edit_form')[0];
-	obj.show();
-	new Effect.Tween(obj, 100, 40, { duration: 0.5 }, function(value) { this.style.top = value + '%'; } );
+	
+	if (!obj.visible()) {
+		obj.show();
+		new Effect.Tween(obj, 100, 50, { duration: 0.6 }, function(value) { this.style.top = value + '%'; } );
+	
+		var obj = $('section_' + name_space).select('.browse')[0];
+		new Effect.Tween(obj, 0, 50, { duration: 0.6 }, function(value) { this.style.bottom = value + '%'; } );
+	}
 	
 };
 
@@ -842,10 +845,16 @@ blackbird.prototype.closeRecord = function(name_space,check)
 		
 		var obj = $('section_' + name_space).select('.browse')[0];
 		//afterFinish: function() { return }
-		new Effect.Tween(obj, 60, 0, { duration: 0.5 }, function(value) { this.style.bottom = value + '%'; } );
+		new Effect.Tween(obj, 50, 0, { duration: 0.6 }, function(value) { this.style.bottom = value + '%'; } );
 		
 		var obj = $('section_' + name_space).select('.edit_form')[0];
-		new Effect.Tween(obj, 40, 100, { duration: 0.5 }, function(value) { this.style.top = value + '%'; } );
+		new Effect.Tween(obj, 50, 100,
+			{
+				duration: 0.6,
+				afterFinish: function() { obj.hide(); }
+			},
+			function(value) { this.style.top = value + '%'; }
+		);
 	
 	}
 }

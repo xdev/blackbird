@@ -19,7 +19,7 @@
 	border-bottom: none;
 	font-size: 11px;
 	margin: 0;
-	padding: 5px;
+	padding: 4px 5px;
 }
 .data_grid tr th:first-child,
 .data_grid tr td:first-child {
@@ -49,8 +49,8 @@
 		background-repeat: no-repeat;
 		color: #1C2E4D;
 		display: block;
-		margin:  -5px;
-		padding: 5px;
+		margin:  -4px -5px;
+		padding: 4px 5px;
 		text-decoration: none;
 		width: 100%;
 	}
@@ -110,6 +110,9 @@
 		background: #5B6373 url(../img/gradient-30.png) 0 100% repeat-x;
 		color: #FFFFFF;
 		cursor: pointer;
+	}
+	.data_grid tbody tr.active td {
+		background-color: #1A1C26 !important;
 	}
 	.data_grid thead tr.filter td,
 	.data_grid thead tr.filter:hover td {
