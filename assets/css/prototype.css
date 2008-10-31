@@ -344,13 +344,6 @@ body.logged > #bb_main { /* ie7.css */
 				bottom: 0;
 				left: 0;
 		}
-		#bb_sections .related .browse.edit {
-			position: absolute;
-				top: 27px;
-				right: 0;
-				bottom: 60%;
-				left: 0;
-		}
 		
 			#bb_sections .related .browse .container {
 				top: 60px;
@@ -538,8 +531,7 @@ body.large .bb_dash {
 	color: #CC1919;
 }
 
-#blocker
-{
+#blocker {
 	background: url(../img/blocker.png) 0 0 repeat;
 	position: fixed;
 		top: 0;
@@ -549,4 +541,13 @@ body.large .bb_dash {
 	width: 100%;
 	height: 100%;
 	cursor: progress !important;
+}
+
+.divider {
+	background: #161C26 url(../img/gradient-30.png) 0 100% repeat-x;
+	border-top: 1px solid #2A2E40;
+	border-bottom: 1px solid #000000;
+	color: #A1B1C1;
+	cursor: ns-resize;
+	height: 4px;
 }

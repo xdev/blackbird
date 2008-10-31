@@ -1,5 +1,6 @@
-<?php
-print $this->fetchView('/_modules/ui_toolbar',array(
+<div class="divider"></div>
+
+<?= $this->fetchView('/_modules/ui_toolbar',array(
 	'controller'=>'record',
 	'mode'=>$mode,
 	'table'=>$this->table,

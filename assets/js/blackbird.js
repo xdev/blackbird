@@ -721,7 +721,10 @@ blackbird.prototype.validate = function(name_space)
 
 blackbird.prototype.addNewRecord = function(table,name_space)
 {
-
+	var obj = eval('window.data_grid_' + name_space);
+	if(obj !== undefined){
+		obj.clearHilite();
+	}
 	this.recordHandler(table,'',name_space,'add',this.processAdd,'insert');
 	this.broadcaster.broadcastMessage("onAddNew");
 	
@@ -770,14 +773,49 @@ blackbird.prototype.openRecord = function(name_space)
 {
 	this.broadcaster.broadcastMessage("onOpen");
 	
-	var obj = $('section_' + name_space).select('.browse')[0];
-	new Effect.Tween(obj, 0, 60, { duration: 0.5 }, function(value) { this.style.bottom = value + '%'; } );
-	
 	var obj = $('section_' + name_space).select('.edit_form')[0];
-	obj.show();
-	new Effect.Tween(obj, 100, 40, { duration: 0.5 }, function(value) { this.style.top = value + '%'; } );
 	
-};
+	if (!obj.visible()) {
+		obj.show();
+		new Effect.Tween(obj, 100, 50, { duration: 0.6 }, function(value) { this.style.top = value + '%'; } );
+	
+		var obj = $('section_' + name_space).select('.browse')[0];
+		new Effect.Tween(obj, 0, 50, { duration: 0.6 }, function(value) { this.style.bottom = value + '%'; } );
+	}
+	
+	this.ns = name_space;
+	
+	//select('.divider')[0]	
+	//obj.observe('mousedown',this.initDrag.bind(this));
+	
+}
+
+blackbird.prototype.initDrag = function(e)
+{
+	//onDrag:this.handleDrag.bind(this)
+	
+	var elem = Event.element(e);
+	//alert(elem.style.classname);
+	this.drag = new Draggable(elem,{constraint:'vertical',handle:'handle',onEnd:this.handleDrag.bind(this)});
+	this.drag.initDrag(e);
+	//alert(this.drag.handle);
+}
+
+blackbird.prototype.handleDrag = function(e)
+{
+	var obj = $('section_' + this.ns).select('.divider')[0];
+	var p = Math.floor(100 * ((obj.viewportOffset().top - 58) / (document.viewport.getHeight() - 58)));
+	
+	alert(p);
+	
+	if(p >= 20 && p <= 80){
+		$('section_' + this.ns).select('.browse')[0].style.bottom = 100-p + '%';
+		$('section_' + this.ns).select('.edit_form')[0].style.top = p + '%';
+	}else{
+		return;
+	}	
+	
+}
 
 blackbird.prototype.closeMain = function(url)
 {
@@ -842,10 +880,16 @@ blackbird.prototype.closeRecord = function(name_space,check)
 		
 		var obj = $('section_' + name_space).select('.browse')[0];
 		//afterFinish: function() { return }
-		new Effect.Tween(obj, 60, 0, { duration: 0.5 }, function(value) { this.style.bottom = value + '%'; } );
+		new Effect.Tween(obj, 50, 0, { duration: 0.6 }, function(value) { this.style.bottom = value + '%'; } );
 		
 		var obj = $('section_' + name_space).select('.edit_form')[0];
-		new Effect.Tween(obj, 40, 100, { duration: 0.5 }, function(value) { this.style.top = value + '%'; } );
+		new Effect.Tween(obj, 50, 100,
+			{
+				duration: 0.6,
+				afterFinish: function() { obj.hide(); }
+			},
+			function(value) { this.style.top = value + '%'; }
+		);
 	
 	}
 }
