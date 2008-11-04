@@ -3,7 +3,7 @@
 function plugin__record_column_process($name,$value,$options)
 {
 
-	if($options['col_name'] == 'tables' && $options['table'] == 'cms_groups'){
+	if($options['col_name'] == 'tables' && $options['table'] == BLACKBIRD_TABLE_PREFIX . 'groups'){
 		
 		$q = $options['db']->query("SHOW TABLE STATUS",MYSQL_BOTH);
 		$r = '<data>';
@@ -36,7 +36,7 @@ function plugin__record_column_process($name,$value,$options)
 	
 	}
 	
-	if($options['col_name'] == 'groups' && $options['table'] == CMS_USERS_TABLE){
+	if($options['col_name'] == 'groups' && $options['table'] == BLACKBIRD_USERS_TABLE){
 		
 		$q = $options['db']->query("SELECT * FROM " . BLACKBIRD_TABLE_PREFIX . "groups");
 		foreach($q as $group){
