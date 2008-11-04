@@ -1,0 +1,112 @@
+.bb_module_edit {
+	
+}
+
+	.bb_module_edit iframe {
+		display: none;
+	}
+
+.bb_module_edit .form_item {
+	border-top: 1px solid #FFFFFF;
+	border-bottom: 1px solid #DEE1E5;
+	clear: both;
+	float: left;
+	padding: 10px 0;
+	width: 100%;
+}
+
+.bb_module_edit .form_item.buttons {
+	border-top: none;
+	border-bottom: none;
+}
+
+.bb_module_edit .form_item.buttons label:after {
+	content: '';
+}
+
+
+.bb_module_edit .form_item.changed {
+	background-color: #E5E5CD;
+	border-top: 1px solid #F2F2D9;
+	border-bottom: 1px solid #D9D8C2;
+}
+.bb_module_edit .form_item.failed {
+	background-color: #FF644A !important;
+	/*
+	border-top: 1px solid #F2F2D9;
+	border-bottom: 1px solid #D9D8C2;
+	*/
+}
+
+.bb_module_edit .form_item.active {
+	background-color: #DEE1E5;
+	border-top: 1px solid #EAEDF2;
+	border-bottom: 1px solid #D2D5D8;
+}
+
+	.bb_module_edit .form_item label {
+		color: #1C2E4D;
+		float: left;
+		font-size: 12px;
+		line-height: 1em;
+		padding: 5px 0 0 0;
+		text-align: right;
+		width: 15%;
+	}
+	
+	.bb_module_edit .form_item.failed label
+	{
+		
+	}	
+	
+	.bb_module_edit .form_item label:after {
+		content: ':';
+	}
+	
+	.bb_module_edit .form_item label.must_validate
+	{
+		font-weight: bold;
+	}
+	
+	.bb_module_edit .form_item label.must_validate:after
+	{
+		content: '*:';
+	}
+	
+	.bb_module_edit .form_item .error_item {
+		margin-top: 10px;
+		clear: both;
+		color: white;
+		font-weight: bold;
+	}
+	
+	.bb_module_edit .form_item .input {
+		float: left;
+		width: 81%;
+		margin: 0 2%;
+	}
+	
+		.bb_module_edit .form_item .input input,
+		.bb_module_edit .form_item .input select,
+		.bb_module_edit .form_item .input textarea {
+			font-family: "Lucida Grande", Lucida, Sans-serif;
+			font-size: 12px;
+			line-height: 1.25em;
+			
+		}
+		.bb_module_edit .form_item .input input.text,
+		.bb_module_edit .form_item .input textarea {
+			width: 95%;
+		}
+		.bb_module_edit .form_item .input textarea {
+			padding: 2px;
+		}
+	
+		.bb_module_edit .form_item .input .tip {
+			color: #1C2E4D;
+			font-size: 9px;
+			padding-top: 3px;
+		}
+
+	
+	
