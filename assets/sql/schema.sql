@@ -1,9 +1,7 @@
-# $Id$
-
 SET NAMES utf8;
 SET FOREIGN_KEY_CHECKS = 0;
 
-CREATE TABLE `cms_cols` (
+CREATE TABLE `blackbird_cols` (
   `id` mediumint(9) NOT NULL auto_increment,
   `table_name` varchar(40) NOT NULL default '',
   `column_name` varchar(40) NOT NULL default '',
@@ -27,7 +25,7 @@ CREATE TABLE `cms_cols` (
   KEY `edit` (`table_name`,`column_name`,`edit_mode`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='private';
 
-CREATE TABLE `cms_countries` (
+CREATE TABLE `blackbird_countries` (
   `id` mediumint(9) NOT NULL default '0',
   `c_id` varchar(3) NOT NULL default '',
   `name` varchar(100) NOT NULL default '',
@@ -36,7 +34,7 @@ CREATE TABLE `cms_countries` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-insert into `cms_countries` values('1','AF','Afghanistan','','1'),
+insert into `blackbird_countries` values('1','AF','Afghanistan','','1'),
  ('2','AX','Aland Islands','','1'),
  ('3','AL','Albania','','1'),
  ('4','DZ','Algeria','','1'),
@@ -277,29 +275,29 @@ insert into `cms_countries` values('1','AF','Afghanistan','','1'),
  ('239','ZM','Zambia','','1'),
  ('240','ZW','Zimbabwe','','1');
 
-CREATE TABLE `cms_groups` (
+CREATE TABLE `blackbird_groups` (
   `id` mediumint(9) NOT NULL auto_increment,
   `active` tinyint(4) NOT NULL default '0',
   `name` varchar(255) NOT NULL default '',
   `tables` text NOT NULL,
   `admin` tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-insert into `cms_groups` values('1','1','Administrator','<data><table name=\"cms_groups\">browse,insert,update,delete</table><table name=\"cms_history\">browse</table><table name=\"cms_sessions\">browse</table><table name=\"cms_users\">browse,insert,update,delete</table></data>','1');
+insert into `blackbird_groups` values('1','1','Administrator','<data><table name=\"blackbird_groups\">browse,insert,update,delete</table><table name=\"blackbird_history\">browse</table><table name=\"blackbird_sessions\">browse</table><table name=\"blackbird_users\">browse,insert,update,delete</table></data>','1');
 
-CREATE TABLE `cms_headers` (
+CREATE TABLE `blackbird_headers` (
   `id` mediumint(9) NOT NULL auto_increment,
   `table_name` varchar(255) NOT NULL default '',
   `mode` varchar(40) NOT NULL default '',
   `javascript` text NOT NULL,
   `css` text NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-insert into `cms_headers` values('1','*','edit','<script type=\"text/javascript\" src=\"/cms_config/js/custom.js\"></script>','');
+insert into `blackbird_headers` values('1','*','edit','<script type=\"text/javascript\" src=\"/blackbird_config/js/custom.js\"></script>','');
 
-CREATE TABLE `cms_history` (
+CREATE TABLE `blackbird_history` (
   `id` mediumint(9) NOT NULL auto_increment,
   `table_name` varchar(60) NOT NULL default '',
   `record_id` mediumint(9) NOT NULL default '0',
@@ -311,23 +309,23 @@ CREATE TABLE `cms_history` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cms_info` (
+CREATE TABLE `blackbird_info` (
   `name` varchar(40) NOT NULL default '',
   `value` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-insert into `cms_info` values('schema_version','1.0.14');
+insert into `blackbird_info` values('schema_version','2.0.0');
 
-CREATE TABLE `cms_menus` (
+CREATE TABLE `blackbird_menus` (
   `id` mediumint(9) NOT NULL auto_increment,
   `active` tinyint(4) NOT NULL default '0',
   `name` varchar(255) NOT NULL default '',
   `position` tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cms_relations` (
+CREATE TABLE `blackbird_relations` (
   `id` mediumint(9) NOT NULL auto_increment,
   `label` varchar(255) NOT NULL default '',
   `position` mediumint(9) NOT NULL default '0',
@@ -341,7 +339,7 @@ CREATE TABLE `cms_relations` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='private';
 
 
-CREATE TABLE `cms_sessions` (
+CREATE TABLE `blackbird_sessions` (
   `id` mediumint(9) NOT NULL auto_increment,
   `session_id` text NOT NULL,
   `user_id` mediumint(9) NOT NULL default '0',
@@ -351,7 +349,7 @@ CREATE TABLE `cms_sessions` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `cms_states` (
+CREATE TABLE `blackbird_states` (
   `id` mediumint(9) NOT NULL auto_increment,
   `country_id` mediumint(9) NOT NULL default '0',
   `name` varchar(255) NOT NULL default '',
@@ -360,7 +358,7 @@ CREATE TABLE `cms_states` (
   KEY `country_id` (`country_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=98 DEFAULT CHARSET=utf8;
 
-insert into `cms_states` values('1','227','Alabama','AL'),
+insert into `blackbird_states` values('1','227','Alabama','AL'),
  ('2','227','Alaska','AK'),
  ('3','227','Arizona','AZ'),
  ('4','227','Arkansas','AR'),
@@ -458,7 +456,7 @@ insert into `cms_states` values('1','227','Alabama','AL'),
  ('96','139','Zacatecas',''),
  ('97','139','Federal District','');
 
-CREATE TABLE `cms_tables` (
+CREATE TABLE `blackbird_tables` (
   `id` mediumint(9) NOT NULL auto_increment,
   `table_name` varchar(255) NOT NULL default '',
   `display_name` varchar(255) NOT NULL default '',
@@ -473,9 +471,9 @@ CREATE TABLE `cms_tables` (
   `menu_id` tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `table_name` (`table_name`,`display_mode`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='private';
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='private';
 
-CREATE TABLE `cms_users` (
+CREATE TABLE `blackbird_users` (
   `id` mediumint(9) NOT NULL auto_increment,
   `active` tinyint(4) NOT NULL default '1',
   `firstname` varchar(255) NOT NULL default '',
@@ -485,8 +483,8 @@ CREATE TABLE `cms_users` (
   `groups` varchar(255) NOT NULL default '0',
   `super_user` tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-insert into `cms_users` values('1','Blackbird','Admin','fa9beb99e4029ad5a6615399e7bbae21356086b3','xdev@underdeconstruction.com','1','0');
+insert into `blackbird_users` values('1','1','Blackbird','Admin','fa9beb99e4029ad5a6615399e7bbae21356086b3','admin','1','0');
 
 SET FOREIGN_KEY_CHECKS = 1;
