@@ -1,8 +1,9 @@
 <?php
 
-/* $Id$ */
+/* Set database values in db.php:
 
-/* Set database values in config_local.php
+<<<
+
 $GLOBALS['DATABASE'] = array(
 	'host'    => 'localhost',
 	'user'    => 'username',
@@ -10,12 +11,15 @@ $GLOBALS['DATABASE'] = array(
 	'db'      => 'database',
 	'charset' => 'utf8'
 );
+
+>>>
+
 */
 
 // Set Site/Client name
 setConfig("BLACKBIRD_CLIENT","Blackbird");
 // Set users table
-setConfig('BLACKBIRD_USERS_TABLE','cms_users');
+setConfig('BLACKBIRD_USERS_TABLE','blackbird_users');
 
 // If you want to display an RSS feed in the homepage, set the RSS URL here
 // setConfig("CMS_NEWS_FEED",'http://url.com/for/rss/feed');
