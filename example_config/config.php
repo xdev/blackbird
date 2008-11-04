@@ -4,17 +4,18 @@
 
 /* Set database values in config_local.php
 $GLOBALS['DATABASE'] = array(
-	'host' => '',
-	'user' => '',
-	'pass' => '',
-	'db'   => ''
+	'host'    => 'localhost',
+	'user'    => 'username',
+	'pass'    => 'password',
+	'db'      => 'database',
+	'charset' => 'utf8'
 );
 */
 
 // Set Site/Client name
-setConfig("CMS_CLIENT","Blackbird");
+setConfig("BLACKBIRD_CLIENT","Blackbird");
 // Set users table
-setConfig('CMS_USERS_TABLE','cms_users');
+setConfig('BLACKBIRD_USERS_TABLE','cms_users');
 
 // If you want to display an RSS feed in the homepage, set the RSS URL here
 // setConfig("CMS_NEWS_FEED",'http://url.com/for/rss/feed');
@@ -23,5 +24,5 @@ setConfig('CMS_USERS_TABLE','cms_users');
 // error_reporting(E_ALL);
 
 // Get DB settings from local config_local.php file
-(@include 'config_local.php') || die('<h1>Site not configured.</h1>');
+(@include 'db.php') || die('<h1>Site not configured.</h1>');
 
