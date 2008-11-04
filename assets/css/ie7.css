@@ -1,4 +1,14 @@
-.edit_form .detail
-{
-	margin: 0 0 10px 0;
+#bb_navigation {
+	top: 19px;
+	height: expression(document.body.clientHeight-20+'px');
+}
+
+#bb_navigation #bb_main_nav_tables {
+	height: expression(document.body.clientHeight-160+'px');
+}
+
+#bb_main {
+	top: 19px;
+	left: 179px;
+	height: expression(document.body.clientHeight-20+'px');
 }

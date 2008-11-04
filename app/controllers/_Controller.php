@@ -24,8 +24,8 @@ class _Controller extends Controller
 	{
 		// Default CSS files
 		$this->css[] = 'reset.css';
-		$this->css[] = 'prototype.css';
-		$this->css[] = 'prototype_edit.css';
+		$this->css[] = 'screen.css';
+		$this->css[] = 'edit.css';
 		$this->css[] = 'data.css';
 		$this->css[] = 'imagebrowser.css';
 		// Remove duplicates

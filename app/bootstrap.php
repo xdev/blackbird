@@ -102,8 +102,8 @@ require_once LIB . 'Brickhouse' . DS . 'plugins' . DS . 'sitemap.php';
 //require_once ROOT . APP . 'plugins' . DS . 'pre_render.php';
 
 //local extended classes
-require_once APP . '_ControllerFront.php';
-require_once APP . '_Controller.php';
+require_once CONTROLLERS . '_ControllerFront.php';
+require_once CONTROLLERS . '_Controller.php';
 
 
 /* CONTROLLER/ROUTER ----------------------------------------------------- */
