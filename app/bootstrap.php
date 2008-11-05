@@ -95,6 +95,7 @@ require_once LIB . 'Bobolink' . DS . 'database' . DS . 'Db.interface.php';
 require_once LIB . 'Bobolink' . DS . 'database' . DS . 'AdaptorMysql.class.php';
 require_once LIB . 'Bobolink' . DS . 'utils' . DS . 'Utils.class.php';
 require_once LIB . 'Bobolink' . DS . 'forms' . DS . 'Forms.class.php';
+require_once LIB . 'Bobolink' . DS . 'xml' . DS . 'XmlToArray.class.php';
 
 
 /* LOAD PLUGINS ---------------------------------------------------------- */
