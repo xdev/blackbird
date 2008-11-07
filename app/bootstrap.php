@@ -68,6 +68,7 @@ define("REQUIRED_SCHEMA_VERSION","2.0.0");
 // Environment config
 require_once CONFIG . 'environment.php';
 
+
 //LOAD UP THE CUSTOM CONFIG
 //convert to array.. take next to last segment ... append _config
 $tA = explode(DS,APP);
