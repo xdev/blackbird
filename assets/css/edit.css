@@ -54,6 +54,12 @@
 		width: 15%;
 	}
 	
+	.bb_module_edit .form_item span {
+		display: block;
+		line-height: 18px;
+		padding: 3px 0 5px 0;
+	}
+	
 	.bb_module_edit .form_item.failed label
 	{
 		
