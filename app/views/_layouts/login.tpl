@@ -18,7 +18,7 @@ Portions of this software rely upon the following software which are covered by 
 
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-		<title>Blackbird</title>
+		<title><?= BLACKBIRD_CLIENT ?></title>
 		<?= $this->css() ?>
 		<!-- library code -->
 		<script type="text/javascript" src="<?= BASE ?>assets/js/prototype.js"></script>

@@ -100,7 +100,6 @@ class _ControllerFront extends ControllerFront
 	
 	public static function parseConfig($xml)
 	{
-		require_once LIB.'bobolink/xml/XmlToArray.class.php';
 		$p = new XmlToArray($xml);
 		$out = $p->getOutput();
 		//first child, not necessarily the config node?

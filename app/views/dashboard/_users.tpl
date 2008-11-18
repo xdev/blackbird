@@ -23,7 +23,7 @@
 					<td>Latest activity moments ago</td>
 					<?php endif ?>
 				<?php else: ?>
-				<td>Hasn't logged in yet</td>
+				<td>No activity</td>
 				<?php endif ?>
 			</tr>
 			<?php endforeach ?>

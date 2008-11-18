@@ -54,7 +54,7 @@ function plugin__record_column_process($name,$value,$options)
 	
 	}
 	
-	if($options['col_name'] == 'password' && $options['table'] == CMS_USERS_TABLE){
+	if($options['col_name'] == 'password' && $options['table'] == BLACKBIRD_USERS_TABLE){
 		
 		if(strlen($value) > 1){
 			return array('field'=>'password','value'=>sha1($value));			
