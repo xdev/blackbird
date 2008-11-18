@@ -57,8 +57,15 @@ class DashboardModel extends Model
 	
 	public function getTables()
 	{
-		//query all tables, get record count, table size
-		return $this->db->query("SHOW TABLE STATUS");	
+		//query all tables, match against permissions
+		$q = $this->db->query("SHOW TABLE STATUS");
+		$tableA = array();
+		foreach($q as $row){
+			if(_ControllerFront::$session->getPermissions('browse',$row['Name'])){
+				$tableA[] = $row;
+			}
+		}
+		return $tableA;		
 	}
 	
 	private function formatChartData($dataA)
