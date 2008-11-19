@@ -7,8 +7,12 @@ class UserModel extends Model
 	{
 		//query the users table
 		$this->logged = false;
-		$this->db = AdaptorMysql::getInstance();
+		$this->admin = false;
+		$this->super_user = false;
+		
+		$this->db = AdaptorMysql::getInstance();		
 		//get all tables and such
+		
 		
 		/*
 		if (!file_exists(CMS_FILESYSTEM.'tmp')) {
@@ -172,7 +176,7 @@ class UserModel extends Model
 	{
 		//search through all the tables of all the groups this user belongs to.
 		$t_id = $this->u_id; //1
-		$q = $this->db->queryRow("SELECT groups,super_user FROM ".BLACKBIRD_TABLE_PREFIX."users WHERE id = '$t_id'");
+		$q = $this->db->queryRow("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."users WHERE id = '$t_id'");
 		
 		$tables = array();
 		
@@ -181,16 +185,40 @@ class UserModel extends Model
 			$q = $this->db->query("SHOW TABLES",MYSQL_BOTH);
 			
 			foreach($q as $table){
-				$tables[] = array('name'=>$table[0],'value'=>'browse,insert,update,delete','menu'=>0,'in_nav'=>1);
+				//merge this data with the menu id from cms_tables, otherwise, add it to a special segment (other) = 0
+				//die(print_r($table));
+				$qT = $this->db->queryRow("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."tables WHERE table_name = '$table[0]'");
+				$menu = -1;
+				if($qT['menu_id'] != ''){
+					$menu = $qT['menu_id'];
+				}
+				$tables[] = array('name'=>$table[0],'value'=>'browse,insert,update,delete','menu'=>$menu,'in_nav'=>1);
 			}
+			
+			//this person has all the privs
+			$this->super_user = true;
+			$this->admin = true;
 					
 		}else{
 			
-			$groups = explode(',',$q['groups']);
+			//get groups from linking - in a join, of course
+			/*
+			if($q_groups = $this->db->query("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."users__groups WHERE user_id = '$t_id'")){				
+				
+			}
+			*/
 			
-			foreach($groups as $group){
+			$q_groups = explode(',',$q['groups']);
 			
-				$qGroup = $this->db->queryRow("SELECT `tables` FROM ".BLACKBIRD_TABLE_PREFIX."groups WHERE id = '$group'");
+			foreach($q_groups as $group){
+				
+				$qGroup = $this->db->queryRow("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."groups WHERE id = '$group[group_id]'");
+				
+				//sets repeatedly but will not revoke (summation of privs)
+				if($qGroup['admin'] == 1){
+					$this->admin = true;
+				}				
+				
 				$xml = simplexml_load_string($qGroup['tables']);
 							
 				foreach($xml->table as $mytable){
@@ -201,16 +229,21 @@ class UserModel extends Model
 					}else{				
 						$qT = $this->db->queryRow("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."tables WHERE table_name = '$t'");
 					}
-					$qT = $this->db->queryRow("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."tables WHERE table_name = '$t'");
 					
-					if($qT['menu_id'] != '' && $qT['menu_id'] != 0){
+					if($qT['menu_id'] != 0){
 						$menu = $qT['menu_id'];
+						$in_nav = $qT['in_nav'];
 					}else{
-						$menu = 'cms_admin';
+						$menu = '';
 					}
 					
+					//we're a table, but we didn't put a _tables record to map to a group or whatnot
+					//show in default group?
+					if($qT === false){
+						$in_nav = 1;
+					}
 					
-					$tt = array('name'=>$t,'value'=>sprintf($mytable),'menu'=>$menu,'in_nav'=>$qT['in_nav']);
+					$tt = array('name'=>$t,'value'=>sprintf($mytable),'menu'=>$menu,'in_nav'=>$in_nav);
 					$tables[] = $tt;	
 				}
 				
@@ -231,11 +264,12 @@ class UserModel extends Model
 			foreach($tables as $key=>$value){
 				if($value['in_nav'] == 1){
 					if(!isset($navA[$value['menu']])){
-						if($value['menu'] != '' && $value['menu'] != 0){
+						// != '' && $value['menu'] != 0
+						if($value['menu'] != -1){
 							$q_name = $this->db->queryRow("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."menus WHERE id = '$value[menu]'");
 							$name = $q_name['name'];
 						}else{
-							$name = 'Admin';
+							$name = '__DEFAULT__';
 						}
 						$navA[$value['menu']] = array('id'=>$value['menu'],'name'=>$name,'tables'=>array($key));
 					}else{
@@ -248,10 +282,15 @@ class UserModel extends Model
 			$tempA = array();
 			foreach($navA as $key=>$value)
 			{
-				if($q = $this->db->queryRow("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."menus WHERE id = '$key'")){
+				if($key == -1){
+					$tempA[] = array('position'=>-1,'value'=>$value,'key'=>-1);
+				}elseif($q = $this->db->queryRow("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."menus WHERE id = '$key'")){
 					$tempA[] = array('position'=>$q['position'],'value'=>$value,'key'=>$key);
 				}
 			}
+			
+			
+			
 			$tempA = Utils::arraySort($tempA,'position');
 			$navA = array();
 			foreach($tempA as $item)
