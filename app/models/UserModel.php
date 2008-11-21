@@ -181,7 +181,7 @@ class UserModel extends Model
 				if($qT['menu_id'] != ''){
 					$menu = $qT['menu_id'];
 				}
-				$tables[] = array('name'=>$table[0],'value'=>'browse,insert,update,delete','menu'=>$menu,'in_nav'=>1);
+				$tables[] = array('name'=>$table[0],'permissions'=>'select,insert,update,delete','menu'=>$menu,'in_nav'=>1);
 			}
 			
 			//this person has all the privs
