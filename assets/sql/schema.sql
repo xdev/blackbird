@@ -498,4 +498,13 @@ CREATE TABLE `_blackbird_users` (
 
 insert into `_blackbird_users` values('1','1','Blackbird','Admin','fa9beb99e4029ad5a6615399e7bbae21356086b3','admin','0','1');
 
+CREATE TABLE `_blackbird_users__groups` (
+  `id` mediumint(9) NOT NULL auto_increment,
+  `user_id` mediumint(9) NOT NULL default '0',
+  `group_id` mediumint(9) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `user` (`user_id`,`group_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+
 SET FOREIGN_KEY_CHECKS = 1;

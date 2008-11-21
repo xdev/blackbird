@@ -16,10 +16,18 @@ function plugin__record_column_edit($name,$value,$options)
 		
 		$q = $options['db']->query("SELECT id,name FROM ".BLACKBIRD_TABLE_PREFIX."groups ORDER BY name");
 		$r = '<ul>';
-		$tA = explode(',',$value);
+		
+		$q_links = $options['db']->query("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."users__groups WHERE user_id = '$options[id]'");
 		
 		foreach($q as $group){
-			(in_array($group['id'] ,$tA) ) ? $v = 'Y' : $v = '';
+			$v = '';
+			if(is_array($q_links)){
+				$tA = Utils::checkArray($q_links,array('group_id'=>$group['id']));
+				if(is_array($tA)){
+					$v = 'Y';
+				}
+			}
+						
 			$r .= '<li>' . Forms::checkboxBasic('group_' . $group['id'],$v,array('class'=>'checkbox noparse','label'=>$group['name'])) . '</li>';
 		}
 		
@@ -52,26 +60,12 @@ function plugin__record_column_edit($name,$value,$options)
 		
 		$q_permissions = $options['db']->query("SELECT * FROM " . BLACKBIRD_TABLE_PREFIX . "permissions WHERE group_id = '$group_id' ORDER BY table_name");
 		
-		/*
-		$xml = simplexml_load_string($value);
-		$valueA = array();
-		if($xml){
-			foreach($xml->table as $mytable){
-				$t = sprintf($mytable['name']);
-				$valueA[$t] = sprintf($mytable);
-			}
-		}
-		*/
-		
 		$r = '<input type="button" id="matrix_on" value="ON" /><input type="button" id="matrix_off" value="OFF" /><input type="button" id="matrix_toggle" value="TOGGLE" />';
 		
 		$r .= '<table id="matrix">
 		<tr><th>Table</th>';
-		
 			foreach($privA as $priv){
-				
 				$r .= '<th>' . $priv . '</th>';
-				
 			}
 		$r .= '</tr>';
 		
@@ -86,25 +80,16 @@ function plugin__record_column_edit($name,$value,$options)
 					
 		foreach($tableA as $table){
 			
-		//used to rely upon a private comment to hide, no longer, just don't show any blackbird tables here
+			//used to rely upon a private comment to hide, no longer, just don't show any blackbird tables here
 			$r .= '<tr>';
 			$r .= '<td><input type="button" title="' . $table . '" class="checktoggle row" value="row" />' .  Utils::formatHumanReadable($table) . '</td>';
 			
-			/*
-			$tP = array();
-			if(isset($valueA[$table])){
-				$tP = explode(',',$valueA[$table]);
-			}
-			*/
 			$tA = array();
 			if(is_array($q_permissions)){
 				$tA = Utils::checkArray($q_permissions,array('table_name'=>$table));
 			}	
 			
-			
 			foreach($privA as $priv){
-				//$v = '';
-				//(in_array($priv ,$tP) ) ? $v = 'Y' : $v = '';
 				$v = '';
 				if(isset($tA[$priv . '_priv'])){
 					if($tA[$priv . '_priv'] == '1'){
@@ -116,9 +101,7 @@ function plugin__record_column_edit($name,$value,$options)
 			
 			}
 			
-			
 			$r .= '</tr>';
-			
 		
 		}
 		

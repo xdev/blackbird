@@ -18,21 +18,9 @@ class _ControllerFront extends ControllerFront
 	private function __construct()
 	{
 		parent::setUri();		
-		/*
-		// make sure '.htaccess' file is present - if not, try to create it from 'htaccess' file
-		if (!file_exists(CMS_FILESYSTEM.'.htaccess')) {
-			if (!file_exists(CMS_FILESYSTEM.'htaccess')) {
-				die('.htaccess file not found');
-			}
-			if (!copy(CMS_FILESYSTEM.'htaccess',CMS_FILESYSTEM.'.htaccess')) {
-				die('.htaccess file could not be created');
-			}
-		}
-		*/
-		
+				
 		//broken for the moment - auto install sql if necessary
-		self::checkDB();
-		
+		self::checkDB();		
 		
 		// Check to see if we have a sufficient schema installed
 		if(AdaptorMysql::query("SHOW TABLES LIKE '" . BLACKBIRD_TABLE_PREFIX . "info'")){
@@ -71,11 +59,7 @@ class _ControllerFront extends ControllerFront
 			)){
 		}else{
 			self::$session->checkSession();
-		}
-		
-		
-		
-				
+		}				
 		
 	}
 	

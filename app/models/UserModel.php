@@ -12,17 +12,6 @@ class UserModel extends Model
 		
 		$this->db = AdaptorMysql::getInstance();		
 		//get all tables and such
-		
-		
-		/*
-		if (!file_exists(CMS_FILESYSTEM.'tmp')) {
-			mkdir(CMS_FILESYSTEM.'tmp',0700);
-			if (!file_exists(CMS_FILESYSTEM.'tmp/.htaccess')) {
-				if (!file_put_contents(CMS_FILESYSTEM.'tmp/.htaccess','deny from all')) die('nofile');
-			}
-		}
-		session_save_path(CMS_FILESYSTEM.'tmp');
-		*/		
 	}
 	
 	public function checkSession()
@@ -202,58 +191,73 @@ class UserModel extends Model
 		}else{
 			
 			//get groups from linking - in a join, of course
-			/*
+			
 			if($q_groups = $this->db->query("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."users__groups WHERE user_id = '$t_id'")){				
-				
-			}
-			*/
-			
-			$q_groups = explode(',',$q['groups']);
-			
-			foreach($q_groups as $group){
-				
-				$qGroup = $this->db->queryRow("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."groups WHERE id = '$group[group_id]'");
-				
-				//sets repeatedly but will not revoke (summation of privs)
-				if($qGroup['admin'] == 1){
-					$this->admin = true;
-				}				
-				
-				$xml = simplexml_load_string($qGroup['tables']);
+				foreach($q_groups as $group){
+
+					$qGroup = $this->db->queryRow("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."groups WHERE id = '$group[group_id]'");
+
+					//sets repeatedly but will not revoke (summation of privs)
+					if($qGroup['admin'] == 1){
+						$this->admin = true;
+					}				
+
+					$group_id = $group['group_id'];
+					if($q_permissions = $this->db->query("SELECT * FROM " . BLACKBIRD_TABLE_PREFIX . "permissions WHERE group_id = '$group_id' ORDER BY table_name")){
+
+
+						foreach($q_permissions as $row){
+							$t = $row['table_name'];
+							//$t = sprintf($mytable['name']);					
+							$tA = Utils::checkArray(_ControllerFront::$config['tables'],array('table_name'=>$t));
+							if(is_array($tA)){
+								$qT = $tA;
+							}else{				
+								$qT = $this->db->queryRow("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."tables WHERE table_name = '$t'");
+							}
+
+							if($qT['menu_id'] != 0){
+								$menu = $qT['menu_id'];
+								$in_nav = $qT['in_nav'];
+							}else{
+								$menu = '';
+								$in_nav = 0;
+							}
+
+							//we're a table, but we didn't put a _tables record to map to a group or whatnot
+							//show in default group?
+							if($qT === false){
+								$in_nav = 1;
+							}
+
+							$permissions = '';
 							
-				foreach($xml->table as $mytable){
-					$t = sprintf($mytable['name']);					
-					$tA = Utils::checkArray(_ControllerFront::$config['tables'],array('table_name'=>$t));
-					if(is_array($tA)){
-						$qT = $tA;
-					}else{				
-						$qT = $this->db->queryRow("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."tables WHERE table_name = '$t'");
+							$tt = array('name'=>$t,'permissions'=>$this->formatPermissions($row),'menu'=>$menu,'in_nav'=>$in_nav);
+							$tables[] = $tt;	
+						}
+
 					}
-					
-					if($qT['menu_id'] != 0){
-						$menu = $qT['menu_id'];
-						$in_nav = $qT['in_nav'];
-					}else{
-						$menu = '';
-						$in_nav = 0;
-					}
-					
-					//we're a table, but we didn't put a _tables record to map to a group or whatnot
-					//show in default group?
-					if($qT === false){
-						$in_nav = 1;
-					}
-					
-					$tt = array('name'=>$t,'value'=>sprintf($mytable),'menu'=>$menu,'in_nav'=>$in_nav);
-					$tables[] = $tt;	
 				}
 				
-			}
-		
+			}	
+			
 		}
 		
 		$this->tables = $tables;
+		
 			
+	}
+	
+	private function formatPermissions($row)
+	{
+		$r = array();
+		$tA = array('select','insert','update','delete');
+		for($i=0;$i<count($tA);$i++){
+			if($row[$tA[$i].'_priv'] == '1'){
+				$r[] = $tA[$i]; 
+			}
+		}
+		return join(',',$r);
 	}
 	
 	public function getNavigation()
@@ -310,12 +314,12 @@ class UserModel extends Model
 		
 		Utils::arraySort($tables,'name');
 		$new = array();
-		
+				
 		foreach($tables as $table){
 			if(!isset($new[$table['name']])){
-				$new[$table['name']] = array('privs'=>$table['value'],'menu'=>$table['menu'],'in_nav'=>$table['in_nav']);
+				$new[$table['name']] = array('privs'=>$table['permissions'],'menu'=>$table['menu'],'in_nav'=>$table['in_nav']);
 			}else{
-				$new[$table['name']]['privs'] .= ',' . $table['value'];
+				$new[$table['name']]['privs'] .= ',' . $table['permissions'];
 			}
 		}
 				

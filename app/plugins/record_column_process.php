@@ -23,7 +23,6 @@ function plugin__record_column_process($name,$value,$options)
 		$q_permissions = $options['db']->query("SELECT * FROM " . BLACKBIRD_TABLE_PREFIX . "permissions WHERE group_id = '$group_id' ORDER BY table_name");
 		
 		//handle bulk update query? or not
-		
 		foreach($tableA as $table){
 			//use checkArray on each table_name
 			$row_data = array();
@@ -51,57 +50,41 @@ function plugin__record_column_process($name,$value,$options)
 			}
 			
 		}
-		
-	
-		
-		/*
-		$q = $options['db']->query("SHOW TABLE STATUS",MYSQL_BOTH);
-		$r = '<data>';
-		
-		$privA = array('browse','insert','update','delete');
-		foreach($q as $table){
-		
-			if($table['Comment'] != 'private'){
-				//
-				$p = array();
-				foreach($privA as $priv){
-					if(isset($_REQUEST['table_' . $table['Name']. '_' . $priv])){
-						if($_REQUEST['table_' . $table['Name']. '_' . $priv] == 'Y'){
-							$p[] = $priv;
-						}
-					}
-				}
-				
-				if(count($p)>0){
-					$p = join(',',$p);
-					$r .= '<table name="' . $table['Name'] . '">' . $p . '</table>';
-				}
-				
-			}
-		}
-		
-		$r .= '</data>';
-		
-		return array('field'=>'tables','value'=>$r);
-		*/
-	
+			
+		//don't return anything
+			
 	}
 	
 	if($options['col_name'] == 'groups' && $options['table'] == BLACKBIRD_USERS_TABLE){
 		
-		$q = $options['db']->query("SELECT * FROM " . BLACKBIRD_TABLE_PREFIX . "groups");
-		foreach($q as $group){
+		$q_groups = $options['db']->query("SELECT * FROM " . BLACKBIRD_TABLE_PREFIX . "groups");
+		$q_links = $options['db']->query("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."users__groups WHERE user_id = '$options[id]'");
+		
+		foreach($q_groups as $group){
+			$delete = true;
 			if(isset($_REQUEST['group_' . $group['id']])){
 				if($_REQUEST['group_' . $group['id']] == 'Y'){
-					$r[] = $group['id'];
+					$tA = Utils::checkArray($q_links,array('group_id'=>$group['id']));
+					if(!is_array($tA)){
+						$row_data = array();
+						$row_data[] = array('field'=>'user_id','value'=>$options['id']);
+						$row_data[] = array('field'=>'group_id','value'=>$group['id']);						
+						$options['db']->insert(BLACKBIRD_TABLE_PREFIX."users__groups",$row_data);						
+					}
+					$delete = false;
+				}else{
+					
 				}
 			}
+			
+			//delete
+			if($delete === true){
+				AdaptorMysql::sql("DELETE FROM `". BLACKBIRD_TABLE_PREFIX."users__groups` WHERE user_id = $options[id] AND group_id = '$group[id]' LIMIT 1");
+			}
+			
 		}
-	
 		
-		//trim last character;
-		$r = join(',',$r);
-		return array('field'=>'groups','value'=>$r);			
+		//don't return anything		
 	
 	}
 	

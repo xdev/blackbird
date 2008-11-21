@@ -5,7 +5,7 @@ class TableController extends _Controller
 	
 	public function Browse()
 	{
-		if(_ControllerFront::$session->getPermissions('browse',$this->route['table']) === false){
+		if(_ControllerFront::$session->getPermissions('select',$this->route['table']) === false){
 			$this->view(array('view'=>'error'));
 			return;
 		}
