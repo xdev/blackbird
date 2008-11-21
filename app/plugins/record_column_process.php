@@ -17,7 +17,8 @@ function plugin__record_column_process($name,$value,$options)
 				$tableA[] = $table['Name'];
 			}
 		}
-		$group_id = $_POST[$options['name_space'] . 'id'];
+		//get proper id
+		$group_id = $options['id'];
 		//query all existing permissions for this group
 		$q_permissions = $options['db']->query("SELECT * FROM " . BLACKBIRD_TABLE_PREFIX . "permissions WHERE group_id = '$group_id' ORDER BY table_name");
 		
@@ -42,7 +43,7 @@ function plugin__record_column_process($name,$value,$options)
 			$tA = Utils::checkArray($q_permissions,array('table_name'=>$table));
 			if(is_array($tA)){
 				//do updates
-				$options['db']->update(BLACKBIRD_TABLE_PREFIX . 'permissions',$row_data,'id',$tA['id']);
+				$options['db']->update(BLACKBIRD_TABLE_PREFIX . 'permissions',$row_data,'id',$group_id);
 			}else{
 				//do inserts
 				$row_data[] = array('field'=>'group_id','value'=>$group_id);

@@ -47,7 +47,7 @@ function plugin__record_column_edit($name,$value,$options)
 		}
 		
 		//
-		$tA = _ControllerFront::getRoute();
+		$tA = _ControllerFront::getRoute();		
 		$group_id = $tA['id'];
 		
 		$q_permissions = $options['db']->query("SELECT * FROM " . BLACKBIRD_TABLE_PREFIX . "permissions WHERE group_id = '$group_id' ORDER BY table_name");
@@ -96,8 +96,10 @@ function plugin__record_column_edit($name,$value,$options)
 				$tP = explode(',',$valueA[$table]);
 			}
 			*/
-			
-			$tA = Utils::checkArray($q_permissions,array('table_name'=>$table));
+			$tA = array();
+			if(is_array($q_permissions)){
+				$tA = Utils::checkArray($q_permissions,array('table_name'=>$table));
+			}	
 			
 			
 			foreach($privA as $priv){
