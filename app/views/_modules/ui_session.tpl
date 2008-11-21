@@ -8,5 +8,5 @@
 	<?php else: ?>
 	<li><a href="<?= BASE ?>user/login">Login</a></li>
 	<?php endif ?>
-	<li><a class="lightbox" title="About Blackbird" href="#<?= BASE ?>about">Blackbird</a></li>
+	<li id="aboutBlackbird"><a class="lightbox" title="About Blackbird" href="#<?= BASE ?>about">About Blackbird</a></li>
 </ul>
