@@ -59,6 +59,9 @@ setConfig('BLACKBIRD_TABLE_PREFIX','_blackbird_');
 // Database users table, typically changed with a Session override
 setConfig('BLACKBIRD_USERS_TABLE','_blackbird_users');
 
+// Default client name
+setConfig("BLACKBIRD_CLIENT","Blackbird");
+
 // Version number of this software
 define("BLACKBIRD_VERSION","2.0.0");
 

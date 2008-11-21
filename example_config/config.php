@@ -19,8 +19,8 @@ $GLOBALS['DATABASE'] = array(
 // Set Site/Client name
 setConfig("BLACKBIRD_CLIENT","Blackbird");
 // Set users table
-setConfig('BLACKBIRD_USERS_TABLE','blackbird_users');
-
+#setConfig('BLACKBIRD_USERS_TABLE','_blackbird_users');
+#setConfig('BLACKBIRD_TABLE_PREFIX','_blackbird_');
 // ini_set('display_errors',1);
 // error_reporting(E_ALL);
 
