@@ -17,6 +17,7 @@
 			</thead>
 			<tbody>
 			<?php $i=0; ?>
+			<?php if(is_array($data)): ?>
 			<?php foreach($data as $row): ?>
 			<tr class="<?= $i++%2 ? 'even' : 'odd' ?>">
 				<td><a href="<?= BASE ?>record/edit/<?= BLACKBIRD_TABLE_PREFIX ?>groups/<?= $row['id'] ?>"><?= $row['name'] ?></a></td>
@@ -24,6 +25,7 @@
 				<td><?= _ControllerFront::formatCol('admin',$row['admin'],'') ?></td>
 			</tr>
 			<?php endforeach ?>
+			<?php endif ?>
 			</tbody>
 		</table>	
 	</div>

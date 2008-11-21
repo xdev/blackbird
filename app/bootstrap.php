@@ -54,10 +54,10 @@ setConfig('WEB_ROOT',ROOT);
 setConfig('WWW','http' . (@$_SERVER['HTTPS'] ? 's' : '') . '://' . $_SERVER['SERVER_NAME'] . '/');
 
 // Database table prefix
-setConfig('BLACKBIRD_TABLE_PREFIX','blackbird_');
+setConfig('BLACKBIRD_TABLE_PREFIX','_blackbird_');
 
 // Database users table, typically changed with a Session override
-setConfig('BLACKBIRD_USERS_TABLE','blackbird_users');
+setConfig('BLACKBIRD_USERS_TABLE','_blackbird_users');
 
 // Version number of this software
 define("BLACKBIRD_VERSION","2.0.0");
@@ -75,8 +75,10 @@ $tA = explode(DS,APP);
 $base = $tA[count($tA)-3];
 $file = '..' . DS . $base . '_config' . DS . 'config.php';
 
+define('INSTALL_FOLDER',$base);
+
 // Set location of custom project-based config info
-setConfig('CUSTOM','..' . DS . $base . '_config' . DS);
+setConfig('CUSTOM','..' . DS . INSTALL_FOLDER . '_config' . DS);
 
 // Bring it in or abort
 (!require($file)) ? die('<h1>No custom config found = Fail!</h1>') : '';	

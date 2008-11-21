@@ -15,6 +15,7 @@
 			</thead>
 			<tbody>
 				<?php $i=0; ?>
+				<?php if(is_array($data)): ?>
 				<?php foreach($data as $row): ?>
 				<tr class="<?= $i++%2 ? 'even' : 'odd' ?>">
 					<td class="<?= $row['action'] ?>"><?= ucfirst($row['action']) ?></td>
@@ -39,6 +40,7 @@
 					<?php endif ?>		
 				</tr>
 				<?php endforeach ?>
+				<?php endif ?>
 			</tbody>
 		</table>
 	</div>

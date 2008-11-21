@@ -30,6 +30,10 @@ class _ControllerFront extends ControllerFront
 		}
 		*/
 		
+		//broken for the moment - auto install sql if necessary
+		self::checkDB();
+		
+		
 		// Check to see if we have a sufficient schema installed
 		if(AdaptorMysql::query("SHOW TABLES LIKE '" . BLACKBIRD_TABLE_PREFIX . "info'")){
 			if($q = AdaptorMysql::queryRow("SELECT * FROM " . BLACKBIRD_TABLE_PREFIX . "info WHERE name = 'schema_version'")){
@@ -69,8 +73,7 @@ class _ControllerFront extends ControllerFront
 			self::$session->checkSession();
 		}
 		
-		//broken for the moment - auto install sql if necessary
-		//self::checkDB();
+		
 		
 				
 		
@@ -212,20 +215,19 @@ class _ControllerFront extends ControllerFront
 	
 	private function checkDB()
 	{
-		// If CMS database tables do not exist, create them using the schema.sql file
-		/*
-		if (!AdaptorMysql::query("SHOW TABLES LIKE BLACKBIRD_TABLE_PREFIX . '%'")) {
-			if ($schema = file_get_contents(CMS_FILESYSTEM.'core/sql/schema.sql')) {
+		// If Blackbird database tables do not exist, create them using the schema.sql file		
+		if (!AdaptorMysql::query("SHOW TABLES LIKE '" . BLACKBIRD_TABLE_PREFIX . "%'")) {
+			if ($schema = file_get_contents('..' . DS . INSTALL_FOLDER . DS . 'assets' . DS . 'sql' . DS .'schema.sql')) {
 				$schema = explode(';',$schema);
 				array_pop($schema);
 				foreach ($schema as $row) {
-					$this->db->sql($row);
+					AdaptorMysql::sql($row);
 				}
 			} else {
 				die('Could not load SQL schema and data');
 			}
 		}
-		*/
+		
 	}
 	
 	private function setConfig()

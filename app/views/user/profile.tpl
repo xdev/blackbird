@@ -63,6 +63,7 @@
 	</thead>
 	<tbody>
 	<?php $i=0; ?>
+	<?php if(is_array($history)): ?>
 	<?php foreach($history as $row): ?>
 	<tr class="<?= $i++%2 ? 'even' : 'odd' ?>">
 		<td class="<?= $row['action'] ?>"><?= $row['action'] ?></td>
@@ -86,6 +87,7 @@
 		<?php endif ?>		
 	</tr>
 	<?php endforeach ?>
+	<?php endif ?>
 	</tbody>
 </table>
 </div>
