@@ -67,6 +67,7 @@
 	
 	.bb_module_edit .form_item label:after {
 		content: ':';
+		white-space: nowrap;
 	}
 	
 	.bb_module_edit .form_item label.must_validate
@@ -77,6 +78,7 @@
 	.bb_module_edit .form_item label.must_validate:after
 	{
 		content: '*:';
+		white-space: nowrap;
 	}
 	
 	.bb_module_edit .form_item .error_item {
