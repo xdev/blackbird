@@ -2,7 +2,7 @@
 	<p id="closeLightbox">Close</p>
 	<h1>About Blackbird</h1>
 </div>
-<div class="content">
-	<p>Blackbird is built with object-oriented PHP, standards-compliant XHTML/CSS (for the web admin interface), and currently utilizes MySQL for its database. It was created with the understanding that no two websites are the same, nor are their management needs. Instead of dictating a pre-defined schema for content storage, retrieval and manipulation, the core system separates content, style and structure allowing it to manage any type of content regardless of final output. For example, Blackbird has been used to manage HTML sites and Flash-driven sites (and a mixture of both), as well as API-based web services, RSS/Atom feeds and other dynamic data-driven services.</p>
-	<p><a href="http://github.com/xdev/blackbird/wikis" target="_blank">Project Home</a></p>
+<div class="content" style="background: url(<?= BASE ?>assets/img/blackbird_logo.png) 50% 40px no-repeat; padding-top: 220px; text-align: center;">
+	<p><strong><a href="http://github.com/xdev/blackbird/wikis" target="_blank">Blackbird v.<?= BLACKBIRD_VERSION ?></a></strong></p>
+	<p><a href="http://www.gnu.org/licenses/gpl-3.0.html">GNU General Public License v3</a></p>
 </div>
