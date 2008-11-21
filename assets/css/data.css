@@ -39,6 +39,7 @@
 	color: #1C2E4D;
 	font-weight: bold;
 	text-align: left;
+	text-overflow: ellipsis;
 	text-shadow: #D9DFE5 0px 1px 0;
 	vertical-align: bottom;
 	white-space: nowrap;
@@ -89,6 +90,7 @@
 	/*display: block;*/
 	overflow: hidden;
 	max-width: 240px;
+	text-overflow: ellipsis;
 	vertical-align: middle;
 	white-space: nowrap;
 }
