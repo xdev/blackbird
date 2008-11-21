@@ -51,8 +51,9 @@
 		<h2>Recent Activity</h2>
 	</div>
 	<div class="content">
+<?php if(is_array($history)): ?>	
 <table>
-	<p>Latest 50, <a href="#">Click here to view entire history</a></p>
+	<p style="margin:10px;">Latest <?= count($history) ?>, <a href="#">Click here to view entire history</a></p>
 	<thead>
 		<tr>
 			<th>Action</th>
@@ -63,11 +64,11 @@
 	</thead>
 	<tbody>
 	<?php $i=0; ?>
-	<?php if(is_array($history)): ?>
+	
 	<?php foreach($history as $row): ?>
 	<tr class="<?= $i++%2 ? 'even' : 'odd' ?>">
-		<td class="<?= $row['action'] ?>"><?= $row['action'] ?></td>
-		<td><a href="<? BASE ?>table/browse/<?= $row['table_name'] ?>"><?= $row['table_name'] ?></a></td>
+		<td class="<?= $row['action'] ?>"><?= ucfirst($row['action']) ?></td>
+		<td><a href="<? BASE ?>table/browse/<?= $row['table_name'] ?>"><?= Utils::titleCase(str_replace('_',' ',$row['table_name'])) ?></a></td>
 		<?php if($row['action'] != 'delete'): ?>
 		<td><a href="<? BASE ?>record/edit/<?= $row['table_name'] ?>/<?= $row['record_id'] ?>"><?= $row['record_id'] ?></td>
 		<?php else: ?>
@@ -87,9 +88,9 @@
 		<?php endif ?>		
 	</tr>
 	<?php endforeach ?>
-	<?php endif ?>
 	</tbody>
 </table>
+<?php endif ?>
 </div>
 
 

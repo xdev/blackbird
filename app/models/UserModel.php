@@ -239,13 +239,26 @@ class UserModel extends Model
 					}
 				}
 				
+				if($this->admin === true){
+					//if we're an admin, add specific permissions hardcoded here - this might come out of config for the site as well (later)
+					$tables[] = array('name'=>BLACKBIRD_TABLE_PREFIX.'groups','permissions'=>'select,insert,update,delete','menu'=>'','in_nav'=>0);
+					$tables[] = array('name'=>BLACKBIRD_TABLE_PREFIX.'users','permissions'=>'select,insert,update,delete','menu'=>'','in_nav'=>0);
+					//consider blanket access, but then again, maybe not, this could be another breakout checkbox on the group
+					$tables[] = array('name'=>BLACKBIRD_TABLE_PREFIX.'history','permissions'=>'select','menu'=>'','in_nav'=>0);
+					
+					//leave the other tables only for super_user role					
+				}
+				
+				
 			}	
+			
+			
+			
 			
 		}
 		
 		$this->tables = $tables;
 		
-			
 	}
 	
 	private function formatPermissions($row)
@@ -294,8 +307,6 @@ class UserModel extends Model
 				}
 			}
 			
-			
-			
 			$tempA = Utils::arraySort($tempA,'position');
 			$navA = array();
 			foreach($tempA as $item)
@@ -325,10 +336,15 @@ class UserModel extends Model
 				
 		foreach($new as $key=>$value){
 			$privs = array_unique(split(',',$value['privs']));
-			$new[$key] = array('privs'=>$privs,'menu'=>$value['menu'],'in_nav'=>$value['in_nav']);	
+			
+			if($privs[0]){
+				$new[$key] = array('privs'=>$privs,'menu'=>$value['menu'],'in_nav'=>$value['in_nav']);
+			}else{
+				unset($new[$key]);
+			}
 		}
-		
-		$tables = $new;
+				
+		$tables = $new;		
 		return $tables;
 	}
 	

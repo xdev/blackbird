@@ -21,7 +21,7 @@
 			<?php foreach($data as $row): ?>
 			<tr class="<?= $i++%2 ? 'even' : 'odd' ?>">
 				<td><a href="<?= BASE ?>record/edit/<?= BLACKBIRD_TABLE_PREFIX ?>groups/<?= $row['id'] ?>"><?= $row['name'] ?></a></td>
-				<td><?= rand(0,7) . ' Users' ?></td>
+				<td><?= $row['members'] . ' Users' ?></td>
 				<td><?= _ControllerFront::formatCol('admin',$row['admin'],'') ?></td>
 			</tr>
 			<?php endforeach ?>
