@@ -235,6 +235,7 @@ class UserModel extends Model
 						$in_nav = $qT['in_nav'];
 					}else{
 						$menu = '';
+						$in_nav = 0;
 					}
 					
 					//we're a table, but we didn't put a _tables record to map to a group or whatnot
