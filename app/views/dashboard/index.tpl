@@ -1,5 +1,5 @@
 <div class="bb_toolbar">
-	<h1>Dashboard</h1>
+	<h1>Dashboard: <?= BLACKBIRD_CLIENT ?></h1>
 </div>
 
 <div id="bb_sections">
