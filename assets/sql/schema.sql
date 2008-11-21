@@ -323,6 +323,19 @@ CREATE TABLE `_blackbird_menus` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
+CREATE TABLE `_blackbird_permissions` (
+  `id` mediumint(9) NOT NULL auto_increment,
+  `group_id` mediumint(9) NOT NULL default '0',
+  `table_name` varchar(255) NOT NULL default '',
+  `select_priv` tinyint(4) NOT NULL default '0',
+  `insert_priv` tinyint(4) NOT NULL default '0',
+  `update_priv` tinyint(4) NOT NULL default '0',
+  `delete_priv` tinyint(4) NOT NULL default '0',
+  `plugin` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `table` (`table_name`,`group_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
 CREATE TABLE `_blackbird_relations` (
   `id` mediumint(9) NOT NULL auto_increment,
   `label` varchar(255) NOT NULL default '',
@@ -481,7 +494,7 @@ CREATE TABLE `_blackbird_users` (
   `groups` varchar(255) NOT NULL default '0',
   `super_user` tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 insert into `_blackbird_users` values('1','1','Blackbird','Admin','fa9beb99e4029ad5a6615399e7bbae21356086b3','admin','0','1');
 

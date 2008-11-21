@@ -38,6 +38,65 @@ function blackbird(options)
 		Event.observe(tA[i],'click',this.toggleDashItem.bind(this));		
 	}
 	
+	if($('matrix')){
+		this.initMatrix();
+	}
+	
+}
+
+blackbird.prototype.initMatrix = function()
+{
+	//matrix controls
+	Event.observe($('matrix_on'),'click',this.checkMatrix.bind(this,'on'));
+	Event.observe($('matrix_off'),'click',this.checkMatrix.bind(this,'off'));
+	Event.observe($('matrix_toggle'),'click',this.checkMatrix.bind(this,'toggle'));
+		
+	//column controls
+	var tA = $('matrix').select('input.column');
+	for(var i=0;i<tA.length;i++){
+		Event.observe(tA[i],'click',this.checkColumn.bind(this,tA[i].title,'toggle'));
+	}
+	
+	//row controls
+	var tA = $('matrix').select('input.row');
+	for(var i=0;i<tA.length;i++){
+		Event.observe(tA[i],'click',this.checkRow.bind(this,tA[i].title,'toggle'));
+	}
+	
+}
+
+blackbird.prototype.checkMatrix = function(mode)
+{
+	var tA = $('matrix').select('input.checkbox');
+	this.checkElements(tA,mode);
+}
+
+blackbird.prototype.checkElements = function(tA,mode)
+{
+	for(var i=0;i<tA.length;i++){
+		var e = tA[i];
+		if(mode == 'toggle'){
+			e.checked = !e.checked;
+		}
+		if(mode == 'on'){
+			e.checked = true;
+		}
+		if(mode == 'off'){
+			e.checked = false;
+		}
+	}
+}
+
+blackbird.prototype.checkColumn = function(column,mode)
+{
+	var tA = $('matrix').select('input.checkbox.col_'+column);
+	this.checkElements(tA,mode);
+}
+
+blackbird.prototype.checkRow = function(row,mode)
+{
+	var tA = $('matrix').select('input.checkbox.row_'+row);
+	this.checkElements(tA,mode);
 }
 
 blackbird.prototype.windowSize = function()

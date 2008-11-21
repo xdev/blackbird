@@ -34,19 +34,38 @@ function plugin__record_column_edit($name,$value,$options)
 		
 		$q = $options['db']->query("SHOW TABLE STATUS");
 		$tA = explode(',',$value);
-		$privA = array('browse','insert','update','delete');
+		$privA = array('select','insert','update','delete');
 		
-		
-		$xml = simplexml_load_string($value);
 		$tableA = array();
-		if($xml){
-			foreach($xml->table as $mytable){
-				$t = sprintf($mytable['name']);
-				$tableA[$t] = sprintf($mytable);
+		//loop her and throw out system tables
+		$tlen = strlen(BLACKBIRD_TABLE_PREFIX);
+		foreach($q as $table){
+			//if pattern fails add to list
+			if(substr($table['Name'],0,$tlen) != BLACKBIRD_TABLE_PREFIX){
+				$tableA[] = $table['Name'];
 			}
 		}
 		
-		$r = '<table>
+		//
+		$tA = _ControllerFront::getRoute();
+		$group_id = $tA['id'];
+		
+		$q_permissions = $options['db']->query("SELECT * FROM " . BLACKBIRD_TABLE_PREFIX . "permissions WHERE group_id = '$group_id' ORDER BY table_name");
+		
+		/*
+		$xml = simplexml_load_string($value);
+		$valueA = array();
+		if($xml){
+			foreach($xml->table as $mytable){
+				$t = sprintf($mytable['name']);
+				$valueA[$t] = sprintf($mytable);
+			}
+		}
+		*/
+		
+		$r = '<input type="button" id="matrix_on" value="ON" /><input type="button" id="matrix_off" value="OFF" /><input type="button" id="matrix_toggle" value="TOGGLE" />';
+		
+		$r .= '<table id="matrix">
 		<tr><th>Table</th>';
 		
 			foreach($privA as $priv){
@@ -55,30 +74,49 @@ function plugin__record_column_edit($name,$value,$options)
 				
 			}
 		$r .= '</tr>';
+		
+		$r .= '<tr><th></th>';
+		
+		foreach($privA as $priv){
+			$r .= '<th><input type="button" title="'.$priv.'" class="checktoggle column" value="col" /></th>';
+		}
+		
+		$r .= '</tr>';
+		
 					
-		foreach($q as $table){
-		
-		
-			if($table['Comment'] != 'private'){
+		foreach($tableA as $table){
 			
-				$r .= '<tr>';
-				$r .= '<td>' .  Utils::formatHumanReadable($table['Name']) . '</td>';
-				
-				$tP = array();
-				if(isset($tableA[$table['Name']])){
-					$tP = explode(',',$tableA[$table['Name']]);
-				}
-				
-				foreach($privA as $priv){
-					
-					(in_array($priv ,$tP) ) ? $v = 'Y' : $v = '';
-					$r .= '<td>' . Forms::checkboxBasic('table_' . $table['Name'] . '_' . $priv,$v, array('class'=>'checkbox noparse','label'=>'')) . '</td>';
-				
-				}
-				
-				
-				$r .= '</tr>';
+		//used to rely upon a private comment to hide, no longer, just don't show any blackbird tables here
+			$r .= '<tr>';
+			$r .= '<td><input type="button" title="' . $table . '" class="checktoggle row" value="row" />' .  Utils::formatHumanReadable($table) . '</td>';
+			
+			/*
+			$tP = array();
+			if(isset($valueA[$table])){
+				$tP = explode(',',$valueA[$table]);
 			}
+			*/
+			
+			$tA = Utils::checkArray($q_permissions,array('table_name'=>$table));
+			
+			
+			foreach($privA as $priv){
+				//$v = '';
+				//(in_array($priv ,$tP) ) ? $v = 'Y' : $v = '';
+				$v = '';
+				if(isset($tA[$priv . '_priv'])){
+					if($tA[$priv . '_priv'] == '1'){
+						$v = 'Y';
+					}
+				}
+				
+				$r .= '<td>' . Forms::checkboxBasic('table_' . $table . '_' . $priv,$v, array('class'=>'checkbox noparse col_'.$priv . ' row_'.$table,'label'=>'')) . '</td>';
+			
+			}
+			
+			
+			$r .= '</tr>';
+			
 		
 		}
 		

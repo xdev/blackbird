@@ -249,7 +249,7 @@ class _ControllerFront extends ControllerFront
 		$tA[] = array('table_name'=>BLACKBIRD_TABLE_PREFIX . 'groups','column_name'=>'tables','edit_module'=>'plugin','process_module'=>'plugin');
 		
 		$tA[] = array('table_name'=>BLACKBIRD_TABLE_PREFIX . 'users','column_name'=>'password','display_name'=>'Password Reset','edit_module'=>'plugin','edit_mode'=>'edit','process_module'=>'plugin','process_mode'=>'update');
-		$tA[] = array('table_name'=>BLACKBIRD_TABLE_PREFIX . 'users','column_name'=>'password','edit_module'=>'plugin','edit_mode'=>'insert','process_module'=>'plugin','process_mode'=>'insert');
+		$tA[] = array('table_name'=>BLACKBIRD_TABLE_PREFIX . 'users','column_name'=>'password','edit_module'=>'plugin','edit_mode'=>'add','process_module'=>'plugin','process_mode'=>'insert');
 		$tA[] = array('table_name'=>BLACKBIRD_TABLE_PREFIX . 'users','column_name'=>'groups','edit_module'=>'plugin','process_module'=>'plugin');
 		$tA[] = array('table_name'=>BLACKBIRD_TABLE_PREFIX . 'users','column_name'=>'super_user','edit_module'=>'hidden');
 		
