@@ -33,6 +33,12 @@ function formController(form)
 		{
 			c.blur(this);
 		});
+		// Observe first keyup event and then stop observing it
+		Event.observe(obj,'keyup',function()
+		{
+			c.change(this);
+			Event.stopObserving(this,'keyup');
+		});
 		Event.observe(obj,'change',function()
 		{
 			c.change(this);
@@ -45,7 +51,7 @@ formController.prototype.reset = function()
 {
 	this.data_delta = [];
 	this.broadcaster.broadcastMessage('onFormReset',this.form);
-}
+};
 
 /**
 *	focus
