@@ -49,16 +49,16 @@ blackbird.prototype.initMatrix = function()
 	//matrix controls
 	Event.observe($('matrix_on'),'click',this.checkMatrix.bind(this,'on'));
 	Event.observe($('matrix_off'),'click',this.checkMatrix.bind(this,'off'));
-	Event.observe($('matrix_toggle'),'click',this.checkMatrix.bind(this,'toggle'));
+	//Event.observe($('matrix_toggle'),'click',this.checkMatrix.bind(this,'toggle'));
 		
 	//column controls
-	var tA = $('matrix').select('input.column');
+	var tA = $('matrix').select('a.column');
 	for(var i=0;i<tA.length;i++){
 		Event.observe(tA[i],'click',this.checkColumn.bind(this,tA[i].title,'toggle'));
 	}
 	
 	//row controls
-	var tA = $('matrix').select('input.row');
+	var tA = $('matrix').select('a.row');
 	for(var i=0;i<tA.length;i++){
 		Event.observe(tA[i],'click',this.checkRow.bind(this,tA[i].title,'toggle'));
 	}

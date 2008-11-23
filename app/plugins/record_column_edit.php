@@ -60,29 +60,30 @@ function plugin__record_column_edit($name,$value,$options)
 		
 		$q_permissions = $options['db']->query("SELECT * FROM " . BLACKBIRD_TABLE_PREFIX . "permissions WHERE group_id = '$group_id' ORDER BY table_name");
 		
-		$r = '<input type="button" id="matrix_on" value="ON" /><input type="button" id="matrix_off" value="OFF" /><input type="button" id="matrix_toggle" value="TOGGLE" />';
+		$r = '<div id="bb_group_permissions">';
+		$r .= '<p>All permissions - <a href="#" id="matrix_on">ON</a>&nbsp;|&nbsp;<a href="#" id="matrix_off">OFF</a></p>';
 		
 		$r .= '<table id="matrix">
-		<tr><th>Table</th>';
+		<tr><th>Table Name</th>';
 			foreach($privA as $priv){
-				$r .= '<th>' . $priv . '</th>';
+				$r .= '<th><a href="#" title="'.$priv.'" class="checktoggle column">' . ucfirst($priv) . '</a></th>';
 			}
 		$r .= '</tr>';
-		
+		/*
 		$r .= '<tr><th></th>';
 		
 		foreach($privA as $priv){
-			$r .= '<th><input type="button" title="'.$priv.'" class="checktoggle column" value="col" /></th>';
+			//$r .= '<th><input type="button" title="'.$priv.'" class="checktoggle column" value="col" /></th>';
 		}
 		
 		$r .= '</tr>';
-		
+		*/
 					
 		foreach($tableA as $table){
 			
 			//used to rely upon a private comment to hide, no longer, just don't show any blackbird tables here
 			$r .= '<tr>';
-			$r .= '<td><input type="button" title="' . $table . '" class="checktoggle row" value="row" />' .  Utils::formatHumanReadable($table) . '</td>';
+			$r .= '<td><a href="#" title="' . $table . '" class="checktoggle row" >' .  Utils::formatHumanReadable($table) . '</a></td>';
 			
 			$tA = array();
 			if(is_array($q_permissions)){
@@ -105,7 +106,7 @@ function plugin__record_column_edit($name,$value,$options)
 		
 		}
 		
-		$r .= '</table>';
+		$r .= '</table></div>';
 		
 		$options['label'] = "Tables";
 		Forms::buildElement($name,$r,$options);

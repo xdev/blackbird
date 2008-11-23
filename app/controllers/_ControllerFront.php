@@ -229,7 +229,7 @@ class _ControllerFront extends ControllerFront
 		$tA[] = array('table_name'=>'*','column_name'=>'state','edit_module'=>'selectState');
 		$tA[] = array('table_name'=>'*','column_name'=>'country','edit_module'=>'selectCountry');
 		
-		$tA[] = array('table_name'=>BLACKBIRD_TABLE_PREFIX . 'groups','column_name'=>'admin','edit_module'=>'boolean','filter'=>'<config><filter>1</filter></config>');
+		$tA[] = array('table_name'=>BLACKBIRD_TABLE_PREFIX . 'groups','column_name'=>'admin','edit_module'=>'boolean','filter'=>'<config><filter>1</filter></config>','help'=>'Admin users are able to manage users and groups. Limited access to Blackbird configuration is also available.');
 		$tA[] = array('table_name'=>BLACKBIRD_TABLE_PREFIX . 'groups','column_name'=>'tables','edit_module'=>'plugin','process_module'=>'plugin');
 		
 		$tA[] = array('table_name'=>BLACKBIRD_TABLE_PREFIX . 'users','column_name'=>'password','display_name'=>'Password Reset','edit_module'=>'plugin','edit_mode'=>'edit','process_module'=>'plugin','process_mode'=>'update');

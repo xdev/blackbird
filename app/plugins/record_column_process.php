@@ -27,10 +27,12 @@ function plugin__record_column_process($name,$value,$options)
 			//use checkArray on each table_name
 			$row_data = array();
 			$row_data[] = array('field'=>'table_name','value'=>$table);
+			$has_privs = false;
 			foreach($privA as $priv){
 				if(isset($_REQUEST['table_' . $table . '_' . $priv])){
 					if($_REQUEST['table_' . $table . '_' . $priv] == 'Y'){
 						$row_data[] = array('field'=>$priv.'_priv','value'=>1);
+						$has_privs = true;
 					}else{
 						$row_data[] = array('field'=>$priv.'_priv','value'=>0);
 					}
@@ -42,11 +44,19 @@ function plugin__record_column_process($name,$value,$options)
 			$tA = Utils::checkArray($q_permissions,array('table_name'=>$table));
 			if(is_array($tA)){
 				//do updates
-				$options['db']->update(BLACKBIRD_TABLE_PREFIX . 'permissions',$row_data,'id',$group_id);
+				//if privs exist
+				if($has_privs){
+					$options['db']->update(BLACKBIRD_TABLE_PREFIX . 'permissions',$row_data,'id',$tA['id']);
+				}else{
+					$options['db']->sql("DELETE FROM ".BLACKBIRD_TABLE_PREFIX."permissions WHERE id = '$tA[id]' LIMIT 1");
+				}
+				//if nothing exist, delete instead
 			}else{
 				//do inserts
 				$row_data[] = array('field'=>'group_id','value'=>$group_id);
-				$options['db']->insert(BLACKBIRD_TABLE_PREFIX . 'permissions',$row_data);
+				if($has_privs){
+					$options['db']->insert(BLACKBIRD_TABLE_PREFIX . 'permissions',$row_data);
+				}
 			}
 			
 		}
