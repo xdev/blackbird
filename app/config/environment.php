@@ -7,7 +7,7 @@ error_reporting(E_STRICT | E_ALL);
 ini_set('display_errors','1');
 
 // Default timezone
-date_default_timezone_set('America/Los_Angeles');
+date_default_timezone_set('UTC');
 
 
 
