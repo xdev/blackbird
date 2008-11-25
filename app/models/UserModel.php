@@ -10,7 +10,7 @@ class UserModel extends Model
 		$this->admin = false;
 		$this->super_user = false;
 		
-		$this->db = AdaptorMysql::getInstance();		
+		$this->db = AdaptorMysql::getInstance();
 		//get all tables and such
 	}
 	
@@ -27,7 +27,8 @@ class UserModel extends Model
 				$pass = $_SESSION['u_token'];
 
 				if($q = $this->db->queryRow("SELECT * FROM `" . BLACKBIRD_TABLE_PREFIX . "users` WHERE id = '$tid' AND password = '$pass'")){
-
+					
+					$this->user = $q;
 					$this->u_id = $q['id'];
 					$this->u_row = $q;
 					$this->logged = true;
@@ -372,6 +373,15 @@ class UserModel extends Model
 	public function getRecord($id)
 	{
 		return $this->db->queryRow("SELECT * FROM " . BLACKBIRD_TABLE_PREFIX . "users WHERE id = '$id'");
+	}
+	
+	public function setTimezone()
+	{
+		if (isset($this->user['timezone_id']) && $q = $this->db->queryRow("SELECT * FROM " . BLACKBIRD_TABLE_PREFIX . "timezones WHERE id = '" . $this->user['timezone_id'] . "'")) {
+			date_default_timezone_set($q['timezone']);
+			$timezone = substr(strftime('%z', time()),0,3) . ':' . substr(strftime('%z', time()),3);
+			$this->db->sql("SET time_zone = '$timezone'");
+		}
 	}
 	
 }

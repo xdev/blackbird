@@ -59,7 +59,10 @@ class _ControllerFront extends ControllerFront
 			)){
 		}else{
 			self::$session->checkSession();
-		}				
+		}
+		
+		// Set timezone (if supported)
+		self::$session->setTimezone();
 		
 	}
 	
