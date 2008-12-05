@@ -71,6 +71,16 @@ class _ControllerFront extends ControllerFront
 		return self::$session;
 	}
 	
+	public static function getTableName($table)
+	{
+		//check if an override exists in bb_tables, otherwise, apply standard pattern
+		if($q = AdaptorMysql::queryRow("SELECT display_name FROM " . BLACKBIRD_TABLE_PREFIX . "tables WHERE table_name = '$table' AND display_name != ''")){
+			return $q['display_name'];
+		}else{
+			return Utils::titleCase(str_replace('_',' ',$table));
+		}
+	}
+	
 	public static function sendEmail($message)
 	{
 		// To send HTML mail, the Content-type header must be set

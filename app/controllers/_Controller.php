@@ -53,7 +53,7 @@ class _Controller extends Controller
 		//do something here
 		if(isset($this->route['table'])){
 			$table = $this->route['table'];
-			$tablename = $table;
+			$tablename = _ControllerFront::getTableName($table);
 		}else{
 			$table = '';
 			$tablename = '';

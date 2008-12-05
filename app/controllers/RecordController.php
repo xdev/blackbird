@@ -298,6 +298,15 @@ class RecordController extends _Controller
 							$options['id'] = $this->id;
 							$options['name_space'] = $_name_space;
 							$options['label'] = $display_name;
+							
+							//add database datasource for countries and states
+							if($module == 'selectState'){
+								$options['datasource'] = BLACKBIRD_TABLE_PREFIX . 'states';
+							}
+							if ($module == 'selectCountry'){
+								$options['datasource'] = BLACKBIRD_TABLE_PREFIX . 'countries';
+							}
+							
 							Forms::$module($_name_space . $column['name'],$value, $options);
 							$col_ready = true;
 						break;

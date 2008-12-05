@@ -2,7 +2,7 @@
 	<div class="section" id="section_<?= $name_space ?>">
 		
 		<div class="bb_toolbar main">
-			<h1>Browsing <?= Utils::titleCase(str_replace('_',' ',$table)) ?></h1>
+			<h1>Browsing <?= _ControllerFront::getTableName($table) ?></h1>
 			<div class="bb_toolbar_actions">
 				<?php $datagrid = 'data_grid_' . $name_space ?>
 				<?php if($permission_add==true): ?>

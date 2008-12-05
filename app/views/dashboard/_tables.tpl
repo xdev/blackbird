@@ -17,7 +17,7 @@
 				<?php foreach($data as $row): ?>
 				<?php if(strpos($row['Name'], BLACKBIRD_TABLE_PREFIX) === false): ?>
 				<tr class="<?= $i++%2 ? 'even' : 'odd' ?>">
-					<td><a href="<? BASE ?>table/browse/<?= $row['Name'] ?>"><?= Utils::titleCase(str_replace('_',' ',$row['Name'])) ?></a></td>
+					<td><a href="<? BASE ?>table/browse/<?= $row['Name'] ?>"><?= _ControllerFront::getTableName($row['Name']) ?></a></td>
 					<td><?= $row['Rows'] ?></td>
 					<td><?= Utils::humanFileSize($row['Data_length']) ?></td>
 					<?php $diff = Utils::getTimeDifference($row['Update_time'],Utils::now()) ?>
