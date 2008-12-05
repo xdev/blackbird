@@ -116,7 +116,7 @@ class DashboardModel extends Model
 			$dataA = array();
 			foreach($q as $row){
 				$perc = $row['total']/$q_tot['total'];
-				$dataA[] = array('name'=>$row['table_name'],'total'=>$row['total'],'percent'=>floor(100*($perc)),'percent_actual'=>round($perc*100,2));			
+				$dataA[] = array('name'=>_ControllerFront::getTableName($row['table_name']),'total'=>$row['total'],'percent'=>floor(100*($perc)),'percent_actual'=>round($perc*100,2));			
 			}
 		
 			return $this->formatChartData(Utils::arraySort($dataA,'percent'));

@@ -4,7 +4,7 @@ $images = AdaptorMysql::query("SELECT * FROM $table WHERE $config[col_parent] = 
 ?>
 
 <div class="bb_toolbar related">
-	<h1>Browsing <?= Utils::titleCase(Utils::singulizer(str_replace('_',' ',$table))) ?></h1>
+	<h1>Browsing <?= Utils::singulizer(_ControllerFront::getTableName($table)) ?></h1>
 	<div class="bb_toolbar_actions">
 		<input type="button" value="+ Add Record" onclick="blackbird.addNewRecord('<?= $table ?>','<?= $name_space ?>');" />
 		<span class="total"><?= (($images) ? count($images) : '0') ?> Images</span>

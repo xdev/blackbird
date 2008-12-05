@@ -314,8 +314,7 @@ class UserModel extends Model
 			{
 				$navA[] = $tempA[$item['key']] = $item['value'];
 			}
-		}
-		
+		}		
 		return $navA;
 	}
 	
