@@ -49,7 +49,7 @@
 				<iframe id="form_target_<?= $name_space ?>" name="form_target_<?= $name_space ?>" class="related_iframe"></iframe>
 				<script type="text/javascript">
 					<!-- <![CDATA[ 
-					document.observe('dom:loaded',function(){
+					$(document).observe('dom:loaded',function(){
 						formController_<?= $name_space ?> = new formController('form_<?= $name_space ?>');
 						formController_<?= $name_space ?>.broadcaster.addListener(blackbird);
 						blackbird.setProperty('id_parent','<?= $id ?>');
@@ -82,7 +82,7 @@
 			<div class="table">
 				<script type="text/javascript">
 					<!-- <![CDATA[
-					document.observe("dom:loaded",function(){
+					$(document).observe("dom:loaded",function(){
 					data_grid_<?= $relation['name_space'] ?> = new dataGrid(
 						{
 							mode: "related",

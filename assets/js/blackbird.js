@@ -1,7 +1,7 @@
 var blackbirdCookie;
 blackbirdCookie = new Object();
 
-document.observe('dom:loaded',function(){
+$(document).observe('dom:loaded',function(){
 	blackbird = new blackbird();
 });
 
@@ -42,7 +42,9 @@ function blackbird(options)
 		this.initMatrix();
 	}
 	
-}
+	this.setProperty("base",$$("meta[name=base]")[0].readAttribute('content'));
+	
+};
 
 blackbird.prototype.initMatrix = function()
 {
@@ -63,13 +65,13 @@ blackbird.prototype.initMatrix = function()
 		Event.observe(tA[i],'click',this.checkRow.bind(this,tA[i].title,'toggle'));
 	}
 	
-}
+};
 
 blackbird.prototype.checkMatrix = function(mode)
 {
 	var tA = $('matrix').select('input.checkbox');
 	this.checkElements(tA,mode);
-}
+};
 
 blackbird.prototype.checkElements = function(tA,mode)
 {
@@ -85,38 +87,38 @@ blackbird.prototype.checkElements = function(tA,mode)
 			e.checked = false;
 		}
 	}
-}
+};
 
 blackbird.prototype.checkColumn = function(column,mode)
 {
 	var tA = $('matrix').select('input.checkbox.col_'+column);
 	this.checkElements(tA,mode);
-}
+};
 
 blackbird.prototype.checkRow = function(row,mode)
 {
 	var tA = $('matrix').select('input.checkbox.row_'+row);
 	this.checkElements(tA,mode);
-}
+};
 
 blackbird.prototype.windowSize = function()
 {
-	body = $('body');
-	bodyWidth = body.getWidth();
+	elem = $('body');
+	bodyWidth = elem.getWidth();
 	if (bodyWidth < '820') {
-		body.addClassName('small');
-		body.removeClassName('medium');
-		body.removeClassName('large');
+		elem.addClassName('small');
+		elem.removeClassName('medium');
+		elem.removeClassName('large');
 	}
 	else if (bodyWidth < '1460') {
-		body.addClassName('medium');
-		body.removeClassName('small');
-		body.removeClassName('large');
+		elem.addClassName('medium');
+		elem.removeClassName('small');
+		elem.removeClassName('large');
 	}
 	else {
-		body.addClassName('large');
-		body.removeClassName('small');
-		body.removeClassName('medium');
+		elem.addClassName('large');
+		elem.removeClassName('small');
+		elem.removeClassName('medium');
 	}
 };
 
@@ -220,7 +222,7 @@ blackbird.prototype.promptLogout = function()
 	if(answer){
 		window.location = this.data.base + 'user/logout';
 	}
-}
+};
 
 blackbird.prototype.handleDelete = function(table,id,name_space)
 {
@@ -234,7 +236,7 @@ blackbird.prototype.handleDelete = function(table,id,name_space)
 		this.broadcaster.broadcastMessage("onUpdate");		
 	}
 	
-}
+};
 
 blackbird.prototype.promptDeleteRecord = function(table,id,name_space)
 {
@@ -244,7 +246,7 @@ blackbird.prototype.promptDeleteRecord = function(table,id,name_space)
 		var sendVars = {
 			table:table,
 			id:id
-		}
+		};
 		
 		//do the deleting via background ajax - but need to be able to handle errors if they occur
 		var myAjax = new Ajax.Request(
@@ -256,7 +258,7 @@ blackbird.prototype.promptDeleteRecord = function(table,id,name_space)
 			}
 		);
 	}
-}
+};
 
 blackbird.prototype.openLightbox = function(e)
 {
@@ -718,19 +720,19 @@ blackbird.prototype.submitRelated = function(name_space)
 	if(errorsA.length > 0){
 		this.handleErrors(errorsA,name_space);
 	}
-}
+};
 
 blackbird.prototype.unblockApp = function()
 {
 	//stop observing Event.observe($('blocker'),'click',function(){return false;});	
 	$('blocker').remove();
-}
+};
 
 blackbird.prototype.blockApp = function()
 {
 	$('body').insert({bottom: '<div id="blocker"></div>'});
 	Event.observe($('blocker'),'click',function(){return false;});	
-}
+};
 
 
 /**
@@ -759,7 +761,7 @@ blackbird.prototype.submitMain = function(name_space)
 		this.showTab(name_space);
 		this.handleErrors(tA,name_space);
 	}
-}
+};
 
 /**
 *	validate
@@ -847,7 +849,7 @@ blackbird.prototype.openRecord = function(name_space)
 	//select('.divider')[0]	
 	//obj.observe('mousedown',this.initDrag.bind(this));
 	
-}
+};
 
 blackbird.prototype.initDrag = function(e)
 {
@@ -858,7 +860,7 @@ blackbird.prototype.initDrag = function(e)
 	this.drag = new Draggable(elem,{constraint:'vertical',handle:'handle',onEnd:this.handleDrag.bind(this)});
 	this.drag.initDrag(e);
 	//alert(this.drag.handle);
-}
+};
 
 blackbird.prototype.handleDrag = function(e)
 {
@@ -874,7 +876,7 @@ blackbird.prototype.handleDrag = function(e)
 		return;
 	}	
 	
-}
+};
 
 blackbird.prototype.closeMain = function(url)
 {
@@ -951,7 +953,7 @@ blackbird.prototype.closeRecord = function(name_space,check)
 		);
 	
 	}
-}
+};
 
 /**
 *	recordHandler

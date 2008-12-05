@@ -90,7 +90,7 @@
 	
 	.bb_module_edit .form_item .input {
 		float: left;
-		width: 81%;
+		width: 81%; /* ie7.css */
 		margin: 0 2%;
 	}
 	

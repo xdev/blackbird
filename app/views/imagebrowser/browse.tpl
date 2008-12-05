@@ -28,7 +28,7 @@ $images = AdaptorMysql::query("SELECT * FROM $table WHERE $config[col_parent] = 
 
 <script type="text/javascript">
 	<!-- <![CDATA[ 
-	document.observe('dom:loaded',function(){
+	$(document).observe('dom:loaded',function(){
 		ImageBrowser_<?= $name_space ?> = new ImageBrowser({name_space:"<?= $name_space ?>",table:"<?= $table ?>",base:"<?= BASE ?>"});
 		blackbird.broadcaster.addListener(ImageBrowser_<?= $name_space ?>);
 	});
