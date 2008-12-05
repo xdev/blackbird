@@ -32,7 +32,7 @@ function dataGrid(options)
 	{
 		this._scope.getUpdate();
 	}
-	this.getUpdate();
+	
 	
 	var obj = $(this.data['name_space'] + '_search');
 	var scope = this;
@@ -46,6 +46,28 @@ function dataGrid(options)
 	{
 		scope.search();
 	}, true);
+	
+	//Cookie
+	this.Cookie = {};
+	if (tmp = readCookie('Blackbird_Datagrid')) this.Cookie = tmp.evalJSON();
+	
+	//if cookie table is === this table... use the data
+	if(this.Cookie.table == this.data.table){
+		//dump standard vars over
+		for(var i in this.Cookie){
+			this.data[i] = this.Cookie[i];
+		}
+		//now deal with filters special
+		var imax = this.Cookie.filters.length;
+		if(imax > 0){
+			for(var i=0;i<imax;i++){
+				var item = this.Cookie.filters[i];
+				this.filters[item.name] = item.value;
+			}
+		}
+	}
+	
+	this.getUpdate();
 	
 }
 
@@ -169,9 +191,11 @@ dataGrid.prototype.getUpdate = function()
 	for(var i in this.data){
 		sendVars[i] = this.data[i];
 	}
+	this.Cookie = sendVars;	
+	this.Cookie.filters = [];
 	
 	for(var i in this.filters){
-		
+		this.Cookie.filters.push({name:i,value:this.filters[i]});
 		sendVars['filter_' + i] = this.filters[i];
 	}
 	
@@ -189,6 +213,10 @@ dataGrid.prototype.getUpdate = function()
 			evalScript	: true			
 		}
 	);
+		
+	//write state to cookie
+	
+	createCookie('Blackbird_Datagrid',Object.toJSON(this.Cookie).replace(/\s+/g,''),365);
 
 }
 

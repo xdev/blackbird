@@ -17,7 +17,7 @@ function blackbird(options)
 	var lastSection;
 	var tab;
 	
-	if (tmp = this.readCookie('Blackbird')) blackbirdCookie = tmp.evalJSON();
+	if (tmp = readCookie('Blackbird')) blackbirdCookie = tmp.evalJSON();
 	this.initTableNavigation();
 	this.initTabNavigation();
 	
@@ -439,7 +439,7 @@ blackbird.prototype.setNavigationCookie = function()
 		if (groupA[i].hasClassName('open')) blackbirdCookie[groupA[i].id] = 1;
 		else blackbirdCookie[groupA[i].id] = 0;
 	}
-	this.createCookie('Blackbird',Object.toJSON(blackbirdCookie).replace(/\s+/g,''),365);
+	createCookie('Blackbird',Object.toJSON(blackbirdCookie).replace(/\s+/g,''),365);
 	//if (blackbirdCookie == 'undefined') this.eraseCookie('Blackbird');
 };
 
@@ -989,36 +989,4 @@ blackbird.prototype.recordHandler = function(table,id,name_space,mode,handler,qu
 		}
 	);
 		
-};
-
-/*
-Cookies
-*/
-// http://www.quirksmode.org/js/cookies.html
-blackbird.prototype.createCookie = function(name,value,days)
-{
-	if (days) {
-		var date = new Date();
-		date.setTime(date.getTime()+(days*24*60*60*1000));
-		var expires = "; expires="+date.toGMTString();
-	}
-	else var expires = "";
-	document.cookie = name+"="+value+expires+"; path=/";
-};
-
-blackbird.prototype.readCookie = function(name)
-{
-	var nameEQ = name + "=";
-	var ca = document.cookie.split(';');
-	for(var i=0;i < ca.length;i++) {
-		var c = ca[i];
-		while (c.charAt(0)==' ') c = c.substring(1,c.length);
-		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-	}
-	return null;
-};
-
-blackbird.prototype.eraseCookie = function(name)
-{
-	this.createCookie(name,"",-1);
 };

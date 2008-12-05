@@ -1,5 +1,3 @@
-/* $Id$ */
-
 // Clear text field default value
 // Original script: http://www.scriptygoddess.com/archives/2005/11/15/clear-default-text-onclick-restore-if-nothing-entered/
 function clickclear(thisfield, defaulttext) {
@@ -7,7 +5,6 @@ function clickclear(thisfield, defaulttext) {
 		thisfield.value = "";
 	}
 }
-
 
 // Recall text field default value
 // Original script: http://www.scriptygoddess.com/archives/2005/11/15/clear-default-text-onclick-restore-if-nothing-entered/
@@ -17,34 +14,7 @@ function clickrecall(thisfield, defaulttext) {
 	}
 }
 
-
-//THESE ARE NOT USED MUCH
-
-function displayElement(elem,display)
-{
-	$(elem).style.display = display;
-}
-
-function selectElement(elem,status)
-{
-	$(elem).checked = status;
-}
-
-function emptyForm(f){
-
-	var tA = Form.getElements(f);
-	var iMax = tA.length;
-	for(i=0;i<iMax;i++){
-		var obj = tA[i];
-		if(obj.type == "text" || obj.nodeName == "TEXTAREA" || obj.nodeName == "SELECT" || obj.type == "file"){
-			obj.value = '';	
-		}
-		
-	}
-
-}
-
-
+//could add some encoding/escaping, used for formatting ajax post data
 function formatPost(obj){
 	var ret = "";
 	var c = 0;
@@ -56,4 +26,36 @@ function formatPost(obj){
 		c++;
 	}
 	return ret;
+}
+
+/*
+Cookies
+*/
+// http://www.quirksmode.org/js/cookies.html
+function createCookie(name,value,days)
+{
+	if (days) {
+		var date = new Date();
+		date.setTime(date.getTime()+(days*24*60*60*1000));
+		var expires = "; expires="+date.toGMTString();
+	}
+	else var expires = "";
+	document.cookie = name+"="+value+expires+"; path=/";
+}
+
+function readCookie(name)
+{
+	var nameEQ = name + "=";
+	var ca = document.cookie.split(';');
+	for(var i=0;i < ca.length;i++) {
+		var c = ca[i];
+		while (c.charAt(0)==' ') c = c.substring(1,c.length);
+		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+	}
+	return null;
+}
+
+function eraseCookie(name)
+{
+	this.createCookie(name,"",-1);
 }
