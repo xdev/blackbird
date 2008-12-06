@@ -227,6 +227,9 @@ body.logged > #bb_main { /* ie7.css */
 		position: relative;
 		text-shadow: #505866 0px -1px 0;
 	}
+	.bb_toolbar.progress {
+		background-image: url(../img/progress2.gif);
+	}
 	.bb_toolbar.main {
 		
 	}

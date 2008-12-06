@@ -756,6 +756,7 @@ blackbird.prototype.submitMain = function(name_space)
 		var elem = $('section_' + name_space).select('.button_submit')[0];		
 		elem.disable();
 		elem.value = 'Saving...';
+		$('section_' + name_space).select('.bb_toolbar')[0].addClassName('progress');
 	}
 	if(tA.length > 0){
 		this.showTab(name_space);
