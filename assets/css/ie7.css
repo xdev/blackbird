@@ -1,18 +1,13 @@
-Xbody.logged #bb_navigation {
-	top: 19px;
-	height: expression(document.body.clientHeight-20+'px');
-}
-
-Xbody.logged #bb_navigation #bb_main_nav_tables {
-	height: expression(document.body.clientHeight-160+'px');
-}
-
-Xbody.logged #bb_main {
-	top: 19px;
-	left: 179px;
-	height: expression(document.body.clientHeight-20+'px');
-}
-
 .bb_module_edit .form_item .input {
 	width: 80%;
+}
+
+.bb_dash {
+	width: 49%;
+}
+body.small .bb_dash {
+	width: 99%;
+}
+body.large .bb_dash {
+	width: 32%;
 }

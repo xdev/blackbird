@@ -425,14 +425,14 @@ body.logged > #bb_main { /* ie7.css */
 .bb_dash {
 	color: #1A1C26;
 	float: left;
-	width: 50%;
+	width: 50%; /* ie7.css */
 	padding-bottom: 10px;
 }
 body.small .bb_dash {
-	width: 100%;
+	width: 100%; /* ie7.css */
 }
 body.large .bb_dash {
-	width: 33%;
+	width: 33%; /* ie7.css */
 }
 
 	.bb_dash .content {
