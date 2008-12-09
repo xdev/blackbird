@@ -285,6 +285,20 @@ class RecordController extends _Controller
 							Forms::selectDefault($_name_space . $column['name'],$value, $options);
 							$col_ready = true;
 						break;
+						
+						case "slug":
+							
+							$source = isset($config['col_source']) ? $_name_space . $config['col_source'] : null;
+							
+							Forms::text($_name_space . $column['name'],$value,$options);
+							print '
+								<script type="text/javascript">
+									Event.observe(window,\'load\', function(){createSlug(\''.$_name_space . $column['name'].'\',\''.$source.'\')}, true);
+								</script>
+							';
+							$col_ready = true;
+							
+						break;
 
 
 						case "disabled":
@@ -551,6 +565,66 @@ class RecordController extends _Controller
 							$q_pos = $this->db->queryRow("SELECT max($col[Field]) FROM `$this->table` $where");
 							$row_data[] = array("field"=>$col['Field'],"value"=>($q_pos[0] + 1));
 						}
+						$col_ready = true;
+					break;
+					
+					case $module == 'slug':
+						
+						function checkSlug($slug,$options)
+						{
+							if ($slug != '*' && $q = $options['db']->query("
+								SELECT ".$options['col_name']."
+								FROM ".$options['table']."
+								WHERE id != '".$options['id']."'
+									AND ".$options['col_name']." = '".$slug."'".$options['where']."
+							")) {
+								if (is_numeric($i = substr($slug,strrpos($slug,'_')+1))) $slug = substr($slug,0,strrpos($slug,'_')+1).($i+1);
+								else $slug .= '_1';
+								return checkSlug($slug,$options);
+							} else {
+								return $slug;
+							}
+						}
+						
+						if(strlen($q_col['process_config']) > 1){
+							$config = _ControllerFront::parseConfig($q_col['process_config']);
+						}else if(isset($config)){
+							unset($config);
+						}
+						
+						$value = $_REQUEST[$this->_name_space . $col['Field']];
+						if ($this->query_action == 'insert') {
+							$this->id = mysql_insert_id();
+							//$q_pos = $this->db->queryRow("SELECT max($col[Field]) FROM `$this->table` $where");
+							//$this->id = $q_pos[0] + 1;
+						}
+						//check for constraints from config
+						$where = "";
+						if(isset($config['col_constraint'])){
+							//try to find in row_data
+							foreach($row_data as $temprow){
+								if($temprow['field'] == $config['col_constraint']){
+									$where = " AND `".$temprow['field']."` = '".$temprow['value']."' ";
+								}
+							}
+						}
+						$value = checkSlug($value,array(
+							'col_name' => $col['Field'],
+							'table' => $this->table,
+							'id' => $this->id,
+							'where' => $where,
+							'db' => $this->db
+						));
+						/*if ($value != '*' && $q = $this->db->query("
+							SELECT ".$col['Field']."
+							FROM ".$this->table."
+							WHERE id != '".$this->id."'
+								AND ".$col['Field']." = '".$value."'".$where."
+						")) {
+							if (is_numeric($i = substr($value,strrpos($value,'_')+1))) $value = substr($value,0,strrpos($value,'_')+1).($i+1);
+							else $value = $value.'_1';
+						}*/
+						$row_data[] = array("field"=>$col['Field'],"value"=>$value);
 						$col_ready = true;
 					break;
 					

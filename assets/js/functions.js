@@ -59,3 +59,47 @@ function eraseCookie(name)
 {
 	this.createCookie(name,"",-1);
 }
+
+/**
+*	dirify
+*
+*
+*/
+
+function dirify(input)
+{
+	output = input.strip(); // strip whitespace
+	output = output.gsub("[^a-zA-Z0-9 \_-]", ""); // only take alphanumerical characters, but keep the spaces too...
+	output = output.gsub("[ ]+", "_", output); // replace spaces by underscores
+	output = output.toLowerCase();  // make it lowercase
+	return output;
+};
+
+
+/**
+*	createSlug
+*
+*
+*/
+
+function createSlug(elem,source)
+{
+	var elem = $(elem);
+	// If a value doesn't already exist, generate the slug
+	if (!elem.value) {
+		if (source) {
+			var source = $(source);
+		} else {
+			var source = elem.up(1).previous(0).down(2);
+		}
+		Event.observe(source,'keyup', function()
+		{
+			elem.value = dirify(source.value);
+		}, true);
+		
+	}
+	Event.observe(elem,'change', function()
+	{
+		elem.value = dirify(elem.value);
+	}, true);
+};
