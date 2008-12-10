@@ -228,7 +228,7 @@ dataGrid.prototype.getUpdate = function()
 
 dataGrid.prototype.reset = function()
 {
-	this.data.sort_col = 'id';
+	//this.data.sort_col = 'id';
 	this.data.sort_dir = 'DESC';
 	this.data.sort_index = '0';
 	//this.data.limit = '';
