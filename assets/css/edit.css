@@ -102,7 +102,7 @@
 			line-height: 1.25em;
 			
 		}
-		.bb_module_edit .form_item .input input.text,
+		.bb_module_edit .form_item .input input[type="text"],
 		.bb_module_edit .form_item .input textarea {
 			width: 95%;
 		}
@@ -115,16 +115,33 @@
 			font-size: 9px;
 			padding-top: 3px;
 		}
+		
+		.bb_module_edit .form_item .input .fileinput {
+			padding-bottom: 5px;
+		}
+	
+	.bb_module_edit .form_item .add_file {
+		color: #1C2E4D;
+		cursor: pointer;
+		font-size: 9px;
+		font-weight: bold;
+		text-decoration: underline;
+	}
 	
 	.bb_module_edit .form_item ul {
 		padding-top: 5px;
 	}
 	
 	.bb_module_edit .form_item li {
+		cursor: move;
 		padding-bottom: 10px;
 	}
+	
+		.bb_module_edit .form_item li a {
+			cursor: move;
+		}
 		
-		.bb_module_edit .form_item li em {
+		.bb_module_edit .form_item .remove {
 			color: red;
 			cursor: pointer;
 			display: none;
@@ -134,7 +151,7 @@
 			padding-left: 1em;
 			text-decoration: underline;
 		}
-		.bb_module_edit .form_item li:hover em {
+		.bb_module_edit .form_item :hover>em {
 			display: inline;
 		}
 
