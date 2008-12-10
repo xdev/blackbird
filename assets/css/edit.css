@@ -115,6 +115,26 @@
 			font-size: 9px;
 			padding-top: 3px;
 		}
+	
+	.bb_module_edit .form_item ul {
+		padding-top: 5px;
+	}
+	
+	.bb_module_edit .form_item li {
+		padding-bottom: 10px;
+	}
+		
+		.bb_module_edit .form_item li em {
+			color: red;
+			cursor: pointer;
+			display: none;
+			font-size: 9px;
+			font-style: normal;
+			font-weight: bold;
+			padding-left: 1em;
+			text-decoration: underline;
+		}
+		.bb_module_edit .form_item li:hover em {
+			display: inline;
+		}
 
-	
-	
