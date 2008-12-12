@@ -266,14 +266,18 @@ class RecordController extends _Controller
 							//build a selectDefault but with special options ehh
 							$options['col_display'] = $column['name'];
 							$options['col_value'] = $column['name'];
-
+							
+							//do it manual style, to accomodate constraint change or late entries
+							
+							//do a relative selection of position, based upon existing list.. oh!
+							
 							//factor in the contraint if set
 							if(isset($config['col_constraint'])){
-								$options['select_sql'] = "SELECT * FROM `$this->table` WHERE $config[col_constraint] = '".$row_data[$config['col_constraint']]."' ORDER BY $column[name]";
+								$options['select_sql'] = "SELECT * FROM `$this->table` WHERE $config[col_constraint] = '".$row_data[$config['col_constraint']]['value']."' ORDER BY $column[name]";
 							}else{
 								$options['select_sql'] = "SELECT * FROM `$this->table` ORDER BY $column[name]";
 							}
-
+							
 							$options['table'] = $this->table;
 							$options['col_name'] = $column['name'];
 							$options['id'] = $this->id;
@@ -554,16 +558,15 @@ class RecordController extends _Controller
 								}
 							}
 							
-							_ControllerFront::sortPosition($this->table,"SELECT id FROM `$this->table` $where ORDER BY $col[Field]",$this->id,$value);
+							_ControllerFront::sortPosition($this->table,"SELECT id FROM `$this->table` $where ORDER BY $col[Field]",$this->id,$value,$col['Field']);
 						}
 						if($this->query_action == "insert"){
 							//check for constraints from config
 							if(isset($config)){
 								$where = "WHERE `".$config['col_constraint']."` = '".$_REQUEST[$this->_name_space . $config['col_constraint']]."' ";
 							}
-							
-							$q_pos = $this->db->queryRow("SELECT max($col[Field]) FROM `$this->table` $where");
-							$row_data[] = array("field"=>$col['Field'],"value"=>($q_pos[0] + 1));
+							$q_pos = $this->db->queryRow("SELECT max($col[Field]) AS position FROM `$this->table` $where");
+							$row_data[] = array("field"=>$col['Field'],"value"=>($q_pos['position'] + 1));
 						}
 						$col_ready = true;
 					break;

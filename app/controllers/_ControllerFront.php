@@ -171,9 +171,8 @@ class _ControllerFront extends ControllerFront
 		return $r;
 	}
 		
-	public static function sortPosition($table,$sql,$id,$pos)
+	public static function sortPosition($table,$sql,$id,$pos,$field='position')
 	{
-		
 		$q = AdaptorMysql::query($sql);
 		
 		$tA = array();
@@ -181,14 +180,13 @@ class _ControllerFront extends ControllerFront
 			if($id != $q[$i]['id']){
 				$tA[] = $q[$i]['id'];
 			}
-		
 		}
 			
 		array_splice($tA,($pos-1),0,$id);
 		
 		for($i=0;$i<count($tA);$i++){
 			$sqlA = array();
-			$sqlA[] = array('field'=>'position','value'=>($i+1));
+			$sqlA[] = array('field'=>$field,'value'=>($i+1));
 			AdaptorMysql::update($table,$sqlA,'id',$tA[$i]);
 		}
 	
