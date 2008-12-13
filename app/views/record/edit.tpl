@@ -29,11 +29,18 @@
 				
 				<?php if(isset($_GET['message'])): ?>
 				<?php if($_GET['message'] == 'edit'): ?>
-				<?= $this->fetchView('/_modules/_message',array(
-					'class'=>'ok',
-					'message'=>'Record ' . $id . ' successfully updated!'
-					)
-				) ?>
+				
+				<script type="text/javascript">
+					var obj = $('section_main').select('.bb_toolbar')[0];
+					obj.setStyle({backgroundColor: '#59995A'});
+
+					new Effect.Morph(obj, {
+						style: 'background:#7A8599;', // CSS Properties
+						duration: 1.5,
+						delay: 0.5
+					});
+				</script>
+				
 				<?php elseif($_GET['message'] == 'add'): ?>
 				<?= $this->fetchView('/_modules/_message',array(
 					'class'=>'ok',

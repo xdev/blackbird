@@ -233,7 +233,10 @@ blackbird.prototype.handleDelete = function(table,id,name_space)
 		//reset the form
 		$('form_'+name_space).reset();
 		//set up callbacks because we want only the correct object to update oye!
-		this.broadcaster.broadcastMessage("onUpdate");		
+		
+		this.broadcaster.broadcastMessage("onUpdate");
+		this.fireCallbacks({table:table,id:id,name_space:name_space});		
+			
 	}
 	
 };
@@ -574,6 +577,18 @@ String.prototype.stripHTML = function()
 	return this.replace(matchTag, "");
 };
 
+blackbird.prototype.fireCallbacks = function(obj)
+{
+	if(this.callbacks[obj.name_space] != undefined){
+		var listener = this.callbacks[obj.name_space].obj;
+		var method = this.callbacks[obj.name_space].method;
+		if(listener[method]){
+			alert('sending callback');
+			listener[method].apply(listener,[obj]);
+		}
+	}
+}
+
 /*
 
 Method: onRemoteComplete
@@ -588,11 +603,12 @@ Parameters:
 
 blackbird.prototype.onRemoteComplete = function(obj)
 {
+	
 	if($('ajax')){
 		$('ajax').hide();
 	}
-	//var listener = this.callbacks[obj.name_space].obj;
-	//var method = this.callbacks[obj.name_space].method;
+		
+	
 	
 	//create message div or something
 	
@@ -610,9 +626,9 @@ blackbird.prototype.onRemoteComplete = function(obj)
 	
 	this.unblockApp();
 	
-	//if(listener[method]){
-	//	listener[method].apply(listener,[obj]);
-	//}
+	this.fireCallbacks(obj);
+	
+	
 };
 
 /*
