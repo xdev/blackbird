@@ -103,6 +103,7 @@
 			
 		}
 		.bb_module_edit .form_item .input input[type="text"],
+		.bb_module_edit .form_item .input input[type="password"],
 		.bb_module_edit .form_item .input textarea {
 			width: 95%;
 		}
@@ -133,11 +134,10 @@
 	}
 	
 	.bb_module_edit .form_item li {
-		cursor: move;
 		padding-bottom: 10px;
 	}
 	
-		.bb_module_edit .form_item li a {
+		.bb_module_edit .form_item .handle {
 			cursor: move;
 		}
 		
