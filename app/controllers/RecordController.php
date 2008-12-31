@@ -435,9 +435,9 @@ class RecordController extends _Controller
 			if($q_col){
 			
 				$module = $q_col['process_module'];
-								
+				
 				switch(true){
-			
+					
 					case $module == 'plugin' || $module == 'file':
 						$options = array();
 						$options['mode'] = $this->query_action;
@@ -462,7 +462,7 @@ class RecordController extends _Controller
 						if(strlen($q_col['process_config']) > 1){
 							$options = array_merge($options,_ControllerFront::parseConfig($q_col['process_config']));
 						}
-												
+						
 						if($module == 'plugin'){
 							
 							$t = _ControllerFront::pluginColumnProcess($this->_name_space . $col['Field'],$value, $options);
@@ -477,7 +477,6 @@ class RecordController extends _Controller
 						}
 						
 						if($module == 'file'){
-														
 							
 							$name = $this->_name_space . $col['Field'];
 							$upload = true;
@@ -485,7 +484,7 @@ class RecordController extends _Controller
 							if(isset($options['file_validator']) && is_uploaded_file($_FILES[$name]['tmp_name'])){
 								$t = Utils::validateFile($_FILES[$name],$options['file_validator']);
 								if($t === true){
-
+									
 								}else if(is_array($t)){
 									$r = '<ul>';
 									foreach($t as $row){
@@ -495,9 +494,8 @@ class RecordController extends _Controller
 									$this->errorData[] = array('field'=>$col['Field'],'error'=>$r);
 									$upload = false;
 								}
-
 							}
-
+							
 							//if so.. do upload
 							if($upload === true){
 								if($value = Utils::uploadFile($name,$value,$options)) {
@@ -527,7 +525,6 @@ class RecordController extends _Controller
 						$col_ready = true;
 					break;
 					
-				
 					case $module == 'position':
 						//if we are a position column
 						$where = '';
@@ -636,37 +633,32 @@ class RecordController extends _Controller
 						$col_ready = true;
 					break;
 					
+					case $col_type == "datetime" || $col_type == "timestamp":
+						$row_data[] = array("field"=>$col['Field'],"value"=>Utils::assembleDateTime($col['Field'],$this->_name_space));
+						$col_ready = true;
+					break;
+					
+					case $col_type == "date":
+						$row_data[] = array("field"=>$col['Field'],"value"=>Utils::assembleDate($col['Field'],$this->_name_space));
+						$col_ready = true;
+					break;
+					
+					case $col_type == "time":
+						$row_data[] = array("field"=>$col['Field'],"value"=>Utils::assembleTime($col['Field'],$this->_name_space));
+						$col_ready = true;
+					break;
+					
+					default:
+						//if we are a generic column
+						if(isset($_REQUEST[$this->_name_space . $col['Field']])){
+							$row_data[] = array("field"=>$col['Field'],"value"=>$_REQUEST[$this->_name_space . $col['Field']]);
+						}
+					break;
+					
 				}
 				
 			}
 			
-			
-			if(!$col_ready){
-				//if we are a timestamp
-				if($col_type == "datetime"){
-					$row_data[] = array("field"=>$col['Field'],"value"=>Utils::assembleDateTime($col['Field'],$this->_name_space));
-					$col_ready = true;
-				}
-			
-				if($col_type == "date"){
-					$row_data[] = array("field"=>$col['Field'],"value"=>Utils::assembleDate($col['Field'],$this->_name_space));
-					$col_ready = true;
-				}
-			
-				if($col_type == "time"){
-					$row_data[] = array("field"=>$col['Field'],"value"=>Utils::assembleTime($col['Field'],$this->_name_space));
-					$col_ready = true;
-				}
-			}
-			
-			
-			if(!$col_ready){
-				//if we are a generic column
-				if(isset($_REQUEST[$this->_name_space . $col['Field']])){
-					$row_data[] = array("field"=>$col['Field'],"value"=>$_REQUEST[$this->_name_space . $col['Field']]);
-				}
-			}			
-				
 		}
 				
 		$q_table = $this->db->queryRow("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."tables WHERE table_name = '$this->table'");
