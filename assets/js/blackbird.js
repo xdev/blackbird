@@ -21,6 +21,7 @@ function blackbird(options)
 	this.initTableNavigation();
 	this.initTabNavigation();
 	
+	this.setTimezone();
 	this.callbacks = new Object();
 	this.broadcaster = new EventBroadcaster();
 	this.broadcaster.addListener(this);
@@ -44,6 +45,13 @@ function blackbird(options)
 	
 	this.setProperty("base",$$("meta[name=base]")[0].readAttribute('content'));
 	
+};
+
+blackbird.prototype.setTimezone = function()
+{
+	var d = new Date();
+	value = d.getTimezoneOffset()/-60;
+	document.cookie = 'gmtOffset=' + value + '; path=/';
 };
 
 blackbird.prototype.initMatrix = function()
@@ -587,7 +595,7 @@ blackbird.prototype.fireCallbacks = function(obj)
 			listener[method].apply(listener,[obj]);
 		}
 	}
-}
+};
 
 /*
 

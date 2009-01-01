@@ -6,7 +6,7 @@
 error_reporting(E_STRICT | E_ALL);
 ini_set('display_errors','1');
 
-// Default timezone
+// Default timezone - being set in the _ControllerFront
 date_default_timezone_set('UTC');
 
 

@@ -374,13 +374,4 @@ class UserModel extends Model
 		return $this->db->queryRow("SELECT * FROM " . BLACKBIRD_TABLE_PREFIX . "users WHERE id = '$id'");
 	}
 	
-	public function setTimezone()
-	{
-		if (isset($this->user['timezone_id']) && $q = $this->db->queryRow("SELECT * FROM " . BLACKBIRD_TABLE_PREFIX . "timezones WHERE id = '" . $this->user['timezone_id'] . "'")) {
-			date_default_timezone_set($q['timezone']);
-			$timezone = substr(strftime('%z', time()),0,3) . ':' . substr(strftime('%z', time()),3);
-			$this->db->sql("SET time_zone = '$timezone'");
-		}
-	}
-	
 }

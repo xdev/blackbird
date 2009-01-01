@@ -17,10 +17,13 @@ class _ControllerFront extends ControllerFront
 	
 	private function __construct()
 	{
-		parent::setUri();		
+		// Get/Set the user's timezone
+		Utils::setTimezone();
+		
+		parent::setUri();
 				
 		//broken for the moment - auto install sql if necessary
-		self::checkDB();		
+		self::checkDB();
 		
 		// Check to see if we have a sufficient schema installed
 		if(AdaptorMysql::query("SHOW TABLES LIKE '" . BLACKBIRD_TABLE_PREFIX . "info'")){
@@ -60,9 +63,6 @@ class _ControllerFront extends ControllerFront
 		}else{
 			self::$session->checkSession();
 		}
-		
-		// Set timezone (if supported)
-		self::$session->setTimezone();
 		
 	}
 	
