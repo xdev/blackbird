@@ -180,8 +180,9 @@ class RecordController extends _Controller
 					}
 					$i++;
 				}
-				$q_parent = AdaptorMysql::queryRow("SELECT * FROM " . $_POST['table_parent'] . " WHERE id = " . $_POST['id_parent']);					
+				$q_parent = AdaptorMysql::queryRow("SELECT * FROM " . $_POST['table_parent'] . " WHERE id = " . $_POST['id_parent']);
 				Forms::hidden($_name_space . $q_relation['column_child'],$q_parent[$q_relation['column_parent']]);
+				Forms::hidden('table_parent',$_POST['table_parent'],array('omit_id'=>true));
 				Forms::hidden('id_parent',$q_parent[$q_relation['column_parent']],array('omit_id'=>true));
 			}
 		}
