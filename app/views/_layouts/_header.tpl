@@ -22,6 +22,8 @@ Portions of this software rely upon the following software which are covered by 
 		<title><?= BLACKBIRD_CLIENT ?></title>
 		<?= $this->css() ?>
 		<!-- library code -->
+		<script type="text/javascript" src="<?= BASE ?>assets/js/jquery-1.3.1.min.js"></script>
+		<script type="text/javascript" src="<?= BASE ?>assets/js/jquery-ui-personalized-1.6rc5.min.js"></script>
 		<script type="text/javascript" src="<?= BASE ?>assets/js/prototype.js"></script>
 		<script type="text/javascript" src="<?= BASE ?>assets/js/scriptaculous/scriptaculous.js?load=effects,dragdrop"></script>
 		<script type="text/javascript" src="<?= BASE ?>assets/js/functions.js"></script>
