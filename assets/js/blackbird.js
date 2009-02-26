@@ -170,10 +170,10 @@ blackbird.prototype.onFormUpdate = function(obj)
 	
 	if(obj.length > 0){
 		$('section_' + name_space).select('.revert')[0].show();
-		$('section_' + name_space).select('.button_submit')[0].enable();
+		//$('section_' + name_space).select('.button_submit')[0].enable();
 	}else{
 		$('section_' + name_space).select('.revert')[0].hide();
-		$('section_' + name_space).select('.button_submit')[0].disable();
+		//$('section_' + name_space).select('.button_submit')[0].disable();
 	}
 };
 
@@ -200,7 +200,7 @@ blackbird.prototype.onFormReset = function(form)
 		
 	var name_space = form.substr(5);
 	$('section_' + name_space).select('.revert')[0].hide();
-	$('section_' + name_space).select('.button_submit')[0].disable();
+	//$('section_' + name_space).select('.button_submit')[0].disable();
 };
 
 blackbird.prototype.toggleDashItem = function(e)
@@ -689,7 +689,7 @@ blackbird.prototype.onRemoteErrors = function(obj)
 	//unblock browser
 	this.unblockApp();
 	$('section_' + obj.name_space).select('.revert')[0].show();
-	var elem = $('section_' + obj.name_space).select('.button_submit')[0];		
+	var elem = $('section_' + obj.name_space).select('.button_submit')[0];
 	elem.enable();
 	elem.value = 'Save Record';
 	
@@ -737,7 +737,7 @@ blackbird.prototype.submitRelated = function(name_space)
 		this.broadcaster.broadcastMessage("onSubmit");
 		this.blockApp();
 		$('section_' + name_space).select('.revert')[0].hide();
-		var elem = $('section_' + name_space).select('.button_submit')[0];		
+		var elem = $('section_' + name_space).select('.button_submit')[0];
 		elem.disable();
 		elem.value = 'Saving...';
 	}
@@ -777,7 +777,7 @@ blackbird.prototype.submitMain = function(name_space)
 	if(tA == true){
 		this.blockApp();
 		$('section_' + name_space).select('.revert')[0].hide();
-		var elem = $('section_' + name_space).select('.button_submit')[0];		
+		var elem = $('section_' + name_space).select('.button_submit')[0];
 		elem.disable();
 		elem.value = 'Saving...';
 		$('section_' + name_space).select('.bb_toolbar')[0].addClassName('progress');
