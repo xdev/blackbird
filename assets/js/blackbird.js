@@ -49,9 +49,21 @@ function blackbird(options)
 
 blackbird.prototype.setTimezone = function()
 {
-	var d = new Date();
-	value = d.getTimezoneOffset()/-60;
-	document.cookie = 'gmtOffset=' + value + '; path=/';
+	// var d = new Date();
+	// value = d.getTimezoneOffset()/-60;
+	// alert(value);
+	// document.cookie = 'gmtOffset=' + value + '; path=/';
+	
+	// With help from http://groups.google.ca/group/comp.lang.javascript/browse_frm/thread/c68501e91d4fdca5/
+	var date = new Date(); 
+	var msec = date.getTime(); 
+	var offset = -999999; 
+	for (var j = 0; j < 4; ++j) { 
+		date.setTime(msec + j * 7884000000); 
+		offset = Math.max(offset, date.getTimezoneOffset()); 
+	}
+	offset = offset/-60;
+	document.cookie = 'gmtOffset=' + offset + '; path=/';
 };
 
 blackbird.prototype.initMatrix = function()
