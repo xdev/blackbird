@@ -3,10 +3,10 @@
 		<h2>Users</h2>
 	</div>
 	<div class="content">
+		<?php if(is_array($data)): ?>
 		<table>
 			<tbody>
-			<?php $i=0; ?>
-			<?php foreach($data as $row): ?>
+			<?php $i=0; foreach($data as $row): ?>
 			<tr class="<?= $i++%2 ? 'even' : 'odd' ?>">
 				<td><img class="gravatar" alt="Gravatar" title="Gravatar" src="<?= $row['gravatar'] ?>16" />&nbsp;<a href="<?= BASE ?>user/profile/<?= $row['user_id'] ?>"><?= $row['name'] ?></a></td>
 				<?php if($row['activity'] != ''): ?>
@@ -28,6 +28,9 @@
 			</tr>
 			<?php endforeach ?>
 			</tbody>
-		</table>	
+		</table>
+		<?php else: ?>
+		<p class="message">If there are no users, how are you here?</p>
+		<?php endif ?>	
 	</div>
 </div>

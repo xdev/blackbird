@@ -15,7 +15,7 @@ class RecordModel extends Model
 	}
 	
 	public function processDelete($table,$id_set)
-	{	
+	{
 		if(_ControllerFront::$session->getPermissions('delete',$table)){
 
 			switch($table){
@@ -94,11 +94,13 @@ class RecordModel extends Model
 			//get anything from the blackbird_cols
 			if($q_sql = $this->db->query("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."cols WHERE column_name = '$col[Field]' ORDER BY table_name,edit_mode,edit_channel")){
 				$q_c = array_merge($q_c,$q_sql);
-			}					
-
-			$q_col = Utils::checkArray($q_c,array('table_name'=>$this->table,'edit_mode'=>$this->mode,'edit_channel'=>$this->channel));
+			}
+								
 			if(!$q_col){
-				$q_col = Utils::checkArray($q_c,array('table_name'=>$this->table,'edit_mode'=>$this->mode,'edit_channel'=>''));
+				$q_col = Utils::checkArray($q_c,array('table_name'=>$this->table,'edit_mode'=>$this->mode,'edit_channel'=>$this->channel));
+				if(!$q_col){
+					$q_col = Utils::checkArray($q_c,array('table_name'=>$this->table,'edit_mode'=>$this->mode,'edit_channel'=>''));
+				}
 			}
 
 			if(!$q_col){
@@ -122,7 +124,29 @@ class RecordModel extends Model
 				}
 			}
 						
-			$this->data[$col['Field']] = array('name'=>$col['Field'],'value'=>$q[$col['Field']],'type'=>$col['Type'],'config'=>$q_col);
+			$value = $q[$col['Field']];
+			$config = $q_col;
+
+			//flow in the default value only if creating a new record
+			if($q_col && $this->mode == 'add'){
+				if($q_col['default_value'] != ''){
+					$value = $q_col['default_value'];
+				}
+			}
+			
+			if($this->mode == 'edit' && !_ControllerFront::$session->getPermissions('update',$this->table)){
+				//turn to readonly - check on foreign keys later
+				
+				if(is_array($config)){
+					$config['edit_module'] = 'readonly';
+				}else{
+					$config = array('table_name'=>$this->table,'column_name'=>$col['Field'],'validate'=>'','default_value'=>'','edit_module'=>'readonly','edit_config'=>'','display_name'=>'','help'=>'');
+				}
+				
+			}
+			
+			
+			$this->data[$col['Field']] = array('name'=>$col['Field'],'value'=>$value,'type'=>$col['Type'],'config'=>$config);
 		}
 		
 		return $this->data;
@@ -148,4 +172,5 @@ class RecordModel extends Model
 		
 		//grab from CMS History
 	}
+
 }
