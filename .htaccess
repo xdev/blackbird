@@ -9,7 +9,7 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.*)/$ $1 [L,R]
 
 # Prevent access to protected directories and files
-RewriteRule ^_scripts|_source|app|lib|example_config|tmp/(.*)$ . [F]
+RewriteRule ^_scripts|_source|app|lib|example_config|assets/sql|tmp/(.*)$ . [F]
 #RewriteRule ^README|LICENSE$ . [F]
 
 # Redirect dynamic requests to index.php file
