@@ -28,29 +28,42 @@ class TableModel extends Model
 		$this->key = AdaptorMysql::getPrimaryKey($this->table);		
 		$sort_col = Utils::setVar("sort_col",$this->key);
 		
-		//get config data
-		$tA = Utils::checkArray(_ControllerFront::$config['tables'],array('table_name'=>$this->table,'display_mode'=>'related'));
-		if(is_array($tA)){
-			$q_display = $tA;
-		}else{
-			$q_display = AdaptorMysql::queryRow("SELECT * FROM `".BLACKBIRD_TABLE_PREFIX."tables` WHERE table_name = '$this->table' AND display_mode = 'related'");
-		}		
+		//check for config info here
+		$q_col = false;
+		//get configuration data for form
+		$q_c = array();
+		//get all the base config
 		
-		if(!$q_display){
-			$tA = Utils::checkArray(_ControllerFront::$config['tables'],array('table_name'=>$this->table,'display_mode'=>''));
-			if(is_array($tA)){
-				$q_display = $tA;
-			}else{
-				$q_display = AdaptorMysql::queryRow("SELECT * FROM `".BLACKBIRD_TABLE_PREFIX."tables` WHERE table_name = '$this->table' AND display_mode = ''");
-			}
+		$tA = Utils::checkArray(_ControllerFront::$config['tables'],array('table_name'=>$this->table),true);
+		if(is_array($tA)){
+			$q_c = $tA;
 		}
 		
+		if($q_sql = $this->db->query("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."tables WHERE table_name = '$this->table' ORDER BY table_name,display_mode")){
+			$q_c = array_merge($q_c,$q_sql);
+		}
+		
+		if(!$q_col){
+			if($mode == 'main'){
+				$q_col = Utils::checkArray($q_c,array('table_name'=>$this->table,'display_mode'=>'main'));
+				if(!$q_col){
+					$q_col = Utils::checkArray($q_c,array('table_name'=>$this->table,'display_mode'=>''));
+				}
+			}
+			if($mode == 'related'){
+				$q_col = Utils::checkArray($q_c,array('table_name'=>$this->table,'display_mode'=>'related'));
+				if(!$q_col){
+					$q_col = Utils::checkArray($q_c,array('table_name'=>$this->table,'display_mode'=>''));
+				}
+			}
+		}
+				
 		//column description information		
 		$fields = array();
-		if($q_display['cols_default'] == ""){
+		if($q_col['cols_default'] == ""){
 			$select_cols = '*';			
 		}else{
-			$select_cols = $q_display['cols_default'];
+			$select_cols = $q_col['cols_default'];
 			$fields = explode(",",$select_cols);
 		}
 		

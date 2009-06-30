@@ -20,6 +20,11 @@ class TableController extends _Controller
 	public function Datagrid()
 	{
 		$this->layout_view = null;
+		
+		if(_ControllerFront::$session->getPermissions('select',$_POST['table']) === false){
+			$this->view(array('view'=>'error'));
+			return;
+		}
 		$this->view(array('data'=>$this->model->getData($_POST['table'])));
 	}
 	

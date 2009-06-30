@@ -61,7 +61,7 @@ class DashboardModel extends Model
 		$q = $this->db->query("SHOW TABLE STATUS");
 		$tableA = array();
 		foreach($q as $row){
-			if(_ControllerFront::$session->getPermissions('select',$row['Name'])){
+			if(_ControllerFront::$session->getPermissions('select',$row['Name']) && (strpos($row['Name'], BLACKBIRD_TABLE_PREFIX) === false)){
 				$tableA[] = $row;
 			}
 		}

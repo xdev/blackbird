@@ -20,9 +20,21 @@ class RecordController extends _Controller
 		$this->id = '';//get it from somewhere in db
 		$this->table = $this->route['table'];
 		$this->mode = 'add';
-		
 		$this->name_space = 'main';
 		$this->channel = 'main';
+		
+		//check permissions, need a 404
+		if(!_ControllerFront::$session->getPermissions('insert',$this->table)){
+			$this->view(array('data'=>array(
+				'main'=>'<p class="message error">No Permission</p>',
+				'id'=>$this->id,
+				'table'=>$this->table,
+				'mode'=>$this->mode,
+				'name_space'=>$this->name_space,
+				'permission_insert'=>_ControllerFront::$session->getPermissions('insert',$this->table)
+				)));
+			return;
+		}		
 		
 		//just the main record data
 		$this->model->getData(array('query_action'=>$this->query_action,'table'=>$this->table,'id'=>$this->id,'channel'=>'main'));
@@ -41,15 +53,15 @@ class RecordController extends _Controller
 	}
 	
 	public function Edit()
-	{	
+	{
 		$this->query_action = 'update';
 		
 		//set id
 		$this->id = $this->route['id'];
 		$this->table = $this->route['table'];
 		$this->mode = 'edit';
-		$this->channel = 'main';
-		
+				
+		$this->channel = 'main';		
 		$this->name_space = 'main';
 		
 		//main record data
@@ -81,300 +93,7 @@ class RecordController extends _Controller
 			'permission_update'=>_ControllerFront::$session->getPermissions('update',$this->table)
 			)));
 	}
-	
-	public function Editrelated()
-	{
-		
-		$this->table = $_POST['table'];
-		$this->mode = $_POST['mode'];
-		$this->query_action = $_POST['query_action'];
-		if($this->mode == 'edit'){
-			$this->id = $_POST['id'];
-		}else{
-			$this->id = '';
-		}
-		
-		$this->channel = 'related';
-		$this->name_space = $_POST['name_space'];
-		
-		//main record data
-		$this->model->getData(array('query_action'=>$this->query_action,'table'=>$this->table,'id'=>$this->id,'channel'=>$this->channel));
-		$main = $this->_buildForm();
-		/*
-		if($this->model->data['active']['value'] != ''){
-			$this->active = $this->model->data['active']['value'];
-		}else{
-			$this->active = 1;
-		}
-		*/
-							
-		$this->view(array('data'=>array(
-			'main'=>$main,
-			'mode'=>$this->mode,
-			'name_space'=>$_POST['name_space'],
-			'id'=>$this->id,			
-			'permission_delete'=>_ControllerFront::$session->getPermissions('delete',$this->table),
-			'permission_update'=>_ControllerFront::$session->getPermissions('update',$this->table),
-			'permission_insert'=>_ControllerFront::$session->getPermissions('insert',$this->table)			
-			)));
-		
-		$this->layout_view = null;
-		
-	}
-	
-	public function Delete()
-	{
-		//take table and id
-		$table = $_POST['table'];
-		$id = $_POST['id'];
-		$this->model->processDelete($table,explode(",",$id));
-		
-		$this->layout_view = null;
-		
-		/* needs to handle errors
-		$this->view(array('data'=>array(
-			'table'=>$table,
-			'id'=>$id)));
-		*/
-	}
-		
-	
-	private function _buildRelations()
-	{
-		
-		//loop around and scoop up placeholder stuff we need for stuffs, mostly setting variables ehh? Do everything else via javascript?
-		
-		
-	}
-	
-	private function _buildForm()
-	{
-		//the master loopage		
-		//do a few things different if we're editing vs inserting a new record.. however not much
-		//use output buffering to feed this to the view... this is a unique controller driven situation
-		//since it's almost entirely logic based and presentation uses markup snippets from the Forms library
-		
-		ob_start();
-		
-		$_name_space = $this->name_space . '_';
-		
-		//processing instructions
-		Forms::hidden('name_space',$this->name_space,array('omit_id'=>true));
-		Forms::hidden('mode',$this->mode,array('omit_id'=>true));
-		Forms::hidden('channel',$this->channel,array('omit_id'=>true));
-		Forms::hidden('table',$this->table,array('omit_id'=>true));
-		Forms::hidden('query_action',$this->query_action,array('omit_id'=>true));
-		
-		$recordData = $this->model->data;
-		$row_data = $recordData;
-		
-		//CMS_RELATIONS fields
-		if($this->channel == "related"){
-			$sql = "SELECT * FROM ". BLACKBIRD_TABLE_PREFIX ."relations WHERE table_parent = '" . $_POST['table_parent'] . "' AND table_child = '$this->table'";
-			if($q_relation = AdaptorMysql::queryRow($sql)){
-				$i=0;
-				foreach($recordData as $column){
-					if($column['name'] == $q_relation['column_child']){
-						array_splice($recordData,$i,1);
-						break;
-					}
-					$i++;
-				}
-				$q_parent = AdaptorMysql::queryRow("SELECT * FROM " . $_POST['table_parent'] . " WHERE id = " . $_POST['id_parent']);
-				Forms::hidden($_name_space . $q_relation['column_child'],$q_parent[$q_relation['column_parent']]);
-				Forms::hidden('table_parent',$_POST['table_parent'],array('omit_id'=>true));
-				Forms::hidden('id_parent',$q_parent[$q_relation['column_parent']],array('omit_id'=>true));
-			}
-		}
-		
-		//loop items
-		foreach($recordData as $column){
-			$options = array();
-			$col_type = strtolower($column['type']);
-			$value = $column['value'];
 
-			$col_ready = false;
-			$display_name = Utils::titleCase(str_replace('_',' ',$column['name']));
-
-			$options['label'] = $display_name;
-			$options['name_space'] = $_name_space;
-			$options['db'] = AdaptorMysql::getInstance();
-
-			//built in stuffs
-			if (
-				$column['name'] == 'id'
-			) {
-				if($this->query_action == "update" || $column['name'] == 'active'){
-					Forms::hidden($_name_space . $column['name'],$value,$options);
-				}
-				$col_ready = true;
-			}
-
-			//plugins
-			
-			//col_config needs to be created for each column in the model = FAIL			
-			if($column['config'] && !$col_ready){
-				
-				$q_col = $column['config'];
-				
-				if($q_col['default_value'] != '' && $this->mode == "insert"){
-					$value = $q_col['default_value'];
-				}
-
-				if(strlen($q_col['help'])>1){
-					$options['tip']	= $q_col['help'];
-				}
-
-				if($q_col['display_name'] != ''){
-					$display_name = $q_col['display_name'];
-				}
-
-				$options['label'] = $display_name;
-
-				$module = $q_col['edit_module'];
-
-				if(strlen($q_col['edit_config']) > 1){
-					$config = _ControllerFront::parseConfig($q_col['edit_config']);
-					$options = array_merge($options,$config);
-				}
-
-				if($q_col['validate'] != ''){
-					$options = array_merge($options,_ControllerFront::parseConfig($q_col['validate']));
-				}
-
-				if($module != ""){
-
-					switch ($module) {
-
-						case "module":
-
-
-							break;
-
-						case "plugin":
-							$options['table'] = $this->table;
-							$options['mode'] = $this->mode;
-							$options['row_data'] = $row_data;
-							$options['id'] = $this->id;
-							$options['col_name'] = $column['name'];
-							
-							_ControllerFront::pluginColumnEdit($_name_space . $column['name'],$value, $options);
-							$col_ready = true;
-							break;
-
-						case "position":
-
-							//build a selectDefault but with special options ehh
-							$options['col_display'] = $column['name'];
-							$options['col_value'] = $column['name'];
-							
-							//do it manual style, to accomodate constraint change or late entries
-							
-							//do a relative selection of position, based upon existing list.. oh!
-							
-							//factor in the contraint if set
-							if(isset($config['col_constraint'])){
-								$options['select_sql'] = "SELECT * FROM `$this->table` WHERE $config[col_constraint] = '".$row_data[$config['col_constraint']]['value']."' ORDER BY $column[name]";
-							}else{
-								$options['select_sql'] = "SELECT * FROM `$this->table` ORDER BY $column[name]";
-							}
-							
-							$options['table'] = $this->table;
-							$options['col_name'] = $column['name'];
-							$options['id'] = $this->id;
-							$options['name_space'] = $_name_space;
-							$options['label'] = $display_name;
-
-							$options['allow_null'] = false;
-
-							Forms::selectDefault($_name_space . $column['name'],$value, $options);
-							$col_ready = true;
-							break;
-						
-						case "slug":
-							
-							$source = isset($config['col_source']) ? $_name_space . $config['col_source'] : null;
-							
-							Forms::text($_name_space . $column['name'],$value,$options);
-							print '
-								<script type="text/javascript">
-									Event.observe(window,\'load\', function(){createSlug(\''.$_name_space . $column['name'].'\',\''.$source.'\')}, true);
-								</script>
-							';
-							$col_ready = true;
-							
-							break;
-
-
-						case "disabled":
-							$col_ready = true;
-							break;
-
-
-						default :
-							$options['table'] = $this->table;
-							$options['col_name'] = $column['name'];
-							$options['id'] = $this->id;
-							$options['name_space'] = $_name_space;
-							$options['label'] = $display_name;
-							
-							//add database datasource for countries and states
-							if($module == 'selectState'){
-								$options['datasource'] = BLACKBIRD_TABLE_PREFIX . 'states';
-							}
-							if ($module == 'selectCountry'){
-								$options['datasource'] = BLACKBIRD_TABLE_PREFIX . 'countries';
-							}
-							
-							Forms::$module($_name_space . $column['name'],$value, $options);
-							$col_ready = true;
-							break;
-
-					}
-
-
-				}
-
-			}
-
-			//defaults	
-			if(!$col_ready){
-
-				switch(true){		
-
-					case ($col_type == 'datetime' || $col_type == 'timestamp') :
-						Forms::selectDateTime($_name_space . $column['name'],$value, $options );
-						break;
-
-					case ($col_type == 'date') :
-						Forms::selectDate($_name_space . $column['name'],$value, $options );
-						break;
-
-					case ($col_type == 'time') :
-						Forms::selectTime($_name_space . $column['name'],$value, $options );
-						break;
-
-					case (substr($col_type,0,4) == "text") :
-						Forms::textarea($_name_space . $column['name'],$value, $options );
-						break;
-
-					default :
-						Forms::text($_name_space . $column['name'],$value, $options );
-						break;
-				}
-			
-			}	
-
-		}
-		
-		
-		$r = ob_get_contents();
-		ob_end_clean();
-		
-		return $r;
-		
-	}
-	
 	public function Process()
 	{
 		$this->layout_view = null;
@@ -384,8 +103,13 @@ class RecordController extends _Controller
 		$this->mode = $_POST['mode'];
 		$this->table = $_POST['table'];
 		$this->query_action = $_POST['query_action'];
-		$this->channel = $_POST['channel'];
 		
+		//check permissions
+		if(!_ControllerFront::$session->getPermissions($this->query_action,$this->table)){			
+			return;
+		}
+		
+		$this->channel = $_POST['channel'];		
 		$this->key = AdaptorMysql::getPrimaryKey($this->table);
 		
 		if($this->query_action == 'update'){		
@@ -715,5 +439,301 @@ class RecordController extends _Controller
 		
 		
 	}
+
+	public function Editrelated()
+	{
+		
+		$this->table = $_POST['table'];
+		$this->mode = $_POST['mode'];
+		$this->query_action = $_POST['query_action'];
+		if($this->mode == 'edit'){
+			$this->id = $_POST['id'];
+		}else{
+			$this->id = '';
+		}		
+		$this->channel = 'related';
+		$this->name_space = $_POST['name_space'];
+		
+		if($this->query_action == 'insert' && !_ControllerFront::$session->getPermissions($this->query_action,$this->table)){
+			return;
+		}
+		
+		//main record data
+		$this->model->getData(array('query_action'=>$this->query_action,'table'=>$this->table,'id'=>$this->id,'channel'=>$this->channel));
+		$main = $this->_buildForm();
+		
+		if($this->model->data['active']['value'] != ''){
+			$this->active = $this->model->data['active']['value'];
+		}else{
+			$this->active = 1;
+		}
+							
+		$this->view(array('data'=>array(
+			'main'=>$main,
+			'mode'=>$this->mode,
+			'name_space'=>$_POST['name_space'],
+			'id'=>$this->id,
+			'active'=>$this->active,
+			'permission_delete'=>_ControllerFront::$session->getPermissions('delete',$this->table),
+			'permission_update'=>_ControllerFront::$session->getPermissions('update',$this->table),
+			'permission_insert'=>_ControllerFront::$session->getPermissions('insert',$this->table)			
+			)));
+		
+		$this->layout_view = null;
+		
+	}
+	
+	public function Delete()
+	{
+		//take table and id
+		$table = $_POST['table'];
+		$id = $_POST['id'];
+		$this->model->processDelete($table,explode(",",$id));
+		
+		$this->layout_view = null;
+		
+		/* needs to handle errors
+		$this->view(array('data'=>array(
+			'table'=>$table,
+			'id'=>$id)));
+		*/
+	}
+		
+	private function _buildRelations()
+	{
+		
+		//loop around and scoop up placeholder stuff we need for stuffs, mostly setting variables ehh? Do everything else via javascript?
+		
+		
+	}
+	
+	private function _buildForm()
+	{
+		//the master loopage		
+		//do a few things different if we're editing vs inserting a new record.. however not much
+		//use output buffering to feed this to the view... this is a unique controller driven situation
+		//since it's almost entirely logic based and presentation uses markup snippets from the Forms library
+		
+		ob_start();
+		
+		$_name_space = $this->name_space . '_';
+		
+		//processing instructions
+		Forms::hidden('name_space',$this->name_space,array('omit_id'=>true));
+		Forms::hidden('mode',$this->mode,array('omit_id'=>true));
+		Forms::hidden('channel',$this->channel,array('omit_id'=>true));
+		Forms::hidden('table',$this->table,array('omit_id'=>true));
+		Forms::hidden('query_action',$this->query_action,array('omit_id'=>true));
+		
+		$recordData = $this->model->data;
+		$row_data = $recordData;
+		
+		//CMS_RELATIONS fields
+		if($this->channel == "related"){
+			$sql = "SELECT * FROM ". BLACKBIRD_TABLE_PREFIX ."relations WHERE table_parent = '" . $_POST['table_parent'] . "' AND table_child = '$this->table'";
+			if($q_relation = AdaptorMysql::queryRow($sql)){
+				$i=0;
+				foreach($recordData as $column){
+					if($column['name'] == $q_relation['column_child']){
+						array_splice($recordData,$i,1);
+						break;
+					}
+					$i++;
+				}
+				$q_parent = AdaptorMysql::queryRow("SELECT * FROM " . $_POST['table_parent'] . " WHERE id = " . $_POST['id_parent']);
+				Forms::hidden($_name_space . $q_relation['column_child'],$q_parent[$q_relation['column_parent']]);
+				Forms::hidden('table_parent',$_POST['table_parent'],array('omit_id'=>true));
+				Forms::hidden('id_parent',$q_parent[$q_relation['column_parent']],array('omit_id'=>true));
+			}
+		}
+		
+		//loop items
+		foreach($recordData as $column){
+			$options = array();
+			$col_type = strtolower($column['type']);
+			$value = $column['value'];
+
+			$col_ready = false;
+			$display_name = Utils::titleCase(str_replace('_',' ',$column['name']));
+
+			$options['label'] = $display_name;
+			$options['name_space'] = $_name_space;
+			$options['db'] = AdaptorMysql::getInstance();
+
+			//built in stuffs
+			if (
+				$column['name'] == 'id'
+			) {
+				if($this->query_action == "update" || $column['name'] == 'active'){
+					Forms::hidden($_name_space . $column['name'],$value,$options);
+				}
+				$col_ready = true;
+			}
+
+			//plugins
+			
+			//col_config needs to be created for each column in the model = FAIL			
+			if($column['config'] && !$col_ready){
+				
+				$q_col = $column['config'];
+				
+				if($q_col['default_value'] != '' && $this->mode == "insert"){
+					$value = $q_col['default_value'];
+				}
+
+				if(strlen($q_col['help'])>1){
+					$options['tip']	= $q_col['help'];
+				}
+
+				if($q_col['display_name'] != ''){
+					$display_name = $q_col['display_name'];
+				}
+
+				$options['label'] = $display_name;
+
+				$module = $q_col['edit_module'];
+
+				if(strlen($q_col['edit_config']) > 1){
+					$config = _ControllerFront::parseConfig($q_col['edit_config']);
+					$options = array_merge($options,$config);
+				}
+
+				if($q_col['validate'] != ''){
+					$options = array_merge($options,_ControllerFront::parseConfig($q_col['validate']));
+				}
+
+				if($module != ""){
+
+					switch ($module) {
+
+						case "module":
+
+
+							break;
+
+						case "plugin":
+							$options['table'] = $this->table;
+							$options['mode'] = $this->mode;
+							$options['row_data'] = $row_data;
+							$options['id'] = $this->id;
+							$options['col_name'] = $column['name'];
+							
+							_ControllerFront::pluginColumnEdit($_name_space . $column['name'],$value, $options);
+							$col_ready = true;
+							break;
+
+						case "position":
+
+							//build a selectDefault but with special options ehh
+							$options['col_display'] = $column['name'];
+							$options['col_value'] = $column['name'];
+							
+							//do it manual style, to accomodate constraint change or late entries
+							
+							//do a relative selection of position, based upon existing list.. oh!
+							
+							//factor in the contraint if set
+							if(isset($config['col_constraint'])){
+								$options['select_sql'] = "SELECT * FROM `$this->table` WHERE $config[col_constraint] = '".$row_data[$config['col_constraint']]['value']."' ORDER BY $column[name]";
+							}else{
+								$options['select_sql'] = "SELECT * FROM `$this->table` ORDER BY $column[name]";
+							}
+							
+							$options['table'] = $this->table;
+							$options['col_name'] = $column['name'];
+							$options['id'] = $this->id;
+							$options['name_space'] = $_name_space;
+							$options['label'] = $display_name;
+
+							$options['allow_null'] = false;
+
+							Forms::selectDefault($_name_space . $column['name'],$value, $options);
+							$col_ready = true;
+							break;
+						
+						case "slug":
+							
+							$source = isset($config['col_source']) ? $_name_space . $config['col_source'] : null;
+							
+							Forms::text($_name_space . $column['name'],$value,$options);
+							print '
+								<script type="text/javascript">
+									Event.observe(window,\'load\', function(){createSlug(\''.$_name_space . $column['name'].'\',\''.$source.'\')}, true);
+								</script>
+							';
+							$col_ready = true;
+							
+							break;
+
+
+						case "disabled":
+							$col_ready = true;
+							break;
+
+
+						default :
+							$options['table'] = $this->table;
+							$options['col_name'] = $column['name'];
+							$options['id'] = $this->id;
+							$options['name_space'] = $_name_space;
+							$options['label'] = $display_name;
+							
+							//add database datasource for countries and states
+							if($module == 'selectState'){
+								$options['datasource'] = BLACKBIRD_TABLE_PREFIX . 'states';
+							}
+							if ($module == 'selectCountry'){
+								$options['datasource'] = BLACKBIRD_TABLE_PREFIX . 'countries';
+							}
+							
+							Forms::$module($_name_space . $column['name'],$value, $options);
+							$col_ready = true;
+							break;
+
+					}
+
+
+				}
+
+			}
+
+			//defaults	
+			if(!$col_ready){
+
+				switch(true){		
+
+					case ($col_type == 'datetime' || $col_type == 'timestamp') :
+						Forms::selectDateTime($_name_space . $column['name'],$value, $options );
+						break;
+
+					case ($col_type == 'date') :
+						Forms::selectDate($_name_space . $column['name'],$value, $options );
+						break;
+
+					case ($col_type == 'time') :
+						Forms::selectTime($_name_space . $column['name'],$value, $options );
+						break;
+
+					case (substr($col_type,0,4) == "text") :
+						Forms::textarea($_name_space . $column['name'],$value, $options );
+						break;
+
+					default :
+						Forms::text($_name_space . $column['name'],$value, $options );
+						break;
+				}
+			
+			}	
+
+		}
+		
+		
+		$r = ob_get_contents();
+		ob_end_clean();
+		
+		return $r;
+		
+	}
+	
 	
 }

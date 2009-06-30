@@ -350,7 +350,6 @@ class UserModel extends Model
 	
 	public function getPermissions($priv,$table_name)
 	{
-		
 		$tables = $this->prepTables();
 	
 		if(isset($tables[$table_name])){

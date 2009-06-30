@@ -3,6 +3,7 @@
 		<h2>Recent Activity</h2>
 	</div>
 	<div class="content">
+		<?php if(is_array($data)): ?>
 		<table>
 			<thead>
 				<tr>
@@ -14,9 +15,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<?php $i=0; ?>
-				<?php if(is_array($data)): ?>
-				<?php foreach($data as $row): ?>
+				<?php $i=0; foreach($data as $row): ?>
 				<tr class="<?= $i++%2 ? 'even' : 'odd' ?>">
 					<td class="<?= $row['action'] ?>"><?= ucfirst($row['action']) ?></td>
 					<td><a href="<? BASE ?>table/browse/<?= $row['table_name'] ?>"><?= _ControllerFront::getTableName($row['table_name']) ?></a></td>
@@ -40,8 +39,10 @@
 					<?php endif ?>		
 				</tr>
 				<?php endforeach ?>
-				<?php endif ?>
 			</tbody>
 		</table>
+		<?php else: ?>
+		<p class="message">There is no activity yet…</p>
+		<?php endif ?>
 	</div>
 </div>
