@@ -100,19 +100,19 @@ class RecordController extends _Controller
 		//main record data
 		$this->model->getData(array('query_action'=>$this->query_action,'table'=>$this->table,'id'=>$this->id,'channel'=>$this->channel));
 		$main = $this->_buildForm();
-		
+		/*
 		if($this->model->data['active']['value'] != ''){
 			$this->active = $this->model->data['active']['value'];
 		}else{
 			$this->active = 1;
 		}
+		*/
 							
 		$this->view(array('data'=>array(
 			'main'=>$main,
 			'mode'=>$this->mode,
 			'name_space'=>$_POST['name_space'],
-			'id'=>$this->id,
-			'active'=>$this->active,
+			'id'=>$this->id,			
 			'permission_delete'=>_ControllerFront::$session->getPermissions('delete',$this->table),
 			'permission_update'=>_ControllerFront::$session->getPermissions('update',$this->table),
 			'permission_insert'=>_ControllerFront::$session->getPermissions('insert',$this->table)			

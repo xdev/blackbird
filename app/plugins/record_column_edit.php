@@ -56,9 +56,12 @@ function plugin__record_column_edit($name,$value,$options)
 		
 		//
 		$tA = _ControllerFront::getRoute();		
-		$group_id = $tA['id'];
-		
-		$q_permissions = $options['db']->query("SELECT * FROM " . BLACKBIRD_TABLE_PREFIX . "permissions WHERE group_id = '$group_id' ORDER BY table_name");
+		if(isset($tA['id'])){
+			$group_id = $tA['id'];
+			$q_permissions = $options['db']->query("SELECT * FROM " . BLACKBIRD_TABLE_PREFIX . "permissions WHERE group_id = '$group_id' ORDER BY table_name");
+		}else{
+			$q_permissions = null;
+		}
 		
 		$r = '<div id="bb_group_permissions">';
 		$r .= '<p>All permissions - <a href="#" id="matrix_on">ON</a>&nbsp;|&nbsp;<a href="#" id="matrix_off">OFF</a></p>';
