@@ -40,8 +40,6 @@ class RecordController extends _Controller
 		$this->model->getData(array('query_action'=>$this->query_action,'table'=>$this->table,'id'=>$this->id,'channel'=>'main'));
 		$main = $this->_buildForm();
 		
-		//get active state
-		
 		$this->view(array('data'=>array(
 			'main'=>$main,
 			'id'=>$this->id,
@@ -462,18 +460,11 @@ class RecordController extends _Controller
 		$this->model->getData(array('query_action'=>$this->query_action,'table'=>$this->table,'id'=>$this->id,'channel'=>$this->channel));
 		$main = $this->_buildForm();
 		
-		if($this->model->data['active']['value'] != ''){
-			$this->active = $this->model->data['active']['value'];
-		}else{
-			$this->active = 1;
-		}
-							
 		$this->view(array('data'=>array(
 			'main'=>$main,
 			'mode'=>$this->mode,
 			'name_space'=>$_POST['name_space'],
 			'id'=>$this->id,
-			'active'=>$this->active,
 			'permission_delete'=>_ControllerFront::$session->getPermissions('delete',$this->table),
 			'permission_update'=>_ControllerFront::$session->getPermissions('update',$this->table),
 			'permission_insert'=>_ControllerFront::$session->getPermissions('insert',$this->table)			
@@ -528,7 +519,7 @@ class RecordController extends _Controller
 		$recordData = $this->model->data;
 		$row_data = $recordData;
 		
-		//CMS_RELATIONS fields
+		//Relation fields
 		if($this->channel == "related"){
 			$sql = "SELECT * FROM ". BLACKBIRD_TABLE_PREFIX ."relations WHERE table_parent = '" . $_POST['table_parent'] . "' AND table_child = '$this->table'";
 			if($q_relation = AdaptorMysql::queryRow($sql)){
@@ -560,11 +551,11 @@ class RecordController extends _Controller
 			$options['name_space'] = $_name_space;
 			$options['db'] = AdaptorMysql::getInstance();
 
-			//built in stuffs
+			//For primary key that's autoincrementing
 			if (
 				$column['name'] == 'id'
 			) {
-				if($this->query_action == "update" || $column['name'] == 'active'){
+				if($this->query_action == "update"){
 					Forms::hidden($_name_space . $column['name'],$value,$options);
 				}
 				$col_ready = true;

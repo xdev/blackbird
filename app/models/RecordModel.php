@@ -3,17 +3,6 @@
 class RecordModel extends Model
 {
 		
-	public function getActive()
-	{
-		//return value if exists, else default
-		if(isset($this->data['active']['value'])){
-			return $this->data['active']['value'];
-		}else{
-		//if column doesn't exist return null
-			return null;
-		}
-	}
-	
 	public function processDelete($table,$id_set)
 	{
 		if(_ControllerFront::$session->getPermissions('delete',$table)){
