@@ -18,30 +18,16 @@ class _Controller extends Controller
 		return parent::render();
 	}
 	
-	
-	
-	public function css()
+	public function getCustomHeaders()
 	{
-		// Default CSS files
-		$this->css[] = 'reset.css';
-		$this->css[] = 'screen.css';
-		$this->css[] = 'edit.css';
-		$this->css[] = 'data.css';
-		$this->css[] = 'imagebrowser.css';
-		// Remove duplicates
-		$files = array_unique($this->css);
-		// Build links
 		$r = '';
-		foreach ($files as $filename) {
-			$r .= "\r\t\t" . sprintf(
-				'<link rel="stylesheet" href="%s" type="text/css" media="screen" charset="utf-8" />',
-				BASE . 'assets/css/' . $filename
-			);
+		if($q = AdaptorMysql::query("SELECT * FROM `" . BLACKBIRD_TABLE_PREFIX . "headers`")){
+			foreach($q as $row){
+				$r .= $row['javascript'] . "\t\t\n" . $row['css'] . "\t\t\n";
+			}
 		}
 		return $r;
 	}
-	
-	
 	
 	public function prepUI()
 	{

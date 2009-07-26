@@ -3,7 +3,6 @@
 		'mode'=>'edit',
 		'table'=>BLACKBIRD_USERS_TABLE,
 		'id'=>'0',
-		'active'=>null,
 		'name_space'=>$name_space,
 		'type'=>'user')
 ) ?>
