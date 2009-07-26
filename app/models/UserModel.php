@@ -335,7 +335,7 @@ class UserModel extends Model
 		}
 				
 		foreach($new as $key=>$value){
-			$privs = array_unique(split(',',$value['privs']));
+			$privs = array_unique(explode(',',$value['privs']));
 			
 			if($privs[0]){
 				$new[$key] = array('privs'=>$privs,'menu'=>$value['menu'],'in_nav'=>$value['in_nav']);
