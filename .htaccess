@@ -1,7 +1,6 @@
 <IfModule mod_rewrite.c>
 
 RewriteEngine on
-RewriteBase /blackbird
 
 # Remove trailing slashes for dynamic pages
 RewriteCond %{REQUEST_FILENAME} !-d
@@ -9,7 +8,12 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.*)/$ $1 [L,R]
 
 # Prevent access to protected directories and files
-RewriteRule ^_scripts|_source|app|lib|example_config|assets/sql|tmp/(.*)$ . [F]
+RewriteRule src/(.*)$ . [F]
+RewriteRule app/(.*)$ . [F]
+RewriteRule lib/(.*)$ . [F]
+RewriteRule example_config/(.*)$ . [F]
+RewriteRule assets/sql(.*)$ . [F]
+
 #RewriteRule ^README|LICENSE$ . [F]
 
 # Redirect dynamic requests to index.php file

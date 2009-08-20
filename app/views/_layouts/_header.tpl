@@ -28,7 +28,7 @@ Portions of this software rely upon the following software which are covered by 
 		<link rel="stylesheet" href="<?= BASE ?>assets/css/edit.css" type="text/css" media="screen" charset="utf-8" />
 		<link rel="stylesheet" href="<?= BASE ?>assets/css/data.css" type="text/css" media="screen" charset="utf-8" />
 		<link rel="stylesheet" href="<?= BASE ?>assets/css/imagebrowser.css" type="text/css" media="screen" charset="utf-8" />
-				
+		<link href="<?= BASE ?>assets/img/favicon.png" rel="shortcut icon" type="image/x-icon" />
 		<!-- library code -->
 		<script type="text/javascript" src="<?= BASE ?>assets/js/jquery-1.3.1.min.js"></script>
 		<script type="text/javascript" src="<?= BASE ?>assets/js/jquery-ui-personalized-1.6rc5.min.js"></script>

@@ -1,6 +1,6 @@
 Blackbird - Web based relational information manager.
-Copyright (C) 2005-2008 Charles Mastin <c@charlesmastin.com>
-Copyright (C) 2007-2008 Joshua Rudd <email@joshuarudd.com>
+Copyright (C) 2005-2009 Charles Mastin <c@charlesmastin.com>
+Copyright (C) 2007-2009 Joshua Rudd <email@joshuarudd.com>
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -15,36 +15,3 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-
-
-Wiki
-
-
-INSTALLATION:
-
-You will most likely need to create the following files:
-
-
-> [install directory]/custom/config_custom.php (Configuration file)
-----------------------------------------------------------------------------------------
-$GLOBALS['DATABASE'] = array(
-	'host' => 'localhost',
-	'user' => 'username',
-	'pass' => 'password',
-	'db'   => 'databasename'
-);
-
-// The name of the site
-setConfig("CMS_CLIENT","Site Name");
-// (optional) allows the homepage to display "news" items from an RSS feed
-#setConfig("CMS_NEWS_FEED",'http://domain.com/feed.rss');
-----------------------------------------------------------------------------------------
-
-
-> [install directory]/.htaccess
-----------------------------------------------------------------------------------------
-RewriteEngine on
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . index.php [L,QSA]
-----------------------------------------------------------------------------------------
