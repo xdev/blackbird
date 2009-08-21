@@ -705,7 +705,7 @@ class RecordController extends _Controller
 						Forms::selectTime($_name_space . $column['name'],$value, $options );
 						break;
 
-					case (substr($col_type,0,4) == "text") :
+					case ($col_type == 'text' || $col_type == 'longtext' || $col_type == 'tinytext' || $col_type == 'mediumtext') :
 						Forms::textarea($_name_space . $column['name'],$value, $options );
 						break;
 
