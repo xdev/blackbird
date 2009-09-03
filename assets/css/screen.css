@@ -516,8 +516,7 @@ body.large .bb_dash {
 	padding: 10px;
 }
 
-.message a.close
-{
+.message a.close {
 	margin-left: 5px;
 }
 
@@ -545,36 +544,24 @@ body.large .bb_dash {
 	cursor: progress !important;
 }
 
-#bb_group_permissions p
-{
+#bb_group_permissions p {
 	/*EFF2F7*/
 	margin-top: 5px;
 	margin-bottom: 20px;
 }
-/*
-#bb_group_permissions a
-{
-	text-decoration: underline;	
-}
 
-#bb_group_permissions a:hover {
-	background-color: #FFFFFF;
-}
-*/
-
-#matrix td
-{
+#matrix td {
 	padding-top: 5px;
 	padding-right: 5px;
 }
 
-#matrix th
-{
+#matrix th {
 	text-align: left;
 	padding-right: 5px;
 	padding-bottom: 5px;
 	border-bottom: 1px solid #2A2E40;
 }
+
 .divider {
 	background: #161C26 url(../img/gradient-30.png) 0 100% repeat-x;
 	border-top: 1px solid #2A2E40;

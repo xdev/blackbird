@@ -1,33 +1,28 @@
-ul.image_browser
-{
+ul.image_browser {
 	float: left;
 }
 
-.img_module
-{
+.img_module {
 	float: left;
 	padding: 10px 9px 10px 10px;
 	background: #DDDDDD;
 	margin-right: 1px;
 	margin-bottom: 1px;
-	height: 160px;
+	height: 170px;
 	width: 140px;
+	
 }
 
-.img_module .handle
-{
+.img_module .handle {
 	height: 140px;
 	background: #CCCCCC;
 }
 
-.img_module .handle:hover
-{
+.img_module .handle:hover {
 	cursor: move;
 }
 
-.img_module.inactive img
-
-{
+.img_module.inactive img {
 
 	filter: alpha(opacity:35);
 	KHTMLOpacity: 0.35;
@@ -36,30 +31,45 @@ ul.image_browser
 
 }
 
-.img_module.inactive
-
-{
-
+.img_module.inactive {
 	background: #F6F6F6;
-
-
 }
 
-
-.img_module:hover
-{
+.img_module:hover {
 	background: #E6E8ED;
 }
 
-.img_module span
-{
-	font-size: 10px;
-	width: 80px;
+.img_module span {
+	width: 140px;
+	margin-top: 1px;
+	font-size: 9px;
+	overflow: hidden;
+	display: block;
+	white-space: pre;
+}
+
+.img_module a {
 	float: left;
 }
 
-.img_module a
-{
-	float: right;
+.img_module .icon {
+	display: block;
+	width: 25px;
+	height: 25px;
+	text-indent: -9000px;
 }
 
+.img_module .icon:hover {
+	background-position: 0px 0px;
+}
+
+.img_module .icon.edit {
+	margin-left: -5px;
+	background-image:url(/assets/img/icons/edit.png);
+	background-position: 0px -25px;
+}
+
+.img_module .icon.delete {
+	background-image:url(/assets/img/icons/delete.png);
+	background-position: 0px 0px;	
+}
