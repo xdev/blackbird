@@ -1,6 +1,6 @@
 <?php 
 //move to model sucka
-$images = AdaptorMysql::query("SELECT * FROM $table WHERE $config[col_parent] = $id ORDER BY position");
+$images = AdaptorMysql::query("SELECT * FROM $table WHERE $config[col_parent] = $id ORDER BY `$config[col_order]`");
 ?>
 
 <div class="bb_toolbar related">
@@ -29,7 +29,14 @@ $images = AdaptorMysql::query("SELECT * FROM $table WHERE $config[col_parent] = 
 <script type="text/javascript">
 	<!-- <![CDATA[ 
 	$(document).observe('dom:loaded',function(){
-		ImageBrowser_<?= $name_space ?> = new ImageBrowser({name_space:"<?= $name_space ?>",table:"<?= $table ?>",base:"<?= BASE ?>"});
+		//need to pass in serialized config object here
+		<?php 
+		$config['name_space'] = $name_space;
+		$config['table'] = $table;
+		$config['base'] = BASE;
+		?>
+				
+		ImageBrowser_<?= $name_space ?> = new ImageBrowser(<?= json_encode($config) ?>);
 		blackbird.broadcaster.addListener(ImageBrowser_<?= $name_space ?>);
 	});
 	// ]]> -->

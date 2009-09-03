@@ -9,8 +9,7 @@ class ImagebrowserController extends _Controller
 		$table = $_POST['table'];
 		$idSet = explode(",",$_POST['id_set']);
 		
-		//get relation sucka
-		$q_related = AdaptorMysql::queryRow("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."relations WHERE table_parent = '$_POST[table_parent]' AND table_child = '$table' ORDER BY position");
+		$q_related = AdaptorMysql::queryRow("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."relations WHERE table_parent = '$_POST[table_parent]' AND table_child = '$table'");
 		$config = _ControllerFront::parseConfig($q_related['config']);
 				
 		for($i=0;$i<count($idSet);$i++){
@@ -37,7 +36,6 @@ class ImagebrowserController extends _Controller
 		$m->processDelete($table,explode(",",$id));		
 			
 	}
-	
 	
 	public function Getimage()
 	{
