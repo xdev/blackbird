@@ -6,7 +6,7 @@ class TableController extends _Controller
 	public function Browse()
 	{
 		if(_ControllerFront::$session->getPermissions('select',$this->route['table']) === false){
-			$this->view(array('view'=>'error'));
+			$this->view(array('view'=>'error','data'=>array($this->route)));
 			return;
 		}
 		
@@ -22,7 +22,7 @@ class TableController extends _Controller
 		$this->layout_view = null;
 		
 		if(_ControllerFront::$session->getPermissions('select',$_POST['table']) === false){
-			$this->view(array('view'=>'error'));
+			$this->view(array('view'=>'error','data'=>$_POST));
 			return;
 		}
 		$this->view(array('data'=>$this->model->getData($_POST['table'])));
