@@ -265,24 +265,25 @@ class RecordController extends _Controller
 							foreach($row_data as $temprow){
 								if($temprow['field'] == $config['col_constraint']){
 									$foundrow = true;
-									$where = "WHERE `".$config['col_constraint']."` = '".$temprow['value']."' ";
+									$where = "WHERE `$config[col_constraint]` = '".$temprow['value']."' ";
 								}
 							}
 							if(!$foundrow){
 								//check for the $_REQUEST
-								$where = "WHERE `".$config['col_constraint']."` = '".$_REQUEST[$this->_name_space . $config['col_constraint']]."' ";
+								$where = "WHERE `$config[col_constraint]` = '".$_REQUEST[$this->_name_space . $config['col_constraint']]."' ";
 							}
 						}
 						
-						_ControllerFront::sortPosition($this->table,"SELECT id FROM `$this->table` $where ORDER BY $col[Field]",$this->id,$value,$col['Field']);
+						_ControllerFront::sortPosition($this->table,"SELECT id FROM `$this->table` $where ORDER BY `$col[Field]`",$this->id,$value,$col['Field']);
 					}
 					if($this->query_action == "insert"){
 						//check for constraints from config
 						if(isset($config)){
-							$where = "WHERE `".$config['col_constraint']."` = '".$_REQUEST[$this->_name_space . $config['col_constraint']]."' ";
+							$where = "WHERE `$config[col_constraint]` = '".$_REQUEST[$this->_name_space . $config['col_constraint']]."' ";
 						}
 						$q_pos = $this->db->queryRow("SELECT max($col[Field]) AS position FROM `$this->table` $where");
 						$row_data[] = array("field"=>$col['Field'],"value"=>($q_pos['position'] + 1));
+						die(print_r($row_data));
 					}
 					$col_ready = true;
 					break;
@@ -625,7 +626,7 @@ class RecordController extends _Controller
 							
 							//factor in the contraint if set
 							if(isset($config['col_constraint'])){
-								$options['select_sql'] = "SELECT * FROM `$this->table` WHERE $config[col_constraint] = '".$row_data[$config['col_constraint']]['value']."' ORDER BY $column[name]";
+								$options['select_sql'] = "SELECT * FROM `$this->table` WHERE `$config[col_constraint]` = '".$row_data[$config['col_constraint']]['value']."' ORDER BY `$column[name]`";
 							}else{
 								$options['select_sql'] = "SELECT * FROM `$this->table` ORDER BY $column[name]";
 							}
