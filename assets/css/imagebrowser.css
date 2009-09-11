@@ -73,3 +73,22 @@ ul.image_browser {
 	background-image:url(/assets/img/icons/delete.png);
 	background-position: 0px 0px;	
 }
+
+/* Image container Hack */
+.form_item.imagecontainer .input .image {
+	width: 140px;
+	float: left;
+}
+
+.form_item.imagecontainer .input .controls {
+	margin-left: 10px;
+	float: left;
+}
+
+.form_item.imagecontainer .input label {
+	width: auto;
+	float: none;
+}
+.form_item.imagecontainer .input label:after {
+	content: '';
+}
