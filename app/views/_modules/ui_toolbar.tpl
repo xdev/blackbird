@@ -8,6 +8,9 @@
 	 	<a href="#" onclick="blackbird.closeMain('<?= BASE ?>table/browse/<?= $table  ?>'); return false;">« Back to browse</a>&nbsp;&nbsp;
 		<?php if(($mode == 'edit' && $permission_update == true) || ($mode == 'add' && $permission_insert == true)): ?>
 		<input type="button" value="Save Record" class="button_submit" onclick="blackbird.submitMain('<?= $name_space ?>'); return false;" />
+		<?php if(isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'],'/add/')): ?>
+		<input type="button" value="+ Add Record" class="button_submit" onclick="window.location='<?= $_SERVER['HTTP_REFERER'] ?>';" />
+		<?php endif ?>		
 		&nbsp;&nbsp;<a class="revert" href="#" style="display:none;" title="revert form" onclick="$('form_<?= $name_space ?>').reset(); return false;">Revert</a>
 		<?php endif ?>
 		<?php if($mode == 'edit' && $permission_delete == true): ?>
