@@ -281,9 +281,8 @@ class RecordController extends _Controller
 						if(isset($config)){
 							$where = "WHERE `$config[col_constraint]` = '".$_REQUEST[$this->_name_space . $config['col_constraint']]."' ";
 						}
-						$q_pos = $this->db->queryRow("SELECT max($col[Field]) AS position FROM `$this->table` $where");
+						$q_pos = $this->db->queryRow("SELECT max(`$col[Field]`) AS position FROM `$this->table` $where");
 						$row_data[] = array("field"=>$col['Field'],"value"=>($q_pos['position'] + 1));
-						die(print_r($row_data));
 					}
 					$col_ready = true;
 					break;
@@ -628,7 +627,7 @@ class RecordController extends _Controller
 							if(isset($config['col_constraint'])){
 								$options['select_sql'] = "SELECT * FROM `$this->table` WHERE `$config[col_constraint]` = '".$row_data[$config['col_constraint']]['value']."' ORDER BY `$column[name]`";
 							}else{
-								$options['select_sql'] = "SELECT * FROM `$this->table` ORDER BY $column[name]";
+								$options['select_sql'] = "SELECT * FROM `$this->table` ORDER BY `$column[name]`";
 							}
 							
 							$options['table'] = $this->table;
