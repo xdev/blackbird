@@ -353,12 +353,22 @@ class RecordController extends _Controller
 					break;
 				
 				case $col_type == "datetime" || $col_type == "timestamp":
-					$row_data[] = array("field"=>$col['Field'],"value"=>Utils::assembleDateTime($col['Field'],$this->_name_space));
+					//check null
+					if(isset($_REQUEST[$this->_name_space . $col['Field'].'_isnull'])){
+						$row_data[] = array('field'=>$col['Field'],'value'=>null);
+					}else{
+						$row_data[] = array("field"=>$col['Field'],"value"=>Utils::assembleDateTime($col['Field'],$this->_name_space));
+					}
 					$col_ready = true;
 					break;
 				
 				case $col_type == "date":
-					$row_data[] = array("field"=>$col['Field'],"value"=>Utils::assembleDate($col['Field'],$this->_name_space));
+					//
+					if(isset($_REQUEST[$this->_name_space . $col['Field'].'_isnull'])){
+						$row_data[] = array('field'=>$col['Field'],'value'=>null);
+					}else{
+						$row_data[] = array("field"=>$col['Field'],"value"=>Utils::assembleDate($col['Field'],$this->_name_space));
+					}
 					$col_ready = true;
 					break;
 				
@@ -385,6 +395,17 @@ class RecordController extends _Controller
 		}else{
 				
 			if(count($this->errorData) == 0){
+				
+				//check nullable
+				
+				foreach($row_data as $key=>$row){
+					if($row['value'] == "&#00;" || is_null($row['value'])){
+						if(AdaptorMysql::isNullable($this->table,$row['field'])){
+							$row_data[$key]['value'] = null;
+						}
+					}
+				}
+				
 				
 				if($this->query_action == "insert"){
 					$sql = $this->db->insert($this->table,$row_data);					
@@ -550,6 +571,7 @@ class RecordController extends _Controller
 			$options['label'] = $display_name;
 			$options['name_space'] = $_name_space;
 			$options['db'] = AdaptorMysql::getInstance();
+			$options['nullable'] = AdaptorMysql::isNullable($this->table,$column['name']);
 
 			//For primary key that's autoincrementing
 			if (
@@ -682,7 +704,6 @@ class RecordController extends _Controller
 							break;
 
 					}
-
 
 				}
 
