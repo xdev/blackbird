@@ -247,17 +247,18 @@ class RecordController extends _Controller
 				case $module == 'position':
 					//if we are a position column
 					$where = '';
-					
+
 					if(strlen($q_col['process_config']) > 1){
 						$config = _ControllerFront::parseConfig($q_col['process_config']);
 					}else if(isset($config)){
 						unset($config);
 					}
-					
+
 					$value = $_REQUEST[$this->_name_space . $col['Field']];
+					$nullable = AdaptorMysql::isNullable($this->table,$config['col_constraint']);
 					
 					if($this->query_action == "update"){
-						
+
 						//check for constraints from config
 						if(isset($config['col_constraint'])){
 							//try to find in row_data
@@ -265,23 +266,41 @@ class RecordController extends _Controller
 							foreach($row_data as $temprow){
 								if($temprow['field'] == $config['col_constraint']){
 									$foundrow = true;
-									$where = "WHERE `$config[col_constraint]` = '".$temprow['value']."' ";
+									if($nullable){
+										$_v = "IS NULL";
+									}else{
+										$_v = " = '".$temprow['value']."'";
+									}
+									$where = "WHERE `$config[col_constraint]` ".$_v;
 								}
 							}
 							if(!$foundrow){
 								//check for the $_REQUEST
-								$where = "WHERE `$config[col_constraint]` = '".$_REQUEST[$this->_name_space . $config['col_constraint']]."' ";
+								if($nullable){
+									$_v = "IS NULL";
+								}else{
+									$_v = " = '".$_REQUEST[$this->_name_space . $config['col_constraint']]."'";
+								}
+								$where = "WHERE `$config[col_constraint]` ".$_v;
 							}
 						}
-						
+
 						_ControllerFront::sortPosition($this->table,"SELECT id FROM `$this->table` $where ORDER BY `$col[Field]`",$this->id,$value,$col['Field']);
 					}
 					if($this->query_action == "insert"){
 						//check for constraints from config
 						if(isset($config)){
-							$where = "WHERE `$config[col_constraint]` = '".$_REQUEST[$this->_name_space . $config['col_constraint']]."' ";
+							//is null
+							if($nullable){
+								$_v = "IS NULL";
+							}else{
+								$_v = " = '".$_REQUEST[$this->_name_space . $config['col_constraint']]."'";
+							}
+							$where = "WHERE `$config[col_constraint]` ".$_v." ";
 						}
-						$q_pos = $this->db->queryRow("SELECT max(`$col[Field]`) AS position FROM `$this->table` $where");
+						$sql = "SELECT max(`$col[Field]`) AS position FROM `$this->table` $where";
+						trigger_error($sql);
+						$q_pos = $this->db->queryRow($sql);
 						$row_data[] = array("field"=>$col['Field'],"value"=>($q_pos['position'] + 1));
 					}
 					$col_ready = true;
@@ -646,12 +665,20 @@ class RecordController extends _Controller
 							//do a relative selection of position, based upon existing list.. oh!
 							
 							//factor in the contraint if set
+							
+							//factor in null
+							
 							if(isset($config['col_constraint'])){
-								$options['select_sql'] = "SELECT * FROM `$this->table` WHERE `$config[col_constraint]` = '".$row_data[$config['col_constraint']]['value']."' ORDER BY `$column[name]`";
+								//check if we're nullable								
+								if(AdaptorMysql::isNullable($this->table,$config['col_constraint'])){
+									$_v = "IS NULL";
+								}else{
+									$_v = ' = \''.$row_data[$config['col_constraint']]['value'].'\'';
+								}
+								$options['select_sql'] = "SELECT * FROM `$this->table` WHERE `$config[col_constraint]` ".$_v." ORDER BY `$column[name]`";
 							}else{
 								$options['select_sql'] = "SELECT * FROM `$this->table` ORDER BY `$column[name]`";
 							}
-							
 							$options['table'] = $this->table;
 							$options['col_name'] = $column['name'];
 							$options['id'] = $this->id;
