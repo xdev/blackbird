@@ -266,7 +266,7 @@ class RecordController extends _Controller
 							foreach($row_data as $temprow){
 								if($temprow['field'] == $config['col_constraint']){
 									$foundrow = true;
-									if($nullable){
+									if($nullable && Utils::isNull($_REQUEST[$this->_name_space . $config['col_constraint']])){
 										$_v = "IS NULL";
 									}else{
 										$_v = " = '".$temprow['value']."'";
@@ -276,7 +276,7 @@ class RecordController extends _Controller
 							}
 							if(!$foundrow){
 								//check for the $_REQUEST
-								if($nullable){
+								if($nullable && Utils::isNull($_REQUEST[$this->_name_space . $config['col_constraint']])){
 									$_v = "IS NULL";
 								}else{
 									$_v = " = '".$_REQUEST[$this->_name_space . $config['col_constraint']]."'";
@@ -291,7 +291,8 @@ class RecordController extends _Controller
 						//check for constraints from config
 						if(isset($config)){
 							//is null
-							if($nullable){
+							
+							if($nullable && Utils::isNull($_REQUEST[$this->_name_space . $config['col_constraint']])){
 								$_v = "IS NULL";
 							}else{
 								$_v = " = '".$_REQUEST[$this->_name_space . $config['col_constraint']]."'";
@@ -418,7 +419,7 @@ class RecordController extends _Controller
 				//check nullable
 				
 				foreach($row_data as $key=>$row){
-					if($row['value'] == "&#00;" || is_null($row['value'])){
+					if(Utils::isNull($row['value'])){
 						if(AdaptorMysql::isNullable($this->table,$row['field'])){
 							$row_data[$key]['value'] = null;
 						}
@@ -670,7 +671,7 @@ class RecordController extends _Controller
 							
 							if(isset($config['col_constraint'])){
 								//check if we're nullable								
-								if(AdaptorMysql::isNullable($this->table,$config['col_constraint'])){
+								if(AdaptorMysql::isNullable($this->table,$config['col_constraint']) && Utils::isNull($row_data[$config['col_constraint']]['value'])){
 									$_v = "IS NULL";
 								}else{
 									$_v = ' = \''.$row_data[$config['col_constraint']]['value'].'\'';
