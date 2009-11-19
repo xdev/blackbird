@@ -111,7 +111,7 @@ class UserModel extends Model
 	{
 		if(isset($_SERVER['REQUEST_URI'])){
 			if(substr($_SERVER['REQUEST_URI'],-(strlen('index.php') + 1)) != BASE){
-				Utils::metaRefresh(BASE . "user/login/?redirect=$_SERVER[REQUEST_URI]");
+				Utils::metaRefresh(BASE . "user/login?redirect=$_SERVER[REQUEST_URI]");
 			}
 		}
 		Utils::metaRefresh(BASE . "user/login");
