@@ -37,11 +37,25 @@ class ImagebrowserController extends _Controller
 		
 		//delete thumbs?		
 		
+		$q_related = AdaptorMysql::queryRow("SELECT * FROM ".BLACKBIRD_TABLE_PREFIX."relations WHERE table_parent = '$_POST[table_parent]' AND table_child = '$table'");
+		$config = _ControllerFront::parseConfig($q_related['config']);
+		
 		//pull in record model
 		$this->loadModel('Record');
 		$m = new RecordModel();
+		
+		//TODO: improve this flow, store complete record to be deleted, delete, then send signal for processing
+		//send signal back somewhere, why not
+		if(isset($config['post_delete'])){
+			$file = CUSTOM . DS . 'plugins' . DS . 'image_browser.php';
+			if(file_exists($file) && include_once$file){
+				@eval($config['post_delete']);
+			}
+		}
+		
 		//delete record
-		$m->processDelete($table,explode(",",$id));		
+		$m->processDelete($table,explode(",",$id));
+		
 			
 	}
 	

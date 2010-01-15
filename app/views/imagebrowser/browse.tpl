@@ -31,9 +31,12 @@ $images = AdaptorMysql::query("SELECT * FROM $table WHERE $config[col_parent] = 
 	$(document).observe('dom:loaded',function(){
 		//need to pass in serialized config object here
 		<?php 
+		$tA = _ControllerFront::getRoute();
 		$config['name_space'] = $name_space;
 		$config['table'] = $table;
 		$config['base'] = BASE;
+		$config['table_parent'] = $tA['table']; 
+		$config['id_parent'] = $tA['id'];
 		?>
 				
 		ImageBrowser_<?= $name_space ?> = new ImageBrowser(<?= json_encode($config) ?>);

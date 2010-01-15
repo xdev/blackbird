@@ -84,8 +84,8 @@ ImageBrowser.prototype.deleteImg = function(id)
 		sendVars.name_space = this.data.name_space;
 		sendVars.table = this.data.table;
 		sendVars.id = id;
-		sendVars.parent_id = blackbird.data.parent_id;
-
+		sendVars.id_parent = this.data.id_parent;
+		sendVars.table_parent = this.data.table_parent;
 
 		var myAjax = new Ajax.Request(
 			this.data.base + 'imagebrowser/deleteimage',
