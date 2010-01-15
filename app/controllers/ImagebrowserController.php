@@ -16,6 +16,14 @@ class ImagebrowserController extends _Controller
 			AdaptorMysql::update($table,array(array('field'=>$config['col_order'],'value'=>($i+1)) ),"id",$idSet[$i]);
 		}
 		
+		//send signal back somewhere, why not
+		if(isset($config['post_save'])){
+			$file = CUSTOM . DS . 'plugins' . DS . 'image_browser.php';
+			if(file_exists($file) && include_once$file){
+				@eval($config['post_save']);
+			}
+		}
+		
 	}
 	
 	public function Deleteimage()
