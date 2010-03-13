@@ -1,6 +1,6 @@
 [submodule "lib/Bobolink"]
 	path = lib/Bobolink
-	url = git@github.com:xdev/bobolink.git
+	url = git://github.com/xdev/bobolink.git
 [submodule "lib/Brickhouse"]
 	path = lib/Brickhouse
-	url = git@github.com:xdev/brickhouse.git
+	url = git://github.com/xdev/brickhouse.git
